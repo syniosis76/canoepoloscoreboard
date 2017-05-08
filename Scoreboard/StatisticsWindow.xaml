@@ -1,0 +1,24 @@
+﻿<Window x:Class="Scoreboard.StatisticsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Statistics" Height="700" Width="800" WindowStartupLocation="CenterOwner">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ScoreboardStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid Background="{StaticResource LightBlueGradient}">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="45"/>           
+        </Grid.RowDefinitions>
+        <TextBox Margin="8,8,8,4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Text="{Binding Path=Statistics, Mode=OneWay}" />
+        <TextBlock Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="WhiteSmoke" Margin="12,0,0,0" Text="This data is intended to be copied and pasted into a spreasheet."/>
+        <StackPanel Grid.Row="1" HorizontalAlignment="Right" Orientation="Horizontal" Margin="8,4,8,8">            
+            <Button Margin="0,0,4,0" Width="120" Click="CopyToClipboardClick">Copy To Clipboard</Button>
+            <Button Width="120" Click="CloseClick">Close</Button>
+        </StackPanel>
+    </Grid>
+</Window>

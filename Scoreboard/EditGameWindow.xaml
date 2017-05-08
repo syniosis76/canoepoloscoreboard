@@ -1,0 +1,72 @@
+﻿<Window x:Class="Scoreboard.EditGameWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:Scoreboard"
+        xmlns:utilities="clr-namespace:Utilities;assembly=Utilities"
+        Title="Add Games" Height="340" Width="450" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" WindowStyle="None">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ScoreboardStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid Background="Black">
+        <Grid Margin="4" Background="{StaticResource DarkBlueGradient}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid Margin="8,8,8,0" Grid.ColumnSpan="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>                    
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>                    
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>                    
+
+                <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="5" Text="Edit Game" FontSize="14" FontWeight="Bold" Foreground="White" Margin="0,0,0,20"/>
+
+                <TextBlock Grid.Column="1" Grid.Row="1" Text="Pool" FontSize="12" FontWeight="Bold" Foreground="WhiteSmoke"/>                    
+                <TextBox Grid.Column="2" Grid.Row="1" FontSize="12" Margin="0,0,4,4" Text="{Binding Path=Pool}"/>
+
+                <TextBlock Grid.Column="2" Grid.Row="3" Text="Team 1" FontSize="12" FontWeight="Bold" Foreground="WhiteSmoke"/>
+                <TextBlock Grid.Column="3" Grid.Row="3" Text="Team 2" FontSize="12" FontWeight="Bold" Foreground="WhiteSmoke"/>
+
+                <TextBlock Grid.Column="1" Grid.Row="4" Text="Name" FontSize="12" FontWeight="Bold" Foreground="WhiteSmoke"/>                
+                <TextBox Grid.Column="2" Grid.Row="4" FontSize="12" Margin="0,0,4,4" Text="{Binding Path=Team1}"/>
+                <TextBox Grid.Column="3" Grid.Row="4" FontSize="12" Margin="0,0,4,4" Text="{Binding Path=Team2}"/>
+                
+                <TextBlock Grid.Column="1" Grid.Row="5" Text="Colour" FontSize="12" FontWeight="Bold" Foreground="WhiteSmoke"/>
+                <TextBox Grid.Column="2" Grid.Row="5" FontSize="12" Margin="0,0,4,4" Text="{Binding Path=Team1Color}"/>
+                <TextBox Grid.Column="3" Grid.Row="5" FontSize="12" Margin="0,0,4,4" Text="{Binding Path=Team2Color}"/>
+
+                <TextBlock Grid.Column="1" Grid.Row="6" Text="Score" FontSize="12" FontWeight="Bold" Foreground="WhiteSmoke"/>
+                <TextBox Grid.Column="2" Grid.Row="6" FontSize="12" Margin="0,0,4,4" Text="{Binding Path=Team1Score}"/>
+                <TextBox Grid.Column="3" Grid.Row="6" FontSize="12" Margin="0,0,4,4" Text="{Binding Path=Team2Score}"/>
+                
+                <TextBlock Grid.Column="1" Grid.Row="8" Text="Winner" FontSize="12" FontWeight="Bold" Foreground="WhiteSmoke"/>
+                <ComboBox Grid.Column="2" Grid.Row="8" ItemsSource="{utilities:EnumValuesExtension local:GameResult}" SelectedItem="{Binding Path=Result}" Margin="0,0,4,0"/>
+            </Grid>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="7*"/>                                        
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="1" Margin="8,8,4,8" FontFamily="./#DINEngschrift" FontSize="22" FontWeight="Bold" IsDefault="True" Click="OkButtonClick">OK</Button>               
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

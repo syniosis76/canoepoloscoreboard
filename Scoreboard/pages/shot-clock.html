@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Scoreboard Shot Clock</title>
+    <link rel="stylesheet" type="text/css" href="scoreboard.css">    
+</head>
+<body>
+    <div class="contentFull row">
+        <div id="shot-clock-time" class="shot-clock-large">...</div>
+    </div>
+    <div class="footer row">
+        <span class="footer-title">Canoe Polo Scoreboard</span>
+        <span id="current-time" class="footer-time">...</span>
+    </div>
+
+    <script src="scoreboard.js"></script>
+    <script>	
+        function refreshEvent()
+        {
+            showShotClockTime();
+            showTime();
+        }
+
+		function showTime()
+		{
+            var currentTime = new Date();
+            document.getElementById("current-time").innerHTML = currentTime.toLocaleTimeString('en-GB', { hour12: false });
+        }
+
+        function showShotClockTime()
+        {
+            asyncGetRequest("shot-clock-time", function (response)
+            {
+                document.getElementById("shot-clock-time").innerHTML = response["shot-clock-time"];
+            });
+        }
+
+        function startTimer()
+        {
+            var refreshTimer = setInterval(function () { refreshEvent() }, 200);
+        }
+
+        function resizeShotClockFont()
+        {
+            var body = document.body;
+            var width = body.scrollWidth;
+            var height = body.scrollHeight;
+            var sizeRatio = width / height;
+
+            if (sizeRatio > 1.4) {
+                var size = height
+                var ratio = 1.36
+            }
+            else {
+                var size = width
+                var ratio = 0.95
+            }
+
+            document.getElementById("shot-clock-time").style.fontSize = (size * ratio) + "px";
+        }
+        
+        resizeShotClockFont();
+        startTimer();
+
+        document.body.onresize = resizeShotClockFont;
+    </script>
+</body>
+</html>

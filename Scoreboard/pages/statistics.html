@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Scoreboard - Statistics</title>
+    <link rel="stylesheet" type="text/css" href="results.css">
+</head>
+<body>        
+    <h2>Scoreboard - Statistics</h2>                
+    <table id="data-sources-table"></table> 
+    <input class="file-selector" type="file" id="file-selector" accept=".json" onchange="results.dataSources.handleFiles(this.files)"/>
+    <label for="file-selector" style="margin-left: 4px; margin-top: 4px; margin-bottom: 12px;">Open Results File</label>
+    |
+    <a style="display: inline-block; font-weight: bold; cursor: pointer;" onclick="results.dataSources.enterUrl()">Add URL</a>
+    <div id="spinner" class="spinner">
+        <div class="rect1"></div>
+        <div class="rect2"></div>
+        <div class="rect3"></div>
+        <div class="rect4"></div>
+        <div class="rect5"></div>
+    </div>        
+    <table id="statistics-table"/></table>
+    <div id="updateTeamsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="results.closeUpdateNamesModal()">&times;</span>
+            <p>To update team names enter the old and new teams names below.</p>
+            <textarea rows="15" cols="80" id="updateTeamNamesData"></textarea>
+            <br/>
+            <button onclick="results.updateNamesEvent()">Update</button>
+        </div>
+    </div>
+    <script src="scoreboard.js"></script>
+    <script>                               
+        class Statistics
+        {      
+            constructor()
+            {
+                this.dataSources = new DataSources();    
+            }
+            
+            calculateStatistics(pools, results)
+            {                        
+                for (var gameIndex = 0; gameIndex < results.length; gameIndex++)
+                {
+                    var game = results[gameIndex];
+                    this.addResults(pools, game.pool, game.team1, game.team1Points, game.team1Score, game.team2, game.team2Points, game.team2Score);
+                    this.addResults(pools, game.pool, game.team2, game.team2Points, game.team2Score, game.team1, game.team1Points, game.team1Score);
+                }            
+            }
+
+            sortResults(pools)
+            {       
+                // Sort pools                 
+                pools.sort(function (pool1, pool2) { return pool1.name.localeCompare(pool2.name); });               
+
+                for (var poolIndex = 0; poolIndex < pools.length; poolIndex++)
+                {                    
+                    var pool = pools[poolIndex];                                        
+                    
+                    var teams = pool.items;
+
+                    // Sort the teams by Points, Goal Difference, Goals For, and Verses Results
+                    teams.sort(function (team1, team2)
+                    {
+                        var result = team2.points - team1.points;
+                        if (result == 0) result = team2.goalDifference - team1.goalDifference;
+                        if (result == 0) result = team2.goalsFor - team1.goalsFor;
+                        if (result == 0)
+                        {
+                            // Compare the vs results.
+                            var versesTeam = team2.items.find(function (findItem) { return findItem.name === team1.name; });
+                            if (versesTeam != undefined)
+                            {
+                                result = versesTeam.points - versesTeam.versesPoints;
+                                if (result == 0) result = versesTeam.goalDifference;
+                            }
+                        }
+
+                        return result;
+                    });
+                }
+            }   
+            
+            addResults(pools, poolName, teamName, points, goalsFor, versesTeamName, versesPoints, versesGoalsFor) {
+                var pool = this.getOrAddItem(pools, poolName);            
+                var team = this.getOrAddItem(pool.items, teamName);
+                var versesTeam = this.getOrAddItem(team.items, versesTeamName);
+
+                this.appendValue(team, "played", 1);
+                this.appendValue(team, "points", points);
+                this.appendValue(team, "goalDifference", goalsFor - versesGoalsFor);
+                this.appendValue(team, "goalsFor", goalsFor);
+
+                this.appendValue(versesTeam, "points", points);
+                this.appendValue(versesTeam, "goalDifference", goalsFor - versesGoalsFor);
+                this.appendValue(versesTeam, "versesPoints", versesPoints);
+            }
+
+            getOrAddItem(items, itemName)
+            {
+                var item = items.find(function (findItem) { return findItem.name === itemName; })
+                if (item == undefined)
+                {
+                    item = new Object();
+                    item.name = itemName;
+                    item.items = []              
+                    items.push(item);
+                }
+                return item;
+            }
+
+            appendValue(item, valueName, value)
+            {
+                if (item[valueName] == undefined) item[valueName] = 0;
+                if (value != undefined) item[valueName] = item[valueName] + value;
+            }        
+          
+            getStatisticsTable(pools)
+            {
+                var resultsContent = "";            
+
+                for (var poolIndex = 0; poolIndex < pools.length; poolIndex++)
+                {                    
+                    var pool = pools[poolIndex];                                                                    
+
+                    // Display Pool Header
+                    resultsContent += "<thead><tr><th class=\"pool-header\">";
+                    resultsContent += pool.name;
+                    resultsContent += " <a title=\"Copy Results to Clipboard excluding Verses details\" onclick=\"results.copyResultsToClipboard('" + pool.name + "', false)\"><svg style=\"width:14px;height:14px\" viewBox=\"0 0 24 24\"><path d=\"M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z\" /></svg></a>";
+                    resultsContent += " <a title=\"Update Team Names\" onclick=\"results.showUpdateNamesModal('" + pool.name + "')\"><svg style=\"width:14px;height:14px\" viewBox=\"0 0 24 24\"><path d=\"M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z\" /></svg></a>";
+                    resultsContent += "</th><th>Team</th><th>PT</th><th>GD</th><th>GF</th><th>PL</th>";
+
+                    var teams = pool.items;
+
+                    // Display Verses Team names in header.
+                    for (var versesTeamIndex = 0; versesTeamIndex < teams.length; versesTeamIndex++)
+                    {                                                                
+                        var versesTeam = teams[versesTeamIndex];
+                        resultsContent += "<th class=\"team-header\">" + versesTeam.name + "</th>";                                                
+                    }    
+                    resultsContent += "</tr></thead><tbody>";
+                                
+                    // List Teams and their results summary.
+                    for (var teamIndex = 0; teamIndex < teams.length; teamIndex++)
+                    {                                                                
+                        var team = teams[teamIndex];
+                        resultsContent += "<tr><td>" + ordinalSuffix(teamIndex + 1) + "</td><td class=\"team-header\">" + team.name + "</td><td>" + team.points.toString() + "</td><td>" + team.goalDifference.toString() + "</td><td>" + team.goalsFor.toString() + "</td><td>" + team.played.toString() + "</td>";                                                
+
+                        // List Verses Teams results.
+                        for (var versesTeamIndex = 0; versesTeamIndex < teams.length; versesTeamIndex++)
+                        {                                                                
+                            var versesTeamName = teams[versesTeamIndex].name;
+                            versesTeam = team.items.find(function (findItem) { return findItem.name === versesTeamName; });
+                            if (versesTeam === undefined) resultsContent += "<td>-</td>";                                                
+                            else resultsContent += "<td>" + versesTeam.points.toString() + " / " + versesTeam.goalDifference.toString()  + "</td>";                                                
+                        }   
+
+                        resultsContent += "</tr>";
+                    }
+                    resultsContent += "<tr><td>&nbsp;</td></tr>";
+                }
+                resultsContent += "</tbody>";             
+                return resultsContent;                        
+            }                             
+
+            displayResults()
+            {                                        
+                document.getElementById("spinner").hidden = false;
+
+                document.getElementById("data-sources-table").innerHTML = this.dataSources.getDataSourcesTable();
+
+                var _this = this
+
+                this.dataSources.readDataSources(function()
+                {
+                    var dataSources = _this.dataSources.dataSources;
+                    var pools = [];
+
+                    for (var dataSourceIndex = 0; dataSourceIndex < dataSources.length; dataSourceIndex++)
+                    {                    
+                        var dataSource = dataSources[dataSourceIndex];
+                        if (dataSource.response != undefined) _this.calculateStatistics(pools, dataSource.response);
+                    }
+
+                    _this.sortResults(pools);
+
+                    _this.pools = pools;
+                                        
+                    document.getElementById("statistics-table").innerHTML = _this.getStatisticsTable(pools);                     
+
+                    // Refresh data source list to show status.
+                    document.getElementById("data-sources-table").innerHTML = _this.dataSources.getDataSourcesTable();
+
+                    document.getElementById("spinner").hidden = true;
+                });                           
+            }
+
+            getPoolTeamNames(poolName)
+            {
+                var result;
+                var pool = this.pools.find(function (findItem) { return findItem.name === poolName; })
+                if (pool)
+                {
+                    var teams = pool.items;
+
+                    for (var teamIndex = 0; teamIndex < teams.length; teamIndex++)
+                    {                                                                
+                        var team = teams[teamIndex];
+                        var currentName = poolName + " " + ordinalSuffix(teamIndex + 1);
+                        var newName = team.name;
+                        if (result)
+                        {
+                            result += "\n, ";
+                        }
+                        else
+                        {
+                            result = "";
+                        }
+                        result += "\"" + currentName + "\": \"" + newName + "\"";
+                    }  
+                }
+                else
+                {
+                    result = "No data."
+                }
+
+                return result
+            }
+
+            getPoolTextResults(poolName, includeVersesResults)
+            {
+                var result;
+                var pool = this.pools.find(function (findItem) { return findItem.name === poolName; })
+                if (pool)
+                {                
+                    var teams = pool.items;
+
+                    for (var teamIndex = 0; teamIndex < teams.length; teamIndex++)
+                    {                                                                
+                        if (!result)
+                        {
+                            result = "";
+                        }
+                        else
+                        {
+                            result += "\n";
+                        }
+
+                        var team = teams[teamIndex];
+
+                        result += ordinalSuffix(teamIndex + 1) + "\t" + team.name + "\t" + team.points.toString() + "\t" + team.goalDifference.toString() + "\t" + team.goalsFor.toString() + "\t" + team.played.toString();                                                
+
+                        if (includeVersesResults)
+                        {
+                            // List Verses Teams results.
+                            for (var versesTeamIndex = 0; versesTeamIndex < teams.length; versesTeamIndex++)
+                            {                                                                
+                                var versesTeamName = teams[versesTeamIndex].name;
+                                versesTeam = team.items.find(function (findItem) { return findItem.name === versesTeamName; });
+                                if (versesTeam === undefined) result += "\t-";                                                
+                                else resultsContent += "\t" + versesTeam.points.toString() + " / " + versesTeam.goalDifference.toString();                                                
+                            }   
+                        }
+                    }  
+                }
+                else
+                {
+                    result = "No data."
+                }
+
+                return result
+            }
+
+            applyUpdateNames(data)
+            {
+                var _this = this;
+                var dataSources = this.dataSources.dataSources;
+
+                var promises = dataSources.map(function (dataSource)
+                {
+                    if (dataSource.type === "url") return makeRequest("POST", dataSource.path + "replace-team-names", data);
+                    else return null;
+                });
+                Promise.all(promises)
+                .then(function(allResults)
+                {                                        
+                    var message;
+                    for (var resultIndex = 0; resultIndex < allResults.length; resultIndex++)
+                    {                    
+                        var result = allResults[resultIndex];
+                        if (result != null)
+                        {                            
+                            if (message)
+                            {
+                                message += "\n";
+                            }
+                            else
+                            {
+                                message = "";
+                            }
+                            message += result.path + " " + result.status.toString();
+                        }
+                    }
+
+                    alert(message);
+                })
+                .catch(e => { console.log(e); });   
+            }
+
+            showUpdateNamesModal(pool)  
+            {                
+                var modal = document.getElementById("updateTeamsModal");
+
+                var updateNamesDataTextArea = document.getElementById("updateTeamNamesData");                
+                updateNamesDataTextArea.value = this.getPoolTeamNames(pool);
+
+                modal.style.display = "block";
+            }
+
+            copyResultsToClipboard(pool, includeVersesResults)  
+            {                
+                copyToClipboard(this.getPoolTextResults(pool, includeVersesResults));               
+            }
+
+            updateNamesEvent()
+            {
+                this.closeUpdateNamesModal();
+                var updateNamesDataTextArea = document.getElementById("updateTeamNamesData");                                
+                this.applyUpdateNames("{ " + updateNamesDataTextArea.value + " }");
+            }
+
+            closeUpdateNamesModal()
+            {
+                var modal = document.getElementById("updateTeamsModal");                
+                modal.style.display = "none";                
+            }
+        }        
+
+        var urlPrefix = window.location.href.startsWith("file:///") ? "http://localhost:8080/" : window.location.origin + "/";
+
+        results = new Statistics();
+
+        results.dataSources.setDataSource({ type: "url", path: urlPrefix })        
+
+        results.displayResults();    
+    </script>
+</body>
+</html>

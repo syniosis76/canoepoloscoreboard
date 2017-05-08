@@ -1,0 +1,547 @@
+﻿<Window x:Class="Scoreboard.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"    
+    xmlns:src="clr-namespace:Scoreboard"
+    xmlns:mscorlib="clr-namespace:System;assembly=mscorlib"
+    Title="Scoreboard" Height="550" Width="900" Background="Black" BorderBrush="Black" Foreground="White" Name="Main" WindowStartupLocation="CenterScreen" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" SizeToContent="Manual" MinHeight="450" MinWidth="800" Icon="/Scoreboard;component/logo.ico" Closed="Main_Closed" PreviewKeyUp="Main_KeyUp" Activated="Main_Activated">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ScoreboardStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid Background="{StaticResource DarkBlueGradient}">
+        <Grid.Resources>
+            <mscorlib:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">25</mscorlib:Double>
+            <mscorlib:Double x:Key="{x:Static SystemParameters.HorizontalScrollBarHeightKey}">25</mscorlib:Double>
+        </Grid.Resources>
+        <Grid Margin="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="4"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <!-- Titles -->
+            <Button Grid.Column="0" Grid.Row="0" Click="Team1EditClick" Style="{StaticResource TileButtonBlue}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Viewbox Grid.Row="0">
+                        <TextBlock FontFamily="./#DINEngschrift" Foreground="White" Text="{Binding Path=CurrentOrEndedGame.Team1, FallbackValue=None}" />
+                    </Viewbox>
+                    <Viewbox Grid.Row="1">
+                        <TextBlock Foreground="#FFAAAAAA" Text="{Binding Path=CurrentOrEndedGame.Team1Color, FallbackValue=Click to select colour, TargetNullValue=Click to select colour}" />
+                    </Viewbox>
+                </Grid>
+            </Button>
+            <Grid Grid.Column="1" Grid.Row="0" Margin="2" Background="{StaticResource BackgroundBlue}">
+                <Viewbox Grid.RowSpan="2">
+                    <TextBlock FontFamily="./#DINEngschrift" FontSize="25" Foreground="White" Text="{Binding Path=CurrentOrEndedGame.Periods.CurrentPeriod.Description, FallbackValue=None}" />
+                </Viewbox>
+                <Button Click="_endExtraPeriodClick"  ToolTip="End extra period now" Margin="0,0,0,0" Style="{StaticResource TileButton}" Visibility="{Binding Path=CurrentOrEndedGame.Periods.CurrentPeriod.IsActiveExtraPeriod, Converter={StaticResource boolToVisiblityConverter}, FallbackValue=Hidden}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="4*"/>
+                        </Grid.ColumnDefinitions>
+                        <Image Source="/Scoreboard;component/images/cancel.png" RenderOptions.BitmapScalingMode="HighQuality" Margin="8,4,0,4"/>
+                        <Viewbox Grid.Column="1">
+                            <TextBlock Margin="4,2,8,4" FontWeight="Bold">End Extra Period</TextBlock>
+                        </Viewbox>
+                    </Grid>
+                </Button>
+            </Grid>
+            <Button Grid.Column="2" Grid.Row="0" Click="Team2EditClick" Style="{StaticResource TileButtonBlue}">
+                <Grid IsHitTestVisible="False">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Viewbox>
+                        <TextBlock FontFamily="./#DINEngschrift" Foreground="White" Text="{Binding Path=CurrentOrEndedGame.Team2, FallbackValue=None}" />
+                    </Viewbox>
+                    <Viewbox Grid.Row="1">
+                        <TextBlock Foreground="#FFAAAAAA" Text="{Binding Path=CurrentOrEndedGame.Team2Color, FallbackValue=Click to select colour, TargetNullValue=Click to select colour}" />
+                    </Viewbox>
+                </Grid>
+            </Button>
+            <!-- Menu -->
+            <Grid Grid.Column="4" Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" ToolTip="Add Games..." Command="{Binding Path=AddGamesCommand}" Visibility="{Binding Path=EditVisible}" Style="{StaticResource TileButtonGreen}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.ColumnSpan="2" Margin="4" Source="/Scoreboard;component/images/add.png"/>
+                        <Viewbox Grid.Column="1" VerticalAlignment="Bottom">
+                            <TextBlock Margin="0" FontWeight="Bold">(u)</TextBlock>
+                        </Viewbox>
+                    </Grid>
+                </Button>
+                <Button Grid.Column="1" ToolTip="Edit the selected game" Click="EditGameClick" Visibility="{Binding Path=EditVisible}" Style="{StaticResource TileButtonGreen}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="10*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.ColumnSpan="2" Margin="4" Source="/Scoreboard;component/images/edit.png"/>
+                        <Viewbox Grid.Column="1" VerticalAlignment="Bottom">
+                            <TextBlock Margin="0" FontWeight="Bold">(i)</TextBlock>
+                        </Viewbox>
+                    </Grid>
+                </Button>
+                <Grid Grid.Column="2" Grid.Row="0" Margin="2" Background="{StaticResource BackgroundGreen}">
+                    <Viewbox>
+                        <TextBlock Margin="1" FontFamily="./#DINEngschrift" FontSize="25" Foreground="White" Text="{Binding Path=CurrentTime, FallbackValue=19:30:00, StringFormat='{}{0:HH:mm:ss}'}"/>
+                    </Viewbox>
+                </Grid>
+                <Button Grid.Column="3" Name="_scoreboardMenuButton" ToolTip="Click to see the Scoreboard menu options" Click="_scoreboardMenuButtonClick" ContextMenuService.Placement="Bottom" Style="{StaticResource TileButtonGreen}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.ColumnSpan="2" Margin="4" Source="/Scoreboard;component/images/menu.png"/>
+                        <Viewbox Grid.Column="1" VerticalAlignment="Bottom">
+                            <TextBlock Margin="0" FontWeight="Bold">(o)</TextBlock>
+                        </Viewbox>
+                    </Grid>
+                    <Button.ContextMenu>
+                        <ContextMenu x:Uid="_scoreboardContextMenu" x:Name="_scoreboardContextMenu">
+                            <MenuItem Header="Add Games..." Command="{Binding Path=AddGamesCommand}" Visibility="{Binding Path=EditVisible}">
+                                <MenuItem.Icon>
+                                    <Image Source="/Scoreboard;component/images/add.png" Height="18"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Header="Show Secondary on Screen 1" Click="_secondaryScreen1_Click">
+                                <MenuItem.Icon>
+                                    <Image Source="/Scoreboard;component/images/logo_18.png" Height="18"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Show Secondary on Screen 2" Click="_secondaryScreen2_Click">
+                                <MenuItem.Icon>
+                                    <Image Source="/Scoreboard;component/images/logo_18.png" Height="18"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Header="Edit Game..." Click="EditGameClick" Visibility="{Binding Path=EditVisible}">
+                                <MenuItem.Icon>
+                                    <Image Source="/Scoreboard;component/images/Edit.png" Height="18"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Remove the Selected Game" Click="EditGameClick" Visibility="{Binding Path=EditVisible}">
+                                <MenuItem.Icon>
+                                    <Image Source="/Scoreboard;component/images/remove.png" Height="18"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Remove All Games" Command="{Binding Path=RemoveAllGamesCommand}" Visibility="{Binding Path=EditVisible}">
+                                <MenuItem.Icon>
+                                    <Image Source="/Scoreboard;component/images/remove.png" Height="18"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Header="Save Games..." Click="_saveGamesClick">
+                                <MenuItem.Icon>
+                                    <Image Source="/Scoreboard;component/images/save.png" Height="18"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Load Games..." Click="_loadGamesClick" Visibility="{Binding Path=EditVisible}">
+                                <MenuItem.Icon>
+                                    <Image Source="/Scoreboard;component/images/open.png" Height="18"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Load Games without Status..." Click="_loadGamesWithoutStatusClick" Visibility="{Binding Path=EditVisible}">
+                                <MenuItem.Icon>
+                                    <Image Source="/Scoreboard;component/images/open.png" Height="18"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Merge Games..." Click="_mergeGamesClick" Visibility="{Binding Path=EditVisible}">
+                                <MenuItem.Icon>
+                                    <Image Source="/Scoreboard;component/images/open.png" Height="18"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Header="Restart Games..." Click="_restartGamesClick" Visibility="{Binding Path=EditVisible}">
+                                <MenuItem.Icon>
+                                    <Image Source="/Scoreboard;component/images/restart.png" Height="18"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Header="Scoreboard Server" Click="_scoreboardServerClick">
+                                <MenuItem.Icon>
+                                    <Image Source="/Scoreboard;component/images/right_arrow.png" Height="18"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Header="Calculate Statistics..." Click="_calculateStatisticsClick" Visibility="{Binding Path=EditVisible}">
+                                <MenuItem.Icon>
+                                    <Image Source="/Scoreboard;component/images/sum.png" Height="18"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Top Goal Scorers..." Click="_calculateTopGoalScorersClick" Visibility="{Binding Path=EditVisible}">
+                                <MenuItem.Icon>
+                                    <Image Source="/Scoreboard;component/images/sum.png" Height="18"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Copy Results..." Click="_copyResultsClick" Visibility="{Binding Path=EditVisible}">
+                                <MenuItem.Icon>
+                                    <Image Source="/Scoreboard;component/images/sum.png" Height="18"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Copy Log......" Click="_copyLogClick" Visibility="{Binding Path=EditVisible}">
+                                <MenuItem.Icon>
+                                    <Image Source="/Scoreboard;component/images/sum.png" Height="18"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </ContextMenu>
+                    </Button.ContextMenu>
+                </Button>
+            </Grid>
+            <!-- Team 1 -->
+            <Button Grid.Column="0" Grid.Row="1" Click="bTeam1ScoreAdd_Click" Style="{StaticResource TileButton}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="5*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <Viewbox VerticalAlignment="Top">
+                        <TextBlock FontWeight="Bold">(a)</TextBlock>
+                    </Viewbox>
+                    <Image Grid.Column="2" VerticalAlignment="Top" Source="/Scoreboard;component/images/add.png"/>
+                </Grid>
+            </Button>
+            <Button Grid.Column="0" Grid.Row="2" Click="bTeam1ScoreSubtract_Click" Style="{StaticResource TileButton}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="5*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <Viewbox VerticalAlignment="Bottom">
+                        <TextBlock FontWeight="Bold">(z)</TextBlock>
+                    </Viewbox>
+                    <Image Grid.Column="2" VerticalAlignment="Bottom" Source="/Scoreboard;component/images/remove.png" />
+                </Grid>
+            </Button>
+            <Viewbox Grid.Column="0" Grid.Row="1" Grid.RowSpan="2">
+                <TextBlock FontFamily="./#DINEngschrift" FontSize="250" Foreground="White" Text="{Binding Path=CurrentOrEndedGame.Team1Score, FallbackValue=0}" Margin="0,-40,0,-40" IsHitTestVisible="False"/>
+            </Viewbox>
+            <Button Grid.Column="0" Grid.Row="3" Click="bTeam1Card_Click" Style="{StaticResource TileButtonBlue}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="6*"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Margin="10" Grid.ColumnSpan="2" Source="/Scoreboard;component/images/cards.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                    <Viewbox VerticalAlignment="Bottom">
+                        <TextBlock FontWeight="Bold">(s)</TextBlock>
+                    </Viewbox>
+                </Grid>
+            </Button>
+            <!-- Timer -->
+            <Button Grid.Column="1" Grid.Row="1" Click="bPause_Click" Style="{StaticResource TileButton}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="5*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <Viewbox VerticalAlignment="Top">
+                        <TextBlock FontWeight="Bold">(p)</TextBlock>
+                    </Viewbox>
+                    <Image Grid.Column="2" VerticalAlignment="Top" Source="/Scoreboard;component/images/pause.png"/>
+                    <Viewbox Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Bottom" HorizontalAlignment="Center" Visibility="{Binding Path=Paused, FallbackValue=Visible, Converter={StaticResource boolToVisiblityConverter}}">
+                        <TextBlock FontWeight="Bold" Margin="4,2,4,2">Paused. Click to Resume.</TextBlock>
+                    </Viewbox>
+                </Grid>
+            </Button>
+            <Viewbox Grid.Column="1" Grid.Row="1">
+                <TextBlock FontFamily="./#DINEngschrift" FontSize="80" Margin="10"
+                    Text="{Binding Path=CurrentGame.Periods.CurrentPeriod.TimeRemaining, Converter={StaticResource gameTimeConverter}, FallbackValue=0:00}"
+                    Foreground="{Binding Path=CurrentGame.Periods.CurrentPeriod.Status, Converter={StaticResource gamePeriodStatusColorConverter}, FallbackValue=#FFFF6666}"
+                    IsHitTestVisible="False"/>
+            </Viewbox>
+            <!-- Shot Clock -->
+            <Grid Grid.Column="1" Grid.Row="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Grid.Row="0" Margin="2,2,0,0" Click="_resetShotButtonClick" Style="{StaticResource TileButton}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="2.5*" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel VerticalAlignment="Top">
+                            <Image Grid.Row="2" Source="/Scoreboard;component/images/revert.png" />
+                            <Viewbox>
+                                <TextBlock FontWeight="Bold">(e)</TextBlock>
+                            </Viewbox>
+                        </StackPanel>
+                    </Grid>
+                </Button>
+                <Button Grid.Column="0" Grid.Row="1" Margin="2,0,0,2" Click="_resetResumeShotButtonClick" Style="{StaticResource TileButton}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="2.5*" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel VerticalAlignment="Bottom">
+                            <Viewbox>
+                                <TextBlock FontWeight="Bold">(r)</TextBlock>
+                            </Viewbox>
+                            <Image Grid.Row="2" Source="/Scoreboard;component/images/restart_resume.png" />
+                        </StackPanel>
+                    </Grid>
+                </Button>
+                <Button Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Margin="0,2,2,2" Click="_pauseResumeShotButtonClick" Style="{StaticResource TileButton}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2.5*" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="1" VerticalAlignment="Bottom">
+                            <Viewbox>
+                                <TextBlock FontWeight="Bold">(t)</TextBlock>
+                            </Viewbox>
+                            <Image Grid.Row="2" Grid.Column="1" Source="/Scoreboard;component/images/restart.png" />
+                        </StackPanel>
+                    </Grid>
+                </Button>
+                <Viewbox Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="2">
+                    <TextBlock FontFamily="./#DINEngschrift" FontSize="80" Foreground="#FF9BF79B" Name="_shotTimeLabel" Text="{Binding Path=ShotTime, FallbackValue=0}" IsHitTestVisible="False"/>
+                </Viewbox>
+            </Grid>
+            <Grid Grid.Column="1" Grid.Row="3" Margin="2" Background="{StaticResource BackgroundBlue}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="12*"/>
+                    <ColumnDefinition Width="74*"/>
+                    <ColumnDefinition Width="87*"/>
+                </Grid.ColumnDefinitions>
+                <Viewbox Grid.Column="0" HorizontalAlignment="Left" Grid.ColumnSpan="2">
+                    <ListView ItemsSource="{Binding Path=Team1Cards}" Background="Transparent" Focusable="False" ItemTemplateSelector="{StaticResource cardTemplateSelector}" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                        <ListView.BorderBrush>
+                            <SolidColorBrush />
+                        </ListView.BorderBrush>
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel Orientation="Horizontal"></VirtualizingStackPanel>
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+                    </ListView>
+                </Viewbox>
+                <Viewbox Grid.Column="2" HorizontalAlignment="Right">
+                    <ListView ItemsSource="{Binding Path=Team2Cards}" Background="Transparent" FlowDirection="RightToLeft" Focusable="False" ItemTemplateSelector="{StaticResource cardTemplateSelector}"  ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                        <ListView.BorderBrush>
+                            <SolidColorBrush />
+                        </ListView.BorderBrush>
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel Orientation="Horizontal" HorizontalAlignment="Right"></VirtualizingStackPanel>
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+                    </ListView>
+                </Viewbox>
+            </Grid>
+            <!-- Team 2 -->
+            <Button Grid.Column="2" Grid.Row="1" Click="bTeam2ScoreAdd_Click" Style="{StaticResource TileButton}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="5*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <Image VerticalAlignment="Top" Source="/Scoreboard;component/images/add.png"/>
+                    <Viewbox Grid.Column="2" VerticalAlignment="Top">
+                        <TextBlock FontWeight="Bold">(k)</TextBlock>
+                    </Viewbox>
+                </Grid>
+            </Button>
+            <Button Grid.Column="2" Grid.Row="2" Click="bTeam2ScoreSubtract_Click"  Style="{StaticResource TileButton}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="5*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <Image VerticalAlignment="Bottom" Source="/Scoreboard;component/images/remove.png" />
+                    <Viewbox Grid.Column="2" VerticalAlignment="Bottom">
+                        <TextBlock Margin="-3,0,0,0" FontWeight="Bold">(m)</TextBlock>
+                    </Viewbox>
+                </Grid>
+            </Button>
+            <Viewbox Grid.Column="2" Grid.Row="1" Grid.RowSpan="2">
+                <TextBlock FontFamily="./#DINEngschrift" FontSize="250" Foreground="White" Name="_team2ScoreLabel" Text="{Binding Path=CurrentOrEndedGame.Team2Score, FallbackValue=0}" Margin="0,-40,0,-40" IsHitTestVisible="False"/>
+            </Viewbox>
+            <Button Grid.Column="2" Grid.Row="3" Click="bTeam2Card_Click" FontWeight="Bold" Style="{StaticResource TileButtonBlue}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="6*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Margin="10" Grid.ColumnSpan="2" Source="/Scoreboard;component/images/cards.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                    <Viewbox Grid.Column="1" VerticalAlignment="Bottom">
+                        <TextBlock Margin="2,0,0,0" FontWeight="Bold">(j)</TextBlock>
+                    </Viewbox>
+                </Grid>
+            </Button>
+            <!-- Games -->
+            <ListView Grid.Column="4" Grid.Row="1" Margin="2,4,2,2" Name="_gamesListView" ItemsSource="{Binding Games}" SelectedItem="{Binding SelectedGame, Mode=TwoWay}" ItemContainerStyle="{StaticResource CurrentGameStyle}" BorderThickness="0"
+                      FontSize="{Binding Path=ActualWidth, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource doubleConverter}, ConverterParameter=0.035}">
+                <ListView.Resources>
+                    <Style x:Key="hcs" TargetType="{x:Type GridViewColumnHeader}">
+                        <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
+                        <Setter Property="FontWeight" Value="Bold"></Setter>
+                    </Style>
+                </ListView.Resources>
+                <ListView.View>
+                    <GridView>
+                        <GridView.Columns>
+                            <GridViewColumn HeaderContainerStyle="{StaticResource hcs}" Header=" Time" DisplayMemberBinding="{Binding Path=Periods.StartTime, Converter={StaticResource periodTimeConverter}}"
+                                            Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type ListView}}, Converter={StaticResource doubleConverter}, ConverterParameter=0.17}"/>
+                            <GridViewColumn HeaderContainerStyle="{StaticResource hcs}" Header=" Team 1" DisplayMemberBinding="{Binding Path=Team1}"
+                                            Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type ListView}}, Converter={StaticResource doubleConverter}, ConverterParameter=0.22}"/>
+                            <GridViewColumn HeaderContainerStyle="{StaticResource hcs}" Header=" #" DisplayMemberBinding="{Binding Path=Team1Score}"
+                                            Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type ListView}}, Converter={StaticResource doubleConverter}, ConverterParameter=0.06}"/>
+                            <GridViewColumn HeaderContainerStyle="{StaticResource hcs}" Header=" Team 2" DisplayMemberBinding="{Binding Path=Team2}"
+                                            Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type ListView}}, Converter={StaticResource doubleConverter}, ConverterParameter=0.22}"/>
+                            <GridViewColumn HeaderContainerStyle="{StaticResource hcs}" Header=" #" DisplayMemberBinding="{Binding Path=Team2Score}"
+                                            Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type ListView}}, Converter={StaticResource doubleConverter}, ConverterParameter=0.06}"/>
+                            <GridViewColumn HeaderContainerStyle="{StaticResource hcs}" Header=" Pool" DisplayMemberBinding="{Binding Path=Pool}"
+                                            Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type ListView}}, Converter={StaticResource doubleConverter}, ConverterParameter=0.18}"/>
+                        </GridView.Columns>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <!-- Periods and Events -->
+            <Grid Grid.Column="4" Grid.Row="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+                <!-- Periods -->
+                <Grid Grid.Row="0">
+                    <ListView Name="_periodsListView" ItemsSource="{Binding Path=SelectedItem.Periods, ElementName=_gamesListView}" SelectedItem="{Binding SelectedPeriod, Mode=TwoWay}" ItemContainerStyle="{StaticResource CurrentPeriodStyle}" Margin="2,4,2,0" BorderThickness="0"
+                              FontSize="{Binding Path=ActualWidth, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource doubleConverter}, ConverterParameter=0.035}">
+                        <ListView.Resources>
+                            <Style x:Key="hcs" TargetType="{x:Type GridViewColumnHeader}">
+                                <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
+                                <Setter Property="FontWeight" Value="Bold"></Setter>
+                            </Style>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            </Style>
+                        </ListView.Resources>
+                        <ListView.View>
+                            <GridView>
+                                <GridView.Columns>
+                                    <GridViewColumn HeaderContainerStyle="{StaticResource hcs}" Header=" Period" DisplayMemberBinding="{Binding Path=Name}"
+                                            Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type ListView}}, Converter={StaticResource doubleConverter}, ConverterParameter=0.30}"/>
+                                    <GridViewColumn HeaderContainerStyle="{StaticResource hcs}" Header=" Start"
+                                            Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type ListView}}, Converter={StaticResource doubleConverter}, ConverterParameter=0.30}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Grid HorizontalAlignment="Stretch">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="1*"/>
+                                                        <ColumnDefinition Width="3*"/>
+                                                        <ColumnDefinition Width="1*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <RepeatButton Grid.Column="0" Command="{Binding Path=DecrementStartTimeCommand}" Delay="500" Interval="40" ToolTip="Reduce start time by 10 seconds">
+                                                        <Image Source="/Scoreboard;component/images/remove.png"/>
+                                                    </RepeatButton>
+                                                    <TextBlock Grid.Column="1" IsHitTestVisible="False" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Path=StartTime, StringFormat='{}{0:HH:mm:ss}'}" Margin="4,0,4,0"/>
+                                                    <RepeatButton Grid.Column="2" Command="{Binding Path=IncrementStartTimeCommand}"  Delay="500" Interval="40" ToolTip="Increase start time by 10 seconds">
+                                                        <Image Source="/Scoreboard;component/images/add.png"/>
+                                                    </RepeatButton>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn HeaderContainerStyle="{StaticResource hcs}" Header=" End"
+                                            Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type ListView}}, Converter={StaticResource doubleConverter}, ConverterParameter=0.30}">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Grid HorizontalAlignment="Stretch">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="1*"/>
+                                                        <ColumnDefinition Width="3*"/>
+                                                        <ColumnDefinition Width="1*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <RepeatButton Grid.Column="0" Command="{Binding Path=DecrementEndTimeCommand}" Delay="500" Interval="40" ToolTip="Reduce end time by 10 seconds">
+                                                        <Image Source="/Scoreboard;component/images/remove.png"/>
+                                                    </RepeatButton>
+                                                    <TextBlock Grid.Column="1" IsHitTestVisible="False" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Path=EndTime, StringFormat='{}{0:HH:mm:ss}'}" Margin="4,0,4,0"/>
+                                                    <RepeatButton Grid.Column="2" Command="{Binding Path=IncrementEndTimeCommand}" Delay="500" Interval="40" ToolTip="Increase end time by 10 seconds">
+                                                        <Image Source="/Scoreboard;component/images/add.png"/>
+                                                    </RepeatButton>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView.Columns>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Grid>
+                <!-- Events -->
+                <ListView Grid.Column="4" Grid.Row="2" Name="_gameEventListView" ItemsSource="{Binding Path=SelectedItem.GameEvents, ElementName=_gamesListView}" Margin="2,4,2,2"  ScrollViewer.ScrollChanged="_gameEventListViewScrollChanged" BorderThickness="0"
+                          FontSize="{Binding Path=ActualWidth, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource doubleConverter}, ConverterParameter=0.035}">
+                    <ListView.Resources>
+                        <Style x:Key="hcs" TargetType="{x:Type GridViewColumnHeader}">
+                            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                            <Setter Property="FontWeight" Value="Bold"/>
+                        </Style>
+                    </ListView.Resources>
+                    <ListView.View>
+                        <GridView>
+                            <GridView.Columns>
+                                <GridViewColumn HeaderContainerStyle="{StaticResource hcs}" Header=" Time" DisplayMemberBinding="{Binding Path=Time, Converter={StaticResource periodTimeConverter}}"
+                                                Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type ListView}}, Converter={StaticResource doubleConverter}, ConverterParameter=0.17}"/>
+                                <GridViewColumn HeaderContainerStyle="{StaticResource hcs}" Header=" Event" DisplayMemberBinding="{Binding Path=EventType}"
+                                                Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type ListView}}, Converter={StaticResource doubleConverter}, ConverterParameter=0.34}"/>
+                                <GridViewColumn HeaderContainerStyle="{StaticResource hcs}" Header=" Team" DisplayMemberBinding="{Binding Path=Team}"
+                                                Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type ListView}}, Converter={StaticResource doubleConverter}, ConverterParameter=0.25}"/>
+                                <GridViewColumn HeaderContainerStyle="{StaticResource hcs}" Header=" Player" DisplayMemberBinding="{Binding Path=Player}"
+                                                Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type ListView}}, Converter={StaticResource doubleConverter}, ConverterParameter=0.14}"/>
+                            </GridView.Columns>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+            <!-- Competition Mode -->
+            <Grid Grid.Column="4" Grid.Row="3" Margin="2" Background="{StaticResource BackgroundGreen}">
+                <Viewbox HorizontalAlignment="Left">
+                    <StackPanel Orientation="Vertical" Margin="18">
+                        <CheckBox Foreground="White" IsChecked="{Binding Path=RecordGoalScorers, FallbackValue=True}">Record Goal Scorers</CheckBox>
+                    </StackPanel>
+                </Viewbox>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

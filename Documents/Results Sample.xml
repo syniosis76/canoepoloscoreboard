@@ -1,0 +1,1349 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfGame xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Game>
+    <IsCurrentGame>false</IsCurrentGame>
+    <Pool>B</Pool>
+    <Team1>Slackers</Team1>
+    <Team2>MAGS</Team2>
+    <Team1Score>2</Team1Score>
+    <Team2Score>2</Team2Score>
+    <Periods>
+      <GamePeriod>
+        <Name>First</Name>
+        <Description>Ended</Description>
+        <StartTime>2013-01-18T18:44:20+13:00</StartTime>
+        <EndTime>2013-01-18T18:44:25+13:00</EndTime>
+        <IsExtraPeriod>false</IsExtraPeriod>
+        <IsActiveExtraPeriod>false</IsActiveExtraPeriod>
+        <Status>Ended</Status>
+        <TimeRemaining />
+      </GamePeriod>
+      <GamePeriod>
+        <Name>Second</Name>
+        <Description>Ended</Description>
+        <StartTime>2013-01-18T18:44:30+13:00</StartTime>
+        <EndTime>2013-01-18T18:44:35+13:00</EndTime>
+        <IsExtraPeriod>false</IsExtraPeriod>
+        <IsActiveExtraPeriod>false</IsActiveExtraPeriod>
+        <Status>Ended</Status>
+        <TimeRemaining />
+      </GamePeriod>
+    </Periods>
+    <GameDuration />
+    <Result>Draw</Result>
+    <GameEvents>
+      <GameEvent>
+        <Time>2013-01-18T18:44:20.6362625+13:00</Time>
+        <EventType>Start First Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:44:23.0484005+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Slackers</Team>
+        <Player>7</Player>
+        <Notes>1 to 0</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:44:25.7415545+13:00</Time>
+        <EventType>End First Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:44:26.0275709+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>MAGS</Team>
+        <Player>1</Player>
+        <Notes>1 to 1</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:44:30.8578471+13:00</Time>
+        <EventType>Start Second Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:44:32.6659506+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Slackers</Team>
+        <Player>2</Player>
+        <Notes>2 to 1</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:44:35.1890949+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>MAGS</Team>
+        <Player>8</Player>
+        <Notes>2 to 2</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:44:35.9671394+13:00</Time>
+        <EventType>End Second Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:44:35.97814+13:00</Time>
+        <EventType>Paused</EventType>
+      </GameEvent>
+    </GameEvents>
+  </Game>
+  <Game>
+    <IsCurrentGame>false</IsCurrentGame>
+    <Pool>B</Pool>
+    <Team1>Xtras</Team1>
+    <Team2>Water Babies</Team2>
+    <Team1Score>1</Team1Score>
+    <Team2Score>1</Team2Score>
+    <Periods>
+      <GamePeriod>
+        <Name>First</Name>
+        <Description>Ended</Description>
+        <StartTime>2013-01-18T18:44:40+13:00</StartTime>
+        <EndTime>2013-01-18T18:44:45+13:00</EndTime>
+        <IsExtraPeriod>false</IsExtraPeriod>
+        <IsActiveExtraPeriod>false</IsActiveExtraPeriod>
+        <Status>Ended</Status>
+        <TimeRemaining />
+      </GamePeriod>
+      <GamePeriod>
+        <Name>Second</Name>
+        <Description>Ended</Description>
+        <StartTime>2013-01-18T18:44:50+13:00</StartTime>
+        <EndTime>2013-01-18T18:44:55+13:00</EndTime>
+        <IsExtraPeriod>false</IsExtraPeriod>
+        <IsActiveExtraPeriod>false</IsActiveExtraPeriod>
+        <Status>Ended</Status>
+        <TimeRemaining />
+      </GamePeriod>
+    </Periods>
+    <GameDuration />
+    <Result>Draw</Result>
+    <GameEvents>
+      <GameEvent>
+        <Time>2013-01-18T18:44:40.3513901+13:00</Time>
+        <EventType>Start First Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:44:45.453682+13:00</Time>
+        <EventType>End First Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:44:45.6056907+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Xtras</Team>
+        <Player>2</Player>
+        <Notes>1 to 0</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:44:50.541973+13:00</Time>
+        <EventType>Start Second Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:44:55.0072284+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Water Babies</Team>
+        <Player>5</Player>
+        <Notes>1 to 1</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:44:55.6852672+13:00</Time>
+        <EventType>End Second Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:44:55.6892674+13:00</Time>
+        <EventType>Paused</EventType>
+      </GameEvent>
+    </GameEvents>
+  </Game>
+  <Game>
+    <IsCurrentGame>false</IsCurrentGame>
+    <Pool>A</Pool>
+    <Team1>Blue Devils</Team1>
+    <Team2>Viking Black</Team2>
+    <Team1Score>2</Team1Score>
+    <Team2Score>3</Team2Score>
+    <Periods>
+      <GamePeriod>
+        <Name>First</Name>
+        <Description>Ended</Description>
+        <StartTime>2013-01-18T18:45:00+13:00</StartTime>
+        <EndTime>2013-01-18T18:45:05+13:00</EndTime>
+        <IsExtraPeriod>false</IsExtraPeriod>
+        <IsActiveExtraPeriod>false</IsActiveExtraPeriod>
+        <Status>Ended</Status>
+        <TimeRemaining />
+      </GamePeriod>
+      <GamePeriod>
+        <Name>Second</Name>
+        <Description>Ended</Description>
+        <StartTime>2013-01-18T18:45:10+13:00</StartTime>
+        <EndTime>2013-01-18T18:45:15+13:00</EndTime>
+        <IsExtraPeriod>false</IsExtraPeriod>
+        <IsActiveExtraPeriod>false</IsActiveExtraPeriod>
+        <Status>Ended</Status>
+        <TimeRemaining />
+      </GamePeriod>
+    </Periods>
+    <GameDuration />
+    <Result>Team2</Result>
+    <GameEvents>
+      <GameEvent>
+        <Time>2013-01-18T18:44:59.8245039+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Viking Black</Team>
+        <Player />
+        <Notes>0 to 1</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:45:00.8665635+13:00</Time>
+        <EventType>Start First Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:45:01.2005827+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Blue Devils</Team>
+        <Player />
+        <Notes>1 to 1</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:45:02.5366591+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Blue Devils</Team>
+        <Player />
+        <Notes>2 to 1</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:45:05.9348534+13:00</Time>
+        <EventType>End First Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:45:10.0080864+13:00</Time>
+        <EventType>Start Second Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:45:11.347163+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Viking Black</Team>
+        <Player />
+        <Notes>2 to 2</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:45:12.2832165+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Viking Black</Team>
+        <Player />
+        <Notes>2 to 3</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:45:15.0773764+13:00</Time>
+        <EventType>End Second Period</EventType>
+      </GameEvent>
+    </GameEvents>
+  </Game>
+  <Game>
+    <IsCurrentGame>false</IsCurrentGame>
+    <Pool>B</Pool>
+    <Team1>Slackers</Team1>
+    <Team2>Xtras</Team2>
+    <Team1Score>3</Team1Score>
+    <Team2Score>1</Team2Score>
+    <Periods>
+      <GamePeriod>
+        <Name>First</Name>
+        <Description>Ended</Description>
+        <StartTime>2013-01-18T18:45:20+13:00</StartTime>
+        <EndTime>2013-01-18T18:45:25+13:00</EndTime>
+        <IsExtraPeriod>false</IsExtraPeriod>
+        <IsActiveExtraPeriod>false</IsActiveExtraPeriod>
+        <Status>Ended</Status>
+        <TimeRemaining />
+      </GamePeriod>
+      <GamePeriod>
+        <Name>Second</Name>
+        <Description>Ended</Description>
+        <StartTime>2013-01-18T18:45:30+13:00</StartTime>
+        <EndTime>2013-01-18T18:45:35+13:00</EndTime>
+        <IsExtraPeriod>false</IsExtraPeriod>
+        <IsActiveExtraPeriod>false</IsActiveExtraPeriod>
+        <Status>Ended</Status>
+        <TimeRemaining />
+      </GamePeriod>
+    </Periods>
+    <GameDuration />
+    <Result>Team1</Result>
+    <GameEvents>
+      <GameEvent>
+        <Time>2013-01-18T18:45:19.9406545+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Slackers</Team>
+        <Player />
+        <Notes>1 to 0</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:45:20.1786681+13:00</Time>
+        <EventType>Start First Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:45:20.892709+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Xtras</Team>
+        <Player />
+        <Notes>1 to 1</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:45:24.1168934+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Slackers</Team>
+        <Player />
+        <Notes>2 to 1</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:45:25.2489581+13:00</Time>
+        <EventType>End First Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:45:30.334249+13:00</Time>
+        <EventType>Start Second Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:45:32.1213512+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Slackers</Team>
+        <Player />
+        <Notes>3 to 1</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:45:35.4035389+13:00</Time>
+        <EventType>End Second Period</EventType>
+      </GameEvent>
+    </GameEvents>
+  </Game>
+  <Game>
+    <IsCurrentGame>false</IsCurrentGame>
+    <Pool>B</Pool>
+    <Team1>Gen Y</Team1>
+    <Team2>Water Babies</Team2>
+    <Team1Score>2</Team1Score>
+    <Team2Score>4</Team2Score>
+    <Periods>
+      <GamePeriod>
+        <Name>First</Name>
+        <Description>Ended</Description>
+        <StartTime>2013-01-18T18:45:40+13:00</StartTime>
+        <EndTime>2013-01-18T18:45:45+13:00</EndTime>
+        <IsExtraPeriod>false</IsExtraPeriod>
+        <IsActiveExtraPeriod>false</IsActiveExtraPeriod>
+        <Status>Ended</Status>
+        <TimeRemaining />
+      </GamePeriod>
+      <GamePeriod>
+        <Name>Second</Name>
+        <Description>Ended</Description>
+        <StartTime>2013-01-18T18:45:50+13:00</StartTime>
+        <EndTime>2013-01-18T18:45:55+13:00</EndTime>
+        <IsExtraPeriod>false</IsExtraPeriod>
+        <IsActiveExtraPeriod>false</IsActiveExtraPeriod>
+        <Status>Ended</Status>
+        <TimeRemaining />
+      </GamePeriod>
+    </Periods>
+    <GameDuration />
+    <Result>Team2</Result>
+    <GameEvents>
+      <GameEvent>
+        <Time>2013-01-18T18:45:39.303762+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Gen Y</Team>
+        <Player />
+        <Notes>1 to 0</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:45:40.4898299+13:00</Time>
+        <EventType>Start First Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:45:41.5838924+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Gen Y</Team>
+        <Player />
+        <Notes>2 to 0</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:45:43.7200146+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Water Babies</Team>
+        <Player />
+        <Notes>2 to 1</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:45:45.5591198+13:00</Time>
+        <EventType>End First Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:45:50.6294098+13:00</Time>
+        <EventType>Start Second Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:45:51.1374389+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Water Babies</Team>
+        <Player />
+        <Notes>2 to 2</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:45:51.5214608+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Water Babies</Team>
+        <Player />
+        <Notes>2 to 3</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:45:53.5295757+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Water Babies</Team>
+        <Player />
+        <Notes>2 to 4</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:45:55.6996998+13:00</Time>
+        <EventType>End Second Period</EventType>
+      </GameEvent>
+    </GameEvents>
+  </Game>
+  <Game>
+    <IsCurrentGame>false</IsCurrentGame>
+    <Pool>A</Pool>
+    <Team1>Kaos White</Team1>
+    <Team2>Blue Devils</Team2>
+    <Team1Score>4</Team1Score>
+    <Team2Score>1</Team2Score>
+    <Periods>
+      <GamePeriod>
+        <Name>First</Name>
+        <Description>Ended</Description>
+        <StartTime>2013-01-18T18:46:00+13:00</StartTime>
+        <EndTime>2013-01-18T18:46:05+13:00</EndTime>
+        <IsExtraPeriod>false</IsExtraPeriod>
+        <IsActiveExtraPeriod>false</IsActiveExtraPeriod>
+        <Status>Ended</Status>
+        <TimeRemaining />
+      </GamePeriod>
+      <GamePeriod>
+        <Name>Second</Name>
+        <Description>Ended</Description>
+        <StartTime>2013-01-18T18:46:10+13:00</StartTime>
+        <EndTime>2013-01-18T18:46:15+13:00</EndTime>
+        <IsExtraPeriod>false</IsExtraPeriod>
+        <IsActiveExtraPeriod>false</IsActiveExtraPeriod>
+        <Status>Ended</Status>
+        <TimeRemaining />
+      </GamePeriod>
+    </Periods>
+    <GameDuration />
+    <Result>Team1</Result>
+    <GameEvents>
+      <GameEvent>
+        <Time>2013-01-18T18:45:57.4898022+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Kaos White</Team>
+        <Player />
+        <Notes>1 to 0</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:46:00.7849907+13:00</Time>
+        <EventType>Start First Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:46:01.0990086+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Kaos White</Team>
+        <Player />
+        <Notes>2 to 0</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:46:02.9311134+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Kaos White</Team>
+        <Player />
+        <Notes>3 to 0</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:46:03.1401254+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Kaos White</Team>
+        <Player />
+        <Notes>4 to 0</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:46:04.0121753+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Blue Devils</Team>
+        <Player />
+        <Notes>4 to 1</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:46:05.8562807+13:00</Time>
+        <EventType>End First Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:46:10.9255707+13:00</Time>
+        <EventType>Start Second Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:46:15.9958607+13:00</Time>
+        <EventType>End Second Period</EventType>
+      </GameEvent>
+    </GameEvents>
+  </Game>
+  <Game>
+    <IsCurrentGame>false</IsCurrentGame>
+    <Pool>B</Pool>
+    <Team1>MAGS</Team1>
+    <Team2>Xtras</Team2>
+    <Team1Score>6</Team1Score>
+    <Team2Score>3</Team2Score>
+    <Periods>
+      <GamePeriod>
+        <Name>First</Name>
+        <Description>Ended</Description>
+        <StartTime>2013-01-18T18:46:20+13:00</StartTime>
+        <EndTime>2013-01-18T18:46:25+13:00</EndTime>
+        <IsExtraPeriod>false</IsExtraPeriod>
+        <IsActiveExtraPeriod>false</IsActiveExtraPeriod>
+        <Status>Ended</Status>
+        <TimeRemaining />
+      </GamePeriod>
+      <GamePeriod>
+        <Name>Second</Name>
+        <Description>Ended</Description>
+        <StartTime>2013-01-18T18:46:30+13:00</StartTime>
+        <EndTime>2013-01-18T18:46:35+13:00</EndTime>
+        <IsExtraPeriod>false</IsExtraPeriod>
+        <IsActiveExtraPeriod>false</IsActiveExtraPeriod>
+        <Status>Ended</Status>
+        <TimeRemaining />
+      </GamePeriod>
+    </Periods>
+    <GameDuration />
+    <Result>Team1</Result>
+    <GameEvents>
+      <GameEvent>
+        <Time>2013-01-18T18:46:18.693015+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>MAGS</Team>
+        <Player />
+        <Notes>1 to 0</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:46:19.0380347+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>MAGS</Team>
+        <Player />
+        <Notes>2 to 0</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:46:19.2150448+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>MAGS</Team>
+        <Player />
+        <Notes>3 to 0</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:46:19.3900548+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>MAGS</Team>
+        <Player />
+        <Notes>4 to 0</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:46:19.5580644+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>MAGS</Team>
+        <Player />
+        <Notes>5 to 0</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:46:19.7260741+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>MAGS</Team>
+        <Player />
+        <Notes>6 to 0</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:46:20.0820944+13:00</Time>
+        <EventType>Start First Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:46:20.7491326+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Xtras</Team>
+        <Player />
+        <Notes>6 to 1</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:46:20.9021413+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Xtras</Team>
+        <Player />
+        <Notes>6 to 2</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:46:21.3901692+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Xtras</Team>
+        <Player />
+        <Notes>6 to 3</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:46:25.2013872+13:00</Time>
+        <EventType>End First Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:46:30.3156797+13:00</Time>
+        <EventType>Start Second Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:46:35.3859697+13:00</Time>
+        <EventType>End Second Period</EventType>
+      </GameEvent>
+    </GameEvents>
+  </Game>
+  <Game>
+    <IsCurrentGame>false</IsCurrentGame>
+    <Pool>B</Pool>
+    <Team1>Slackers</Team1>
+    <Team2>Gen Y</Team2>
+    <Team1Score>2</Team1Score>
+    <Team2Score>3</Team2Score>
+    <Periods>
+      <GamePeriod>
+        <Name>First</Name>
+        <Description>Ended</Description>
+        <StartTime>2013-01-18T18:46:40+13:00</StartTime>
+        <EndTime>2013-01-18T18:46:45+13:00</EndTime>
+        <IsExtraPeriod>false</IsExtraPeriod>
+        <IsActiveExtraPeriod>false</IsActiveExtraPeriod>
+        <Status>Ended</Status>
+        <TimeRemaining />
+      </GamePeriod>
+      <GamePeriod>
+        <Name>Second</Name>
+        <Description>Ended</Description>
+        <StartTime>2013-01-18T18:46:50+13:00</StartTime>
+        <EndTime>2013-01-18T18:46:55+13:00</EndTime>
+        <IsExtraPeriod>false</IsExtraPeriod>
+        <IsActiveExtraPeriod>false</IsActiveExtraPeriod>
+        <Status>Ended</Status>
+        <TimeRemaining />
+      </GamePeriod>
+    </Periods>
+    <GameDuration />
+    <Result>Team2</Result>
+    <GameEvents>
+      <GameEvent>
+        <Time>2013-01-18T18:46:37.4560882+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Slackers</Team>
+        <Player />
+        <Notes>1 to 0</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:46:38.3931417+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Slackers</Team>
+        <Player />
+        <Notes>2 to 0</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:46:40.4722607+13:00</Time>
+        <EventType>Start First Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:46:44.587496+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Gen Y</Team>
+        <Player />
+        <Notes>2 to 1</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:46:44.7575058+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Gen Y</Team>
+        <Player />
+        <Notes>2 to 2</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:46:45.2615346+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Gen Y</Team>
+        <Player />
+        <Notes>2 to 3</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:46:45.5425507+13:00</Time>
+        <EventType>End First Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:46:50.6278415+13:00</Time>
+        <EventType>Start Second Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:46:55.6971315+13:00</Time>
+        <EventType>End Second Period</EventType>
+      </GameEvent>
+    </GameEvents>
+  </Game>
+  <Game>
+    <IsCurrentGame>false</IsCurrentGame>
+    <Pool>A</Pool>
+    <Team1>Kaos Blue</Team1>
+    <Team2>Shannon Rebels</Team2>
+    <Team1Score>3</Team1Score>
+    <Team2Score>1</Team2Score>
+    <Periods>
+      <GamePeriod>
+        <Name>First</Name>
+        <Description>Ended</Description>
+        <StartTime>2013-01-18T18:47:00+13:00</StartTime>
+        <EndTime>2013-01-18T18:47:05+13:00</EndTime>
+        <IsExtraPeriod>false</IsExtraPeriod>
+        <IsActiveExtraPeriod>false</IsActiveExtraPeriod>
+        <Status>Ended</Status>
+        <TimeRemaining />
+      </GamePeriod>
+      <GamePeriod>
+        <Name>Second</Name>
+        <Description>Ended</Description>
+        <StartTime>2013-01-18T18:47:10+13:00</StartTime>
+        <EndTime>2013-01-18T18:47:15+13:00</EndTime>
+        <IsExtraPeriod>false</IsExtraPeriod>
+        <IsActiveExtraPeriod>false</IsActiveExtraPeriod>
+        <Status>Ended</Status>
+        <TimeRemaining />
+      </GamePeriod>
+    </Periods>
+    <GameDuration />
+    <Result>Team1</Result>
+    <GameEvents>
+      <GameEvent>
+        <Time>2013-01-18T18:46:57.472233+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Kaos Blue</Team>
+        <Player />
+        <Notes>1 to 0</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:46:57.647243+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Kaos Blue</Team>
+        <Player />
+        <Notes>2 to 0</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:47:00.7844225+13:00</Time>
+        <EventType>Start First Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:47:05.8527123+13:00</Time>
+        <EventType>End First Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:47:10.9400033+13:00</Time>
+        <EventType>Start Second Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:47:13.0101217+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Shannon Rebels</Team>
+        <Player />
+        <Notes>2 to 1</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:47:13.7621647+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Kaos Blue</Team>
+        <Player />
+        <Notes>3 to 1</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:47:16.0092933+13:00</Time>
+        <EventType>End Second Period</EventType>
+      </GameEvent>
+    </GameEvents>
+  </Game>
+  <Game>
+    <IsCurrentGame>false</IsCurrentGame>
+    <Pool>B</Pool>
+    <Team1>Slackers</Team1>
+    <Team2>Viking White</Team2>
+    <Team1Score>2</Team1Score>
+    <Team2Score>5</Team2Score>
+    <Periods>
+      <GamePeriod>
+        <Name>First</Name>
+        <Description>Ended</Description>
+        <StartTime>2013-01-18T18:47:20+13:00</StartTime>
+        <EndTime>2013-01-18T18:47:25+13:00</EndTime>
+        <IsExtraPeriod>false</IsExtraPeriod>
+        <IsActiveExtraPeriod>false</IsActiveExtraPeriod>
+        <Status>Ended</Status>
+        <TimeRemaining />
+      </GamePeriod>
+      <GamePeriod>
+        <Name>Second</Name>
+        <Description>Ended</Description>
+        <StartTime>2013-01-18T18:47:30+13:00</StartTime>
+        <EndTime>2013-01-18T18:47:35+13:00</EndTime>
+        <IsExtraPeriod>false</IsExtraPeriod>
+        <IsActiveExtraPeriod>false</IsActiveExtraPeriod>
+        <Status>Ended</Status>
+        <TimeRemaining />
+      </GamePeriod>
+    </Periods>
+    <GameDuration />
+    <Result>Team2</Result>
+    <GameEvents>
+      <GameEvent>
+        <Time>2013-01-18T18:47:18.5074362+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Viking White</Team>
+        <Player />
+        <Notes>0 to 1</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:47:18.6684454+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Viking White</Team>
+        <Player />
+        <Notes>0 to 2</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:47:19.9395181+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Slackers</Team>
+        <Player />
+        <Notes>1 to 2</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:47:20.0805261+13:00</Time>
+        <EventType>Start First Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:47:20.619557+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Viking White</Team>
+        <Player />
+        <Notes>1 to 3</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:47:24.4607767+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Viking White</Team>
+        <Player />
+        <Notes>1 to 4</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:47:24.5877839+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Viking White</Team>
+        <Player />
+        <Notes>1 to 5</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:47:25.0768119+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Slackers</Team>
+        <Player />
+        <Notes>2 to 5</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:47:25.1508161+13:00</Time>
+        <EventType>End First Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:47:30.236107+13:00</Time>
+        <EventType>Start Second Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:47:35.3073971+13:00</Time>
+        <EventType>End Second Period</EventType>
+      </GameEvent>
+    </GameEvents>
+  </Game>
+  <Game>
+    <IsCurrentGame>false</IsCurrentGame>
+    <Pool>B</Pool>
+    <Team1>MAGS</Team1>
+    <Team2>Water Babies</Team2>
+    <Team1Score>4</Team1Score>
+    <Team2Score>2</Team2Score>
+    <Periods>
+      <GamePeriod>
+        <Name>First</Name>
+        <Description>Ended</Description>
+        <StartTime>2013-01-18T18:47:40+13:00</StartTime>
+        <EndTime>2013-01-18T18:47:45+13:00</EndTime>
+        <IsExtraPeriod>false</IsExtraPeriod>
+        <IsActiveExtraPeriod>false</IsActiveExtraPeriod>
+        <Status>Ended</Status>
+        <TimeRemaining />
+      </GamePeriod>
+      <GamePeriod>
+        <Name>Second</Name>
+        <Description>Ended</Description>
+        <StartTime>2013-01-18T18:47:50+13:00</StartTime>
+        <EndTime>2013-01-18T18:47:55+13:00</EndTime>
+        <IsExtraPeriod>false</IsExtraPeriod>
+        <IsActiveExtraPeriod>false</IsActiveExtraPeriod>
+        <Status>Ended</Status>
+        <TimeRemaining />
+      </GamePeriod>
+    </Periods>
+    <GameDuration />
+    <Result>Team1</Result>
+    <GameEvents>
+      <GameEvent>
+        <Time>2013-01-18T18:47:40.4386905+13:00</Time>
+        <EventType>Start First Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:47:42.8558288+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>MAGS</Team>
+        <Player />
+        <Notes>1 to 0</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:47:43.0068374+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>MAGS</Team>
+        <Player />
+        <Notes>2 to 0</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:47:43.5358677+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>MAGS</Team>
+        <Player />
+        <Notes>3 to 0</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:47:44.2639093+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Water Babies</Team>
+        <Player />
+        <Notes>3 to 1</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:47:45.5089806+13:00</Time>
+        <EventType>End First Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:47:50.5942714+13:00</Time>
+        <EventType>Start Second Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:47:52.4083752+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Water Babies</Team>
+        <Player />
+        <Notes>3 to 2</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:47:53.1774192+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>MAGS</Team>
+        <Player />
+        <Notes>4 to 2</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:47:55.6655615+13:00</Time>
+        <EventType>End Second Period</EventType>
+      </GameEvent>
+    </GameEvents>
+  </Game>
+  <Game>
+    <IsCurrentGame>false</IsCurrentGame>
+    <Pool>A</Pool>
+    <Team1>Kaos White</Team1>
+    <Team2>Shannon Rebels</Team2>
+    <Team1Score>4</Team1Score>
+    <Team2Score>7</Team2Score>
+    <Periods>
+      <GamePeriod>
+        <Name>First</Name>
+        <Description>Ended</Description>
+        <StartTime>2013-01-18T18:48:00+13:00</StartTime>
+        <EndTime>2013-01-18T18:48:05+13:00</EndTime>
+        <IsExtraPeriod>false</IsExtraPeriod>
+        <IsActiveExtraPeriod>false</IsActiveExtraPeriod>
+        <Status>Ended</Status>
+        <TimeRemaining />
+      </GamePeriod>
+      <GamePeriod>
+        <Name>Second</Name>
+        <Description>Ended</Description>
+        <StartTime>2013-01-18T18:48:10+13:00</StartTime>
+        <EndTime>2013-01-18T18:48:15+13:00</EndTime>
+        <IsExtraPeriod>false</IsExtraPeriod>
+        <IsActiveExtraPeriod>false</IsActiveExtraPeriod>
+        <Status>Ended</Status>
+        <TimeRemaining />
+      </GamePeriod>
+    </Periods>
+    <GameDuration />
+    <Result>Team2</Result>
+    <GameEvents>
+      <GameEvent>
+        <Time>2013-01-18T18:48:00.7658532+13:00</Time>
+        <EventType>Start First Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:48:01.4588928+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Kaos White</Team>
+        <Player />
+        <Notes>1 to 0</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:48:01.618902+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Kaos White</Team>
+        <Player />
+        <Notes>2 to 0</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:48:01.7709107+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Kaos White</Team>
+        <Player />
+        <Notes>3 to 0</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:48:02.6659619+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Shannon Rebels</Team>
+        <Player />
+        <Notes>3 to 1</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:48:02.8189706+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Shannon Rebels</Team>
+        <Player />
+        <Notes>3 to 2</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:48:03.0579843+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Shannon Rebels</Team>
+        <Player />
+        <Notes>3 to 3</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:48:03.226994+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Shannon Rebels</Team>
+        <Player />
+        <Notes>3 to 4</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:48:05.8991468+13:00</Time>
+        <EventType>End First Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:48:10.9834376+13:00</Time>
+        <EventType>Start Second Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:48:11.4684654+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Shannon Rebels</Team>
+        <Player />
+        <Notes>3 to 5</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:48:11.6044731+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Shannon Rebels</Team>
+        <Player />
+        <Notes>3 to 6</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:48:11.7404809+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Shannon Rebels</Team>
+        <Player />
+        <Notes>3 to 7</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:48:12.5485271+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Kaos White</Team>
+        <Player />
+        <Notes>4 to 7</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:48:15.0396696+13:00</Time>
+        <EventType>End Second Period</EventType>
+      </GameEvent>
+    </GameEvents>
+  </Game>
+  <Game>
+    <IsCurrentGame>false</IsCurrentGame>
+    <Pool>B</Pool>
+    <Team1>Slackers</Team1>
+    <Team2>Water Babies</Team2>
+    <Team1Score>1</Team1Score>
+    <Team2Score>0</Team2Score>
+    <Periods>
+      <GamePeriod>
+        <Name>First</Name>
+        <Description>Ended</Description>
+        <StartTime>2013-01-18T18:48:20+13:00</StartTime>
+        <EndTime>2013-01-18T18:48:25+13:00</EndTime>
+        <IsExtraPeriod>false</IsExtraPeriod>
+        <IsActiveExtraPeriod>false</IsActiveExtraPeriod>
+        <Status>Ended</Status>
+        <TimeRemaining />
+      </GamePeriod>
+      <GamePeriod>
+        <Name>Second</Name>
+        <Description>Ended</Description>
+        <StartTime>2013-01-18T18:48:30+13:00</StartTime>
+        <EndTime>2013-01-18T18:48:35+13:00</EndTime>
+        <IsExtraPeriod>false</IsExtraPeriod>
+        <IsActiveExtraPeriod>false</IsActiveExtraPeriod>
+        <Status>Ended</Status>
+        <TimeRemaining />
+      </GamePeriod>
+    </Periods>
+    <GameDuration />
+    <Result>Team1</Result>
+    <GameEvents>
+      <GameEvent>
+        <Time>2013-01-18T18:48:20.1569623+13:00</Time>
+        <EventType>Start First Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:48:25.2262523+13:00</Time>
+        <EventType>End First Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:48:30.3125432+13:00</Time>
+        <EventType>Start Second Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:48:30.5435564+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Slackers</Team>
+        <Player />
+        <Notes>1 to 0</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:48:35.397834+13:00</Time>
+        <EventType>End Second Period</EventType>
+      </GameEvent>
+    </GameEvents>
+  </Game>
+  <Game>
+    <IsCurrentGame>false</IsCurrentGame>
+    <Pool>B</Pool>
+    <Team1>Xtras</Team1>
+    <Team2>Viking White</Team2>
+    <Team1Score>2</Team1Score>
+    <Team2Score>4</Team2Score>
+    <Periods>
+      <GamePeriod>
+        <Name>First</Name>
+        <Description>Ended</Description>
+        <StartTime>2013-01-18T18:48:40+13:00</StartTime>
+        <EndTime>2013-01-18T18:48:45+13:00</EndTime>
+        <IsExtraPeriod>false</IsExtraPeriod>
+        <IsActiveExtraPeriod>false</IsActiveExtraPeriod>
+        <Status>Ended</Status>
+        <TimeRemaining />
+      </GamePeriod>
+      <GamePeriod>
+        <Name>Second</Name>
+        <Description>Ended</Description>
+        <StartTime>2013-01-18T18:48:50+13:00</StartTime>
+        <EndTime>2013-01-18T18:48:55+13:00</EndTime>
+        <IsExtraPeriod>false</IsExtraPeriod>
+        <IsActiveExtraPeriod>false</IsActiveExtraPeriod>
+        <Status>Ended</Status>
+        <TimeRemaining />
+      </GamePeriod>
+    </Periods>
+    <GameDuration />
+    <Result>Team2</Result>
+    <GameEvents>
+      <GameEvent>
+        <Time>2013-01-18T18:48:40.4991258+13:00</Time>
+        <EventType>Start First Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:48:40.8491458+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Xtras</Team>
+        <Player />
+        <Notes>1 to 0</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:48:41.009155+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Xtras</Team>
+        <Player />
+        <Notes>2 to 0</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:48:43.6813078+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Viking White</Team>
+        <Player />
+        <Notes>2 to 1</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:48:43.8323165+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Viking White</Team>
+        <Player />
+        <Notes>2 to 2</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:48:44.0093266+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Viking White</Team>
+        <Player />
+        <Notes>2 to 3</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:48:44.4083494+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Viking White</Team>
+        <Player />
+        <Notes>2 to 4</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:48:45.6054179+13:00</Time>
+        <EventType>End First Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:48:50.6867085+13:00</Time>
+        <EventType>Start Second Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:48:55.8030011+13:00</Time>
+        <EventType>End Second Period</EventType>
+      </GameEvent>
+    </GameEvents>
+  </Game>
+  <Game>
+    <IsCurrentGame>false</IsCurrentGame>
+    <Pool>A</Pool>
+    <Team1>Kaos White</Team1>
+    <Team2>Viking Gold</Team2>
+    <Team1Score>5</Team1Score>
+    <Team2Score>4</Team2Score>
+    <Periods>
+      <GamePeriod>
+        <Name>First</Name>
+        <Description>Ended</Description>
+        <StartTime>2013-01-18T18:49:00+13:00</StartTime>
+        <EndTime>2013-01-18T18:49:05+13:00</EndTime>
+        <IsExtraPeriod>false</IsExtraPeriod>
+        <IsActiveExtraPeriod>false</IsActiveExtraPeriod>
+        <Status>Ended</Status>
+        <TimeRemaining />
+      </GamePeriod>
+      <GamePeriod>
+        <Name>Second</Name>
+        <Description>Ended</Description>
+        <StartTime>2013-01-18T18:49:10+13:00</StartTime>
+        <EndTime>2013-01-18T18:49:15+13:00</EndTime>
+        <IsExtraPeriod>false</IsExtraPeriod>
+        <IsActiveExtraPeriod>false</IsActiveExtraPeriod>
+        <Status>Ended</Status>
+        <TimeRemaining />
+      </GamePeriod>
+    </Periods>
+    <GameDuration />
+    <Result>Team1</Result>
+    <GameEvents>
+      <GameEvent>
+        <Time>2013-01-18T18:49:00.905293+13:00</Time>
+        <EventType>Start First Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:49:02.4923838+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Kaos White</Team>
+        <Player />
+        <Notes>1 to 0</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:49:02.636392+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Kaos White</Team>
+        <Player />
+        <Notes>2 to 0</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:49:03.5644451+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Viking Gold</Team>
+        <Player />
+        <Notes>2 to 1</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:49:05.5095563+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Viking Gold</Team>
+        <Player />
+        <Notes>2 to 2</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:49:05.6525645+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Viking Gold</Team>
+        <Player />
+        <Notes>2 to 3</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:49:05.9895838+13:00</Time>
+        <EventType>End First Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:49:10.0618167+13:00</Time>
+        <EventType>Start Second Period</EventType>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:49:10.4928414+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Kaos White</Team>
+        <Player />
+        <Notes>3 to 3</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:49:11.8289178+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Kaos White</Team>
+        <Player />
+        <Notes>4 to 3</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:49:11.9819265+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Kaos White</Team>
+        <Player />
+        <Notes>5 to 3</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:49:13.0859897+13:00</Time>
+        <EventType>Goal</EventType>
+        <Team>Viking Gold</Team>
+        <Player />
+        <Notes>5 to 4</Notes>
+      </GameEvent>
+      <GameEvent>
+        <Time>2013-01-18T18:49:15.1621084+13:00</Time>
+        <EventType>End Second Period</EventType>
+      </GameEvent>
+    </GameEvents>
+  </Game>
+</ArrayOfGame>
