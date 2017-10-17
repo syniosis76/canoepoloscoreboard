@@ -105,6 +105,18 @@ function copyToClipboard(text) {
     }
 }
 
+function getScrollingElement() {
+    // From https://dev.opera.com/articles/fixing-the-scrolltop-bug/
+    if ('scrollingElement' in document) {
+        return document.scrollingElement;
+    }
+    // Fallback for legacy browsers
+    if (navigator.userAgent.indexOf('WebKit') != -1) {
+        return document.body;
+    }
+    return document.documentElement;
+}
+
 class DataSources
 {      
     constructor()

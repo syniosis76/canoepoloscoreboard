@@ -75,9 +75,9 @@
 
         function resizeFontEvent()
         {
-			var body = document.body;
-            var width = body.scrollWidth;
-            var height = body.scrollHeight;
+            var scrollingElement = getScrollingElement();
+            var width = scrollingElement.scrollWidth;
+            var height = scrollingElement.scrollHeight;
             var sizeRatio = width / height;
 
             if (sizeRatio > 1.4) {
