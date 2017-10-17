@@ -42,9 +42,9 @@
 
         function resizeShotClockFont()
         {
-            var docElement = document.documentElement;
-            var width = docElement.scrollWidth;
-            var height = docElement.scrollHeight;
+            var scrollingElement = getScrollingElement();
+            var width = scrollingElement.scrollWidth;
+            var height = scrollingElement.scrollHeight;
             var sizeRatio = width / height;
 
             if (sizeRatio > 1.4) {
