@@ -21,9 +21,7 @@ namespace Scoreboard
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
-    {
-        private const String DontCare = "Don't Care";
-        
+    {                
         private Score _score;
         public Score Score
         {
@@ -98,10 +96,10 @@ namespace Scoreboard
 
         private void Team1Goal()
         {
-            string player = Score.RecordGoalScorers ? Players.SelectPlayer(this) : DontCare;
+            string player = Score.RecordGoalScorers ? Players.SelectPlayer(this) : Players.DontCare;
             if (!String.IsNullOrEmpty(player))
             {
-                if (player != DontCare)
+                if (player != Players.DontCare)
                 {
                     Score.Team1Goal(player);
                 }
@@ -124,10 +122,10 @@ namespace Scoreboard
 
         private void Team2Goal()
         {
-            string player = Score.RecordGoalScorers ? Players.SelectPlayer(this) : DontCare;
+            string player = Score.RecordGoalScorers ? Players.SelectPlayer(this) : Players.DontCare;
             if (!String.IsNullOrEmpty(player))
             {
-                if (player != DontCare)
+                if (player != Players.DontCare)
                 {
                     Score.Team2Goal(player);
                 }

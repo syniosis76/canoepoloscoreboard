@@ -35,9 +35,37 @@
 
                     <TextBlock Grid.Column="0" Grid.Row="1" Text="{Binding Path=CompletedGame.Team1, FallbackValue=Team 1}" FontSize="24" FontWeight="Bold" Foreground="Black"/>
                     <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Path=CompletedGame.Team1Score, FallbackValue=0}" FontSize="24" FontWeight="Bold" Foreground="Black"/>
+                    <Grid Grid.Column="2" Grid.Row="1" Margin="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="8*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Click="Team1AddGoalClick" Style="{StaticResource TileButtonBlue}">
+                            <Image Margin="2" Grid.ColumnSpan="2" Source="/Scoreboard;component/images/add.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        </Button>
+                        <Button Grid.Column="2" Click="Team1RemoveGoalClick" Style="{StaticResource TileButtonBlue}">
+                            <Image Margin="2" Grid.ColumnSpan="2" Source="/Scoreboard;component/images/remove.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        </Button>
+                    </Grid>
 
                     <TextBlock Grid.Column="0" Grid.Row="2" Text="{Binding Path=CompletedGame.Team2, FallbackValue=Team 2}" FontSize="24" FontWeight="Bold" Foreground="Black"/>
                     <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding Path=CompletedGame.Team2Score, FallbackValue=0}" FontSize="24" FontWeight="Bold" Foreground="Black"/>
+                    <Grid Grid.Column="2" Grid.Row="2" Margin="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="8*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Click="Team2AddGoalClick" Style="{StaticResource TileButtonBlue}">
+                            <Image Margin="2" Grid.ColumnSpan="2" Source="/Scoreboard;component/images/add.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        </Button>
+                        <Button Grid.Column="2" Click="Team2RemoveGoalClick" Style="{StaticResource TileButtonBlue}">
+                            <Image Margin="2" Grid.ColumnSpan="2" Source="/Scoreboard;component/images/remove.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        </Button>
+                    </Grid>
 
                     <StackPanel Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="4" Orientation="Vertical">
                         <TextBlock Text="This game ended in a Draw." FontSize="16" FontWeight="Bold" Foreground="Black" Visibility="{Binding Path=CompletedGame.IsDraw, FallbackValue=Hidden, Converter={StaticResource boolToVisiblityConverter}}"/>

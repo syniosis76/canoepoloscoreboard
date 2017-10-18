@@ -173,7 +173,67 @@ namespace Scoreboard
             }
 
             return DateTime.Today + new TimeSpan(hours, minutes, seconds);
-        }       
+        }
+
+        private void Team1AddGoalClick(object sender, RoutedEventArgs e)
+        {
+            if (Score != null)
+            {
+                string player = Score.RecordGoalScorers ? Players.SelectPlayer(this) : Players.DontCare;
+                if (!String.IsNullOrEmpty(player))
+                {
+                    if (player != Players.DontCare)
+                    {
+                        Score.Team1Goal(player);
+                    }
+                    else
+                    {
+                        Score.Team1Goal(String.Empty);
+                    }
+                }
+            }
+            else
+            {
+                CompletedGame.Team1Score++;
+            }
+            CompletedGame.CalculateResult();
+        }
+
+        private void Team1RemoveGoalClick(object sender, RoutedEventArgs e)
+        {
+            if (Score != null) Score.Team1NoGoal(); else CompletedGame.Team1Score--;
+            CompletedGame.CalculateResult();
+        }
+
+        private void Team2AddGoalClick(object sender, RoutedEventArgs e)
+        {
+            if (Score != null)
+            {
+                string player = Score.RecordGoalScorers ? Players.SelectPlayer(this) : Players.DontCare;
+                if (!String.IsNullOrEmpty(player))
+                {
+                    if (player != Players.DontCare)
+                    {
+                        Score.Team2Goal(player);
+                    }
+                    else
+                    {
+                        Score.Team2Goal(String.Empty);
+                    }
+                }
+            }
+            else
+            {
+                CompletedGame.Team2Score++;
+            }
+            CompletedGame.CalculateResult();
+        }
+
+        private void Team2RemoveGoalClick(object sender, RoutedEventArgs e)
+        {
+            if (Score != null) Score.Team2NoGoal(); else CompletedGame.Team2Score--;
+            CompletedGame.CalculateResult();
+        }
 
         private void StartExtraPeriodClick(object sender, RoutedEventArgs e)
         {
