@@ -114,7 +114,7 @@ namespace Scoreboard
             gamePeriod.EndTime = startTime + extraPeriodDuration;
             Game.Periods.Add(gamePeriod);
 
-            gamePeriod.ModifyFollowingTimes(gamePeriod.EndTime - DateTime.Now);
+            gamePeriod.ModifyFollowingTimes(gamePeriod.EndTime - DateTime.Now, true);
         }
 
         private void ReadSettings()

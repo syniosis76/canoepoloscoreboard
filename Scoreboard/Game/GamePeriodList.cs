@@ -55,7 +55,7 @@ namespace Scoreboard
             }
         }
 
-        public void ModifyFollowingTimes(GamePeriod period, TimeSpan changeBy)
+        public void ModifyFollowingTimes(GamePeriod period, TimeSpan changeBy, Boolean force)
         {
             int periodIndex = period == null ? -1 : IndexOf(period);
             foreach (GamePeriod gamePeriod in this.Skip(periodIndex + 1))
@@ -65,7 +65,7 @@ namespace Scoreboard
 
             if (Parent != null)
             {
-                Parent.ModifyFollowingTimes(changeBy);
+                Parent.ModifyFollowingTimes(changeBy, force);
             }
         }
 

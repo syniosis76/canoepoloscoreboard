@@ -697,7 +697,7 @@ namespace Scoreboard
             gamePeriod.StartTime = startTime;
             game.Periods.Add(gamePeriod);
 
-            gamePeriod.ModifyFollowingTimes(gamePeriod.EndTime - DateTime.Now);
+            gamePeriod.ModifyFollowingTimes(gamePeriod.EndTime - DateTime.Now, false);
 
             game.CalculateResult();
             if (CurrentGame != game)
@@ -1174,11 +1174,11 @@ namespace Scoreboard
                     {
                         if (period.Status == GamePeriodStatus.Pending)
                         {
-                            period.ModifyStartTime(pauseDuration);
+                            period.ModifyStartTime(pauseDuration, false);
                         }
                         else if (period.Status == GamePeriodStatus.Active)
                         {
-                            period.ModifyEndTime(pauseDuration);
+                            period.ModifyEndTime(pauseDuration, false);
                         }
                     }                    
                 }

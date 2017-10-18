@@ -256,7 +256,7 @@ namespace Scoreboard
             {
                 if (_decrementStartTimeCommand == null)
                 {
-                    _decrementStartTimeCommand = new RelayCommand(param => this.ModifyStartTime(-10, 10), null);
+                    _decrementStartTimeCommand = new RelayCommand(param => this.ModifyStartTime(-10, 10, true), null);
                 }
                 return _decrementStartTimeCommand;
             }
@@ -269,7 +269,7 @@ namespace Scoreboard
             {
                 if (_incrementStartTimeCommand == null)
                 {
-                    _incrementStartTimeCommand = new RelayCommand(param => this.ModifyStartTime(10, 10), null);
+                    _incrementStartTimeCommand = new RelayCommand(param => this.ModifyStartTime(10, 10, true), null);
                 }
                 return _incrementStartTimeCommand;
             }
@@ -282,7 +282,7 @@ namespace Scoreboard
             {
                 if (_decrementEndTimeCommand == null)
                 {
-                    _decrementEndTimeCommand = new RelayCommand(param => this.ModifyEndTime(-10, 10), null);
+                    _decrementEndTimeCommand = new RelayCommand(param => this.ModifyEndTime(-10, 10, true), null);
                 }
                 return _decrementEndTimeCommand;
             }
@@ -295,7 +295,7 @@ namespace Scoreboard
             {
                 if (_incrementEndTimeCommand == null)
                 {
-                    _incrementEndTimeCommand = new RelayCommand(param => this.ModifyEndTime(10, 10), null);
+                    _incrementEndTimeCommand = new RelayCommand(param => this.ModifyEndTime(10, 10, true), null);
                 }
                 return _incrementEndTimeCommand;
             }
@@ -336,29 +336,29 @@ namespace Scoreboard
             return newRoundedTime - time;
         }
 
-        public void ModifyStartTime(int changeBy, int roundToNearest)
+        public void ModifyStartTime(int changeBy, int roundToNearest, Boolean force)
         {                     
             TimeSpan changeByTimeSpan = ModifyByTimeSpan(StartTime, changeBy, roundToNearest);
-            ModifyStartTime(changeByTimeSpan);            
+            ModifyStartTime(changeByTimeSpan, force);            
         }
 
-        public void ModifyStartTime(TimeSpan changeBy)
+        public void ModifyStartTime(TimeSpan changeBy, Boolean force)
         {            
             StartTime += changeBy;
             EndTime += changeBy;
-            ModifyFollowingTimes(changeBy);
+            ModifyFollowingTimes(changeBy, force);
         }
 
-        public void ModifyEndTime(int changeBy, int roundToNearest)
+        public void ModifyEndTime(int changeBy, int roundToNearest, Boolean force)
         {
             TimeSpan changeByTimeSpan = ModifyByTimeSpan(EndTime, changeBy, roundToNearest);
-            ModifyEndTime(changeByTimeSpan);
+            ModifyEndTime(changeByTimeSpan, force);
         }
 
-        public void ModifyEndTime(TimeSpan changeBy)
+        public void ModifyEndTime(TimeSpan changeBy, Boolean force)
         {            
             EndTime += changeBy;
-            ModifyFollowingTimes(changeBy);
+            ModifyFollowingTimes(changeBy, force);
         }
 
         public void ModifyTimes(TimeSpan changeBy)
@@ -367,11 +367,11 @@ namespace Scoreboard
             EndTime += changeBy;
         }
 
-        public void ModifyFollowingTimes(TimeSpan changeBy)
+        public void ModifyFollowingTimes(TimeSpan changeBy, Boolean force)
         {
             if (Parent != null)
             {
-                Parent.ModifyFollowingTimes(this, changeBy);
+                Parent.ModifyFollowingTimes(this, changeBy, force);
             }
         }
 

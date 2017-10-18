@@ -61,12 +61,38 @@ namespace Scoreboard
             game.SetParent(this);
         }
 
-        public void ModifyFollowingTimes(Game game, TimeSpan changeBy)
+        public void ModifyFollowingTimes(Game game, TimeSpan changeBy, Boolean force)
         {
+            Game previousGame = game;
             int gameIndex = game == null ? -1 : IndexOf(game);
+            TimeSpan minimumTimeBetweenGames = Score.ParseTimeSpan(Properties.Settings.Default.MinimumTimeBetweenGames);            
+
             foreach (Game gameItem in this.Skip(gameIndex + 1))
             {
-                gameItem.ModifyTimes(changeBy);
+                if (force || changeBy.TotalMilliseconds < 0)
+                {
+                    // Always adjust the following times (when manually updating game times).
+                    gameItem.ModifyTimes(changeBy);
+                }
+                else
+                {
+                    // When resuming from pause only adjust the following game time if the time betweeen games is less than the MinimumTimeBetweenGames.
+                    if (gameItem.StartTime.HasValue && previousGame.EndTime.HasValue)
+                    {
+                        TimeSpan timeUntilGameStarts = gameItem.StartTime.Value - previousGame.EndTime.Value;
+                        if (timeUntilGameStarts > minimumTimeBetweenGames)
+                        {
+                            // Don't adjust anythign because the time betweeen games is more than the MinimumTimeBetweenGames.
+                            break;
+                        }
+                        else
+                        {
+                            // Adjust the followng game time so that MinimumTimeBetweenGames is true.
+                            gameItem.ModifyTimes(previousGame.EndTime.Value + minimumTimeBetweenGames - gameItem.StartTime.Value);
+                        }
+                    }
+                }                
+                previousGame = gameItem;
             }
         }
 

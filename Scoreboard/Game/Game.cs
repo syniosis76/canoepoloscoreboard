@@ -57,11 +57,11 @@ namespace Scoreboard
             Periods.ModifyTimes(changeBy);
         }
 
-        public void ModifyFollowingTimes(TimeSpan changeBy)
+        public void ModifyFollowingTimes(TimeSpan changeBy, Boolean force)
         {
             if (Parent != null)
             {
-                Parent.ModifyFollowingTimes(this, changeBy);
+                Parent.ModifyFollowingTimes(this, changeBy, force);
             }
         }
 
@@ -351,7 +351,7 @@ namespace Scoreboard
             if (StartTime != null)
             {
                 TimeSpan difference = DateTime.Now - StartTime.Value + TimeSpan.FromSeconds(seconds);
-                Periods.ModifyFollowingTimes(null, difference);
+                Periods.ModifyFollowingTimes(null, difference, false);
             }
         }
         
