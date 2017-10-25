@@ -28,6 +28,9 @@
     </LinearGradientBrush>
     <SolidColorBrush x:Key="SecondaryBackgroundSimplified" Color="#000000"/>
 
+    <SolidColorBrush x:Key="SecondaryLowerText" Color="#FF555555"/>
+    <SolidColorBrush x:Key="SecondaryLowerTextSimplified" Color="#FFFFFFFF"/>
+
     <DataTemplate x:Key="firstTemplate">
         <Viewbox>
             <Label FontFamily="./#DINEngschrift" FontSize="50" Foreground="Yellow" HorizontalContentAlignment="Center" Name="lShotTime" Content="{Binding Path=Time, StringFormat={}{0:00}, FallbackValue=0}"/>
@@ -79,6 +82,7 @@
     <utilities:DoubleConverter x:Key="doubleConverter"/>
     <utilities:PeriodTimeConverter x:Key="periodTimeConverter"/>
     <utilities:BoolToBrushConverter x:Key="simplifySecondaryDisplayBackgroundConverter" TrueBrush="{StaticResource SecondaryBackgroundSimplified}" FalseBrush="{StaticResource SecondaryBackground}" />
+    <utilities:BoolToBrushConverter x:Key="simplifySecondaryDisplayLowerTextConverter" TrueBrush="{StaticResource SecondaryLowerTextSimplified}" FalseBrush="{StaticResource SecondaryLowerText}" />
 
     <Style x:Key="TileButton" TargetType="Button">
         <Setter Property="Visibility" Value="Visible"/>
