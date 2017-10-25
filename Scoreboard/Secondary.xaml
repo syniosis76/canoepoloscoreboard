@@ -9,7 +9,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-    <Grid Name="gBack" VerticalAlignment="Stretch" Background="{StaticResource SecondaryBackground}">
+    <Grid Name="gBack" VerticalAlignment="Stretch" Background="{Binding Path=SimplifySecondaryDisplay, Converter={StaticResource simplifySecondaryDisplayBackgroundConverter}, FallbackValue={StaticResource SecondaryBackground}}">
         <Grid.RowDefinitions>
             <RowDefinition Height="5*" />            
             <RowDefinition Height="5*" />

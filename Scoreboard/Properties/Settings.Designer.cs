@@ -178,5 +178,17 @@ namespace Scoreboard.Properties {
                 this["MinimumTimeBetweenGames"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool SimplifySecondaryDisplay {
+            get {
+                return ((bool)(this["SimplifySecondaryDisplay"]));
+            }
+            set {
+                this["SimplifySecondaryDisplay"] = value;
+            }
+        }
     }
 }
