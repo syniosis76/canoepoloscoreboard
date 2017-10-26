@@ -1583,5 +1583,13 @@ namespace Scoreboard
             };
             ServerOptions.StartButtonText = "Start";
         }
+
+		public bool SimplifySecondaryDisplay
+		{
+			get
+			{
+				return Properties.Settings.Default.SimplifySecondaryDisplay;
+			}
+		}
     }
 }
