@@ -510,9 +510,11 @@ namespace Scoreboard
                 CurrentOrEndedGame = CurrentGame;
             }
         }
-
+        
         public void RestartGames()
-        {            
+        {
+            Games.Sort();
+
             foreach (Game game in Games)
             {
                 game.ResetGame();
@@ -640,7 +642,7 @@ namespace Scoreboard
                 }
                 PoolIsVisible = Games.HasPool ? Visibility.Visible : Visibility.Hidden;
                 SaveGames();
-                StartGames();                
+                RestartGames();                        
             }
         }
 

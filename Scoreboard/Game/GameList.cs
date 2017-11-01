@@ -96,6 +96,17 @@ namespace Scoreboard
             }
         }
 
+        public void Sort()
+        {
+            List<Game> sortedGames = new List<Game>(this);
+            sortedGames.Sort((Game x, Game y) => x.StartTime.Value.CompareTo(y.StartTime.Value));
+            Clear();
+            foreach (Game game in sortedGames)
+            {
+                Add(game);
+            }
+        }
+
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();
