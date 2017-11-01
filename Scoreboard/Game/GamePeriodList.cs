@@ -234,7 +234,8 @@ namespace Scoreboard
         {
             get
             {
-                if (Count > 0 && _currentIndex == Count - 1 && CurrentPeriod.Status == GamePeriodStatus.Ended)
+                GamePeriod lastPeriod = this.LastOrDefault();
+                if (lastPeriod != null && lastPeriod.Status == GamePeriodStatus.Ended)
                 {
                     return true;
                 }

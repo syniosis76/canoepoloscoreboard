@@ -140,6 +140,7 @@ namespace Scoreboard
             {
                 _team1Score = value;
                 NotifyPropertyChanged("Team1Score");
+                CalculateResult();
             }
         }
 
@@ -151,6 +152,7 @@ namespace Scoreboard
             {
                 _team2Score = value;
                 NotifyPropertyChanged("Team2Score");
+                CalculateResult();
             }
         }
 
