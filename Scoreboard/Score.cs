@@ -198,6 +198,28 @@ namespace Scoreboard
             }
         }
 
+        private bool _startPaused = false;
+        public bool StartPaused
+        {
+            get
+            {
+                return _startPaused;
+            }
+            set
+            {
+                if (!_startPaused.Equals(value))
+                {
+                    _startPaused = value;
+                    if (StartPaused != Properties.Settings.Default.StartPaused)
+                    {
+                        Properties.Settings.Default.StartPaused = StartPaused;
+                        Properties.Settings.Default.Save();
+                    }
+                    NotifyPropertyChanged("StartPaused");
+                }
+            }
+        }
+
         private bool _decrementShotTime = false;
         private int _shotTime = 0;
         public int ShotTime
@@ -400,6 +422,7 @@ namespace Scoreboard
             Games.SetParent(this);
             LoadBeep();
             RecordGoalScorers = Properties.Settings.Default.RecordGoalScorers;
+            StartPaused = Properties.Settings.Default.StartPaused;
         }
 
         public void Initialise()

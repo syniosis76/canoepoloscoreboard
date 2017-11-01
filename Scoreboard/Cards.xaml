@@ -51,7 +51,7 @@
             </ListBox>
             <ListBox Name="_playersList" Grid.Column="1" Margin="4,8,4,0" FontFamily="./#DINEngschrift" FontSize="30">
                 <ListBox.Items>
-                    <ListBoxItem>Don't Care</ListBoxItem>
+                    <ListBoxItem>Unknown</ListBoxItem>
                     <ListBoxItem>Team</ListBoxItem>
                     <ListBoxItem>1</ListBoxItem>
                     <ListBoxItem>2</ListBoxItem>

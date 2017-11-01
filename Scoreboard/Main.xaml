@@ -537,8 +537,9 @@
             <!-- Competition Mode -->
             <Grid Grid.Column="4" Grid.Row="3" Margin="2" Background="{StaticResource BackgroundGreen}">
                 <Viewbox HorizontalAlignment="Left">
-                    <StackPanel Orientation="Vertical" Margin="18">
-                        <CheckBox Foreground="White" IsChecked="{Binding Path=RecordGoalScorers, FallbackValue=True}">Record Goal Scorers</CheckBox>
+                    <StackPanel Orientation="Vertical" Margin="10,8,8,8">
+                        <CheckBox Foreground="White" IsChecked="{Binding Path=RecordGoalScorers, FallbackValue=False}">Record Goal Scorers</CheckBox>
+                        <CheckBox Foreground="White" IsChecked="{Binding Path=StartPaused, FallbackValue=False}" Margin="0,8,0,0">Start Paused</CheckBox>
                     </StackPanel>
                 </Viewbox>
             </Grid>

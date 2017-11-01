@@ -179,10 +179,10 @@ namespace Scoreboard
         {
             if (Score != null)
             {
-                string player = Score.RecordGoalScorers ? Players.SelectPlayer(this) : Players.DontCare;
+                string player = Score.RecordGoalScorers ? Players.SelectPlayer(this) : Players.Unknown;
                 if (!String.IsNullOrEmpty(player))
                 {
-                    if (player != Players.DontCare)
+                    if (player != Players.Unknown)
                     {
                         Score.Team1Goal(player);
                     }
@@ -209,10 +209,10 @@ namespace Scoreboard
         {
             if (Score != null)
             {
-                string player = Score.RecordGoalScorers ? Players.SelectPlayer(this) : Players.DontCare;
+                string player = Score.RecordGoalScorers ? Players.SelectPlayer(this) : Players.Unknown;
                 if (!String.IsNullOrEmpty(player))
                 {
-                    if (player != Players.DontCare)
+                    if (player != Players.Unknown)
                     {
                         Score.Team2Goal(player);
                     }

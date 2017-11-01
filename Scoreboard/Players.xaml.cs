@@ -18,7 +18,7 @@ namespace Scoreboard
     /// </summary>
     public partial class Players : Window
     {
-        public const String DontCare = "Don't Care";
+        public const String Unknown = "Unkown";
 
         public string Player
         {

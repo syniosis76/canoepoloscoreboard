@@ -28,7 +28,7 @@
             </Grid.ColumnDefinitions>
             <ListBox Name="_playersList" Grid.ColumnSpan="2" Margin="8,8,8,0" FontFamily="./#DINEngschrift" FontSize="30" MouseDoubleClick="ListBoxMouseDoubleClick">
                 <ListBox.Items>
-                    <ListBoxItem>Don't Care</ListBoxItem>
+                    <ListBoxItem>Unknown</ListBoxItem>
                     <ListBoxItem>1</ListBoxItem>
                     <ListBoxItem>2</ListBoxItem>
                     <ListBoxItem>3</ListBoxItem>

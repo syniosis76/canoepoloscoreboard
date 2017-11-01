@@ -12,7 +12,8 @@ namespace Scoreboard
     {
         public static string ToString(TimeSpan timeSpan)
         {
-            string result = timeSpan.Seconds.ToString("00");
+            int seconds = timeSpan.Milliseconds > 500 ? timeSpan.Seconds + 1 : timeSpan.Seconds; // Round up seconds for display.
+            string result = seconds.ToString("00");
             if (timeSpan.Hours != 0)
             {
                 result = timeSpan.Hours.ToString() + ":" + timeSpan.Minutes.ToString("00") + ":" + result;

@@ -204,9 +204,23 @@ namespace Scoreboard
                     NotifyPropertyChanged("IsActiveExtraPeriod");
                     NotifyPropertyChanged("IsCurrentPeriod");
                     LogStatusChange();
+                    if (Status == GamePeriodStatus.Active)
+                    {
+                        Score score = Parent?.Parent?.Parent?.Parent;
+                        if (score != null && score.StartPaused)
+                        {
+                            RoundTimeRemainingUpToSecond();
+                            score.Pause();
+                        }
+                    }
                 }
             }
-        }        
+        }    
+        
+        private void RoundTimeRemainingUpToSecond()
+        {
+            TimeRemaining = TimeRemaining.Add(new TimeSpan(0, 0, 0, 0, 1000 - TimeRemaining.Milliseconds));
+        }
 
         private void LogStatusChange()
         {

@@ -190,5 +190,17 @@ namespace Scoreboard.Properties {
                 this["SimplifySecondaryDisplay"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool StartPaused {
+            get {
+                return ((bool)(this["StartPaused"]));
+            }
+            set {
+                this["StartPaused"] = value;
+            }
+        }
     }
 }
