@@ -148,7 +148,7 @@
                                     <Image Source="/Scoreboard;component/images/Edit.png" Height="18"/>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="Remove the Selected Game" Click="EditGameClick" Visibility="{Binding Path=EditVisible}">
+                            <MenuItem Header="Remove the Selected Game" Click="RemoveGameClick" Visibility="{Binding Path=EditVisible}">
                                 <MenuItem.Icon>
                                     <Image Source="/Scoreboard;component/images/remove.png" Height="18"/>
                                 </MenuItem.Icon>
