@@ -34,11 +34,6 @@ namespace Scoreboard
             InitializeComponent();
         }
 
-        private void StartButtonClick(object sender, RoutedEventArgs e)
-        {
-            Score.StartStopServer();
-        }
-
         private void CloseButtonClick(object sender, RoutedEventArgs e)
         {
             Close();
@@ -48,6 +43,11 @@ namespace Scoreboard
         {
             Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
             e.Handled = true;
+        }
+
+        private void CheckBox_Click(object sender, RoutedEventArgs e)
+        {
+            Score.StartStopServer();
         }
     }
 }

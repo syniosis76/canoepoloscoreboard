@@ -35,7 +35,10 @@
                 <TextBlock Grid.Row="0" Grid.ColumnSpan="4" Text="Scoreboard Server" FontSize="16" FontWeight="Bold" Foreground="White"/>
                 <TextBlock Grid.Row="1" Grid.ColumnSpan="4"  VerticalAlignment="Center" Text="The Scoreboard Server is a mini web server that allows other devices to connect to the Scoreboard over a local network and display information such as the shot clock, current game, and results." FontSize="12" FontWeight="Normal" Foreground="White" TextWrapping="Wrap"/>
                 <TextBlock Grid.Row="2" VerticalAlignment="Center" Text="Port:" FontSize="14" FontWeight="Bold" Foreground="White" TextWrapping="Wrap"/>
-                <TextBox Grid.Row="2" Grid.Column="1" FontSize="14" Text="{Binding Path=Port}"/>
+                <TextBox Grid.Row="2" Grid.Column="1" FontSize="14" Text="{Binding Path=Port}" Height="22"/>
+                <Viewbox Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" Margin="0,0,60,0" Height="20">
+                    <CheckBox Grid.Row="6" Grid.Column="0" Foreground="White" IsChecked="{Binding Path=Active, FallbackValue=False}" Click="CheckBox_Click">Active</CheckBox>
+                </Viewbox>
                 <TextBlock Grid.Row="3" VerticalAlignment="Center" Text="URL:" FontSize="12" FontWeight="Normal" Foreground="White" TextWrapping="Wrap"/>
                 <TextBlock Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" VerticalAlignment="Center">           
                     <Hyperlink NavigateUri="{Binding Path=Url}" RequestNavigate="Hyperlink_RequestNavigate">
@@ -49,8 +52,7 @@
                     </Hyperlink>
                 </TextBlock>
                 <TextBlock Grid.Row="5" Grid.ColumnSpan="4" Text="Once you have started the server you can close this window and it will keep running, and you can return to this page to stop the server." FontSize="12" FontWeight="Normal" Foreground="White" TextWrapping="Wrap"/>
-                <Button Grid.Row="6" Grid.Column="2" Margin="8,8,4,8" FontFamily="./#DINEngschrift" FontSize="22" FontWeight="Bold" Click="StartButtonClick" Content="{Binding Path=StartButtonText, FallbackValue=Start}"/>
-                <Button Grid.Row="6" Grid.Column="3" Margin="4,8,8,8" FontFamily="./#DINEngschrift" FontSize="22" FontWeight="Bold" Click="CloseButtonClick">Close</Button>
+                <Button Grid.Row="6" Grid.Column="3" Margin="4,9,8,7" FontFamily="./#DINEngschrift" FontSize="22" FontWeight="Bold" Click="CloseButtonClick">Close</Button>
             </Grid>      
         </Grid>
     </Grid>

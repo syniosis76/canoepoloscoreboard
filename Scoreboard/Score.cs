@@ -423,6 +423,9 @@ namespace Scoreboard
             LoadBeep();
             RecordGoalScorers = Properties.Settings.Default.RecordGoalScorers;
             StartPaused = Properties.Settings.Default.StartPaused;
+            ServerOptions.Port = Properties.Settings.Default.ServerPort;
+            ServerOptions.Active = Properties.Settings.Default.ServerActive;
+            StartStopServer();
         }
 
         public void Initialise()
@@ -1568,13 +1571,13 @@ namespace Scoreboard
 
         public void StartStopServer()
         {
-            if (_server != null)
-            {
-                StopServer();
-            }
-            else
+            if (ServerOptions.Active && _server == null)
             {
                 InitialiseServer();
+            }
+            else if (_server != null)
+            {
+                StopServer();
             }
         }
 

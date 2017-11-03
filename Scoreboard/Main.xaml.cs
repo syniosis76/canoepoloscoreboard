@@ -499,15 +499,13 @@ namespace Scoreboard
         }
 
         private void _scoreboardServerClick(object sender, RoutedEventArgs e)
-        {
-
-            Score.ServerOptions.Port = Properties.Settings.Default.ServerPort;
-
+        {            
             ScoreboardServerWindow window = new ScoreboardServerWindow(Score);
             window.Owner = this;
             window.ShowDialog();
 
             Properties.Settings.Default.ServerPort = Score.ServerOptions.Port;
+            Properties.Settings.Default.ServerActive = Score.ServerOptions.Active;
             Properties.Settings.Default.Save();
         }
 

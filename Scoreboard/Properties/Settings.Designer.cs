@@ -202,5 +202,17 @@ namespace Scoreboard.Properties {
                 this["StartPaused"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ServerActive {
+            get {
+                return ((bool)(this["ServerActive"]));
+            }
+            set {
+                this["ServerActive"] = value;
+            }
+        }
     }
 }

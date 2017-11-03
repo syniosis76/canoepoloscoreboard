@@ -29,6 +29,7 @@ namespace Utilities
 
         #endregion
 
+        private bool _active = false;
         private int _port = 8080;
         private string _computerName = String.Empty;
         private string _ipAddress = String.Empty;
@@ -40,6 +41,19 @@ namespace Utilities
             _ipAddress = GetIpAddress();
         }
 
+        public bool Active
+        {
+            get
+            {
+                return _active;
+            }
+            set
+            {
+                _active = value;
+
+                NotifyPropertyChanged("Active");
+            }
+        }
         
         public int Port
         {
