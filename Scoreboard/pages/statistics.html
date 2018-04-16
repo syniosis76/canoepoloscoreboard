@@ -42,8 +42,11 @@
                 for (var gameIndex = 0; gameIndex < results.length; gameIndex++)
                 {
                     var game = results[gameIndex];
-                    this.addResults(pools, game.pool, game.team1, game.team1Points, game.team1Score, game.team2, game.team2Points, game.team2Score);
-                    this.addResults(pools, game.pool, game.team2, game.team2Points, game.team2Score, game.team1, game.team1Points, game.team1Score);
+					if (game.hasCompleted)
+					{
+						this.addResults(pools, game.pool, game.team1, game.team1Points, game.team1Score, game.team2, game.team2Points, game.team2Score);
+						this.addResults(pools, game.pool, game.team2, game.team2Points, game.team2Score, game.team1, game.team1Points, game.team1Score);
+					}
                 }            
             }
 
@@ -83,16 +86,16 @@
             addResults(pools, poolName, teamName, points, goalsFor, versesTeamName, versesPoints, versesGoalsFor) {
                 var pool = this.getOrAddItem(pools, poolName);            
                 var team = this.getOrAddItem(pool.items, teamName);
-                var versesTeam = this.getOrAddItem(team.items, versesTeamName);
+                var versesTeam = this.getOrAddItem(team.items, versesTeamName);                
+				
+				this.appendValue(team, "played", 1);					
+				this.appendValue(team, "points", points);
+				this.appendValue(team, "goalDifference", goalsFor - versesGoalsFor);
+				this.appendValue(team, "goalsFor", goalsFor);
 
-                this.appendValue(team, "played", 1);
-                this.appendValue(team, "points", points);
-                this.appendValue(team, "goalDifference", goalsFor - versesGoalsFor);
-                this.appendValue(team, "goalsFor", goalsFor);
-
-                this.appendValue(versesTeam, "points", points);
-                this.appendValue(versesTeam, "goalDifference", goalsFor - versesGoalsFor);
-                this.appendValue(versesTeam, "versesPoints", versesPoints);
+				this.appendValue(versesTeam, "points", points);
+				this.appendValue(versesTeam, "goalDifference", goalsFor - versesGoalsFor);
+				this.appendValue(versesTeam, "versesPoints", versesPoints);				
             }
 
             getOrAddItem(items, itemName)
@@ -216,7 +219,14 @@
                             result = "";
                         }
                         result += "\"" + currentName + "\": \"" + newName + "\"";
-                    }  
+                    } 
+					
+					if (teams.length == 2)
+					{
+						// List Win/Loss entries as well
+						result += "\n,\"Win " + poolName + "\": \"" + teams[0].name + "\"";
+						result += "\n,\"Lose " + poolName + "\": \"" + teams[1].name + "\"";
+					}
                 }
                 else
                 {

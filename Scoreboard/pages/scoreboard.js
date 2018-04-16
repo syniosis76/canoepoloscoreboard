@@ -20,7 +20,15 @@ function makeRequest (method, url, postData = "")
         {
             if (this.status >= 200 && this.status < 300)
             {
-                var response = JSON.parse(xhr.responseText);
+                var response;
+                try
+                {
+                    response = JSON.parse(xhr.responseText);
+                }
+                catch (e)
+                {
+                    response = xhr.responseText;
+                }
                 resolve({ type: "url", path: url, status: this.status, response: response });
             }
             else
