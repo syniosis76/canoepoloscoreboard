@@ -96,7 +96,19 @@ namespace Scoreboard
             {
                 _team1 = value;
                 NotifyPropertyChanged("Team1");
+
+                if (!String.IsNullOrWhiteSpace(_team1) && String.IsNullOrWhiteSpace(_team1Original))
+                {
+                    _team1Original = _team1;
+                    NotifyPropertyChanged("Team1Original");
+                }
             }
+        }
+
+        private string _team1Original;
+        public string Team1Original
+        {
+            get { return _team1Original;  }
         }
 
         private string _team1Color;
@@ -118,7 +130,19 @@ namespace Scoreboard
             {
                 _team2 = value;
                 NotifyPropertyChanged("Team2");
+
+                if (!String.IsNullOrWhiteSpace(_team2) && String.IsNullOrWhiteSpace(_team2Original))
+                {
+                    _team2Original = _team2;
+                    NotifyPropertyChanged("Team2Original");
+                }
             }
+        }
+
+        private string _team2Original;
+        public string Team2Original
+        {
+            get { return _team2Original; }
         }
 
         private string _team2Color;

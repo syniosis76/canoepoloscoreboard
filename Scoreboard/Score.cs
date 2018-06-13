@@ -313,11 +313,11 @@ namespace Scoreboard
         {
             foreach (Game game in Games)
             {
-                if (game.Team1.Equals(oldName))
+                if (game.Team1Original.Equals(oldName))
                 {
                     game.Team1 = newName;
                 }
-                if (game.Team2.Equals(oldName))
+                if (game.Team2Original.Equals(oldName))
                 {
                     game.Team2 = newName;
                 }
