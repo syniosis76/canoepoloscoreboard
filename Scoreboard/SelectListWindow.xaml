@@ -1,0 +1,18 @@
+﻿<Window x:Class="Scoreboard.SelectListWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Scoreboard"
+        mc:Ignorable="d"
+        Title="Select Item" Height="600" Width="400" Background="Black" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <ListBox Name="_list" Grid.Column="1" Margin="10,10,10,46" FontFamily="./#DINEngschrift" FontSize="30"
+             ItemsSource="{Binding Items}" 
+             SelectedValue="{Binding SelectedId}" 
+             SelectedValuePath="Id" DisplayMemberPath="Name"/>
+
+        <Button Height="23" HorizontalAlignment="Left" Margin="223,0,0,12" x:Name="bOK" VerticalAlignment="Bottom" Width="75" IsDefault="True" Click="SelectClick" Content="_Select"/>
+        <Button Height="23" HorizontalAlignment="Right" Margin="0,0,10,12" Name="bCancel" VerticalAlignment="Bottom" Width="75" IsCancel="True" Click="CancelClick">_Cancel</Button>
+    </Grid>
+</Window>

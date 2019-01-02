@@ -361,6 +361,11 @@ namespace Scoreboard
             }
         }
 
+        protected void LoadGamesFromTourney()
+        {
+            Tourney.SelectAndAddGames(Score);
+        }
+
         private void _loadGamesClick(object sender, RoutedEventArgs e)
         {
             LoadGames(false, true);  
@@ -369,6 +374,11 @@ namespace Scoreboard
         private void _loadGamesWithoutStatusClick(object sender, RoutedEventArgs e)
         {
             LoadGames(true, true);
+        }
+
+        private void _loadGamesFromTourneyClick(object sender, RoutedEventArgs e)
+        {
+            LoadGamesFromTourney();
         }
 
         private void _mergeGamesClick(object sender, RoutedEventArgs e)

@@ -92,6 +92,10 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq">
@@ -122,6 +126,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="SelectListWindow.xaml.cs">
+      <DependentUpon>SelectListWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="AddGamesWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -195,6 +202,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Card.cs" />
+    <Compile Include="Tourney.cs" />
     <Compile Include="EditGameWindow.xaml.cs">
       <DependentUpon>EditGameWindow.xaml</DependentUpon>
     </Compile>
@@ -219,6 +227,10 @@
       <DependentUpon>Main.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="SelectListWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cards.xaml.cs">
@@ -264,6 +276,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
     <Resource Include="images\restart_resume.png" />
+    <Resource Include="images\tourney.png" />
     <Content Include="pages\home.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
