@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Net.Http;
+using System.Windows;
 
 namespace Scoreboard
 {
@@ -9,11 +10,12 @@ namespace Scoreboard
         private static HttpClient _httpClient = new HttpClient();
 
         private string _baseUrl;
+        private Window _owner;
 
-        public static bool SelectAndAddGames(Score score)
+        public static bool SelectAndAddGames(Window owner, Score score)
         {
             string tourneyUrl = Properties.Settings.Default.TourneyUrl;
-            Tourney tourney = new Tourney(tourneyUrl);
+            Tourney tourney = new Tourney(owner, tourneyUrl);
 
             string tournamentId = tourney.SelectTournament();
             if (!String.IsNullOrWhiteSpace(tournamentId))
@@ -24,8 +26,9 @@ namespace Scoreboard
             return false;
         }
 
-        public Tourney(string baseUrl)
+        public Tourney(Window owner, string baseUrl)
         {
+            _owner = owner;
             _baseUrl = baseUrl;
             if (Tourney._httpClient == null)
             {
@@ -34,23 +37,35 @@ namespace Scoreboard
         }
 
         public string SelectTournament()
-        {
-            JObject tournaments = GetRequestAsJObject("/data/tournaments");
-            if (tournaments != null)
-            {                
-                SelectListWindow selectListWindow = new SelectListWindow();
-                selectListWindow.Title = "Select Tournament";
+        {           
+            try
+            {
+                ProcessingWindow.ShowProcessing(_owner, "Listing Tournaments...");
 
-                foreach (JObject tournament in tournaments["tournaments"])
+                JObject tournaments = GetRequestAsJObject("/data/tournaments");
+                if (tournaments != null)
                 {
-                    selectListWindow.Items.Add(new SelectItem((string)(tournament["id"]["value"]), (string)tournament["name"]));                        
-                }
+                    SelectListWindow selectListWindow = new SelectListWindow();
+                    selectListWindow.Owner = _owner;
+                    selectListWindow.Title = "Select Tournament";
 
-                if (selectListWindow.ShowDialog() == true)
-                {
-                    return selectListWindow.SelectedItem.Id;
+                    foreach (JObject tournament in tournaments["tournaments"])
+                    {
+                        selectListWindow.Items.Add(new SelectItem((string)(tournament["id"]["value"]), (string)tournament["name"]));
+                    }
+
+                    ProcessingWindow.HideProcessing();
+
+                    if (selectListWindow.ShowDialog() == true)
+                    {
+                        return selectListWindow.SelectedId;
+                    }
                 }
             }
+            finally
+            {
+                ProcessingWindow.HideProcessing();
+            }               
 
             return null;
         }

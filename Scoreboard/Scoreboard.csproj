@@ -129,6 +129,9 @@
     <Compile Include="SelectListWindow.xaml.cs">
       <DependentUpon>SelectListWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ProcessingWindow.xaml.cs">
+      <DependentUpon>ProcessingWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="AddGamesWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -228,6 +231,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="SelectListWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ProcessingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

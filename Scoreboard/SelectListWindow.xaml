@@ -5,14 +5,39 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Scoreboard"
         mc:Ignorable="d"
-        Title="Select Item" Height="600" Width="400" Background="Black" WindowStartupLocation="CenterScreen">
-    <Grid>
-        <ListBox Name="_list" Grid.Column="1" Margin="10,10,10,46" FontFamily="./#DINEngschrift" FontSize="30"
-             ItemsSource="{Binding Items}" 
-             SelectedValue="{Binding SelectedId}" 
-             SelectedValuePath="Id" DisplayMemberPath="Name"/>
+        Title="Select Item" Height="600" Width="400" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" WindowStyle="None">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ScoreboardStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid Background="Black">
+        <Grid Margin="4" Background="{StaticResource LightBlueGradient}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.8*"/>
+                <RowDefinition Height="8*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Label Name="SelectLabel" Grid.Row="0" Margin="4,0,0,0" Foreground="White" FontFamily="./#DINEngschrift" FontSize="32" FontWeight="Bold">Select Item</Label>
 
-        <Button Height="23" HorizontalAlignment="Left" Margin="223,0,0,12" x:Name="bOK" VerticalAlignment="Bottom" Width="75" IsDefault="True" Click="SelectClick" Content="_Select"/>
-        <Button Height="23" HorizontalAlignment="Right" Margin="0,0,10,12" Name="bCancel" VerticalAlignment="Bottom" Width="75" IsCancel="True" Click="CancelClick">_Cancel</Button>
+            <ListBox Name="_list" Grid.Row="1" Grid.Column="1" Margin="8,0,8,0" FontFamily="./#DINEngschrift" FontSize="30"
+                 ItemsSource="{Binding Items}" 
+                 SelectedValue="{Binding SelectedId}" 
+                 SelectedValuePath="Id" DisplayMemberPath="Name"/>
+
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Name="SelectButton" Margin="8,8,4,8" FontFamily="./#DINEngschrift" FontSize="32" FontWeight="Bold" IsDefault="True" Click="SelectClick" Content="_Select"/>
+                <Button Grid.Column="1" Name="CancelButton" Margin="4,8,8,8" FontFamily="./#DINEngschrift" FontSize="32" FontWeight="Bold" IsCancel="True" Click="CancelClick" Content="_Cancel"/>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>

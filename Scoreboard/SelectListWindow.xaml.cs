@@ -45,14 +45,14 @@ namespace Scoreboard
             get { return _items; }
         }
 
-        private SelectItem _selectedItem;
-        public SelectItem SelectedItem
+        private string _selectedId;
+        public string SelectedId
         {
-            get { return _selectedItem; }
+            get { return _selectedId; }
             set
             {
-                _selectedItem = value;
-                NotifyPropertyChanged("SelectedItem");
+                _selectedId = value;
+                NotifyPropertyChanged("SelectedId");
             }
         }
 
