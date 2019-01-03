@@ -195,7 +195,7 @@ namespace Scoreboard
             }
             else if (e.Key == Key.U)
             {
-                Score.AddGames();
+                Score.AddNewGames();
                 e.Handled = true;
             }
             else if (e.Key == Key.I)

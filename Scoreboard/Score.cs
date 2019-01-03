@@ -238,7 +238,6 @@ namespace Scoreboard
                 }
             }
         }
-
         
         private Visibility _shotTimeVisible = Visibility.Collapsed;
         public Visibility ShotTimeVisible
@@ -254,6 +253,39 @@ namespace Scoreboard
                     _shotTimeVisible = value;
                     NotifyPropertyChanged("ShotTimeVisible");
                 }
+            }
+        }
+
+        private string _tournamentId;
+        public string TournamentId
+        {
+            get { return _tournamentId; }
+            set
+            {
+                _tournamentId = value;
+                NotifyPropertyChanged("TournamentId");
+            }
+        }
+
+        private string _gameDateId;
+        public string GameDateId
+        {
+            get { return _gameDateId; }
+            set
+            {
+                _gameDateId = value;
+                NotifyPropertyChanged("GameDateId");
+            }
+        }
+
+        private string _pitchId;
+        public string PitchId
+        {
+            get { return _pitchId; }
+            set
+            {
+                _pitchId = value;
+                NotifyPropertyChanged("PitchId");
             }
         }
 
@@ -607,7 +639,7 @@ namespace Scoreboard
             {
                 if (_addGamesCommand == null)
                 {
-                    _addGamesCommand = new RelayCommand(param => this.AddGames(), null);
+                    _addGamesCommand = new RelayCommand(param => this.AddNewGames(), null);
                 }
                 return _addGamesCommand;
             }
@@ -654,22 +686,28 @@ namespace Scoreboard
 
         #endregion
 
-        public void AddGames()
+        public void AddNewGames()
         {
             if (OnAddGames != null)
             {
                 GameList newGames = new GameList();
                 if (OnAddGames(this, newGames))
                 {
-                    foreach (Game newGame in newGames)
-                    {
-                        Games.Add(newGame);
-                    }
+                    AddGames(newGames);
                 }
-                PoolIsVisible = Games.HasPool ? Visibility.Visible : Visibility.Hidden;
-                SaveGames();
-                RestartGames();                        
             }
+        }
+
+        public void AddGames(GameList newGames)
+        {
+            foreach (Game newGame in newGames)
+            {
+                Games.Add(newGame);
+            }
+               
+            PoolIsVisible = Games.HasPool ? Visibility.Visible : Visibility.Hidden;
+            SaveGames();
+            RestartGames();
         }
 
         public bool AddPeriod(Game game)

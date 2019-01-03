@@ -201,8 +201,7 @@ namespace Scoreboard
             if (periodDuration.TotalSeconds > 0)
             {
                 Game game = new Game(pool, team1, team2, null);
-                DateTime periodTime = startTime;
-              
+                DateTime periodTime = startTime;              
 
                 for (int periodNumber = 1; periodNumber <= numberOfPeriods; periodNumber++)
                 {
