@@ -1,165 +1,175 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
+using System.ComponentModel;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace Scoreboard
 {
-    public class TourneyId
-    {
-        public string Tournament { get; set; }
-        public string GameDate { get; set; }
-        public string Pitch { get; set; }
-        public string Game { get; set; }
-    }
-
-
     public class Tourney
     {
         private static HttpClient _httpClient = new HttpClient();
 
-        private string _baseUrl;
-        private Window _owner;
+        private string _baseUrl = null;
+        private Window _owner = null;
+        private Score _score = null;
 
-        public static bool SelectAndAddGames(Window owner, Score score)
-        {
-            string tourneyUrl = Properties.Settings.Default.TourneyUrl;
-            Tourney tourney = new Tourney(owner, tourneyUrl);
+        private JObject _tournaments = null;
+        private JObject _tournament = null;
 
-            string tournamentId = tourney.SelectTournament();
-            if (!String.IsNullOrWhiteSpace(tournamentId))
-            {
-                (JObject gameDate, JObject pitch) = tourney.SelectPitch(tournamentId);
-                if (gameDate != null && pitch != null)
-                {
-                    score.TournamentId = tournamentId;
-                    score.GameDateId = (string)(gameDate["id"]["value"]);
-                    score.PitchId = (string)(pitch["id"]["value"]);
+        private string _tournamentId = null;
+        private string _pitchId = null;
 
-                    GameList newGames = new GameList();
+        private JObject _gameDate = null;
+        private JObject _pitch = null;
 
-                    JArray gameTimes = (JArray)gameDate["gameTimes"];
-                    JArray games = (JArray)pitch["games"];
-                    for (int gameIndex = 0; gameIndex < games.Count; gameIndex++)
-                    {
-                        string gameTime = (string)gameTimes[gameIndex];
-                        JObject game = (JObject)games[gameIndex];
-                        newGames.Add(tourney.CreateFromTourneyGame(gameTime, game));
-                    }
-
-                    score.Games.Clear();
-                    score.AddGames(newGames);                    
-                }
-            }
-
-            return false;
-        }
-
-        public Tourney(Window owner, string baseUrl)
+        public Tourney(Window owner, string baseUrl, Score score)
         {
             _owner = owner;
             _baseUrl = baseUrl;
+            _score = score;
             if (Tourney._httpClient == null)
             {
                 Tourney._httpClient = new HttpClient();
             }
+        }        
+
+        private string GetRequestAsString(string urlSuffix)
+        {
+            HttpResponseMessage response = _httpClient.GetAsync(new Uri(_baseUrl + urlSuffix)).Result;
+            return response.Content.ReadAsStringAsync().Result;
         }
 
-        public string SelectTournament()
-        {           
-            try
+        private JObject GetRequestAsJObject(string urlSuffix)
+        {
+            string result = GetRequestAsString(urlSuffix);
+            if (!String.IsNullOrWhiteSpace(result))
             {
-                ProcessingWindow.ShowProcessing(_owner, "Listing Tournaments...");
-
-                JObject tournaments = GetRequestAsJObject("/data/tournaments");
-                if (tournaments != null)
-                {
-                    SelectListWindow selectListWindow = new SelectListWindow();
-                    selectListWindow.Owner = _owner;
-                    selectListWindow.Title = "Select Tournament";
-
-                    foreach (JObject tournament in tournaments["tournaments"])
-                    {
-                        selectListWindow.Items.Add(new SelectItem((string)(tournament["id"]["value"]), (string)tournament["name"]));
-                    }
-
-                    ProcessingWindow.HideProcessing();
-
-                    if (selectListWindow.ShowDialog() == true)
-                    {
-                        return selectListWindow.SelectedId;
-                    }
-                }
-                else
-                {
-                    ProcessingWindow.HideProcessing();
-                    MessageBox.Show("Unable to list Tournaments.");
-                }
+                return JObject.Parse(result);
             }
-            finally
-            {
-                ProcessingWindow.HideProcessing();
-            }               
-
             return null;
         }
 
-        public (JObject gameDate, JObject pitch) SelectPitch(string id)
+        public void SelectAndAddGames()
         {
-            try
+            ProcessingWindow.ShowProcessing(_owner, "Listing Tournaments...");
+
+            // List Tournaments
+            BackgroundWorker worker = new BackgroundWorker();
+            worker.DoWork += delegate {
+                _tournaments = GetRequestAsJObject("/data/tournaments");
+            };
+            worker.RunWorkerCompleted += delegate
             {
-                ProcessingWindow.ShowProcessing(_owner, "Listing Games...");
-
-                JObject tournament = GetRequestAsJObject("/data/tournament/" + id);
-                if (tournament != null)
+                ProcessingWindow.HideProcessing();
+                if (_tournaments != null)
                 {
-                    SelectListWindow selectListWindow = new SelectListWindow();
-                    selectListWindow.Owner = _owner;
-                    selectListWindow.Title = "Select Pitch";
-
-                    foreach (JObject gameDate in tournament["gameDates"])
-                    {
-                        string gameDateName = ((DateTime)(gameDate["date"]["value"])).ToString("ddd MMM dd yyyy");
-                        foreach (JObject pitch in gameDate["pitches"])
-                        {
-                            selectListWindow.Items.Add(new SelectItem((string)(pitch["id"]["value"]), gameDateName + " " + (string)pitch["name"]));
-                        }
-                    }
-
-                    ProcessingWindow.HideProcessing();
-
-                    if (selectListWindow.ShowDialog() == true)
-                    {
-                        string pitchId = selectListWindow.SelectedId;
-
-                        foreach (JObject gameDate in tournament["gameDates"])
-                        {
-                            string gameDateName = ((DateTime)(gameDate["date"]["value"])).ToString("ddd MMM dd yyyy");
-                            foreach (JObject pitch in gameDate["pitches"])
-                            {
-                                if ((string)(pitch["id"]["value"]) == pitchId)
-                                {
-                                    return (gameDate, pitch);
-                                }
-                            }
-                        }
-                    }
+                    SelectTournament();
                 }
                 else
                 {
-                    ProcessingWindow.HideProcessing();
-                    MessageBox.Show("Unable to load Tournament details.");
+                    MessageBox.Show("Unable to list Tournaments.");
                 }
-            }
-            finally
-            {
-                ProcessingWindow.HideProcessing();
-            }
-
-            return (null, null);
+            };
+            worker.RunWorkerAsync();
         }
 
-        public Game CreateFromTourneyGame(string gameTime, JObject game)
+        private void SelectTournament()
+        {                                      
+            SelectListWindow selectListWindow = new SelectListWindow();
+            selectListWindow.Owner = _owner;
+            selectListWindow.Title = "Select Tournament";
+
+            foreach (JObject tournament in _tournaments["tournaments"])
+            {
+                selectListWindow.Items.Add(new SelectItem((string)(tournament["id"]["value"]), (string)tournament["name"]));
+            }                
+
+            if (selectListWindow.ShowDialog() == true)
+            {
+                _tournamentId = selectListWindow.SelectedId;
+
+                ProcessingWindow.ShowProcessing(_owner, "Listing Games...");
+
+                // List Pitches
+                BackgroundWorker worker = new BackgroundWorker();
+                worker.DoWork += delegate {
+                    _tournament = GetRequestAsJObject("/data/tournament/" + _tournamentId);
+                };
+                worker.RunWorkerCompleted += delegate
+                {
+                    ProcessingWindow.HideProcessing();
+                    if (_tournament != null)
+                    {
+                        SelectPitch();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Unable to list Games.");
+                    }
+                };
+                worker.RunWorkerAsync();
+            }            
+        }
+
+        public void SelectPitch()
+        {
+            SelectListWindow selectListWindow = new SelectListWindow();
+            selectListWindow.Owner = _owner;
+            selectListWindow.Title = "Select Pitch";
+
+            foreach (JObject gameDate in _tournament["gameDates"])
+            {
+                string gameDateName = ((DateTime)(gameDate["date"]["value"])).ToString("ddd MMM dd yyyy");
+                foreach (JObject pitch in gameDate["pitches"])
+                {
+                    selectListWindow.Items.Add(new SelectItem((string)(pitch["id"]["value"]), gameDateName + " " + (string)pitch["name"]));
+                }
+            }
+
+            if (selectListWindow.ShowDialog() == true)
+            {
+                _pitchId = selectListWindow.SelectedId;
+
+                foreach (JObject gameDate in _tournament["gameDates"])
+                {
+                    foreach (JObject pitch in gameDate["pitches"])
+                    {
+                        if ((string)(pitch["id"]["value"]) == _pitchId)
+                        {
+                            _gameDate = gameDate;
+                            _pitch = pitch;
+                            break;
+                        }
+                    }
+                }
+
+                if (_pitch != null)
+                {
+                    AddGames();
+                }
+            }            
+        }
+
+        private void AddGames()
+        {
+            GameList newGames = new GameList();
+
+            JArray gameTimes = (JArray)_gameDate["gameTimes"];
+            JArray games = (JArray)_pitch["games"];
+            for (int gameIndex = 0; gameIndex < games.Count; gameIndex++)
+            {
+                string gameTime = (string)gameTimes[gameIndex];
+                JObject game = (JObject)games[gameIndex];
+                newGames.Add(CreateFromTourneyGame(gameTime, game));
+            }
+
+            _score.Games.Clear();
+            _score.AddGames(newGames);
+        }
+
+        private Game CreateFromTourneyGame(string gameTime, JObject game)
         {
             Game newGame = new Game();
             newGame.Id = (string)(game["id"]["value"]);
@@ -179,9 +189,10 @@ namespace Scoreboard
             startTime = startTime + periodDuration + intervalDuration;
             newGame.Periods.AddPeriod("Period 1", startTime, startTime + periodDuration);
 
-            GamePeriodStatus status = GamePeriodStatus.Pending;
-            if ((string)game["status"] == "active") status = GamePeriodStatus.Active;
-            else if ((string)game["status"] == "complete") status = GamePeriodStatus.Ended;
+            string gameStatus = (string)game["status"];
+            GamePeriodStatus status = GamePeriodStatus.Ended;
+            if (gameStatus == "pending") status = GamePeriodStatus.Pending;
+            else if (gameStatus == "active") status = GamePeriodStatus.Active;
 
             newGame.Periods[0].Status = status;
             newGame.Periods[1].Status = status;
@@ -189,22 +200,6 @@ namespace Scoreboard
             newGame.CalculateResult();
 
             return newGame;
-        }
-
-        public string GetRequestAsString(string urlSuffix)
-        {
-            HttpResponseMessage response = _httpClient.GetAsync(new Uri(_baseUrl + urlSuffix)).Result;
-            return response.Content.ReadAsStringAsync().Result;
-        }
-
-        public JObject GetRequestAsJObject(string urlSuffix)
-        {
-            string result = GetRequestAsString(urlSuffix);
-            if (!String.IsNullOrWhiteSpace(result))
-            {
-                return JObject.Parse(result);
-            }
-            return null;
-        }
+        }        
     }
 }

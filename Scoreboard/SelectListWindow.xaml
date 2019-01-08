@@ -28,7 +28,8 @@
             <ListBox Name="_list" Grid.Row="1" Grid.Column="1" Margin="8,0,8,0" FontFamily="./#DINEngschrift" FontSize="30"
                  ItemsSource="{Binding Items}" 
                  SelectedValue="{Binding SelectedId}" 
-                 SelectedValuePath="Id" DisplayMemberPath="Name"/>
+                 SelectedValuePath="Id" DisplayMemberPath="Name"
+                 MouseDoubleClick="_list_MouseDoubleClick"/>
 
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>

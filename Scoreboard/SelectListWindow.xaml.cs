@@ -71,5 +71,10 @@ namespace Scoreboard
         {
             DialogResult = false;
         }
+
+        private void _list_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            DialogResult = true;
+        }
     }
 }
