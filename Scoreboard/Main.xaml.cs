@@ -363,9 +363,7 @@ namespace Scoreboard
 
         protected void LoadGamesFromTourney()
         {
-            string tourneyUrl = Properties.Settings.Default.TourneyUrl;
-            Tourney tourney = new Tourney(this, tourneyUrl, Score);            
-            tourney.SelectAndAddGames();
+            Tourney.LoadGames(this, Score);
         }
 
         private void _loadGamesClick(object sender, RoutedEventArgs e)
@@ -466,6 +464,7 @@ namespace Scoreboard
             {
                 Game game = (Game)_gamesListView.SelectedItem;
                 EditGameWindow.EditGame(this, game);
+                Tourney.ApplyGame(Score, game);
                 game.LogEvent("Edit Game");
             }
         }

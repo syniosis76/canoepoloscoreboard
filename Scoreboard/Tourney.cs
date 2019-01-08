@@ -4,6 +4,8 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -22,6 +24,7 @@ namespace Scoreboard
         private JObject _tournament = null;
 
         private string _tournamentId = null;
+        private string _gameDateId = null;
         private string _pitchId = null;
 
         private JObject _gameDate = null;
@@ -33,16 +36,28 @@ namespace Scoreboard
         private string _googleToken;
         public string GoogleToken { get { return _googleToken; } }
 
-        public Tourney(Window owner, string baseUrl, Score score)
+        public Tourney(Window owner, Score score)
         {
             _owner = owner;
-            _baseUrl = baseUrl;
+            _baseUrl = Properties.Settings.Default.TourneyUrl;
             _score = score;
             if (Tourney._httpClient == null)
             {
                 Tourney._httpClient = new HttpClient();
             }
-        }        
+        }
+
+        public static void LoadGames(Window owner, Score score)
+        {
+            Tourney tourney = new Tourney(owner, score);
+            tourney.SelectPitchAndAddGames();
+        }
+
+        public static void ApplyGame(Score score, Game game)
+        {
+            Tourney tourney = new Tourney(null, score);
+            tourney.UploadGame(game);
+        }
 
         private string GetRequestAsString(string urlSuffix)
         {
@@ -71,11 +86,46 @@ namespace Scoreboard
 
                     _authenticated = true;
                     _googleToken = credential.Token.IdToken;
+
+                    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GoogleToken);
                 }
             }
         }
 
-        public void SelectAndAddGames()
+        private Game CreateFromTourneyGame(string gameTime, JObject game)
+        {
+            Game newGame = new Game();
+            newGame.Id = (string)(game["id"]["value"]);
+            newGame.Pool = (string)game["group"];
+            newGame.Team1 = (string)game["team1"];
+            newGame.Team1Score = (int)game["team1Score"];
+            //newGame.Team1Points = (int)game["team1Points"];
+            newGame.Team2 = (string)game["team2"];
+            newGame.Team2Score = (int)game["team2Score"];
+            //newGame.Team2Points = (int)game["team2Points"];            
+
+            DateTime startTime = Score.ParseTime(gameTime);
+            TimeSpan periodDuration = Score.ParseTimeSpan("10");
+            TimeSpan intervalDuration = Score.ParseTimeSpan("1");
+
+            newGame.Periods.AddPeriod("Period 1", startTime, startTime + periodDuration);
+            startTime = startTime + periodDuration + intervalDuration;
+            newGame.Periods.AddPeriod("Period 1", startTime, startTime + periodDuration);
+
+            string gameStatus = (string)game["status"];
+            GamePeriodStatus status = GamePeriodStatus.Ended;
+            if (gameStatus == "pending") status = GamePeriodStatus.Pending;
+            else if (gameStatus == "active") status = GamePeriodStatus.Active;
+
+            newGame.Periods[0].Status = status;
+            newGame.Periods[1].Status = status;
+
+            newGame.CalculateResult();
+
+            return newGame;
+        }        
+
+        public void SelectPitchAndAddGames()
         {
             if (!_authenticated) Authenticate();
 
@@ -165,6 +215,7 @@ namespace Scoreboard
                         if ((string)(pitch["id"]["value"]) == _pitchId)
                         {
                             _gameDate = gameDate;
+                            _gameDateId = (string)_gameDate["id"]["value"];
                             _pitch = pitch;
                             break;
                         }
@@ -191,41 +242,36 @@ namespace Scoreboard
                 newGames.Add(CreateFromTourneyGame(gameTime, game));
             }
 
+            _score.TournamentId = _tournamentId;
+            _score.GameDateId = _gameDateId;
+            _score.PitchId = _pitchId;
             _score.Games.Clear();
             _score.AddGames(newGames);
         }
-
-        private Game CreateFromTourneyGame(string gameTime, JObject game)
+        
+        private void UploadGame(Game game)
         {
-            Game newGame = new Game();
-            newGame.Id = (string)(game["id"]["value"]);
-            newGame.Pool = (string)game["group"];
-            newGame.Team1 = (string)game["team1"];
-            newGame.Team1Score = (int)game["team1Score"];
-            //newGame.Team1Points = (int)game["team1Points"];
-            newGame.Team2 = (string)game["team2"];
-            newGame.Team2Score = (int)game["team2Score"];
-            //newGame.Team2Points = (int)game["team2Points"];            
-   
-            DateTime startTime = Score.ParseTime(gameTime);
-            TimeSpan periodDuration = Score.ParseTimeSpan("10");
-            TimeSpan intervalDuration = Score.ParseTimeSpan("1");
+            if (!String.IsNullOrWhiteSpace(_score.PitchId) && !String.IsNullOrWhiteSpace(game.Id))
+            {
+                string status = "pending";
+                if (game.IsCurrentGame) status = "active";
+                if (game.HasEnded) status = "complete";
 
-            newGame.Periods.AddPeriod("Period 1", startTime, startTime + periodDuration);
-            startTime = startTime + periodDuration + intervalDuration;
-            newGame.Periods.AddPeriod("Period 1", startTime, startTime + periodDuration);
+                // Todo: Dictionary and Encode correctly.                
+                string data = "{ \"group\": \"" + game.Pool + "\""
+                    + ", \"team1\": \"" + game.Team1 + "\""
+                    + ", \"team1Score\": " + game.Team1Score
+                    + ", \"team2\": \"" + game.Team2 + "\""
+                    + ", \"team2Score\": " + game.Team2Score
+                    + ", \"status\": \"" + status + "\"}";
 
-            string gameStatus = (string)game["status"];
-            GamePeriodStatus status = GamePeriodStatus.Ended;
-            if (gameStatus == "pending") status = GamePeriodStatus.Pending;
-            else if (gameStatus == "active") status = GamePeriodStatus.Active;
+                HttpContent content = new StringContent(data, Encoding.UTF8, "application/json");
 
-            newGame.Periods[0].Status = status;
-            newGame.Periods[1].Status = status;
+                string url = _baseUrl + "/data/tournament/" + _score.TournamentId + "/date/" + _score.GameDateId + "/pitch/" + _score.PitchId + "/game/" + game.Id;
 
-            newGame.CalculateResult();
-
-            return newGame;
-        }        
+                HttpResponseMessage response = _httpClient.PutAsync(new Uri(url), content).Result;
+                //response.Content.ReadAsStringAsync().Result;
+            }
+        }
     }
 }
