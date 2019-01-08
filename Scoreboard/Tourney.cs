@@ -1,7 +1,10 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Google.Apis.Auth.OAuth2;
+using Newtonsoft.Json.Linq;
 using System;
 using System.ComponentModel;
+using System.IO;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -23,6 +26,12 @@ namespace Scoreboard
 
         private JObject _gameDate = null;
         private JObject _pitch = null;
+
+        private bool _authenticated = false;
+        public bool Authenticated { get { return _authenticated; } }
+
+        private string _googleToken;
+        public string GoogleToken { get { return _googleToken; } }
 
         public Tourney(Window owner, string baseUrl, Score score)
         {
@@ -51,8 +60,25 @@ namespace Scoreboard
             return null;
         }
 
+        public void Authenticate()
+        {
+            if (!_authenticated)
+            {
+                UserCredential credential;
+                using (var stream = new FileStream("client_secrets.json", FileMode.Open, FileAccess.Read))
+                {
+                    credential = GoogleWebAuthorizationBroker.AuthorizeAsync(GoogleClientSecrets.Load(stream).Secrets, new[] { "profile" }, "user", CancellationToken.None).Result;
+
+                    _authenticated = true;
+                    _googleToken = credential.Token.IdToken;
+                }
+            }
+        }
+
         public void SelectAndAddGames()
         {
+            if (!_authenticated) Authenticate();
+
             ProcessingWindow.ShowProcessing(_owner, "Listing Tournaments...");
 
             // List Tournaments

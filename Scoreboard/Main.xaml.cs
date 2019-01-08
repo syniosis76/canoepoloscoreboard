@@ -364,7 +364,7 @@ namespace Scoreboard
         protected void LoadGamesFromTourney()
         {
             string tourneyUrl = Properties.Settings.Default.TourneyUrl;
-            Tourney tourney = new Tourney(this, tourneyUrl, Score);
+            Tourney tourney = new Tourney(this, tourneyUrl, Score);            
             tourney.SelectAndAddGames();
         }
 
