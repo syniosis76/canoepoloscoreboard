@@ -3,11 +3,78 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
+using System.Xml;
+using System.Xml.Serialization;
+using System.Xml.Schema;
 
 namespace Scoreboard
 {
-    public class GameList : BindingList<Game>
+    public class GameList : BindingList<Game>, INotifyPropertyChanged, IXmlSerializable
     {
+        #region INotifyPropertyChanged
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged(PropertyChangedEventArgs e)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, e);
+            }
+        }
+
+        public void NotifyPropertyChanged(string name)
+        {
+            OnPropertyChanged(new PropertyChangedEventArgs(name));
+        }
+
+        #endregion
+
+        #region IXmlSerializable
+
+        public XmlSchema GetSchema()
+        {
+            return (null);
+        }
+
+        public void WriteXml(XmlWriter writer)
+        {
+            writer.WriteAttributeString("TournamentId", TournamentId);
+            writer.WriteAttributeString("GameDateId", GameDateId);
+            writer.WriteAttributeString("PitchId", PitchId);
+
+            if (Count > 0)
+            {
+                XmlSerializer inner = new XmlSerializer(typeof(Game));
+                for (int gameIndex = 0; gameIndex < Count; gameIndex++)
+                {
+                    inner.Serialize(writer, this[gameIndex]);
+                }
+            }        
+        }
+
+        public void ReadXml(XmlReader reader)
+        {
+            if (reader.IsEmptyElement)
+            {
+                return;
+            }
+
+            TournamentId = reader.GetAttribute("TournamentId");
+            GameDateId = reader.GetAttribute("GameDateId");
+            PitchId = reader.GetAttribute("PitchId");
+
+            reader.Read();
+
+            XmlSerializer inner = new XmlSerializer(typeof(Game));
+            while (reader.NodeType != System.Xml.XmlNodeType.EndElement)
+            {
+                Game game = (Game)inner.Deserialize(reader);
+                Add(game);
+            }
+        }        
+
+        #endregion
+
         #region Parent
 
         private Score _parent;
@@ -23,6 +90,46 @@ namespace Scoreboard
         }
 
         #endregion       
+
+        private string _tournamentId;
+        public string TournamentId
+        {
+            get { return _tournamentId; }
+            set
+            {
+                _tournamentId = value;
+                NotifyPropertyChanged("TournamentId");
+            }
+        }
+
+        private string _gameDateId;
+        public string GameDateId
+        {
+            get { return _gameDateId; }
+            set
+            {
+                _gameDateId = value;
+                NotifyPropertyChanged("GameDateId");
+            }
+        }
+
+        private string _pitchId;
+        public string PitchId
+        {
+            get { return _pitchId; }
+            set
+            {
+                _pitchId = value;
+                NotifyPropertyChanged("PitchId");
+            }
+        }
+
+        public void Assign(GameList games)
+        {
+            TournamentId = games.TournamentId;
+            GameDateId = games.GameDateId;
+            PitchId = games.PitchId;
+        }
 
         public void SaveGames()
         {

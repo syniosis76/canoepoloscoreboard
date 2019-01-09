@@ -242,16 +242,16 @@ namespace Scoreboard
                 newGames.Add(CreateFromTourneyGame(gameTime, game));
             }
 
-            _score.TournamentId = _tournamentId;
-            _score.GameDateId = _gameDateId;
-            _score.PitchId = _pitchId;
+            _score.Games.TournamentId = _tournamentId;
+            _score.Games.GameDateId = _gameDateId;
+            _score.Games.PitchId = _pitchId;
             _score.Games.Clear();
             _score.AddGames(newGames);
         }
         
         private void UploadGame(Game game)
         {
-            if (!String.IsNullOrWhiteSpace(_score.PitchId) && !String.IsNullOrWhiteSpace(game.Id))
+            if (!String.IsNullOrWhiteSpace(_score.Games.PitchId) && !String.IsNullOrWhiteSpace(game.Id))
             {
                 string status = "pending";
                 if (game.IsCurrentGame) status = "active";
@@ -267,7 +267,7 @@ namespace Scoreboard
 
                 HttpContent content = new StringContent(data, Encoding.UTF8, "application/json");
 
-                string url = _baseUrl + "/data/tournament/" + _score.TournamentId + "/date/" + _score.GameDateId + "/pitch/" + _score.PitchId + "/game/" + game.Id;
+                string url = _baseUrl + "/data/tournament/" + _score.Games.TournamentId + "/date/" + _score.Games.GameDateId + "/pitch/" + _score.Games.PitchId + "/game/" + game.Id;
 
                 HttpResponseMessage response = _httpClient.PutAsync(new Uri(url), content).Result;
                 //response.Content.ReadAsStringAsync().Result;

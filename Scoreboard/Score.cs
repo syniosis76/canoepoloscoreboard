@@ -256,39 +256,6 @@ namespace Scoreboard
             }
         }
 
-        private string _tournamentId;
-        public string TournamentId
-        {
-            get { return _tournamentId; }
-            set
-            {
-                _tournamentId = value;
-                NotifyPropertyChanged("TournamentId");
-            }
-        }
-
-        private string _gameDateId;
-        public string GameDateId
-        {
-            get { return _gameDateId; }
-            set
-            {
-                _gameDateId = value;
-                NotifyPropertyChanged("GameDateId");
-            }
-        }
-
-        private string _pitchId;
-        public string PitchId
-        {
-            get { return _pitchId; }
-            set
-            {
-                _pitchId = value;
-                NotifyPropertyChanged("PitchId");
-            }
-        }
-
         public void ResetShotTime()
         {
             ShotTimeVisible = Visibility.Visible;
@@ -587,29 +554,34 @@ namespace Scoreboard
                 InitialiseGames();
             }
 
-            XmlSerializer deserializer = new XmlSerializer(typeof(GameList));
-            TextReader textReader = new StreamReader(fileName);
-            GameList games = (GameList)deserializer.Deserialize(textReader);
-            textReader.Close();
+            string xmlString = File.ReadAllText(fileName).Replace("ArrayOfGame", "GameList");
 
-            if (games.Count > 0 && games[0].StartTime != null)
+            XmlSerializer deserializer = new XmlSerializer(typeof(GameList));
+            using (TextReader reader = new StringReader(xmlString))
             {
-                DateTime startTime = games[0].StartTime.Value;
-                TimeSpan adjustment = DateTime.Today - startTime.Date;
+                GameList games = (GameList)deserializer.Deserialize(reader);
+
+                if (games.Count > 0 && games[0].StartTime != null)
+                {
+                    DateTime startTime = games[0].StartTime.Value;
+                    TimeSpan adjustment = DateTime.Today - startTime.Date;
+                    foreach (Game game in games)
+                    {
+                        game.Periods.AdjustTimes(adjustment);
+                    }
+                }
+
                 foreach (Game game in games)
                 {
-                    game.Periods.AdjustTimes(adjustment);                    
-                }            
-            }
-
-            foreach (Game game in games)
-            {
-                if (clearStatus)
-                {
-                    game.ClearStatus();
+                    if (clearStatus)
+                    {
+                        game.ClearStatus();
+                    }
+                    Games.Add(game);
                 }
-                Games.Add(game);                
-            }            
+
+                Games.Assign(games);
+            }
 
             StartGames();
         }
