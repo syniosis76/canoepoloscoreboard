@@ -1,8 +1,10 @@
 ﻿using Google.Apis.Auth.OAuth2;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -15,10 +17,12 @@ namespace Scoreboard
     public class Tourney
     {
         private static HttpClient _httpClient = new HttpClient();
-
+        
         private string _baseUrl = null;
         private Window _owner = null;
         private Score _score = null;
+
+        private Queue<Game> _uploadQueue = new Queue<Game>();
 
         private JObject _tournaments = null;
         private JObject _tournament = null;
@@ -36,27 +40,67 @@ namespace Scoreboard
         private string _googleToken;
         public string GoogleToken { get { return _googleToken; } }
 
-        public Tourney(Window owner, Score score)
-        {
-            _owner = owner;
-            _baseUrl = Properties.Settings.Default.TourneyUrl;
-            _score = score;
+        public Tourney(Score score)
+        {            
+            _baseUrl = Properties.Settings.Default.TourneyUrl;            
             if (Tourney._httpClient == null)
             {
                 Tourney._httpClient = new HttpClient();
+                Tourney._httpClient.Timeout = TimeSpan.FromSeconds(20);
+            }
+            _score = score;
+        }
+
+        public void LoadGames(Window owner)
+        {
+            _owner = owner;
+            SelectPitchAndAddGames();
+        }
+
+        public void ApplyGame(Game game)
+        {
+            if (!String.IsNullOrWhiteSpace(_score.Games.PitchId))
+            {
+                lock (_uploadQueue)
+                {
+                    if (!_uploadQueue.Contains(game))
+                    {
+                        _uploadQueue.Enqueue(game);
+                    }
+                }
+                ProcessQueue();
             }
         }
 
-        public static void LoadGames(Window owner, Score score)
+        public void ProcessQueue()
         {
-            Tourney tourney = new Tourney(owner, score);
-            tourney.SelectPitchAndAddGames();
+            if (!String.IsNullOrWhiteSpace(_score.Games.PitchId))
+            {
+                while (true)
+                {
+                    if (!ProcessQueueItem())
+                    {
+                        break;
+                    }
+                }
+            }
         }
 
-        public static void ApplyGame(Score score, Game game)
+        public bool ProcessQueueItem()
         {
-            Tourney tourney = new Tourney(null, score);
-            tourney.UploadGame(game);
+            lock (_uploadQueue)
+            {
+                if (_uploadQueue.Count > 0)
+                {
+                    Game game = _uploadQueue.Peek();
+                    if (UploadGame(game))
+                    {
+                        _uploadQueue.Dequeue();
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         private string GetRequestAsString(string urlSuffix)
@@ -249,29 +293,37 @@ namespace Scoreboard
             _score.AddGames(newGames);
         }
         
-        private void UploadGame(Game game)
+        public bool UploadGame(Game game)
         {
             if (!String.IsNullOrWhiteSpace(_score.Games.PitchId) && !String.IsNullOrWhiteSpace(game.Id))
             {
                 string status = "pending";
                 if (game.IsCurrentGame) status = "active";
-                if (game.HasEnded) status = "complete";
+                if (game.HasEnded || game.Result != GameResult.None) status = "complete";
 
-                // Todo: Dictionary and Encode correctly.                
-                string data = "{ \"group\": \"" + game.Pool + "\""
-                    + ", \"team1\": \"" + game.Team1 + "\""
-                    + ", \"team1Score\": " + game.Team1Score
-                    + ", \"team2\": \"" + game.Team2 + "\""
-                    + ", \"team2Score\": " + game.Team2Score
-                    + ", \"status\": \"" + status + "\"}";
+                JObject data = new JObject();
+                data["group"] = game.Pool;
+                data["team1"] = game.Team1;
+                data["team1Score"] = game.Team1Score;
+                data["team2"] = game.Team2;
+                data["team2Score"] = game.Team2Score;
+                data["status"] = status;
 
-                HttpContent content = new StringContent(data, Encoding.UTF8, "application/json");
+                HttpContent content = new StringContent(data.ToString(), Encoding.UTF8, "application/json");
 
                 string url = _baseUrl + "/data/tournament/" + _score.Games.TournamentId + "/date/" + _score.Games.GameDateId + "/pitch/" + _score.Games.PitchId + "/game/" + game.Id;
 
-                HttpResponseMessage response = _httpClient.PutAsync(new Uri(url), content).Result;
-                //response.Content.ReadAsStringAsync().Result;
+                try
+                {
+                    HttpResponseMessage response = _httpClient.PutAsync(new Uri(url), content).Result;
+                    return response.StatusCode == HttpStatusCode.OK;
+                }
+                catch
+                {
+                    return false;
+                }
             }
+            return false;
         }
     }
 }

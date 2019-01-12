@@ -348,7 +348,7 @@ namespace Scoreboard
                 if (_hasCompleted != value)
                 {
                     _hasCompleted = value;
-                    NotifyPropertyChanged("HasCompleted");
+                    NotifyPropertyChanged("HasCompleted");                    
                 }
             }
         }

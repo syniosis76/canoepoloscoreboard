@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Scoreboard"
-#define MyAppVersion "1.8.007"
+#define MyAppVersion "1.9.002"
 #define MyAppPublisher "verner software"
 #define MyAppURL "http://www.verner.co.nz"
 #define MyAppExeName "Scoreboard.exe"
@@ -21,7 +21,7 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
-OutputBaseFilename=ScoreboardSetup_1_8_007
+OutputBaseFilename=ScoreboardSetup_1_9_002
 Compression=lzma
 SolidCompression=yes
 ArchitecturesInstallIn64BitMode=x64
@@ -41,7 +41,12 @@ Source: "C:\Develop\verner software\Scoreboard\Scoreboard\bin\Release\Utilities.
 Source: "C:\Develop\verner software\Scoreboard\Scoreboard\bin\Release\Utilities.pdb"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Develop\verner software\Scoreboard\Scoreboard\bin\Release\sounds\*"; DestDir: "{app}\sounds"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "C:\Develop\verner software\Scoreboard\Scoreboard\bin\Release\pages\*"; DestDir: "{app}\pages"; Flags: ignoreversion recursesubdirs createallsubdirs
-; NOTE: Don't use "Flags: ignoreversion" on any shared system files
+
+Source: "C:\Develop\verner software\Scoreboard\Scoreboard\bin\Release\client_secrets.json"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Develop\verner software\Scoreboard\Scoreboard\bin\Release\Google.Apis.*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Develop\verner software\Scoreboard\Scoreboard\bin\Release\Newtonsoft.Json.*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Develop\verner software\Scoreboard\Scoreboard\bin\Release\System.Net.Http.Formatting*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Develop\verner software\Scoreboard\Scoreboard\bin\Release\System.ValueTuple.*"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"

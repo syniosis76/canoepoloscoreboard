@@ -21,7 +21,7 @@ namespace Scoreboard
 
             Score score = new Score();
             try
-            {
+            {                
                 score.Initialise();
             }
             catch (Exception exception)
@@ -30,7 +30,7 @@ namespace Scoreboard
             }
 
             MainWindow window = new MainWindow();
-            window.Score = score;
+            window.Score = score;            
             window.Show();           
         }
 

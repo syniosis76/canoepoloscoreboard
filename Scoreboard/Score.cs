@@ -256,6 +256,9 @@ namespace Scoreboard
             }
         }
 
+        private Tourney _tourney;
+        public Tourney Tourney { get { return _tourney; } }
+
         public void ResetShotTime()
         {
             ShotTimeVisible = Visibility.Visible;
@@ -418,6 +421,7 @@ namespace Scoreboard
         {
             _games = new GameList();
             _serverOptions = new SimpleWebServerOptions();
+            _tourney = new Tourney(this);
             Games.SetParent(this);
             LoadBeep();
             RecordGoalScorers = Properties.Settings.Default.RecordGoalScorers;
@@ -428,7 +432,7 @@ namespace Scoreboard
         }
 
         public void Initialise()
-        {
+        {            
             StartTimer();
             LoadGames();
         }
@@ -876,6 +880,8 @@ namespace Scoreboard
 
             StopShotTime();
 
+            Game currentGame = CurrentGame;            
+
             int currentGameIndex = Games.IndexOf(CurrentGame);
             int nextGameIndex = currentGameIndex + 1;
             Game nextGame = nextGameIndex < Games.Count ? Games[nextGameIndex] : null;
@@ -905,6 +911,11 @@ namespace Scoreboard
                 StartGame();
             }
             UpdateDisplay();
+
+            if (currentGame != null)
+            {
+                Tourney.ApplyGame(currentGame);
+            }
         }
 
         protected void SelectCurrentGame(int startIndex)
@@ -1017,7 +1028,13 @@ namespace Scoreboard
 
                     GameCompletedWindow.StaticTick();
                 }
-            }            
+            }
+            
+            // Try to send the queue every 20 seconds.
+            if (CurrentTime.Second % 20 == 0)
+            {
+                Tourney.ProcessQueue();
+            }
         }
 
         protected void LoadBeep()
