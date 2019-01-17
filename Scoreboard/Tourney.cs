@@ -88,18 +88,24 @@ namespace Scoreboard
 
         public bool ProcessQueueItem()
         {
+            Game game = null;
             lock (_uploadQueue)
             {
                 if (_uploadQueue.Count > 0)
                 {
-                    Game game = _uploadQueue.Peek();
-                    if (UploadGame(game))
-                    {
-                        _uploadQueue.Dequeue();
-                        return true;
-                    }
+                    game = _uploadQueue.Peek();
                 }
             }
+
+            if (UploadGame(game))
+            {
+                lock (_uploadQueue)
+                {
+                    _uploadQueue.Dequeue();
+                }
+                return true;
+            }                            
+
             return false;
         }
 
