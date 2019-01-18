@@ -76,13 +76,15 @@ namespace Scoreboard
         {
             if (!String.IsNullOrWhiteSpace(_score.Games.PitchId))
             {
-                while (true)
-                {
-                    if (!ProcessQueueItem())
+                ThreadPool.QueueUserWorkItem(delegate {
+                    while (true)
                     {
-                        break;
+                        if (!ProcessQueueItem())
+                        {
+                            break;
+                        }
                     }
-                }
+                });
             }
         }
 
@@ -286,10 +288,10 @@ namespace Scoreboard
                 newGames.Add(CreateFromTourneyGame(gameTime, game));
             }
 
+            _score.Games.ClearGames();
             _score.Games.TournamentId = _tournamentId;
             _score.Games.GameDateId = _gameDateId;
-            _score.Games.PitchId = _pitchId;
-            _score.Games.Clear();
+            _score.Games.PitchId = _pitchId;            
             _score.AddGames(newGames);
         }
         

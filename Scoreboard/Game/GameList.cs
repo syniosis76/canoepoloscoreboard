@@ -89,7 +89,7 @@ namespace Scoreboard
             _parent = parent;
         }
 
-        #endregion       
+        #endregion               
 
         private string _tournamentId;
         public string TournamentId
@@ -122,6 +122,14 @@ namespace Scoreboard
                 _pitchId = value;
                 NotifyPropertyChanged("PitchId");
             }
+        }
+
+        public void ClearGames()
+        {
+            TournamentId = null;
+            GameDateId = null;
+            PitchId = null;
+            Clear();
         }
 
         public void Assign(GameList games)

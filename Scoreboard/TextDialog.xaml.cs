@@ -23,9 +23,10 @@ namespace Scoreboard
         public Action ActionDelegate { get; set; }
         public string ActionMessage { get; set; }
 
-        public static bool ShowTextDialog(string caption, string label, ref string text)
+        public static bool ShowTextDialog(Window owner, string caption, string label, ref string text)
         {
             TextDialog textDialog = new TextDialog(caption, label, text);
+            textDialog.Owner = owner;
             if (textDialog.ShowDialog() == true)
             {
                 text = textDialog.Text;

@@ -1,7 +1,7 @@
 ﻿<Window x:Class="Scoreboard.TextDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="Title" Height="200" Width="500" Background="Black" WindowStartupLocation="CenterScreen">
+    Title="Title" Height="200" Width="500" Background="Black" WindowStartupLocation="CenterOwner">
     <Grid>
         <Label Height="28" HorizontalAlignment="Left" Margin="12,51,0,0" Name="_textLabel" VerticalAlignment="Top" Width="126" Foreground="White">Label</Label>
         <TextBox Height="23" Margin="144,53,12,0" Name="_textTextBox" VerticalAlignment="Top" />

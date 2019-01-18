@@ -434,7 +434,7 @@ namespace Scoreboard
             if (Score.CurrentOrEndedGame != null)
             {
                 string text = Score.CurrentOrEndedGame.Team1Color;
-                if (TextDialog.ShowTextDialog("Enter Team 1 Colour", "Colour", ref text))
+                if (TextDialog.ShowTextDialog(this, "Enter Team 1 Colour", "Colour", ref text))
                 {
                     Score.CurrentOrEndedGame.Team1Color = String.IsNullOrEmpty(text) ? null : text;
                 }
@@ -446,7 +446,7 @@ namespace Scoreboard
             if (Score.CurrentOrEndedGame != null)
             {
                 string text = Score.CurrentOrEndedGame.Team2Color;
-                if (TextDialog.ShowTextDialog("Enter Team 2 Colour", "Colour", ref text))
+                if (TextDialog.ShowTextDialog(this, "Enter Team 2 Colour", "Colour", ref text))
                 {
                     Score.CurrentOrEndedGame.Team2Color = String.IsNullOrEmpty(text) ? null : text;
                 }

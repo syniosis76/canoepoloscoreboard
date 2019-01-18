@@ -520,7 +520,7 @@ namespace Scoreboard
 
         public void InitialiseGames()
         {
-            Games.Clear();
+            Games.ClearGames();
             _currentGameIndex = 0;
         }
 
@@ -794,8 +794,8 @@ namespace Scoreboard
             {
                 return;
             }
-            
-            Games.Clear();
+
+            Games.ClearGames();
             StartGames();
 
             SaveGames();

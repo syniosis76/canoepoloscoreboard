@@ -305,7 +305,7 @@ namespace Scoreboard
 
         public string ExecuteClearGames(HttpListenerRequest request)
         {
-            Application.Current.Dispatcher.Invoke(new Action(() => { _score.Games.Clear(); }));
+            Application.Current.Dispatcher.Invoke(new Action(() => { _score.Games.ClearGames(); }));
             return "OK";
         }
 
