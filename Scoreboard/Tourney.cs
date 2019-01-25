@@ -34,6 +34,8 @@ namespace Scoreboard
         private JObject _gameDate = null;
         private JObject _pitch = null;
 
+        private volatile bool _queueIsProcessing = false;
+
         private bool _authenticated = false;
         public bool Authenticated { get { return _authenticated; } }
 
@@ -76,32 +78,50 @@ namespace Scoreboard
         {
             if (!String.IsNullOrWhiteSpace(_score.Games.PitchId))
             {
-                ThreadPool.QueueUserWorkItem(delegate {
-                    while (true)
+                if (!_queueIsProcessing)
+                {
+                    _queueIsProcessing = true;
+                    ThreadPool.QueueUserWorkItem(delegate
                     {
-                        if (!ProcessQueueItem())
+                        while (true)
                         {
-                            break;
+                            if (!ProcessQueueItem())
+                            {
+                                break;
+                            }
                         }
-                    }
-                });
+                        _queueIsProcessing = false;
+                    });
+                }
             }
         }
 
         public bool ProcessQueueItem()
         {
+            Game game = null;
             lock (_uploadQueue)
             {
                 if (_uploadQueue.Count > 0)
                 {
-                    Game game = _uploadQueue.Peek();
-                    if (UploadGame(game))
-                    {
-                        _uploadQueue.Dequeue();
-                        return true;
-                    }
+                    game = _uploadQueue.Peek();
                 }
             }
+
+            if (game != null)
+            {
+                if (UploadGame(game))
+                {
+                    lock (_uploadQueue)
+                    {
+                        if (_uploadQueue.Count > 0)
+                        {
+                            _uploadQueue.Dequeue();
+                        }
+                    }
+                    return true;
+                }
+            }
+
             return false;
         }
 
@@ -156,7 +176,7 @@ namespace Scoreboard
 
             newGame.Periods.AddPeriod("Period 1", startTime, startTime + periodDuration);
             startTime = startTime + periodDuration + intervalDuration;
-            newGame.Periods.AddPeriod("Period 1", startTime, startTime + periodDuration);
+            newGame.Periods.AddPeriod("Period 2", startTime, startTime + periodDuration);
 
             string gameStatus = (string)game["status"];
             GamePeriodStatus status = GamePeriodStatus.Ended;
