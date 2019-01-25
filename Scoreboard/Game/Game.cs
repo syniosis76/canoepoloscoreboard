@@ -167,6 +167,8 @@ namespace Scoreboard
             }
         }
 
+        public bool NameChanged = false;
+
         private int _team1Score;
         public int Team1Score
         {

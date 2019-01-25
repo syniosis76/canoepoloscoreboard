@@ -324,10 +324,14 @@ namespace Scoreboard
                 if (game.HasEnded || game.Result != GameResult.None) status = "complete";
 
                 JObject data = new JObject();
-                data["group"] = game.Pool;
-                data["team1"] = game.Team1;
+                if (game.NameChanged)
+                {
+                    data["group"] = game.Pool;
+                    data["team1"] = game.Team1;
+                    data["team2"] = game.Team2;
+                    game.NameChanged = false;
+                }
                 data["team1Score"] = game.Team1Score;
-                data["team2"] = game.Team2;
                 data["team2Score"] = game.Team2Score;
                 data["status"] = status;
 
