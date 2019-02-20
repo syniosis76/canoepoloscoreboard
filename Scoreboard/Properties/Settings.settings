@@ -53,5 +53,8 @@
     <Setting Name="TourneyUrl" Type="System.String" Scope="User">
       <Value Profile="(Default)">https://www.tourney.nz</Value>
     </Setting>
+    <Setting Name="LockResults" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

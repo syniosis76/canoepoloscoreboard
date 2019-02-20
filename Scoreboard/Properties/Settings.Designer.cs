@@ -226,5 +226,17 @@ namespace Scoreboard.Properties {
                 this["TourneyUrl"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool LockResults {
+            get {
+                return ((bool)(this["LockResults"]));
+            }
+            set {
+                this["LockResults"] = value;
+            }
+        }
     }
 }

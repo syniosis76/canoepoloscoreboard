@@ -222,6 +222,18 @@ namespace Scoreboard
             }
         }
 
+        public Game GetGameById(string id)
+        {
+            foreach (Game game in this)
+            {
+                if (game.Id.Equals(id))
+                {
+                    return game;
+                }
+            }
+            return null;
+        }
+
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();

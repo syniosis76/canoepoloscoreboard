@@ -184,6 +184,11 @@
                                     <Image Source="/Scoreboard;component/images/tourney.png" Height="18"/>
                                 </MenuItem.Icon>
                             </MenuItem>
+                            <MenuItem Header="Update Games from Tourney" Click="_updateGamesFromTourneyClick" Visibility="{Binding Path=EditVisible}">
+                                <MenuItem.Icon>
+                                    <Image Source="/Scoreboard;component/images/tourney.png" Height="18"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
                             <Separator/>
                             <MenuItem Header="Restart Games..." Click="_restartGamesClick" Visibility="{Binding Path=EditVisible}">
                                 <MenuItem.Icon>
@@ -541,11 +546,22 @@
             </Grid>
             <!-- Competition Mode -->
             <Grid Grid.Column="4" Grid.Row="3" Margin="2" Background="{StaticResource BackgroundGreen}">
-                <Viewbox HorizontalAlignment="Left">
-                    <StackPanel Orientation="Vertical" Margin="10,8,8,8">
-                        <CheckBox Foreground="White" IsChecked="{Binding Path=RecordGoalScorers, FallbackValue=False}">Record Goal Scorers</CheckBox>
-                        <CheckBox Foreground="White" IsChecked="{Binding Path=StartPaused, FallbackValue=False}" Margin="0,8,0,0">Start Paused</CheckBox>
-                    </StackPanel>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+                <Viewbox Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left">
+                    <CheckBox Foreground="White" IsChecked="{Binding Path=RecordGoalScorers, FallbackValue=False}" Margin="5">Record Goal Scorers</CheckBox>
+                </Viewbox>
+                <Viewbox Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left">
+                    <CheckBox Foreground="White" IsChecked="{Binding Path=StartPaused, FallbackValue=False}" Margin="5">Start Paused</CheckBox>
+                </Viewbox>
+                <Viewbox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Left">
+                    <CheckBox Foreground="White" IsChecked="{Binding Path=LockResults, FallbackValue=False}" Margin="5">Lock Results</CheckBox>
                 </Viewbox>
             </Grid>
         </Grid>

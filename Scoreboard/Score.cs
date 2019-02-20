@@ -198,6 +198,31 @@ namespace Scoreboard
             }
         }
 
+        private bool _lockResults = false;
+        public bool LockResults
+        {
+            get
+            {
+                return _lockResults;
+            }
+            set
+            {
+                if (!_lockResults.Equals(value))
+                {
+                    if (WindowsAuthentication.Authenticate("Authenticate to " + (value ? "Lock" : "Unlock") + " Results", true))
+                    {
+                        _lockResults = value;
+                        if (LockResults != Properties.Settings.Default.LockResults)
+                        {
+                            Properties.Settings.Default.LockResults = LockResults;
+                            Properties.Settings.Default.Save();
+                        }
+                        NotifyPropertyChanged("LockResults");
+                    }
+                }
+            }
+        }
+
         private bool _startPaused = false;
         public bool StartPaused
         {
@@ -425,6 +450,7 @@ namespace Scoreboard
             Games.SetParent(this);
             LoadBeep();
             RecordGoalScorers = Properties.Settings.Default.RecordGoalScorers;
+            _lockResults = Properties.Settings.Default.LockResults;
             StartPaused = Properties.Settings.Default.StartPaused;
             ServerOptions.Port = Properties.Settings.Default.ServerPort;
             ServerOptions.Active = Properties.Settings.Default.ServerActive;
@@ -585,6 +611,16 @@ namespace Scoreboard
                 }
 
                 Games.Assign(games);
+
+                // Sendf games to Tourney if needed.
+                foreach (Game game in Games)
+                {
+                    if (game.NeedsSending)
+                    {
+                        Tourney.ApplyGame(game, false);
+                    }
+                }
+                Tourney.ProcessQueue();                
             }
 
             StartGames();
@@ -1645,6 +1681,6 @@ namespace Scoreboard
 			{
 				return Properties.Settings.Default.SimplifySecondaryDisplay;
 			}
-		}
+		}        
     }
 }

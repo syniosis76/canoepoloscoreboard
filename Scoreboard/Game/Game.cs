@@ -88,6 +88,8 @@ namespace Scoreboard
             }
         }
 
+        public bool NeedsSending;
+
         private string _pool;
         public string Pool
         {

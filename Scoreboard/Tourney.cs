@@ -17,7 +17,7 @@ namespace Scoreboard
     public class Tourney
     {
         private static HttpClient _httpClient = new HttpClient();
-        
+
         private string _baseUrl = null;
         private Window _owner = null;
         private Score _score = null;
@@ -43,8 +43,8 @@ namespace Scoreboard
         public string GoogleToken { get { return _googleToken; } }
 
         public Tourney(Score score)
-        {            
-            _baseUrl = Properties.Settings.Default.TourneyUrl;            
+        {
+            _baseUrl = Properties.Settings.Default.TourneyUrl;
             if (Tourney._httpClient == null)
             {
                 Tourney._httpClient = new HttpClient();
@@ -59,70 +59,67 @@ namespace Scoreboard
             SelectPitchAndAddGames();
         }
 
-        public void ApplyGame(Game game)
+        public void ApplyGame(Game game, bool send = true)
         {
             if (!String.IsNullOrWhiteSpace(_score.Games.PitchId))
-            {
-                lock (_uploadQueue)
+            {                
+                if (!_uploadQueue.Contains(game))
                 {
-                    if (!_uploadQueue.Contains(game))
-                    {
-                        _uploadQueue.Enqueue(game);
-                    }
+                    game.NeedsSending = true;
+                    _uploadQueue.Enqueue(game);
+                }                
+                if (send)
+                {
+                    ProcessQueue();
                 }
-                ProcessQueue();
             }
         }
 
         public void ProcessQueue()
         {
-            if (!String.IsNullOrWhiteSpace(_score.Games.PitchId))
+            if (!String.IsNullOrWhiteSpace(_score.Games.PitchId) && !_queueIsProcessing)
             {
-                if (!_queueIsProcessing)
-                {
-                    _queueIsProcessing = true;
-                    ThreadPool.QueueUserWorkItem(delegate
-                    {
-                        while (true)
-                        {
-                            if (!ProcessQueueItem())
-                            {
-                                break;
-                            }
-                        }
-                        _queueIsProcessing = false;
-                    });
-                }
+                _queueIsProcessing = true;
+                ProcessQueueItem(); // This is recursive. 
             }
         }
 
-        public bool ProcessQueueItem()
+        public void ProcessQueueItem()
         {
-            Game game = null;
-            lock (_uploadQueue)
+            if (_uploadQueue.Count == 0)
             {
-                if (_uploadQueue.Count > 0)
-                {
-                    game = _uploadQueue.Peek();
-                }
+                _queueIsProcessing = false;
             }
-
-            if (game != null)
+            else
             {
-                if (UploadGame(game))
+                Game game = _uploadQueue.Peek();
+                string url = _baseUrl + "/data/tournament/" + _score.Games.TournamentId + "/date/" + _score.Games.GameDateId + "/pitch/" + _score.Games.PitchId + "/game/" + game.Id;
+                string gameJson = GetGameJson(game);
+                bool gameUploaded = false;
+
+                BackgroundWorker worker = new BackgroundWorker();
+                worker.DoWork += delegate {
+                    gameUploaded = UploadGame(url, gameJson);                    
+                };
+                worker.RunWorkerCompleted += delegate
                 {
-                    lock (_uploadQueue)
+                    if (gameUploaded)
                     {
                         if (_uploadQueue.Count > 0)
                         {
-                            _uploadQueue.Dequeue();
+                            Game sentGame = _uploadQueue.Dequeue();
+                            sentGame.NeedsSending = false;
                         }
+                        ProcessQueueItem();
                     }
-                    return true;
-                }
-            }
+                    else
+                    {
+                        _queueIsProcessing = false;
+                    }
 
-            return false;
+                };
+                worker.RunWorkerAsync();                
+            }
         }
 
         private string GetRequestAsString(string urlSuffix)
@@ -158,17 +155,22 @@ namespace Scoreboard
             }
         }
 
+        public void ApplyToGame(JObject gameObject, Game game, bool excludeScore = false)
+        {
+            game.Id = (string)(gameObject["id"]["value"]);
+            game.Pool = (string)gameObject["group"];
+            game.Team1 = (string)gameObject["team1"];
+            if (!excludeScore) game.Team1Score = (int)gameObject["team1Score"];
+            //newGame.Team1Points = (int)game["team1Points"];
+            game.Team2 = (string)gameObject["team2"];
+            if (!excludeScore) game.Team2Score = (int)gameObject["team2Score"];
+            //newGame.Team2Points = (int)game["team2Points"];                                   
+        }
+
         private Game CreateFromTourneyGame(string gameTime, JObject game)
         {
             Game newGame = new Game();
-            newGame.Id = (string)(game["id"]["value"]);
-            newGame.Pool = (string)game["group"];
-            newGame.Team1 = (string)game["team1"];
-            newGame.Team1Score = (int)game["team1Score"];
-            //newGame.Team1Points = (int)game["team1Points"];
-            newGame.Team2 = (string)game["team2"];
-            newGame.Team2Score = (int)game["team2Score"];
-            //newGame.Team2Points = (int)game["team2Points"];            
+            ApplyToGame(game, newGame);
 
             DateTime startTime = Score.ParseTime(gameTime);
             TimeSpan periodDuration = Score.ParseTimeSpan("10");
@@ -314,42 +316,106 @@ namespace Scoreboard
             _score.Games.PitchId = _pitchId;            
             _score.AddGames(newGames);
         }
-        
-        public bool UploadGame(Game game)
+
+        public string GetGameJson(Game game)
         {
-            if (!String.IsNullOrWhiteSpace(_score.Games.PitchId) && !String.IsNullOrWhiteSpace(game.Id))
+            string status = "pending";
+            if (game.IsCurrentGame) status = "active";
+            if (game.HasEnded || game.Result != GameResult.None) status = "complete";
+
+            JObject data = new JObject();
+            if (game.NameChanged)
             {
-                string status = "pending";
-                if (game.IsCurrentGame) status = "active";
-                if (game.HasEnded || game.Result != GameResult.None) status = "complete";
+                data["group"] = game.Pool;
+                data["team1"] = game.Team1;
+                data["team2"] = game.Team2;
+                game.NameChanged = false;
+            }
+            data["team1Score"] = game.Team1Score;
+            data["team2Score"] = game.Team2Score;
+            data["status"] = status;
 
-                JObject data = new JObject();
-                if (game.NameChanged)
+            return data.ToString();
+        }
+
+        public bool UploadGame(string url, string gameJson)
+        {
+            HttpContent content = new StringContent(gameJson, Encoding.UTF8, "application/json");            
+            try
+            {
+                HttpResponseMessage response = _httpClient.PutAsync(new Uri(url), content).Result;
+                return response.StatusCode == HttpStatusCode.OK;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public void UpdateGameDetails()
+        {
+            if (!String.IsNullOrWhiteSpace(_score.Games.PitchId))
+            {
+                JObject tournament = null;
+                BackgroundWorker worker = new BackgroundWorker();
+                worker.DoWork += delegate
                 {
-                    data["group"] = game.Pool;
-                    data["team1"] = game.Team1;
-                    data["team2"] = game.Team2;
-                    game.NameChanged = false;
-                }
-                data["team1Score"] = game.Team1Score;
-                data["team2Score"] = game.Team2Score;
-                data["status"] = status;
-
-                HttpContent content = new StringContent(data.ToString(), Encoding.UTF8, "application/json");
-
-                string url = _baseUrl + "/data/tournament/" + _score.Games.TournamentId + "/date/" + _score.Games.GameDateId + "/pitch/" + _score.Games.PitchId + "/game/" + game.Id;
-
-                try
+                    tournament = GetRequestAsJObject("/data/tournament/" + _score.Games.TournamentId);
+                };
+                worker.RunWorkerCompleted += delegate
                 {
-                    HttpResponseMessage response = _httpClient.PutAsync(new Uri(url), content).Result;
-                    return response.StatusCode == HttpStatusCode.OK;
-                }
-                catch
+                    if (tournament != null)
+                    {
+                        JObject pitch = GetPitch(tournament, _score.Games.PitchId);
+                        if (pitch != null)
+                        {
+                            // Identify last completed game
+                            Game lastCompletedGame = null;
+                            foreach (Game game in _score.Games)
+                            {
+                                if (game.HasCompleted)
+                                {
+                                    lastCompletedGame = game;
+                                }
+                                else if (game.HasStarted)
+                                {
+                                    break;
+                                }
+                            }
+
+                            JArray games = (JArray)pitch["games"];
+                            foreach (JObject gameObject in games)
+                            {
+                                Game game = _score.Games.GetGameById((string)gameObject["id"]["value"]);
+                                if (game != null)
+                                {
+                                    ApplyToGame(gameObject, game, game.IsCurrentGame || game == lastCompletedGame);
+                                    if (!game.IsCurrentGame)
+                                    {
+                                        game.CalculateResult();
+                                    }
+                                }                                
+                            }
+                        }
+                    }
+                };
+                worker.RunWorkerAsync();
+            }
+        }
+
+        public JObject GetPitch(JObject tournament, string pitchId)
+        {
+            foreach (JObject gameDate in tournament["gameDates"])
+            {
+                foreach (JObject pitch in gameDate["pitches"])
                 {
-                    return false;
+                    if ((string)(pitch["id"]["value"]) == pitchId)
+                    {
+                        return pitch;
+                    }
                 }
             }
-            return false;
+            return null;
         }
     }
 }

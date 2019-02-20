@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using System.Net.Mail;
 using System.Net;
 using Microsoft.Win32;
+using Utilities;
 
 namespace Scoreboard
 {
@@ -333,6 +334,7 @@ namespace Scoreboard
         private bool OnGameCompleted(object input, object output)
         {
             GameCompletedWindow.ShowGameCompletedWindow(this, (Game)input, (Game)output);
+            Score.Tourney.UpdateGameDetails();
             return true;
         }
 
@@ -379,6 +381,11 @@ namespace Scoreboard
         private void _loadGamesFromTourneyClick(object sender, RoutedEventArgs e)
         {
             LoadGamesFromTourney();
+        }
+
+        private void _updateGamesFromTourneyClick(object sender, RoutedEventArgs e)
+        {
+            Score.Tourney.UpdateGameDetails();
         }
 
         private void _mergeGamesClick(object sender, RoutedEventArgs e)
@@ -460,7 +467,13 @@ namespace Scoreboard
 
         private void EditGame()
         {
-            if (_gamesListView.SelectedItem != null)
+            bool canEdit = true;
+            if (Score.LockResults)
+            {
+                canEdit = WindowsAuthentication.Authenticate("Results are Locked. Authenticate to Continue.", true);
+            }
+
+            if (canEdit && _gamesListView.SelectedItem != null)
             {
                 Game game = (Game)_gamesListView.SelectedItem;
                 EditGameWindow.EditGame(this, game);
