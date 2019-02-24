@@ -45,6 +45,7 @@ namespace Scoreboard
         public Tourney(Score score)
         {
             _baseUrl = Properties.Settings.Default.TourneyUrl;
+            //_baseUrl = "http://localhost:8000"; // Testing 
             if (Tourney._httpClient == null)
             {
                 Tourney._httpClient = new HttpClient();
@@ -145,7 +146,8 @@ namespace Scoreboard
                 UserCredential credential;
                 using (var stream = new FileStream("client_secrets.json", FileMode.Open, FileAccess.Read))
                 {
-                    credential = GoogleWebAuthorizationBroker.AuthorizeAsync(GoogleClientSecrets.Load(stream).Secrets, new[] { "profile" }, "user", CancellationToken.None).Result;
+                    credential = GoogleWebAuthorizationBroker.AuthorizeAsync(GoogleClientSecrets.Load(stream).Secrets, new[] { "profile" }, "profile", CancellationToken.None).Result;
+                    var m = credential.GetAccessTokenForRequestAsync().Result;
 
                     _authenticated = true;
                     _googleToken = credential.Token.IdToken;
@@ -202,7 +204,7 @@ namespace Scoreboard
             // List Tournaments
             BackgroundWorker worker = new BackgroundWorker();
             worker.DoWork += delegate {
-                _tournaments = GetRequestAsJObject("/data/tournaments");
+                _tournaments = GetRequestAsJObject("/data/tournaments?admin=1");
             };
             worker.RunWorkerCompleted += delegate
             {
