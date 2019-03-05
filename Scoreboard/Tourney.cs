@@ -44,8 +44,11 @@ namespace Scoreboard
 
         public Tourney(Score score)
         {
+#if DEBUG
+            _baseUrl = "http://localhost:8000"; // Testing 
+#else
             _baseUrl = Properties.Settings.Default.TourneyUrl;
-            //_baseUrl = "http://localhost:8000"; // Testing 
+#endif
             if (Tourney._httpClient == null)
             {
                 Tourney._httpClient = new HttpClient();
@@ -336,6 +339,20 @@ namespace Scoreboard
             data["team1Score"] = game.Team1Score;
             data["team2Score"] = game.Team2Score;
             data["status"] = status;
+
+            JArray log = new JArray();
+            data["log"] = log;
+
+            foreach(GameEvent gameEvent in game.GameEvents)
+            {
+                JObject logEvent = new JObject();
+                logEvent["Time"] = gameEvent.Time;
+                logEvent["EventType"] = gameEvent.EventType;
+                logEvent["Team"] = gameEvent.Team;
+                logEvent["Player"] = gameEvent.Player;
+                logEvent["Notes"] = gameEvent.Notes;
+                log.Add(logEvent);
+            }
 
             return data.ToString();
         }
