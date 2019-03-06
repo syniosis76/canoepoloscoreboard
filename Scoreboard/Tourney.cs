@@ -341,7 +341,7 @@ namespace Scoreboard
             data["status"] = status;
 
             JArray log = new JArray();
-            data["log"] = log;
+            data["eventLog"] = log;
 
             foreach(GameEvent gameEvent in game.GameEvents)
             {
