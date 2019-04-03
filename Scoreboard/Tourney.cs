@@ -156,19 +156,20 @@ namespace Scoreboard
                     _googleToken = credential.Token.IdToken;
 
                     _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GoogleToken);
+                    _httpClient.DefaultRequestHeaders.Add("TOURNEYCLIENT", "Scoreboard");
                 }
             }
         }
 
-        public void ApplyToGame(JObject gameObject, Game game, bool excludeScore = false)
+        public void ApplyToGame(JObject gameObject, Game game)
         {
             game.Id = (string)(gameObject["id"]["value"]);
             game.Pool = (string)gameObject["group"];
             game.Team1 = (string)gameObject["team1"];
-            if (!excludeScore) game.Team1Score = (int)gameObject["team1Score"];
+            //game.Team1Score = (int)gameObject["team1Score"];
             //newGame.Team1Points = (int)game["team1Points"];
             game.Team2 = (string)gameObject["team2"];
-            if (!excludeScore) game.Team2Score = (int)gameObject["team2Score"];
+            //game.Team2Score = (int)gameObject["team2Score"];
             //newGame.Team2Points = (int)game["team2Points"];                                   
         }
 
@@ -388,27 +389,13 @@ namespace Scoreboard
                         JObject pitch = GetPitch(tournament, _score.Games.PitchId);
                         if (pitch != null)
                         {
-                            // Identify last completed game
-                            Game lastCompletedGame = null;
-                            foreach (Game game in _score.Games)
-                            {
-                                if (game.HasCompleted)
-                                {
-                                    lastCompletedGame = game;
-                                }
-                                else if (game.HasStarted)
-                                {
-                                    break;
-                                }
-                            }
-
                             JArray games = (JArray)pitch["games"];
                             foreach (JObject gameObject in games)
                             {
                                 Game game = _score.Games.GetGameById((string)gameObject["id"]["value"]);
                                 if (game != null)
                                 {
-                                    ApplyToGame(gameObject, game, game.IsCurrentGame || game == lastCompletedGame);
+                                    ApplyToGame(gameObject, game);
                                     if (!game.IsCurrentGame)
                                     {
                                         game.CalculateResult();

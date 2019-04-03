@@ -612,7 +612,7 @@ namespace Scoreboard
 
                 Games.Assign(games);
 
-                // Sendf games to Tourney if needed.
+                // Send games to Tourney if needed.
                 foreach (Game game in Games)
                 {
                     if (game.NeedsSending)
