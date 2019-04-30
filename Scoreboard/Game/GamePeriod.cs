@@ -315,6 +315,32 @@ namespace Scoreboard
             }
         }
 
+        RelayCommand _incremenGameTimeCommand;
+        public ICommand IncrementGameTimeCommand
+        {
+            get
+            {
+                if (_incremenGameTimeCommand == null)
+                {
+                    _incremenGameTimeCommand = new RelayCommand(param => this.ModifyGameTime(1, false), null);
+                }
+                return _incremenGameTimeCommand;
+            }
+        }
+
+        RelayCommand _decrementGameTimeCommand;
+        public ICommand DecrementGameTimeCommand
+        {
+            get
+            {
+                if (_decrementGameTimeCommand == null)
+                {
+                    _decrementGameTimeCommand = new RelayCommand(param => this.ModifyGameTime(-1, false), null);
+                }
+                return _decrementGameTimeCommand;
+            }
+        }
+
         RelayCommand _endNowCommand;
         public ICommand EndNowCommand
         {
@@ -386,6 +412,20 @@ namespace Scoreboard
             if (Parent != null)
             {
                 Parent.ModifyFollowingTimes(this, changeBy, force);
+            }
+        }
+
+        public void ModifyGameTime(int changeBy, Boolean force)
+        {
+            DateTime targetTime = DateTime.Now + TimeRemaining + new TimeSpan(0, 0, changeBy);            
+
+            if (Status == GamePeriodStatus.Pending)
+            {                                
+                ModifyStartTime(targetTime - StartTime, force);
+            }
+            else if (Status == GamePeriodStatus.Active)
+            {
+                ModifyEndTime(targetTime - EndTime, force);
             }
         }
 

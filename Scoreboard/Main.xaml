@@ -276,15 +276,43 @@
                         <ColumnDefinition Width="5*" />
                         <ColumnDefinition Width="1*" />
                     </Grid.ColumnDefinitions>
-                    <Viewbox VerticalAlignment="Top">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="6*"/>
+                    </Grid.RowDefinitions>
+                    <Viewbox Grid.Column="0" Grid.Row="0">
                         <TextBlock FontWeight="Bold">(p)</TextBlock>
                     </Viewbox>
-                    <Image Grid.Column="2" VerticalAlignment="Top" Source="/Scoreboard;component/images/pause.png"/>
-                    <Viewbox Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Bottom" HorizontalAlignment="Center" Visibility="{Binding Path=Paused, FallbackValue=Visible, Converter={StaticResource boolToVisiblityConverter}}">
-                        <TextBlock FontWeight="Bold" Margin="4,2,4,2">Paused. Click to Resume.</TextBlock>
+                    <Image Grid.Column="2" Grid.Row="0" Source="/Scoreboard;component/images/pause.png"/>
+                    <Viewbox Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center">
+                        <Grid>
+                            <TextBlock FontWeight="Bold" Margin="4,2,4,2" Visibility="{Binding Path=Paused, FallbackValue=Visible, Converter={StaticResource inverseBoolToVisiblityConverter}}">Pause</TextBlock>
+                            <TextBlock FontWeight="Bold" Margin="4,2,4,2" Visibility="{Binding Path=Paused, FallbackValue=Hidden, Converter={StaticResource boolToVisiblityConverter}}">Resume</TextBlock>
+                        </Grid>
                     </Viewbox>
                 </Grid>
             </Button>
+            <Grid Grid.Column="1" Grid.Row="1" Margin="4,4,4,4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="7*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="9*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Viewbox Grid.Column="1" Grid.Row="2" Margin="1">
+                    <RepeatButton Background="Transparent" Command="{Binding Path=CurrentGame.Periods.CurrentPeriod.DecrementGameTimeCommand}" Delay="500" Interval="40" ToolTip="Reduce time by 1 second">
+                        <Image Source="/Scoreboard;component/images/remove.png"/>
+                    </RepeatButton>
+                </Viewbox>
+                <Viewbox Grid.Column="2" Grid.Row="2" Margin="1">
+                    <RepeatButton Background="Transparent" Command="{Binding Path=CurrentGame.Periods.CurrentPeriod.IncrementGameTimeCommand}" Delay="500" Interval="40" ToolTip="Increase time by 1 second">
+                        <Image Source="/Scoreboard;component/images/add.png"/>
+                    </RepeatButton>
+                </Viewbox>
+            </Grid>
             <Viewbox Grid.Column="1" Grid.Row="1">
                 <TextBlock FontFamily="./#DINEngschrift" FontSize="80" Margin="10"
                     Text="{Binding Path=CurrentGame.Periods.CurrentPeriod.TimeRemaining, Converter={StaticResource gameTimeConverter}, FallbackValue=0:00}"
@@ -335,14 +363,35 @@
                             <ColumnDefinition Width="2.5*" />
                             <ColumnDefinition Width="1*" />
                         </Grid.ColumnDefinitions>
-                        <StackPanel Grid.Column="1" VerticalAlignment="Bottom">
+                        <StackPanel Grid.Column="1" VerticalAlignment="Top">
+                            <Image Grid.Row="2" Grid.Column="1" Source="/Scoreboard;component/images/restart.png" />
                             <Viewbox>
                                 <TextBlock FontWeight="Bold">(t)</TextBlock>
                             </Viewbox>
-                            <Image Grid.Row="2" Grid.Column="1" Source="/Scoreboard;component/images/restart.png" />
                         </StackPanel>
                     </Grid>
                 </Button>
+                <Grid Grid.Column="1" Grid.Row="1" Margin="4,4,4,4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="4*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Viewbox Grid.Column="1" Grid.Row="2" Margin="1">
+                        <RepeatButton Background="Transparent" Click="_decrementShotButtonClick" Delay="500" Interval="40" ToolTip="Reduce shot time by 1 second">
+                            <Image Source="/Scoreboard;component/images/remove.png"/>
+                        </RepeatButton>
+                    </Viewbox>
+                    <Viewbox Grid.Column="2" Grid.Row="2" Margin="1">
+                        <RepeatButton Background="Transparent" Click="_incrementShotButtonClick" Delay="500" Interval="40" ToolTip="Increase shot time by 1 second">
+                            <Image Source="/Scoreboard;component/images/add.png"/>
+                        </RepeatButton>
+                    </Viewbox>
+                </Grid>
                 <Viewbox Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="2">
                     <TextBlock FontFamily="./#DINEngschrift" FontSize="80" Foreground="#FF9BF79B" Name="_shotTimeLabel" Text="{Binding Path=ShotTime, FallbackValue=0}" IsHitTestVisible="False"/>
                 </Viewbox>
@@ -520,7 +569,7 @@
                     </ListView>
                 </Grid>
                 <!-- Events -->
-                <ListView Grid.Column="4" Grid.Row="2" Name="_gameEventListView" ItemsSource="{Binding Path=SelectedItem.GameEvents, ElementName=_gamesListView}" Margin="2,4,2,2"  ScrollViewer.ScrollChanged="_gameEventListViewScrollChanged" BorderThickness="0"
+                <!--<ListView Grid.Column="4" Grid.Row="2" Name="_gameEventListView" ItemsSource="{Binding Path=SelectedItem.GameEvents, ElementName=_gamesListView}" Margin="2,4,2,2"  ScrollViewer.ScrollChanged="_gameEventListViewScrollChanged" BorderThickness="0"
                           FontSize="{Binding Path=ActualWidth, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource doubleConverter}, ConverterParameter=0.035}">
                     <ListView.Resources>
                         <Style x:Key="hcs" TargetType="{x:Type GridViewColumnHeader}">
@@ -542,6 +591,23 @@
                             </GridView.Columns>
                         </GridView>
                     </ListView.View>
+                </ListView>-->
+                <ListView Grid.Column="4" Grid.Row="2" Name="_gameEventListView" ItemsSource="{Binding Path=SelectedItem.GameEventsFiltered, ElementName=_gamesListView}" Margin="2,4,2,2"  ScrollViewer.ScrollChanged="_gameEventListViewScrollChanged" BorderThickness="0"
+                          FontSize="{Binding Path=ActualWidth, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource doubleConverter}, ConverterParameter=0.035}">
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"></StackPanel>
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="{Binding Path=Time, Converter={StaticResource periodTimeConverter}}" />
+                                <TextBlock Text="{Binding Path=EventType}" />
+                                <TextBlock Text="{Binding Path=Player}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
                 </ListView>
             </Grid>
             <!-- Competition Mode -->
@@ -555,12 +621,12 @@
                     <ColumnDefinition Width="3*"/>
                 </Grid.ColumnDefinitions>
                 <Viewbox Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left">
-                    <CheckBox Foreground="White" IsChecked="{Binding Path=RecordGoalScorers, FallbackValue=False}" Margin="5">Record Goal Scorers</CheckBox>
+                    <CheckBox Foreground="White" IsChecked="{Binding Path=RecordGoalScorers, FallbackValue=False}" Margin="5" Width="130">Record Goal Scorers</CheckBox>
                 </Viewbox>
                 <Viewbox Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left">
-                    <CheckBox Foreground="White" IsChecked="{Binding Path=StartPaused, FallbackValue=False}" Margin="5">Start Paused</CheckBox>
+                    <CheckBox Foreground="White" IsChecked="{Binding Path=StartPaused, FallbackValue=False}" Margin="5" Width="130">Start Paused</CheckBox>
                 </Viewbox>
-                <Viewbox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Left">
+                <Viewbox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left">
                     <CheckBox Foreground="White" IsChecked="{Binding Path=LockResults, FallbackValue=False}" Margin="5">Lock Results</CheckBox>
                 </Viewbox>
             </Grid>

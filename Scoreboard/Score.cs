@@ -328,6 +328,22 @@ namespace Scoreboard
             }
         }
 
+        public void IncrementShotTime()
+        {
+            if (ShotTime < 60)
+            {
+                ShotTime = ShotTime + 1;
+            }
+        }
+
+        public void DecrementShotTime()
+        {
+            if (ShotTime > 0)
+            {
+                ShotTime = ShotTime - 1;
+            }
+        }
+
         public void ReplaceTeamNames(Dictionary<string, string> teamNames)
         {
             foreach (KeyValuePair<string, string> teamName in teamNames)
@@ -406,9 +422,7 @@ namespace Scoreboard
                     NotifyPropertyChanged("Paused");
                 }
             }
-        }
-
-        private DateTime _pausedTime;
+        }        
 
         private BindingList<Card> _team1Cards = new BindingList<Card>();
         public BindingList<Card> Team1Cards { get { return _team1Cards; } }
@@ -607,6 +621,7 @@ namespace Scoreboard
                     {
                         game.ClearStatus();
                     }
+                    game.Loaded();
                     Games.Add(game);
                 }
 
@@ -1246,7 +1261,6 @@ namespace Scoreboard
             {
                 if (CurrentGame != null) CurrentGame.LogEvent("Paused");
                 Paused = true;
-                _pausedTime = DateTime.Now;
                 UpdateDisplay();
             }
         }
@@ -1256,20 +1270,20 @@ namespace Scoreboard
             if (Paused)
             {
                 if (CurrentGame != null)
-                {
-                    TimeSpan pauseDuration = DateTime.Now - _pausedTime;
-
+                {                                        
                     CurrentGame.LogEvent("Resumed");
                     GamePeriod period = CurrentGame.Periods.CurrentPeriod;
                     if (period != null)
                     {
+                        DateTime targetTime = DateTime.Now + period.TimeRemaining;
+
                         if (period.Status == GamePeriodStatus.Pending)
                         {
-                            period.ModifyStartTime(pauseDuration, false);
+                            period.ModifyStartTime(targetTime - period.StartTime, false);
                         }
                         else if (period.Status == GamePeriodStatus.Active)
                         {
-                            period.ModifyEndTime(pauseDuration, false);
+                            period.ModifyEndTime(targetTime - period.EndTime, false);
                         }
                     }                    
                 }

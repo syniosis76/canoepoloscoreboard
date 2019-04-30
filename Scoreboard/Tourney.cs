@@ -44,11 +44,11 @@ namespace Scoreboard
 
         public Tourney(Score score)
         {
-#if DEBUG
-            _baseUrl = "http://localhost:8000"; // Testing 
-#else
+//#if DEBUG
+//            _baseUrl = "http://localhost:8000"; // Testing 
+//#else
             _baseUrl = Properties.Settings.Default.TourneyUrl;
-#endif
+//#endif
             if (Tourney._httpClient == null)
             {
                 Tourney._httpClient = new HttpClient();
@@ -346,13 +346,18 @@ namespace Scoreboard
 
             foreach(GameEvent gameEvent in game.GameEvents)
             {
-                JObject logEvent = new JObject();
-                logEvent["Time"] = gameEvent.Time;
-                logEvent["EventType"] = gameEvent.EventType;
-                logEvent["Team"] = gameEvent.Team;
-                logEvent["Player"] = gameEvent.Player;
-                logEvent["Notes"] = gameEvent.Notes;
-                log.Add(logEvent);
+                if (!gameEvent.EventType.Equals("Paused")
+                        & !gameEvent.EventType.Equals("Resumed")
+                        & !gameEvent.EventType.Contains("Shot"))
+                {
+                    JObject logEvent = new JObject();
+                    logEvent["Time"] = gameEvent.Time;
+                    logEvent["EventType"] = gameEvent.EventType;
+                    logEvent["Team"] = gameEvent.Team;
+                    logEvent["Player"] = gameEvent.Player;
+                    logEvent["Notes"] = gameEvent.Notes;
+                    log.Add(logEvent);
+                }
             }
 
             return data.ToString();

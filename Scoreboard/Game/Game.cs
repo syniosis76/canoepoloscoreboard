@@ -297,6 +297,10 @@ namespace Scoreboard
                 {
                     Result = GameResult.Draw;
                 }
+                if (Parent != null && Parent.Parent != null)
+                {
+                    Parent.Parent.Tourney.ApplyGame(this);
+                }
             }
             else
             {
@@ -366,9 +370,36 @@ namespace Scoreboard
             }
         }
 
+        private GameEventList _gameEventsFiltered = new GameEventList();
+        public GameEventList GameEventsFiltered
+        {
+            get
+            {
+                return _gameEventsFiltered;
+            }
+        }
+
+        public void FilterGameEvents()
+        {
+            GameEventsFiltered.Clear();
+            foreach (GameEvent gameEvent in GameEvents)
+            {
+                if (!String.IsNullOrEmpty(gameEvent.Team))
+                {
+                    GameEventsFiltered.Add(gameEvent);
+                }
+            }            
+        }
+
+        public void Loaded()
+        {
+            FilterGameEvents();
+        }
+
         public void LogEvent(string eventType, string team, string player, string notes)
         {
             GameEvents.Add(new GameEvent(DateTime.Now, eventType, team, player, notes));
+            FilterGameEvents();
             SaveGames();
         }
 
@@ -528,6 +559,6 @@ namespace Scoreboard
                     return null;
                 }
             }
-        }
+        }        
     }
 }

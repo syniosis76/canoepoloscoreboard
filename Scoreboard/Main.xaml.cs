@@ -314,6 +314,16 @@ namespace Scoreboard
             Score.ResetResumeShotTime();
         }
 
+        private void _incrementShotButtonClick(object sender, RoutedEventArgs e)
+        {
+            Score.IncrementShotTime();
+        }
+
+        private void _decrementShotButtonClick(object sender, RoutedEventArgs e)
+        {
+            Score.DecrementShotTime();
+        }        
+
         private bool OnAddGames(object input, object output)
         {
             return AddGamesWindow.AddGames(this, (Score)input, (GameList)output);
