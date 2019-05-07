@@ -593,7 +593,22 @@
                     </ListView.View>
                 </ListView>-->
                 <ListView Grid.Column="4" Grid.Row="2" Name="_gameEventListView" ItemsSource="{Binding Path=SelectedItem.GameEventsFiltered, ElementName=_gamesListView}" Margin="2,4,2,2"  ScrollViewer.ScrollChanged="_gameEventListViewScrollChanged" BorderThickness="0"
-                          FontSize="{Binding Path=ActualWidth, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource doubleConverter}, ConverterParameter=0.035}">
+                          FontSize="{Binding Path=ActualWidth, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource doubleConverter}, ConverterParameter=0.035}"
+                          PreviewMouseLeftButtonUp="EventMenuClick">
+                    <ListView.ContextMenu>
+                        <ContextMenu Name="_eventMenu">
+                            <MenuItem Header="Edit..." Click="EventEditClick" Visibility="{Binding Path=EditVisible}">
+                                <MenuItem.Icon>
+                                    <Image Source="/Scoreboard;component/images/edit.png" Height="18"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Remove" Click="EventRemoveClick" Visibility="{Binding Path=EditVisible}">
+                                <MenuItem.Icon>
+                                    <Image Source="/Scoreboard;component/images/remove.png" Height="18"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </ContextMenu>
+                    </ListView.ContextMenu>
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Horizontal"></StackPanel>

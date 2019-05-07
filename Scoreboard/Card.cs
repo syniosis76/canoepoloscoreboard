@@ -43,9 +43,19 @@ namespace Scoreboard
             }
         }
 
-        public Card(int time)
+        private GameEvent _gameEvent;
+        public GameEvent GameEvent
+        {
+            get
+            {
+                return _gameEvent;
+            }
+        }
+
+        public Card(int time, GameEvent gameEvent)
         {
             _time = time;
+            _gameEvent = gameEvent;
         }
     }
 }

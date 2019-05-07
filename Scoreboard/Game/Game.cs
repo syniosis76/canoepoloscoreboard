@@ -396,11 +396,13 @@ namespace Scoreboard
             FilterGameEvents();
         }
 
-        public void LogEvent(string eventType, string team, string player, string notes)
+        public GameEvent LogEvent(string eventType, string team, string player, string notes)
         {
-            GameEvents.Add(new GameEvent(DateTime.Now, eventType, team, player, notes));
+            GameEvent gameEvent = new GameEvent(DateTime.Now, eventType, team, player, notes);
+            GameEvents.Add(gameEvent);
             FilterGameEvents();
             SaveGames();
+            return gameEvent;
         }
 
         public void LogEvent(string eventType, string team, string player)
@@ -559,6 +561,30 @@ namespace Scoreboard
                     return null;
                 }
             }
-        }        
+        }
+
+        public void CalculateScoreFromEvents()
+        {
+            int team1Score = 0;
+            int team2Score = 0;
+
+            foreach (GameEvent gameEvent in GameEvents)
+            {
+                if (gameEvent.EventType == "Goal")
+                {
+                    if (gameEvent.Team == Team1 || gameEvent.Team == Team1Original)
+                    {
+                        team1Score += 1;
+                    }
+                    else if (gameEvent.Team == Team2 || gameEvent.Team == Team2Original)
+                    {
+                        team2Score += 1;
+                    }
+                }
+            }
+
+            Team1Score = team1Score;
+            Team2Score = team2Score;
+        }
     }
 }

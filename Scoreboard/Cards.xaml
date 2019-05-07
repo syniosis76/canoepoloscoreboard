@@ -19,6 +19,7 @@
         </Grid.Resources>
         <Grid Margin="4" Background="{StaticResource LightBlueGradient}">
             <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
                 <RowDefinition Height="7*"/>
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
@@ -27,7 +28,10 @@
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <ListBox Name="_cardsList" Margin="8,8,4,0" FontFamily="./#DINEngschrift" FontSize="30">
+            <ComboBox Name="_teamComboBox" Grid.Row ="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="8,8,8,4" FontFamily="./#DINEngschrift" FontSize="30">
+                
+            </ComboBox>
+            <ListBox Name="_cardsList" Grid.Row ="1" Grid.Column="0" Margin="8,4,4,0" FontFamily="./#DINEngschrift" FontSize="30">
                 <ListBox.Items>
                     <ListBoxItem Height="50" Tag="Green">
                         <StackPanel Orientation="Horizontal" Margin="2">
@@ -49,10 +53,9 @@
                     </ListBoxItem>
                 </ListBox.Items>   
             </ListBox>
-            <ListBox Name="_playersList" Grid.Column="1" Margin="4,8,4,0" FontFamily="./#DINEngschrift" FontSize="30">
+            <ListBox Name="_playersList" Grid.Row ="1" Grid.Column="1" Margin="4,4,4,0" FontFamily="./#DINEngschrift" FontSize="30">
                 <ListBox.Items>
                     <ListBoxItem>Unknown</ListBoxItem>
-                    <ListBoxItem>Team</ListBoxItem>
                     <ListBoxItem>1</ListBoxItem>
                     <ListBoxItem>2</ListBoxItem>
                     <ListBoxItem>3</ListBoxItem>
@@ -154,7 +157,7 @@
                     <ListBoxItem>99</ListBoxItem>
                 </ListBox.Items>
             </ListBox>
-            <ListBox Name="_infringementList" Grid.Column="2" Margin="4,8,8,0" FontFamily="./#DINEngschrift" FontSize="30" MouseDoubleClick="ListBoxMouseDoubleClick">
+            <ListBox Name="_infringementList" Grid.Row ="1" Grid.Column="2" Margin="4,4,8,0" FontFamily="./#DINEngschrift" FontSize="30" MouseDoubleClick="ListBoxMouseDoubleClick">
                 <ListBox.Items>                                        
                     <ListBoxItem>Illegal Tackle</ListBoxItem>
                     <ListBoxItem>Illegal use of Paddle</ListBoxItem>
@@ -165,10 +168,10 @@
                     <ListBoxItem>Other</ListBoxItem>
                 </ListBox.Items>
             </ListBox>
-            <TextBox Grid.Column="0" Grid.Row="1" FontFamily="./#DINEngschrift" FontSize="32" Margin="8,8,4,8" Text="{Binding Path=PenaltyDuration,FallbackValue=2:00}" />
-            <TextBlock Grid.Column="0" Grid.Row="1" Margin="10,8,8,9" Text="Penalty Duration" FontSize="12" Foreground="#444444" VerticalAlignment="Bottom" />
-            <Button Name="_okButton" Grid.Column="1" Grid.Row="1" Margin="4,8,4,8" FontFamily="./#DINEngschrift" FontSize="32" FontWeight="Bold" IsDefault="True" Click="_okButtonClick">OK</Button>
-            <Button Grid.Column="2" Grid.Row="1" Margin="4,8,8,8" FontFamily="./#DINEngschrift" FontSize="32" FontWeight="Bold" IsCancel="True">Cancel</Button>
+            <TextBox Grid.Row="2" Grid.Column="0" FontFamily="./#DINEngschrift" FontSize="32" Margin="8,8,4,8" Text="{Binding Path=PenaltyDuration,FallbackValue=2:00}" />
+            <TextBlock Grid.Row="2" Grid.Column="0" Margin="10,8,8,9" Text="Penalty Duration" FontSize="12" Foreground="#444444" VerticalAlignment="Bottom" />
+            <Button Name="_okButton" Grid.Row="2" Grid.Column="1" Margin="4,8,4,8" FontFamily="./#DINEngschrift" FontSize="32" FontWeight="Bold" IsDefault="True" Click="_okButtonClick">OK</Button>
+            <Button Grid.Row="2" Grid.Column="2" Margin="4,8,8,8" FontFamily="./#DINEngschrift" FontSize="32" FontWeight="Bold" IsCancel="True">Cancel</Button>
         </Grid>
     </Grid>
 </Window>

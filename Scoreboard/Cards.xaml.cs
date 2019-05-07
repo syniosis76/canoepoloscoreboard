@@ -144,16 +144,20 @@ namespace Scoreboard
             _cardsList.Focus();            
         }
 
-        public static bool SelectCard(Window owner, out string card, out string player, out string infringement, out string penaltyDuration)
+        public static bool SelectCard(Window owner, Game game, string team, out string card, out string player, out string infringement, out string penaltyDuration, out string selectedTeam)
         {
             Cards cards = new Cards();
-            cards.Owner = owner;            
+            cards.Owner = owner;
+            cards._teamComboBox.Items.Add(game.Team1);
+            cards._teamComboBox.Items.Add(game.Team2);
+            cards._teamComboBox.SelectedItem = team;
             if (cards.ShowDialog() == true && cards.CardSelected)
             {
                 card = cards.Card;
                 player = cards.Player;
                 infringement = cards.Infringement;
                 penaltyDuration = cards.PenaltyDuration;
+                selectedTeam = (string)cards._teamComboBox.SelectedItem;
                 return true;
             }
             else
@@ -162,6 +166,7 @@ namespace Scoreboard
                 player = string.Empty;
                 infringement = string.Empty;
                 penaltyDuration = string.Empty;
+                selectedTeam = string.Empty;
                 return false;
             }
         }

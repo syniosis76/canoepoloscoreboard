@@ -1172,9 +1172,10 @@ namespace Scoreboard
             string player;
             string infringement;
             string penaltyDuration;
-            if (Cards.SelectCard(owner, out card, out player, out infringement, out penaltyDuration) && CurrentOrEndedGame != null) 
+            string selectedTeam;
+            if (Cards.SelectCard(owner, CurrentGame, team, out card, out player, out infringement, out penaltyDuration, out selectedTeam) && CurrentOrEndedGame != null) 
             {
-                CurrentOrEndedGame.LogEvent(card + " Card", team, player, infringement);
+                GameEvent gameEvent = CurrentOrEndedGame.LogEvent(card + " Card", selectedTeam, player, infringement);
                 if (card.Equals("Yellow"))
                 {
                     int penaltyDurationSeconds = 120;
@@ -1184,13 +1185,13 @@ namespace Scoreboard
                         penaltyDurationSeconds = (int)penaltyDurationTimeSpan.TotalSeconds;
                     }
 
-                    if (team == CurrentOrEndedGame.Team1)
+                    if (selectedTeam == CurrentOrEndedGame.Team1)
                     {
-                        Team1Cards.Add(new Card(penaltyDurationSeconds));
+                        Team1Cards.Add(new Card(penaltyDurationSeconds, gameEvent));
                     }
                     else
                     {
-                        Team2Cards.Add(new Card(penaltyDurationSeconds));
+                        Team2Cards.Add(new Card(penaltyDurationSeconds, gameEvent));
                     }
                 }
             }

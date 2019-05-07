@@ -557,5 +557,44 @@ namespace Scoreboard
                 DataContext = Score;                
             }
         }
+
+        private void EventMenuClick(object sender, RoutedEventArgs e)
+        {
+            if (!(e.OriginalSource is ScrollViewer))
+            {
+                ContextMenu contextMenu = _eventMenu;
+                contextMenu.IsOpen = true;
+            }
+        }
+
+        private void EventEditClick(object sender, RoutedEventArgs e)
+        {
+            if (_gamesListView.SelectedItem != null && _gameEventListView.SelectedItem != null)
+            {
+                GameEvent gameEvent = (GameEvent)_gameEventListView.SelectedItem;
+                Game game = (Game)_gamesListView.SelectedItem;
+            }
+        }
+
+        private void EventRemoveClick(object sender, RoutedEventArgs e)
+        {
+            if (_gamesListView.SelectedItem != null && _gameEventListView.SelectedItem != null)
+            {
+                if (MessageBox.Show("Are you sure you want to remove this event?", "Remove Event", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    GameEvent gameEvent = (GameEvent)_gameEventListView.SelectedItem;
+                    Game game = (Game)_gamesListView.SelectedItem;
+                    if (gameEvent.EventType == "Yellow Card")
+                    {
+                        Score.Team1Cards.Remove(Score.Team1Cards.Where(x => x.GameEvent == gameEvent).FirstOrDefault());
+                        Score.Team2Cards.Remove(Score.Team2Cards.Where(x => x.GameEvent == gameEvent).FirstOrDefault());
+                    }
+                    game.GameEvents.Remove(gameEvent);
+                    game.FilterGameEvents();
+                    game.CalculateScoreFromEvents();
+                    Score.SaveGames();
+                }
+            }
+        }
     }
 }
