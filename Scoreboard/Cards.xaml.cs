@@ -144,20 +144,41 @@ namespace Scoreboard
             _cardsList.Focus();            
         }
 
-        public static bool SelectCard(Window owner, Game game, string team, out string card, out string player, out string infringement, out string penaltyDuration, out string selectedTeam)
+        private static Object GetItem(ItemCollection list, string value)
+        {
+            foreach (ListBoxItem item in list)
+            {
+                if (item.Tag != null && (string)item.Tag == value)
+                {
+                    return item;
+                }
+                else if (item.Content is String && (string)item.Content == value)
+                {
+                    return item;
+                }
+            }
+
+            return null;
+        }
+
+        public static bool SelectCard(Window owner, Game game, ref string team, ref string card, ref string player, ref string infringement, ref string penaltyDuration)
         {
             Cards cards = new Cards();
             cards.Owner = owner;
             cards._teamComboBox.Items.Add(game.Team1);
             cards._teamComboBox.Items.Add(game.Team2);
-            cards._teamComboBox.SelectedItem = team;
+            if (!String.IsNullOrWhiteSpace(team)) cards._teamComboBox.SelectedItem = team; // GetItem(cards._teamComboBox.Items, team);
+            if (!String.IsNullOrWhiteSpace(card)) cards._cardsList.SelectedItem = GetItem(cards._cardsList.Items, card);
+            if (!String.IsNullOrWhiteSpace(player)) cards._playersList.SelectedItem = GetItem(cards._playersList.Items, player);
+            if (!String.IsNullOrWhiteSpace(infringement)) cards._infringementList.SelectedItem = GetItem(cards._infringementList.Items, infringement);            
+
             if (cards.ShowDialog() == true && cards.CardSelected)
             {
                 card = cards.Card;
                 player = cards.Player;
                 infringement = cards.Infringement;
                 penaltyDuration = cards.PenaltyDuration;
-                selectedTeam = (string)cards._teamComboBox.SelectedItem;
+                team = (string)cards._teamComboBox.SelectedItem;
                 return true;
             }
             else
@@ -166,7 +187,7 @@ namespace Scoreboard
                 player = string.Empty;
                 infringement = string.Empty;
                 penaltyDuration = string.Empty;
-                selectedTeam = string.Empty;
+                team = string.Empty;
                 return false;
             }
         }

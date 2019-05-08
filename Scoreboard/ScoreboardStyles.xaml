@@ -205,4 +205,9 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style x:Key="ListBoxItemBackground" TargetType="{x:Type ListBoxItem}">
+        <Style.Resources>
+            <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="{x:Static SystemColors.HighlightColor}"/>
+        </Style.Resources>
+    </Style>
 </ResourceDictionary>

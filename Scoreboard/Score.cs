@@ -1102,7 +1102,8 @@ namespace Scoreboard
 
         protected void Beep(bool longBeep)
         {
-            if (!Paused && CurrentGame != null && !CurrentGame.HasEnded)
+            if (!Paused && CurrentGame != null && !CurrentGame.HasEnded
+                    && !(StartPaused && CurrentGame.Periods.CurrentPeriod != null && CurrentGame.Periods.CurrentPeriod.Status == GamePeriodStatus.Pending))
             {
                 if (longBeep)
                 {                    
@@ -1168,14 +1169,14 @@ namespace Scoreboard
 
         public void SelectCard(Window owner, string team)
         {
-            string card;
-            string player;
-            string infringement;
-            string penaltyDuration;
-            string selectedTeam;
-            if (Cards.SelectCard(owner, CurrentGame, team, out card, out player, out infringement, out penaltyDuration, out selectedTeam) && CurrentOrEndedGame != null) 
+            string card = String.Empty;
+            string player = String.Empty;
+            string infringement = String.Empty;
+            string penaltyDuration = String.Empty;
+
+            if (Cards.SelectCard(owner, CurrentGame, ref team, ref card, ref player, ref infringement, ref penaltyDuration) && CurrentOrEndedGame != null) 
             {
-                GameEvent gameEvent = CurrentOrEndedGame.LogEvent(card + " Card", selectedTeam, player, infringement);
+                GameEvent gameEvent = CurrentOrEndedGame.LogEvent(card + " Card", team, player, infringement);
                 if (card.Equals("Yellow"))
                 {
                     int penaltyDurationSeconds = 120;
@@ -1185,7 +1186,7 @@ namespace Scoreboard
                         penaltyDurationSeconds = (int)penaltyDurationTimeSpan.TotalSeconds;
                     }
 
-                    if (selectedTeam == CurrentOrEndedGame.Team1)
+                    if (team == CurrentOrEndedGame.Team1)
                     {
                         Team1Cards.Add(new Card(penaltyDurationSeconds, gameEvent));
                     }
@@ -1194,6 +1195,46 @@ namespace Scoreboard
                         Team2Cards.Add(new Card(penaltyDurationSeconds, gameEvent));
                     }
                 }
+            }
+        }
+
+        public void EditCard(Window owner, Game game, GameEvent gameEvent)
+        {
+            string card = gameEvent.EventType.Replace(" Card", "");
+            string team = gameEvent.Team;
+            string player = gameEvent.Player;
+            string infringement = gameEvent.Notes;
+            string penaltyDuration = String.Empty;
+
+            if (Cards.SelectCard(owner, game, ref team, ref card, ref player, ref infringement, ref penaltyDuration) && CurrentOrEndedGame != null)
+            {
+                gameEvent.EventType = card + " Card";
+                gameEvent.Team = team;
+                gameEvent.Player = player;
+                gameEvent.Notes = infringement;
+
+                game.FilterGameEvents();
+
+                SaveGames();
+
+                /*if (card.Equals("Yellow"))
+                {
+                    int penaltyDurationSeconds = 120;
+                    TimeSpan penaltyDurationTimeSpan = ParseTimeSpan(penaltyDuration);
+                    if (penaltyDurationTimeSpan.TotalSeconds > 0)
+                    {
+                        penaltyDurationSeconds = (int)penaltyDurationTimeSpan.TotalSeconds;
+                    }
+
+                    if (team == CurrentOrEndedGame.Team1)
+                    {
+                        Team1Cards.Add(new Card(penaltyDurationSeconds, gameEvent));
+                    }
+                    else
+                    {
+                        Team2Cards.Add(new Card(penaltyDurationSeconds, gameEvent));
+                    }
+                }*/
             }
         }
 

@@ -573,7 +573,17 @@ namespace Scoreboard
             {
                 GameEvent gameEvent = (GameEvent)_gameEventListView.SelectedItem;
                 Game game = (Game)_gamesListView.SelectedItem;
+
+                if (gameEvent.EventType.Contains("Card"))
+                {
+                    EditCard(gameEvent);
+                }
             }
+        }
+
+        private void EditCard(GameEvent gameEvent)
+        {
+            Score.EditCard(this, (Game)_gamesListView.SelectedItem, gameEvent);
         }
 
         private void EventRemoveClick(object sender, RoutedEventArgs e)
