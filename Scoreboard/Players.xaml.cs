@@ -43,17 +43,45 @@ namespace Scoreboard
             _playersList.Focus();
         }
 
-        public static string SelectPlayer(Window owner)
+        private static Object GetItem(ItemCollection list, string value)
+        {
+            foreach (ListBoxItem item in list)
+            {
+                if (item.Tag != null && (string)item.Tag == value)
+                {
+                    return item;
+                }
+                else if (item.Content is String && (string)item.Content == value)
+                {
+                    return item;
+                }
+            }
+
+            return null;
+        }
+
+        public static bool SelectPlayer(Window owner, Game game, ref string team, ref string player)
         {
             Players players = new Players();
             players.Owner = owner;
+
+            players._teamComboBox.Items.Add(game.Team1);
+            players._teamComboBox.Items.Add(game.Team2);
+
+            if (!String.IsNullOrWhiteSpace(team)) players._teamComboBox.SelectedItem = team; 
+            if (!String.IsNullOrWhiteSpace(player)) players._playersList.SelectedItem = GetItem(players._playersList.Items, player);
+
             if (players.ShowDialog() == true)
             {
-                return players.Player;
+                team = (string)players._teamComboBox.SelectedItem;
+                player = players.Player;
+                return true;
             }
             else
             {
-                return String.Empty;
+                team = string.Empty;
+                player = String.Empty;
+                return false;
             }
         }
 

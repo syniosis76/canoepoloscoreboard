@@ -585,6 +585,8 @@ namespace Scoreboard
 
             Team1Score = team1Score;
             Team2Score = team2Score;
+
+            CalculateResult();
         }
     }
 }

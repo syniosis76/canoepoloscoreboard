@@ -92,21 +92,39 @@ namespace Scoreboard
 
         private void bTeam1ScoreSubtract_Click(object sender, RoutedEventArgs e)
         {
-            Score.Team1NoGoal();            
+            //Score.Team1NoGoal();            
+            MessageBox.Show("Remove the goal from the events list instead.");
         }
 
         private void Team1Goal()
         {
-            string player = Score.RecordGoalScorers ? Players.SelectPlayer(this) : Players.Unknown;
-            if (!String.IsNullOrEmpty(player))
+            if (Score.CurrentGame != null)
             {
-                if (player != Players.Unknown)
+                TeamGoal(Score.CurrentGame.Team1);
+            }
+        }
+
+        private void TeamGoal(string team)
+        {
+            if (Score.CurrentGame != null)
+            {
+                string player = String.Empty;
+
+                if (Score.RecordGoalScorers)
                 {
+                    if (!Players.SelectPlayer(this, Score.CurrentGame, ref team, ref player))
+                    {
+                        return;
+                    }
+                }
+
+                if (team == Score.CurrentGame.Team1)
+                { 
                     Score.Team1Goal(player);
                 }
                 else
                 {
-                    Score.Team1Goal(String.Empty);
+                    Score.Team2Goal(player);
                 }
             }
         }
@@ -118,22 +136,15 @@ namespace Scoreboard
         
         private void bTeam2ScoreSubtract_Click(object sender, RoutedEventArgs e)
         {
-            Score.Team2NoGoal();
+            //Score.Team2NoGoal();
+            MessageBox.Show("Remove the goal from the events list instead.");
         }
 
         private void Team2Goal()
         {
-            string player = Score.RecordGoalScorers ? Players.SelectPlayer(this) : Players.Unknown;
-            if (!String.IsNullOrEmpty(player))
+            if (Score.CurrentGame != null)
             {
-                if (player != Players.Unknown)
-                {
-                    Score.Team2Goal(player);
-                }
-                else
-                {
-                    Score.Team2Goal(String.Empty);                    
-                }
+                TeamGoal(Score.CurrentGame.Team2);
             }
         }
 
@@ -578,12 +589,34 @@ namespace Scoreboard
                 {
                     EditCard(gameEvent);
                 }
+                else if (gameEvent.EventType == "Goal")
+                {
+                    EditGoal(gameEvent);
+                }
             }
         }
 
         private void EditCard(GameEvent gameEvent)
         {
             Score.EditCard(this, (Game)_gamesListView.SelectedItem, gameEvent);
+        }
+
+        private void EditGoal(GameEvent gameEvent)
+        {
+            Game game = (Game)_gamesListView.SelectedItem;
+
+            string team = gameEvent.Team;
+            string player = gameEvent.Player;
+
+            if (Players.SelectPlayer(this, game, ref team, ref player))
+            {
+                gameEvent.Team = team;
+                gameEvent.Player = player;
+
+                game.FilterGameEvents();
+                game.CalculateScoreFromEvents();
+                Score.SaveGames();
+            }
         }
 
         private void EventRemoveClick(object sender, RoutedEventArgs e)

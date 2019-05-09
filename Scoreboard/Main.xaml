@@ -568,30 +568,6 @@
                         </ListView.View>
                     </ListView>
                 </Grid>
-                <!-- Events -->
-                <!--<ListView Grid.Column="4" Grid.Row="2" Name="_gameEventListView" ItemsSource="{Binding Path=SelectedItem.GameEvents, ElementName=_gamesListView}" Margin="2,4,2,2"  ScrollViewer.ScrollChanged="_gameEventListViewScrollChanged" BorderThickness="0"
-                          FontSize="{Binding Path=ActualWidth, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource doubleConverter}, ConverterParameter=0.035}">
-                    <ListView.Resources>
-                        <Style x:Key="hcs" TargetType="{x:Type GridViewColumnHeader}">
-                            <Setter Property="HorizontalContentAlignment" Value="Left"/>
-                            <Setter Property="FontWeight" Value="Bold"/>
-                        </Style>
-                    </ListView.Resources>
-                    <ListView.View>
-                        <GridView>
-                            <GridView.Columns>
-                                <GridViewColumn HeaderContainerStyle="{StaticResource hcs}" Header=" Time" DisplayMemberBinding="{Binding Path=Time, Converter={StaticResource periodTimeConverter}}"
-                                                Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type ListView}}, Converter={StaticResource doubleConverter}, ConverterParameter=0.17}"/>
-                                <GridViewColumn HeaderContainerStyle="{StaticResource hcs}" Header=" Event" DisplayMemberBinding="{Binding Path=EventType}"
-                                                Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type ListView}}, Converter={StaticResource doubleConverter}, ConverterParameter=0.34}"/>
-                                <GridViewColumn HeaderContainerStyle="{StaticResource hcs}" Header=" Team" DisplayMemberBinding="{Binding Path=Team}"
-                                                Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type ListView}}, Converter={StaticResource doubleConverter}, ConverterParameter=0.25}"/>
-                                <GridViewColumn HeaderContainerStyle="{StaticResource hcs}" Header=" Player" DisplayMemberBinding="{Binding Path=Player}"
-                                                Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type ListView}}, Converter={StaticResource doubleConverter}, ConverterParameter=0.14}"/>
-                            </GridView.Columns>
-                        </GridView>
-                    </ListView.View>
-                </ListView>-->
                 <ListView Grid.Column="4" Grid.Row="2" Name="_gameEventListView" ItemsSource="{Binding Path=SelectedItem.GameEventsFiltered, ElementName=_gamesListView}" Margin="2,4,2,2"  ScrollViewer.ScrollChanged="_gameEventListViewScrollChanged" BorderThickness="0"
                           FontSize="{Binding Path=ActualWidth, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource doubleConverter}, ConverterParameter=0.035}"
                           PreviewMouseLeftButtonUp="EventMenuClick">

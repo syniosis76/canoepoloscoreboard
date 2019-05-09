@@ -41,10 +41,7 @@
                             <ColumnDefinition Width="1*"/>
                             <ColumnDefinition Width="4*"/>
                         </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" Click="Team1RemoveGoalClick" Style="{StaticResource TileButtonBlue}">
-                            <Image Margin="2" Source="/Scoreboard;component/images/remove.png" RenderOptions.BitmapScalingMode="HighQuality"/>
-                        </Button>
-                        <Button Grid.Column="2" Click="Team1AddGoalClick" Style="{StaticResource TileButtonBlue}">
+                        <Button Grid.Column="0" Click="Team1AddGoalClick" Style="{StaticResource TileButtonBlue}">
                             <Image Margin="2" Source="/Scoreboard;component/images/add.png" RenderOptions.BitmapScalingMode="HighQuality"/>
                         </Button>
                     </Grid>
@@ -62,10 +59,7 @@
                             <ColumnDefinition Width="1*"/>
                             <ColumnDefinition Width="4*"/>
                         </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" Click="Team2RemoveGoalClick" Style="{StaticResource TileButtonBlue}">
-                            <Image Margin="2" Grid.ColumnSpan="2" Source="/Scoreboard;component/images/remove.png" RenderOptions.BitmapScalingMode="HighQuality"/>
-                        </Button>
-                        <Button Grid.Column="2" Click="Team2AddGoalClick" Style="{StaticResource TileButtonBlue}">
+                        <Button Grid.Column="0" Click="Team2AddGoalClick" Style="{StaticResource TileButtonBlue}">
                             <Image Margin="2" Grid.ColumnSpan="2" Source="/Scoreboard;component/images/add.png" RenderOptions.BitmapScalingMode="HighQuality"/>
                         </Button>
                     </Grid>

@@ -177,61 +177,37 @@ namespace Scoreboard
 
         private void Team1AddGoalClick(object sender, RoutedEventArgs e)
         {
-            if (Score != null)
-            {
-                string player = Score.RecordGoalScorers ? Players.SelectPlayer(this) : Players.Unknown;
-                if (!String.IsNullOrEmpty(player))
-                {
-                    if (player != Players.Unknown)
-                    {
-                        Score.Team1Goal(player);
-                    }
-                    else
-                    {
-                        Score.Team1Goal(String.Empty);
-                    }
-                }
-            }
-            else
-            {
-                CompletedGame.Team1Score++;
-            }
-            CompletedGame.CalculateResult();
-        }
-
-        private void Team1RemoveGoalClick(object sender, RoutedEventArgs e)
-        {
-            if (Score != null) Score.Team1NoGoal(); else CompletedGame.Team1Score--;
-            CompletedGame.CalculateResult();
+            TeamGoal(CompletedGame.Team1);            
         }
 
         private void Team2AddGoalClick(object sender, RoutedEventArgs e)
         {
-            if (Score != null)
-            {
-                string player = Score.RecordGoalScorers ? Players.SelectPlayer(this) : Players.Unknown;
-                if (!String.IsNullOrEmpty(player))
-                {
-                    if (player != Players.Unknown)
-                    {
-                        Score.Team2Goal(player);
-                    }
-                    else
-                    {
-                        Score.Team2Goal(String.Empty);
-                    }
-                }
-            }
-            else
-            {
-                CompletedGame.Team2Score++;
-            }
-            CompletedGame.CalculateResult();
+            TeamGoal(CompletedGame.Team2);
         }
 
-        private void Team2RemoveGoalClick(object sender, RoutedEventArgs e)
+        private void TeamGoal(string team)
         {
-            if (Score != null) Score.Team2NoGoal(); else CompletedGame.Team2Score--;
+            if (Score.CurrentGame != null)
+            {
+                string player = String.Empty;
+
+                if (Score.RecordGoalScorers)
+                {
+                    if (!Players.SelectPlayer(this, CompletedGame, ref team, ref player))
+                    {
+                        return;
+                    }
+                }
+
+                if (team == Score.CurrentGame.Team1)
+                {
+                    Score.Team1Goal(player);
+                }
+                else
+                {
+                    Score.Team2Goal(player);
+                }
+            }
             CompletedGame.CalculateResult();
         }
 
