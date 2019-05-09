@@ -126,6 +126,7 @@ namespace Scoreboard
                 {
                     Score.Team2Goal(player);
                 }
+                ScrollEventsToEnd();
             }
         }
 
@@ -227,6 +228,7 @@ namespace Scoreboard
             if (Score.CurrentGame != null)
             {
                 Score.SelectCard(this, Score.CurrentGame.Team1);
+                ScrollEventsToEnd();
             }
         }
 
@@ -235,6 +237,7 @@ namespace Scoreboard
             if (Score.CurrentGame != null)
             {
                 Score.SelectCard(this, Score.CurrentGame.Team2);
+                ScrollEventsToEnd();
             }
         }
 
@@ -571,7 +574,7 @@ namespace Scoreboard
 
         private void EventMenuClick(object sender, RoutedEventArgs e)
         {
-            if (!(e.OriginalSource is ScrollViewer))
+            if (e.OriginalSource is Border)
             {
                 ContextMenu contextMenu = _eventMenu;
                 contextMenu.IsOpen = true;
@@ -582,7 +585,7 @@ namespace Scoreboard
         {
             if (_gamesListView.SelectedItem != null && _gameEventListView.SelectedItem != null)
             {
-                GameEvent gameEvent = (GameEvent)_gameEventListView.SelectedItem;
+                GameEvent gameEvent = ((GameEventView)_gameEventListView.SelectedItem).GameEvent;
                 Game game = (Game)_gamesListView.SelectedItem;
 
                 if (gameEvent.EventType.Contains("Card"))
@@ -599,6 +602,7 @@ namespace Scoreboard
         private void EditCard(GameEvent gameEvent)
         {
             Score.EditCard(this, (Game)_gamesListView.SelectedItem, gameEvent);
+            ScrollEventsToEnd();
         }
 
         private void EditGoal(GameEvent gameEvent)
@@ -616,6 +620,7 @@ namespace Scoreboard
                 game.FilterGameEvents();
                 game.CalculateScoreFromEvents();
                 Score.SaveGames();
+                ScrollEventsToEnd();
             }
         }
 
@@ -625,7 +630,7 @@ namespace Scoreboard
             {
                 if (MessageBox.Show("Are you sure you want to remove this event?", "Remove Event", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    GameEvent gameEvent = (GameEvent)_gameEventListView.SelectedItem;
+                    GameEvent gameEvent = ((GameEventView)_gameEventListView.SelectedItem).GameEvent;
                     Game game = (Game)_gamesListView.SelectedItem;
                     if (gameEvent.EventType == "Yellow Card")
                     {
@@ -636,6 +641,108 @@ namespace Scoreboard
                     game.FilterGameEvents();
                     game.CalculateScoreFromEvents();
                     Score.SaveGames();
+                }
+            }
+        }
+
+        private void ScrollEventsToEnd()
+        {            
+            if (_gameEventListView.Items.Count > 0)
+            {
+                Object item = _gameEventListView.Items[_gameEventListView.Items.Count - 1];                
+                _gameEventListView.UpdateLayout();
+                _gameEventListView.ScrollIntoView(item);
+            }
+        }
+
+        private void _gamesListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ScrollEventsToEnd();
+        }
+
+        public static DependencyObject GetScrollViewer(DependencyObject o)
+        {
+            // Return the DependencyObject if it is a ScrollViewer
+            if (o is ScrollViewer)
+            { return o; }
+
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(o); i++)
+            {
+                var child = VisualTreeHelper.GetChild(o, i);
+
+                var result = GetScrollViewer(child);
+                if (result == null)
+                {
+                    continue;
+                }
+                else
+                {
+                    return result;
+                }
+            }
+            return null;
+        }
+
+        private void EventScrollLeft(object sender, RoutedEventArgs e)
+        {
+            var scrollViwer = GetScrollViewer(_gameEventListView) as ScrollViewer;
+
+            if (scrollViwer != null)
+            {             
+                scrollViwer.ScrollToHorizontalOffset(scrollViwer.HorizontalOffset - 1);
+            }
+        }
+
+        private void EventScrollRight(object sender, RoutedEventArgs e)
+        {
+            var scrollViwer = GetScrollViewer(_gameEventListView) as ScrollViewer;
+
+            if (scrollViwer != null)
+            {
+                scrollViwer.ScrollToHorizontalOffset(scrollViwer.HorizontalOffset + 1);
+            }
+        }
+
+        private void EventAddGoal(object sender, RoutedEventArgs e)
+        {
+            if (_gamesListView.SelectedItem != null)
+            {
+                Game game = (Game)_gamesListView.SelectedItem;
+                string team = String.Empty;
+                string player = String.Empty;
+
+
+                if (Players.SelectPlayer(this, game, ref team, ref player))
+                {
+                    if (!String.IsNullOrWhiteSpace(team) && !String.IsNullOrWhiteSpace(player))
+                    game.LogEvent("Goal", team, player, String.Empty);                    
+                    game.FilterGameEvents();
+                    game.CalculateScoreFromEvents();
+                    Score.SaveGames();
+                    ScrollEventsToEnd();
+                }
+            }
+        }
+
+        private void EventAddCard(object sender, RoutedEventArgs e)
+        {
+            if (_gamesListView.SelectedItem != null)
+            {
+                Game game = (Game)_gamesListView.SelectedItem;
+                                
+                string card = String.Empty;
+                string team = String.Empty;
+                string player = String.Empty;
+                string infringement = String.Empty;
+                string penaltyDuration = String.Empty;
+
+                if (Cards.SelectCard(this, game, ref team, ref card, ref player, ref infringement, ref penaltyDuration))
+                {
+                    GameEvent gameEvent = game.LogEvent(card + " Card", team, player, infringement);
+                    game.FilterGameEvents();
+                    game.CalculateScoreFromEvents();
+                    Score.SaveGames();
+                    ScrollEventsToEnd();
                 }
             }
         }

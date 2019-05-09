@@ -370,25 +370,29 @@ namespace Scoreboard
             }
         }
 
-        private GameEventList _gameEventsFiltered = new GameEventList();
-        public GameEventList GameEventsFiltered
+        private BindingList<GameEventView> _gameEventsView = new BindingList<GameEventView>();
+        public BindingList<GameEventView> GameEventsView
         {
             get
             {
-                return _gameEventsFiltered;
+                return _gameEventsView;
             }
         }
 
         public void FilterGameEvents()
         {
-            GameEventsFiltered.Clear();
+            GameEventsView.Clear();
             foreach (GameEvent gameEvent in GameEvents)
             {
                 if (!String.IsNullOrEmpty(gameEvent.Team))
                 {
-                    GameEventsFiltered.Add(gameEvent);
+                    string player = '#' + gameEvent.Player;
+                    if (player == "#Unknown") player = "#?";
+                    GameEventsView.Add(new GameEventView(gameEvent, gameEvent.Time, gameEvent.EventType
+                            , gameEvent.Team == Team1 || gameEvent.Team == Team1Original ? player : String.Empty
+                            , gameEvent.Team == Team2 || gameEvent.Team == Team2Original ? player : String.Empty));
                 }
-            }            
+            }
         }
 
         public void Loaded()

@@ -143,6 +143,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Game\GameEventView.cs" />
     <Compile Include="SelectListWindow.xaml.cs">
       <DependentUpon>SelectListWindow.xaml</DependentUpon>
     </Compile>
@@ -304,6 +305,8 @@
     <None Include="packages.config" />
     <Resource Include="images\restart_resume.png" />
     <Resource Include="images\tourney.png" />
+    <Resource Include="images\card.png" />
+    <Resource Include="images\goal.png" />
     <Content Include="pages\home.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

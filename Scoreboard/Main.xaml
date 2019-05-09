@@ -471,7 +471,7 @@
             </Button>
             <!-- Games -->
             <ListView Grid.Column="4" Grid.Row="1" Margin="2,4,2,2" Name="_gamesListView" ItemsSource="{Binding Games}" SelectedItem="{Binding SelectedGame, Mode=TwoWay}" ItemContainerStyle="{StaticResource CurrentGameStyle}" BorderThickness="0"
-                      FontSize="{Binding Path=ActualWidth, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource doubleConverter}, ConverterParameter=0.035}">
+                      FontSize="{Binding Path=ActualWidth, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource doubleConverter}, ConverterParameter=0.035}" SelectionChanged="_gamesListView_SelectionChanged">
                 <ListView.Resources>
                     <Style x:Key="hcs" TargetType="{x:Type GridViewColumnHeader}">
                         <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
@@ -505,8 +505,8 @@
                 </Grid.RowDefinitions>
                 <!-- Periods -->
                 <Grid Grid.Row="0">
-                    <ListView Name="_periodsListView" ItemsSource="{Binding Path=SelectedItem.Periods, ElementName=_gamesListView}" SelectedItem="{Binding SelectedPeriod, Mode=TwoWay}" ItemContainerStyle="{StaticResource CurrentPeriodStyle}" Margin="2,4,2,0" BorderThickness="0"
-                              FontSize="{Binding Path=ActualWidth, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource doubleConverter}, ConverterParameter=0.035}">
+                    <ListView Name="_periodsListView" ItemsSource="{Binding Path=SelectedItem.Periods, ElementName=_gamesListView}" SelectedItem="{Binding SelectedPeriod, Mode=TwoWay}" ItemContainerStyle="{StaticResource CurrentPeriodStyle}"
+                              Margin="2,4,2,0" BorderThickness="0" FontSize="{Binding Path=ActualWidth, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource doubleConverter}, ConverterParameter=0.035}">
                         <ListView.Resources>
                             <Style x:Key="hcs" TargetType="{x:Type GridViewColumnHeader}">
                                 <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
@@ -568,38 +568,74 @@
                         </ListView.View>
                     </ListView>
                 </Grid>
-                <ListView Grid.Column="4" Grid.Row="2" Name="_gameEventListView" ItemsSource="{Binding Path=SelectedItem.GameEventsFiltered, ElementName=_gamesListView}" Margin="2,4,2,2"  ScrollViewer.ScrollChanged="_gameEventListViewScrollChanged" BorderThickness="0"
-                          FontSize="{Binding Path=ActualWidth, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource doubleConverter}, ConverterParameter=0.035}"
-                          PreviewMouseLeftButtonUp="EventMenuClick">
-                    <ListView.ContextMenu>
-                        <ContextMenu Name="_eventMenu">
-                            <MenuItem Header="Edit..." Click="EventEditClick" Visibility="{Binding Path=EditVisible}">
-                                <MenuItem.Icon>
-                                    <Image Source="/Scoreboard;component/images/edit.png" Height="18"/>
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="Remove" Click="EventRemoveClick" Visibility="{Binding Path=EditVisible}">
-                                <MenuItem.Icon>
-                                    <Image Source="/Scoreboard;component/images/remove.png" Height="18"/>
-                                </MenuItem.Icon>
-                            </MenuItem>
-                        </ContextMenu>
-                    </ListView.ContextMenu>
-                    <ListView.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal"></StackPanel>
-                        </ItemsPanelTemplate>
-                    </ListView.ItemsPanel>
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Vertical">
-                                <TextBlock Text="{Binding Path=Time, Converter={StaticResource periodTimeConverter}}" />
-                                <TextBlock Text="{Binding Path=EventType}" />
-                                <TextBlock Text="{Binding Path=Player}" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                <Grid Grid.Column="4" Grid.Row="2" Margin="2,4,2,2" Background="{x:Static SystemColors.WindowBrush}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="3*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Margin="3,0,0,0" Foreground="{x:Static SystemColors.WindowTextBrush}" Text="{Binding Path=SelectedItem.Team1, ElementName=_gamesListView, FallbackValue=Team 1}"
+                               FontSize="{Binding Path=ActualWidth, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource doubleConverter}, ConverterParameter=0.035}"/>
+                    <Grid Grid.Row="0" HorizontalAlignment="Right" Width="60">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Background="Transparent" Content="+" Click="EventAddGoal" ToolTip="Add a goal to a team." />
+                        <Button Grid.Column="1" Background="Transparent" Content="C" Click="EventAddCard" ToolTip="Add a card to a team." />
+                    </Grid>
+                    <ListView Grid.Row="1" Name="_gameEventListView" ItemsSource="{Binding Path=SelectedItem.GameEventsView, ElementName=_gamesListView}" ScrollViewer.ScrollChanged="_gameEventListViewScrollChanged" BorderThickness="0"
+                              FontSize="{Binding Path=ActualWidth, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource doubleConverter}, ConverterParameter=0.035}"
+                              PreviewMouseLeftButtonUp="EventMenuClick"
+                              ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                              ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                        <ListView.ContextMenu>
+                            <ContextMenu Name="_eventMenu">
+                                <MenuItem Header="Edit..." Click="EventEditClick" Visibility="{Binding Path=EditVisible}">
+                                    <MenuItem.Icon>
+                                        <Image Source="/Scoreboard;component/images/edit.png" Height="18"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Remove" Click="EventRemoveClick" Visibility="{Binding Path=EditVisible}">
+                                    <MenuItem.Icon>
+                                        <Image Source="/Scoreboard;component/images/remove.png" Height="18"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                            </ContextMenu>
+                        </ListView.ContextMenu>
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"></StackPanel>
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid VerticalAlignment="Stretch"
+                                        Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListView}}, Converter={StaticResource doubleConverter}, ConverterParameter=0.3}">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0" Text="{Binding Path=Team1Player}" HorizontalAlignment="Center" IsHitTestVisible="False"/>
+                                    <Image Grid.Row="1" Source="{Binding Path=Image}" RenderOptions.BitmapScalingMode="HighQuality" HorizontalAlignment="Center" IsHitTestVisible="False"
+                                            Height="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListView}}, Converter={StaticResource doubleConverter}, ConverterParameter=0.3}"/>
+                                    <TextBlock Grid.Row="2" Text="{Binding Path=Team2Player}" HorizontalAlignment="Center" IsHitTestVisible="False"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <TextBlock Grid.Row="3" Margin="3,0,0,0" Foreground="{x:Static SystemColors.WindowTextBrush}" Text="{Binding Path=SelectedItem.Team2, ElementName=_gamesListView, FallbackValue=Team 2}"
+                               FontSize="{Binding Path=ActualWidth, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource doubleConverter}, ConverterParameter=0.035}"/>
+                    <Grid Grid.Row="3" HorizontalAlignment="Right" Width="60">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <RepeatButton Grid.Column="0" Background="Transparent" Delay="500" Interval="40" Content="&lt;" Click="EventScrollLeft" />
+                        <RepeatButton Grid.Column="1" Background="Transparent" Delay="500" Interval="40" Content="&gt;" Click="EventScrollRight" />
+                    </Grid>
+                </Grid>
             </Grid>
             <!-- Competition Mode -->
             <Grid Grid.Column="4" Grid.Row="3" Margin="2" Background="{StaticResource BackgroundGreen}">
