@@ -403,7 +403,17 @@
                     <ColumnDefinition Width="87*"/>
                 </Grid.ColumnDefinitions>
                 <Viewbox Grid.Column="0" HorizontalAlignment="Left" Grid.ColumnSpan="2">
-                    <ListView ItemsSource="{Binding Path=Team1Cards}" Background="Transparent" Focusable="False" ItemTemplateSelector="{StaticResource cardTemplateSelector}" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                    <ListView Name="_team1Cards" ItemsSource="{Binding Path=Team1Cards}" Background="Transparent" Focusable="False" ItemTemplateSelector="{StaticResource cardTemplateSelector}" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                              PreviewMouseLeftButtonUp="_team1CardsClick">
+                        <ListView.ContextMenu>
+                            <ContextMenu Name="_team1CardsMenu">
+                                <MenuItem Header="Cancel" Click="_team1CardCancelClick">
+                                    <MenuItem.Icon>
+                                        <Image Source="/Scoreboard;component/images/cancel.png" Height="18"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                            </ContextMenu>
+                        </ListView.ContextMenu>
                         <ListView.BorderBrush>
                             <SolidColorBrush />
                         </ListView.BorderBrush>
@@ -415,7 +425,17 @@
                     </ListView>
                 </Viewbox>
                 <Viewbox Grid.Column="2" HorizontalAlignment="Right">
-                    <ListView ItemsSource="{Binding Path=Team2Cards}" Background="Transparent" FlowDirection="RightToLeft" Focusable="False" ItemTemplateSelector="{StaticResource cardTemplateSelector}"  ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                    <ListView Name="_team2Cards" ItemsSource="{Binding Path=Team2Cards}" Background="Transparent" FlowDirection="RightToLeft" Focusable="False" ItemTemplateSelector="{StaticResource cardTemplateSelector}"  ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                              PreviewMouseLeftButtonUp="_team2CardsClick">
+                        <ListView.ContextMenu>
+                            <ContextMenu Name="_team2CardsMenu">
+                                <MenuItem Header="Cancel" Click="_team2CardCancelClick">
+                                    <MenuItem.Icon>
+                                        <Image Source="/Scoreboard;component/images/cancel.png" Height="18"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                            </ContextMenu>
+                        </ListView.ContextMenu>
                         <ListView.BorderBrush>
                             <SolidColorBrush />
                         </ListView.BorderBrush>

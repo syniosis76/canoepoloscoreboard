@@ -177,38 +177,65 @@ namespace Scoreboard
 
         private void Team1AddGoalClick(object sender, RoutedEventArgs e)
         {
-            TeamGoal(CompletedGame.Team1);            
+            if (Score.CurrentOrEndedGame != null)
+            {
+                TeamGoal(Score.CurrentOrEndedGame.Team1);
+            }
         }
 
         private void Team2AddGoalClick(object sender, RoutedEventArgs e)
         {
-            TeamGoal(CompletedGame.Team2);
+            if (Score.CurrentOrEndedGame != null)
+            {
+                TeamGoal(Score.CurrentOrEndedGame.Team2);
+            }
         }
 
         private void TeamGoal(string team)
         {
-            if (Score.CurrentGame != null)
+            if (Score.CurrentOrEndedGame != null)
             {
+                Game game = Score.CurrentOrEndedGame;
                 string player = String.Empty;
 
                 if (Score.RecordGoalScorers)
                 {
-                    if (!Players.SelectPlayer(this, CompletedGame, ref team, ref player))
+                    if (!Players.SelectPlayer(this, game, ref team, ref player))
                     {
                         return;
                     }
                 }
 
-                if (team == Score.CurrentGame.Team1)
+                if (team == game.Team1)
                 {
-                    Score.Team1Goal(player);
+                    Score.Team1Goal(player, game);
                 }
                 else
                 {
-                    Score.Team2Goal(player);
+                    Score.Team2Goal(player, game);
                 }
+                game.CalculateResult();
+            }            
+        }
+
+        private void Team1AddCardClick(object sender, RoutedEventArgs e)
+        {
+            TeamCard(CompletedGame.Team1);
+        }
+
+        private void Team2AddCardClick(object sender, RoutedEventArgs e)
+        {
+            TeamCard(CompletedGame.Team2);
+        }
+
+        private void TeamCard(string team)
+        {
+            if (Score.CurrentOrEndedGame != null)
+            {
+                Game game = Score.CurrentOrEndedGame;
+                Score.SelectCard(this, Score.CurrentGame.Team1, game);
+                game.CalculateResult();
             }
-            CompletedGame.CalculateResult();
         }
 
         private void StartExtraPeriodClick(object sender, RoutedEventArgs e)

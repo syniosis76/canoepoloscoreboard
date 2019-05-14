@@ -1157,42 +1157,53 @@ namespace Scoreboard
             }
         }
 
-        public void Team1Goal(string player)
+        public void Team1Goal(string player, Game game = null)
         {
-            if (CurrentOrEndedGame != null)
+            if (game == null)
             {
-                CurrentOrEndedGame.Team1Score++;                
-                CurrentOrEndedGame.LogEvent("Goal", CurrentOrEndedGame.Team1, player, CurrentOrEndedGame.Team1Score.ToString() + " to " + CurrentOrEndedGame.Team2Score.ToString());                
+                game = CurrentOrEndedGame;
+            }
+            if (game != null)
+            {
+                game.Team1Score++;
+                game.LogEvent("Goal", game.Team1, player, game.Team1Score.ToString() + " to " + game.Team2Score.ToString());                
                 SaveGames();
             }
         }
 
-        public void SelectCard(Window owner, string team)
+        public void SelectCard(Window owner, string team, Game game = null)
         {
-            string card = String.Empty;
-            string player = String.Empty;
-            string infringement = String.Empty;
-            string penaltyDuration = String.Empty;
-
-            if (Cards.SelectCard(owner, CurrentGame, ref team, ref card, ref player, ref infringement, ref penaltyDuration) && CurrentOrEndedGame != null) 
+            if (game == null)
             {
-                GameEvent gameEvent = CurrentOrEndedGame.LogEvent(card + " Card", team, player, infringement);
-                if (card.Equals("Yellow"))
-                {
-                    int penaltyDurationSeconds = 120;
-                    TimeSpan penaltyDurationTimeSpan = ParseTimeSpan(penaltyDuration);
-                    if (penaltyDurationTimeSpan.TotalSeconds > 0)
-                    {
-                        penaltyDurationSeconds = (int)penaltyDurationTimeSpan.TotalSeconds;
-                    }
+                game = CurrentOrEndedGame;
+            }
+            if (game != null)
+            {
+                string card = String.Empty;
+                string player = String.Empty;
+                string infringement = String.Empty;
+                string penaltyDuration = String.Empty;
 
-                    if (team == CurrentOrEndedGame.Team1)
+                if (Cards.SelectCard(owner, game, ref team, ref card, ref player, ref infringement, ref penaltyDuration) && game != null)
+                {
+                    GameEvent gameEvent = game.LogEvent(card + " Card", team, player, infringement);
+                    if (card.Equals("Yellow"))
                     {
-                        Team1Cards.Add(new Card(penaltyDurationSeconds, gameEvent));
-                    }
-                    else
-                    {
-                        Team2Cards.Add(new Card(penaltyDurationSeconds, gameEvent));
+                        int penaltyDurationSeconds = 120;
+                        TimeSpan penaltyDurationTimeSpan = ParseTimeSpan(penaltyDuration);
+                        if (penaltyDurationTimeSpan.TotalSeconds > 0)
+                        {
+                            penaltyDurationSeconds = (int)penaltyDurationTimeSpan.TotalSeconds;
+                        }
+
+                        if (team == game.Team1)
+                        {
+                            Team1Cards.Add(new Card(penaltyDurationSeconds, gameEvent));
+                        }
+                        else
+                        {
+                            Team2Cards.Add(new Card(penaltyDurationSeconds, gameEvent));
+                        }
                     }
                 }
             }
@@ -1206,7 +1217,7 @@ namespace Scoreboard
             string infringement = gameEvent.Notes;
             string penaltyDuration = String.Empty;
 
-            if (Cards.SelectCard(owner, game, ref team, ref card, ref player, ref infringement, ref penaltyDuration) && CurrentOrEndedGame != null)
+            if (Cards.SelectCard(owner, game, ref team, ref card, ref player, ref infringement, ref penaltyDuration))
             {
                 gameEvent.EventType = card + " Card";
                 gameEvent.Team = team;
@@ -1214,10 +1225,11 @@ namespace Scoreboard
                 gameEvent.Notes = infringement;
 
                 game.FilterGameEvents();
+                Tourney.ApplyGame(game, true);
 
                 SaveGames();
 
-                /*if (card.Equals("Yellow"))
+                /*if (card.Equals("Yellow") && CurrentOrEndedGame != null)
                 {
                     int penaltyDurationSeconds = 120;
                     TimeSpan penaltyDurationTimeSpan = ParseTimeSpan(penaltyDuration);
@@ -1358,12 +1370,16 @@ namespace Scoreboard
             }
         }
 
-        public void Team2Goal(string player)
+        public void Team2Goal(string player, Game game = null)
         {
-            if (CurrentOrEndedGame != null)
+            if (game == null)
             {
-                CurrentOrEndedGame.Team2Score++;                
-                CurrentOrEndedGame.LogEvent("Goal", CurrentOrEndedGame.Team2, player, CurrentOrEndedGame.Team1Score.ToString() + " to " + CurrentOrEndedGame.Team2Score.ToString());
+                game = CurrentOrEndedGame;
+            }
+            if (game != null)
+            {
+                game.Team2Score++;
+                game.LogEvent("Goal", game.Team2, player, game.Team1Score.ToString() + " to " + game.Team2Score.ToString());
                 SaveGames();
             }
         }

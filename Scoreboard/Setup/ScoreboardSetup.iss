@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Scoreboard"
-#define MyAppVersion "1.10.003"
+#define MyAppVersion "1.11.008"
 #define MyAppPublisher "verner software"
 #define MyAppURL "http://www.verner.co.nz"
 #define MyAppExeName "Scoreboard.exe"
@@ -21,7 +21,7 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
-OutputBaseFilename=ScoreboardSetup_1_10_003
+OutputBaseFilename=ScoreboardSetup_1_11_008
 Compression=lzma
 SolidCompression=yes
 ArchitecturesInstallIn64BitMode=x64

@@ -15,6 +15,7 @@ using System.Net.Mail;
 using System.Net;
 using Microsoft.Win32;
 using Utilities;
+using System.Reflection;
 
 namespace Scoreboard
 {
@@ -44,7 +45,9 @@ namespace Scoreboard
         
         public MainWindow()
         {
-            InitializeComponent();                      
+            InitializeComponent();
+            Version version = Assembly.GetExecutingAssembly().GetName().Version;
+            Title = "Scoreboard " + version.ToString();
         }
 
         protected void CreateSecondary(int screenIndex)
@@ -744,6 +747,32 @@ namespace Scoreboard
                     Score.SaveGames();
                     ScrollEventsToEnd();
                 }
+            }
+        }
+
+        private void _team1CardsClick(object sender, RoutedEventArgs e)
+        {
+            _team1CardsMenu.IsOpen = true;
+        }
+
+        private void _team1CardCancelClick(object sender, RoutedEventArgs e)
+        {
+            if (_team1Cards.SelectedItem != null && _team1Cards.SelectedItem is Card)
+            {
+                Score.Team1Cards.Remove((Card)_team1Cards.SelectedItem);
+            }
+        }
+
+        private void _team2CardsClick(object sender, RoutedEventArgs e)
+        {
+            _team2CardsMenu.IsOpen = true;
+        }
+
+        private void _team2CardCancelClick(object sender, RoutedEventArgs e)
+        {
+            if (_team2Cards.SelectedItem != null && _team2Cards.SelectedItem is Card)
+            {
+                Score.Team2Cards.Remove((Card)_team2Cards.SelectedItem);
             }
         }
     }

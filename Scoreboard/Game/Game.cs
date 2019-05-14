@@ -279,32 +279,51 @@ namespace Scoreboard
             }
         }
 
+        private int _skipCalculateResult = 0;
+
+        public void BeginSkipCalculateResult()
+        {
+            _skipCalculateResult++;
+        }
+
+        public void EndSkipCalculateResult()
+        {
+            _skipCalculateResult--;
+            if (_skipCalculateResult < 0)
+            {
+                _skipCalculateResult = 0;
+            }
+        }
+
         public Boolean IsDraw { get { return Result == GameResult.Draw; } }
 
         public GameResult CalculateResult()
         {
-            if (HasEnded)
+            if (_skipCalculateResult == 0)
             {
-                if (Team1Score > Team2Score)
+                if (HasEnded)
                 {
-                    Result = GameResult.Team1;
-                }
-                else if (Team2Score > Team1Score)
-                {
-                    Result = GameResult.Team2;
+                    if (Team1Score > Team2Score)
+                    {
+                        Result = GameResult.Team1;
+                    }
+                    else if (Team2Score > Team1Score)
+                    {
+                        Result = GameResult.Team2;
+                    }
+                    else
+                    {
+                        Result = GameResult.Draw;
+                    }
+                    if (Parent != null && Parent.Parent != null)
+                    {
+                        Parent.Parent.Tourney.ApplyGame(this);
+                    }
                 }
                 else
                 {
-                    Result = GameResult.Draw;
+                    Result = GameResult.None;
                 }
-                if (Parent != null && Parent.Parent != null)
-                {
-                    Parent.Parent.Tourney.ApplyGame(this);
-                }
-            }
-            else
-            {
-                Result = GameResult.None;
             }
 
             return Result;
@@ -569,28 +588,35 @@ namespace Scoreboard
 
         public void CalculateScoreFromEvents()
         {
-            int team1Score = 0;
-            int team2Score = 0;
-
-            foreach (GameEvent gameEvent in GameEvents)
+            BeginSkipCalculateResult();
+            try
             {
-                if (gameEvent.EventType == "Goal")
+                int team1Score = 0;
+                int team2Score = 0;
+
+                foreach (GameEvent gameEvent in GameEvents)
                 {
-                    if (gameEvent.Team == Team1 || gameEvent.Team == Team1Original)
+                    if (gameEvent.EventType == "Goal")
                     {
-                        team1Score += 1;
-                    }
-                    else if (gameEvent.Team == Team2 || gameEvent.Team == Team2Original)
-                    {
-                        team2Score += 1;
+                        if (gameEvent.Team == Team1 || gameEvent.Team == Team1Original)
+                        {
+                            team1Score += 1;
+                        }
+                        else if (gameEvent.Team == Team2 || gameEvent.Team == Team2Original)
+                        {
+                            team2Score += 1;
+                        }
                     }
                 }
+
+                Team1Score = team1Score;
+                Team2Score = team2Score;
             }
-
-            Team1Score = team1Score;
-            Team2Score = team2Score;
-
-            CalculateResult();
+            finally
+            {
+                EndSkipCalculateResult();
+                CalculateResult();
+            }            
         }
     }
 }
