@@ -200,7 +200,23 @@ namespace Scoreboard
 
             if (periodDuration.TotalSeconds > 0)
             {
+                string team1Flag = String.Empty;
+                string team2Flag = String.Empty;
+
+                if (team1.Contains("|"))
+                {
+                    team1Flag = team1.Split('|')[0].ToLower();
+                    team1 = team1.Split('|')[1];
+                }
+                if (team2.Contains("|"))
+                {
+                    team2Flag = team2.Split('|')[0].ToLower();
+                    team2 = team2.Split('|')[1];
+                }
                 Game game = new Game(pool, team1, team2, null);
+                game.Team1Flag = team1Flag;
+                game.Team2Flag = team2Flag;
+
                 DateTime periodTime = startTime;              
 
                 for (int periodNumber = 1; periodNumber <= numberOfPeriods; periodNumber++)

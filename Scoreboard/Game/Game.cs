@@ -124,6 +124,29 @@ namespace Scoreboard
             get { return _team1Original;  }
         }
 
+        private string _team1Flag;
+        public string Team1Flag
+        {
+            get { return _team1Flag; }
+            set
+            {
+                _team1Flag = value;
+                NotifyPropertyChanged("Team1Flag");
+                NotifyPropertyChanged("Team1GlagImage");
+            }
+        }
+        public string Team1FlagImage
+        {
+            get
+            {
+                if (!String.IsNullOrWhiteSpace(Team1Flag))
+                {
+                    return "/Scoreboard;component/flags/" + Team1Flag + ".png";
+                }
+                return String.Empty;
+            }
+        }
+
         private string _team1Color;
         public string Team1Color
         {
@@ -156,6 +179,29 @@ namespace Scoreboard
         public string Team2Original
         {
             get { return _team2Original; }
+        }
+
+        private string _team2Flag;
+        public string Team2Flag
+        {
+            get { return _team2Flag; }
+            set
+            {
+                _team2Flag = value;
+                NotifyPropertyChanged("Team2Flag");
+                NotifyPropertyChanged("Team2FlagImage");
+            }
+        }
+        public string Team2FlagImage
+        {
+            get
+            {
+                if (!String.IsNullOrWhiteSpace(Team2Flag))
+                {
+                    return "/Scoreboard;component/flags/" + Team2Flag + ".png";
+                }
+                return String.Empty;
+            }
         }
 
         private string _team2Color;
@@ -461,7 +507,9 @@ namespace Scoreboard
         {
             _pool = pool;
             _team1 = team1;
+            _team1Original = team1;
             _team2 = team2;
+            _team2Original = team2;
             _periods.Clone(periods);
             _team1Score = team1Score;
             _team2Score = team2Score;
@@ -492,8 +540,16 @@ namespace Scoreboard
             result.Append("{");
             result.Append("\"startTime\": \"" + (StartTime.HasValue ? StartTime.Value.ToString("HH:mm") : "--:--") + "\"");
             result.Append(", \"team1\": \"" + Team1 + "\"");
+            if (!String.IsNullOrEmpty(Team1Flag))
+            {
+                result.Append(", \"team1Flag\": \"" + Team1Flag + "\"");
+            }
             result.Append(", \"team1Score\": " + Team1Score.ToString());
             result.Append(", \"team2\": \"" + Team2 + "\"");
+            if (!String.IsNullOrEmpty(Team2Flag))
+            {
+                result.Append(", \"team2Flag\": \"" + Team2Flag + "\"");
+            }
             result.Append(", \"team2Score\": " + Team2Score.ToString());
             if (!String.IsNullOrEmpty(Pool))
             {

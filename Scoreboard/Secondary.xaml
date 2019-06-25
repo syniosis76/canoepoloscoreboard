@@ -18,12 +18,17 @@
         <Grid Grid.Row="0" Name="gData">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" />
-            </Grid.ColumnDefinitions>            
-            <Viewbox Grid.Column="1">
+                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Viewbox Grid.Column="0">
+                <Image Source="{Binding Path=CurrentGame.Team1FlagImage}" RenderOptions.BitmapScalingMode="HighQuality" HorizontalAlignment="Center" IsHitTestVisible="False"/>   
+            </Viewbox>
+            <Viewbox Grid.Column="0" Grid.ColumnSpan="3">
                 <Label Margin="0,-25,0,-31" FontFamily="./#DINEngschrift" FontSize="100" HorizontalContentAlignment="Center" Name="lTime" VerticalContentAlignment="Center" BorderThickness="0"
                            Content="{Binding Path=CurrentGame.Periods.CurrentPeriod.TimeRemaining, Converter={StaticResource gameTimeConverter}, FallbackValue=--}"
                            Foreground="{Binding Path=CurrentGame.Periods.CurrentPeriod.Status, Converter={StaticResource gamePeriodStatusColorConverter}, FallbackValue=#FFFFFFFF}"/>
-            </Viewbox>            
+            </Viewbox>
         </Grid>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
