@@ -9,104 +9,83 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-    <Grid Name="gBack" VerticalAlignment="Stretch" Background="{Binding Path=SimplifySecondaryDisplay, Converter={StaticResource simplifySecondaryDisplayBackgroundConverter}, FallbackValue={StaticResource SecondaryBackground}}">
+    <Grid Name="gBack" VerticalAlignment="Stretch" Background="Black">
         <Grid.RowDefinitions>
             <RowDefinition Height="5*" />            
             <RowDefinition Height="5*" />
             <RowDefinition Height="1*" />
-        </Grid.RowDefinitions>        
-        <Grid Grid.Row="0" Name="gData">
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="5*" />
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Row="0" Grid.Column="0">
+            <Viewbox Margin="4">
+                <Image Source="{Binding Path=CurrentGame.Team1FlagImage}" RenderOptions.BitmapScalingMode="HighQuality" HorizontalAlignment="Center" IsHitTestVisible="False"/>
+            </Viewbox>
+            <Viewbox>
+                <Label MinWidth="110" HorizontalContentAlignment="Center" FontFamily="./#DINEngschrift" Margin="0,-4,0,-8" FontSize="25" Foreground="White" Name="lTeam1Name" Content="{Binding Path=CurrentOrEndedGame.Team1, FallbackValue=Team 1}"/>
+            </Viewbox>
+        </StackPanel>
+        <Viewbox Grid.Row="0" Grid.Column="1">
+            <Label Margin="0,-25,0,-31" FontFamily="./#DINEngschrift" FontSize="100" HorizontalContentAlignment="Center" Name="lTime" VerticalContentAlignment="Center" BorderThickness="0"
+                        Content="{Binding Path=CurrentGame.Periods.CurrentPeriod.TimeRemaining, Converter={StaticResource gameTimeConverter}, FallbackValue=--}"
+                        Foreground="{Binding Path=CurrentGame.Periods.CurrentPeriod.Status, Converter={StaticResource gamePeriodStatusColorConverter}, FallbackValue=White}"/>
+        </Viewbox>
+        <StackPanel Grid.Row="0" Grid.Column="2">
+            <Viewbox Margin="4">
+                <Image Source="{Binding Path=CurrentGame.Team2FlagImage}" RenderOptions.BitmapScalingMode="HighQuality" HorizontalAlignment="Center" IsHitTestVisible="False"/>
+            </Viewbox>
+            <Viewbox>
+                <Label MinWidth="110" HorizontalContentAlignment="Center" FontFamily="./#DINEngschrift" Margin="0,-4,0,-8" FontSize="25" Foreground="White" Name="lTeam2Name" Content="{Binding Path=CurrentOrEndedGame.Team2, FallbackValue=Team 2}" />
+            </Viewbox>
+        </StackPanel>
+        <Viewbox Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left">
+            <Label Margin="0,-32,0,-31" FontFamily="./#DINEngschrift" FontSize="100" Foreground="White" Name="lTeam1Score" Content="{Binding Path=CurrentOrEndedGame.Team1Score, FallbackValue=-}"/>
+        </Viewbox>
+        <Viewbox Grid.Row="1" Grid.Column="1">
+            <Label Margin="0,-24,0,-32" FontFamily="./#DINEngschrift" FontSize="100" Foreground="#FF9BF79B" HorizontalContentAlignment="Center" Name="lShotTime" VerticalContentAlignment="Center" Content="{Binding Path=ShotTime, StringFormat={}{0:00}, FallbackValue=--}"/>
+        </Viewbox>
+        <Viewbox Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right">
+            <Label Margin="0,-32,0,-31" FontFamily="./#DINEngschrift" FontSize="100" Foreground="White" Name="lTeam2Score" Content="{Binding Path=CurrentOrEndedGame.Team2Score, FallbackValue=-}"/>
+        </Viewbox>
+        <Viewbox Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" Margin="0,-11,0,-12">
+            <ListView ItemsSource="{Binding Path=Team1Cards}" Background="Transparent" Focusable="False" ItemTemplateSelector="{StaticResource cardTemplateSelector}"  ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                <ListView.BorderBrush>
+                    <SolidColorBrush />
+                </ListView.BorderBrush>
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel Orientation="Horizontal"></VirtualizingStackPanel>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+            </ListView>
+        </Viewbox>
+        <Grid Grid.Row="2" Grid.Column="1" Name="gTitles">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="3*" />
                 <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
             <Viewbox Grid.Column="0">
-                <Image Source="{Binding Path=CurrentGame.Team1FlagImage}" RenderOptions.BitmapScalingMode="HighQuality" HorizontalAlignment="Center" IsHitTestVisible="False"/>   
-            </Viewbox>
-            <Viewbox Grid.Column="0" Grid.ColumnSpan="3">
-                <Label Margin="0,-25,0,-31" FontFamily="./#DINEngschrift" FontSize="100" HorizontalContentAlignment="Center" Name="lTime" VerticalContentAlignment="Center" BorderThickness="0"
-                           Content="{Binding Path=CurrentGame.Periods.CurrentPeriod.TimeRemaining, Converter={StaticResource gameTimeConverter}, FallbackValue=--}"
-                           Foreground="{Binding Path=CurrentGame.Periods.CurrentPeriod.Status, Converter={StaticResource gamePeriodStatusColorConverter}, FallbackValue=#FFFFFFFF}"/>
-            </Viewbox>
-        </Grid>
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*"/>
-                <ColumnDefinition Width="2*"/>
-                <ColumnDefinition Width="2*"/>                
-            </Grid.ColumnDefinitions>
-            <Grid Grid.Column="0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="2*"/>                    
-                </Grid.ColumnDefinitions>
-                <Viewbox Grid.ColumnSpan="2" HorizontalAlignment="Left">
-                    <Label Margin="0,-32,0,-31" FontFamily="./#DINEngschrift" FontSize="100" Foreground="White" Name="lTeam1Score" Content="{Binding Path=CurrentOrEndedGame.Team1Score, FallbackValue=-}"/>
-                </Viewbox>
-                <Viewbox Grid.Column="1" HorizontalAlignment="Left">
-                    <ListView ItemsSource="{Binding Path=Team1Cards}" Background="Transparent" Focusable="False" ItemTemplateSelector="{StaticResource cardTemplateSelector}"  ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden" Margin="0,15,0,-15">
-                        <ListView.BorderBrush>
-                            <SolidColorBrush />
-                        </ListView.BorderBrush>
-                        <ListView.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <VirtualizingStackPanel Orientation="Vertical"></VirtualizingStackPanel>
-                            </ItemsPanelTemplate>
-                        </ListView.ItemsPanel>
-                    </ListView>
-                </Viewbox>
-            </Grid>
-            <Grid Grid.Column="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="2*"/>
-                </Grid.ColumnDefinitions>
-                <Viewbox Grid.ColumnSpan="2" HorizontalAlignment="Right">
-                    <Label Margin="0,-32,0,-31" FontFamily="./#DINEngschrift" FontSize="100" Foreground="White" Name="lTeam2Score" Content="{Binding Path=CurrentOrEndedGame.Team2Score, FallbackValue=-}"/>
-                </Viewbox>
-                <Viewbox Grid.Column="0" HorizontalAlignment="Right">
-                    <ListView ItemsSource="{Binding Path=Team2Cards}" Background="Transparent" Focusable="False" FlowDirection="RightToLeft" ItemTemplateSelector="{StaticResource cardTemplateSelector}" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden" Margin="0,15,0,-15">
-                        <ListView.BorderBrush>
-                            <SolidColorBrush />
-                        </ListView.BorderBrush>
-                        <ListView.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <VirtualizingStackPanel Orientation="Vertical"></VirtualizingStackPanel>
-                            </ItemsPanelTemplate>
-                        </ListView.ItemsPanel>
-                    </ListView>
-                </Viewbox>
-            </Grid>            
-            <Viewbox Grid.Column="1">
-                <Label Margin="0,-24,0,-32" FontFamily="./#DINEngschrift" FontSize="100" Foreground="#FF9BF79B" HorizontalContentAlignment="Center" Name="lShotTime" VerticalContentAlignment="Center" Content="{Binding Path=ShotTime, StringFormat={}{0:00}, FallbackValue=--}"/>
-            </Viewbox>
-            <!--
-            <Viewbox Grid.Column="2" HorizontalAlignment="Right">
-                <TextBlock FontFamily="./#DINEngschrift" FontSize="25" Foreground="White" Name="lCaption" Text="{Binding Path=GameCaption, FallbackValue=Caption}"/>
-            </Viewbox>            
-            -->
-        </Grid>
-        <Grid Grid.Row="2" Name="gTitles">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*" />
-                <ColumnDefinition Width="3*" />
-                <ColumnDefinition Width="3*" />
-                <ColumnDefinition Width="2*" />
-            </Grid.ColumnDefinitions>
-            <Viewbox Grid.Column="0">
-                <Label FontFamily="./#DINEngschrift" Margin="0,-4,0,-8" FontSize="25" Foreground="{Binding Path=SimplifySecondaryDisplay, Converter={StaticResource simplifySecondaryDisplayLowerTextConverter}, FallbackValue=#FF555555}" Name="lTeam1Name" Content="{Binding Path=CurrentOrEndedGame.Team1, FallbackValue=Team 1}" />
+                <TextBlock FontFamily="./#DINEngschrift" Margin="0,0,0,-4" FontSize="25" Foreground="White" Text="{Binding Path=CurrentTime, FallbackValue=19:30:00, StringFormat='{}{0:HH:mm:ss}'}"/>
             </Viewbox>
             <Viewbox Grid.Column="1">
-                <TextBlock FontFamily="./#DINEngschrift" Margin="0,0,0,-4" FontSize="25" Foreground="{Binding Path=SimplifySecondaryDisplay, Converter={StaticResource simplifySecondaryDisplayLowerTextConverter}, FallbackValue=#FF555555}" Text="{Binding Path=CurrentTime, FallbackValue=19:30:00, StringFormat='{}{0:HH:mm:ss}'}"/>
+                <Label FontFamily="./#DINEngschrift" Margin="0,-4,0,-8" FontSize="25" Foreground="White" Name="lTimeDescription" Content="{Binding Path=CurrentOrEndedGame.Periods.CurrentPeriod.Description, FallbackValue=Peroid 1}" />
             </Viewbox>
-            <Viewbox Grid.Column="2">
-                <Label FontFamily="./#DINEngschrift" Margin="0,-4,0,-8" FontSize="25" Foreground="{Binding Path=SimplifySecondaryDisplay, Converter={StaticResource simplifySecondaryDisplayLowerTextConverter}, FallbackValue=#FF555555}" Name="lTimeDescription" Content="{Binding Path=CurrentOrEndedGame.Periods.CurrentPeriod.Description, FallbackValue=Peroid 1}" />
-            </Viewbox>
-            <Viewbox Grid.Column="3">
-                <Label FontFamily="./#DINEngschrift" Margin="0,-4,0,-8" FontSize="25" Foreground="{Binding Path=SimplifySecondaryDisplay, Converter={StaticResource simplifySecondaryDisplayLowerTextConverter}, FallbackValue=#FF555555}" Name="lTeam2Name" Content="{Binding Path=CurrentOrEndedGame.Team2, FallbackValue=Team 2}" />
-            </Viewbox>
-            <Label Grid.Column="3" HorizontalAlignment="Right" Margin="0,0,2,2" Name="_closeLabel" Width="23" Foreground="#FF555555" FontSize="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Height="34" Grid.RowSpan="2" VerticalAlignment="Bottom" MouseUp="_closeLabel_MouseUp">x</Label>
         </Grid>
+        <Viewbox Grid.Row="2" Grid.Column="2" HorizontalAlignment="Right" Margin="0,-11,25,-12">
+            <ListView ItemsSource="{Binding Path=Team2Cards}" Background="Transparent" Focusable="False" FlowDirection="RightToLeft" ItemTemplateSelector="{StaticResource cardTemplateSelector}" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                <ListView.BorderBrush>
+                    <SolidColorBrush />
+                </ListView.BorderBrush>
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel Orientation="Horizontal" FlowDirection="RightToLeft"></VirtualizingStackPanel>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+            </ListView>
+        </Viewbox>
+        <Label Grid.Row="2" Grid.Column="2" HorizontalAlignment="Right" Margin="0,0,2,2" Name="_closeLabel" Width="23" Foreground="#FF555555" FontSize="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Height="34" Grid.RowSpan="2" VerticalAlignment="Bottom" MouseUp="_closeLabel_MouseUp">x</Label>
     </Grid>
 </Window>

@@ -1745,14 +1745,6 @@ namespace Scoreboard
                 _server = null;
             };
             ServerOptions.StartButtonText = "Start";
-        }
-
-		public bool SimplifySecondaryDisplay
-		{
-			get
-			{
-				return Properties.Settings.Default.SimplifySecondaryDisplay;
-			}
-		}        
+        }      
     }
 }

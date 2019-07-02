@@ -41,9 +41,6 @@
     <Setting Name="MinimumTimeBetweenGames" Type="System.String" Scope="User">
       <Value Profile="(Default)">2</Value>
     </Setting>
-    <Setting Name="SimplifySecondaryDisplay" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
     <Setting Name="StartPaused" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
