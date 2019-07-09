@@ -29,12 +29,20 @@
 
     <DataTemplate x:Key="firstTemplate">
         <Viewbox>
-            <Label FontFamily="./#DINEngschrift" FontSize="50" Foreground="Yellow" HorizontalContentAlignment="Center" Name="lShotTime" Content="{Binding Path=Time, StringFormat={}{0:00}, FallbackValue=0}"/>
+            <StackPanel Orientation="Horizontal" FlowDirection="LeftToRight">
+                <Label FontFamily="./#DINEngschrift" FontSize="50" Foreground="Yellow" HorizontalContentAlignment="Center" Content="{Binding Path=Time, StringFormat={}{0:00}, FallbackValue=0}"/>
+                <Label FontFamily="./#DINEngschrift" FontSize="35" Foreground="Yellow" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="-4,0,-8,0" Content="#"/>
+                <Label FontFamily="./#DINEngschrift" FontSize="45" Foreground="Yellow" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="{Binding Path=GameEvent.Player, StringFormat={}{0}, FallbackValue=0}"/>
+            </StackPanel>
         </Viewbox>
     </DataTemplate>
     <DataTemplate x:Key="restTemplate">
         <Viewbox>
-            <Label FontFamily="./#DINEngschrift" FontSize="30" Foreground="Yellow" HorizontalContentAlignment="Center" Name="lShotTime" Content="{Binding Path=Time, StringFormat={}{0:00}, FallbackValue=0}"/>
+            <StackPanel Orientation="Horizontal" FlowDirection="LeftToRight">
+                <Label FontFamily="./#DINEngschrift" FontSize="30" Foreground="Yellow" HorizontalContentAlignment="Center" Content="{Binding Path=Time, StringFormat={}{0:00}, FallbackValue=0}"/>
+                <Label FontFamily="./#DINEngschrift" FontSize="21" Foreground="Yellow" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="-3,0,-6,0" Content="#"/>
+                <Label FontFamily="./#DINEngschrift" FontSize="27" Foreground="Yellow" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="{Binding Path=GameEvent.Player, StringFormat={}{0}, FallbackValue=0}"/>
+            </StackPanel>            
         </Viewbox>
     </DataTemplate>
     <local:FirstRestTemplateSelector FirstTemplate="{StaticResource firstTemplate}" RestTemplate="{StaticResource restTemplate}" x:Key="cardTemplateSelector" />
