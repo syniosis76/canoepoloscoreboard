@@ -228,11 +228,13 @@ namespace Scoreboard
 
         private void bTeam1Card_Click(object sender, RoutedEventArgs e)
         {
-            if (Score.CurrentGame != null)
+            /*if (Score.CurrentGame != null)
             {
                 Score.SelectCard(this, Score.CurrentGame.Team1);
                 ScrollEventsToEnd();
-            }
+            }*/
+            Views.AddCardWindow addCardWindow = new Views.AddCardWindow();
+            addCardWindow.Show();
         }
 
         private void bTeam2Card_Click(object sender, RoutedEventArgs e)
