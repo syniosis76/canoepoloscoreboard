@@ -116,8 +116,8 @@
                     <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
                 <CheckBox Grid.Column="0" Grid.ColumnSpan="2" IsChecked="{Binding Path=RemoveExistingGames}" FontSize="14" FontWeight="Bold" Foreground="WhiteSmoke" VerticalAlignment="Center" Margin="8,0,0,0">Remove Existing Games</CheckBox>
-                <Button Grid.Column="2" Margin="8,8,4,8" FontFamily="./#DINEngschrift" FontSize="22" FontWeight="Bold" Click="OkButtonClick">OK</Button>
-                <Button Grid.Column="3" Margin="4,8,8,8" FontFamily="./#DINEngschrift" FontSize="22" FontWeight="Bold" Click="CancelButtonClick">Cancel</Button>
+                <Button Grid.Column="2" Margin="8,8,4,8" FontFamily="../#DINEngschrift" FontSize="22" FontWeight="Bold" Click="OkButtonClick">OK</Button>
+                <Button Grid.Column="3" Margin="4,8,8,8" FontFamily="../#DINEngschrift" FontSize="22" FontWeight="Bold" Click="CancelButtonClick">Cancel</Button>
             </Grid>            
         </Grid>
     </Grid>

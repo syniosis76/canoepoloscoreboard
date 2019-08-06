@@ -5,6 +5,32 @@
         mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="600"
         x:Class="Scoreboard.Views.AddCardWindow"
         Title="Card"
-        Width="500" Height="600">
-    Add or edit a Card.
+        Width="500" Height="600"
+        WindowStartupLocation="CenterScreen" HasSystemDecorations="False"
+        Background="Black">
+  <Window.Styles>
+    <StyleInclude Source="avares://Avalonia.Themes.Default/DefaultTheme.xaml"/>
+    <StyleInclude Source="avares://Avalonia.Themes.Default/Accents/BaseLight.xaml"/>
+  </Window.Styles>  
+  <Grid Margin="4" Background="Blue">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="1*"/>
+      <RowDefinition Height="1*"/>
+      <RowDefinition Height="1*"/>
+      <RowDefinition Height="1*"/>
+      <RowDefinition Height="1*"/>
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition />
+    </Grid.ColumnDefinitions>
+    <Grid Grid.Row ="4">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="2*" />
+        <ColumnDefinition Width="1*" />
+        <ColumnDefinition Width="1*" />
+      </Grid.ColumnDefinitions>
+      <Button Grid.Column="1" Margin="4" HorizontalAlignment="Stretch" Click="OkButtonClick">OK</Button>
+      <Button Grid.Column="2" Margin="4" HorizontalAlignment="Stretch" Click="CancelButtonClick">Cancel</Button>
+    </Grid>
+  </Grid>
 </Window>

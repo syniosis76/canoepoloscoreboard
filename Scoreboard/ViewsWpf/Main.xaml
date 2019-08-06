@@ -7,7 +7,7 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="ScoreboardStyles.xaml"/>
+                <ResourceDictionary Source="..\ViewsWpf\ScoreboardStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -38,7 +38,7 @@
                         <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
                     <Viewbox Grid.Row="0">
-                        <TextBlock FontFamily="./#DINEngschrift" Foreground="White" Text="{Binding Path=CurrentOrEndedGame.Team1, FallbackValue=None}" />
+                        <TextBlock FontFamily="../#DINEngschrift" Foreground="White" Text="{Binding Path=CurrentOrEndedGame.Team1, FallbackValue=None}" />
                     </Viewbox>
                     <Viewbox Grid.Row="1">
                         <TextBlock Foreground="#FFAAAAAA" Text="{Binding Path=CurrentOrEndedGame.Team1Color, FallbackValue=Click to select colour, TargetNullValue=Click to select colour}" />
@@ -47,7 +47,7 @@
             </Button>
             <Grid Grid.Column="1" Grid.Row="0" Margin="2" Background="{StaticResource BackgroundBlue}">
                 <Viewbox Grid.RowSpan="2">
-                    <TextBlock FontFamily="./#DINEngschrift" FontSize="25" Foreground="White" Text="{Binding Path=CurrentOrEndedGame.Periods.CurrentPeriod.Description, FallbackValue=None}" />
+                    <TextBlock FontFamily="../#DINEngschrift" FontSize="25" Foreground="White" Text="{Binding Path=CurrentOrEndedGame.Periods.CurrentPeriod.Description, FallbackValue=None}" />
                 </Viewbox>
                 <Button Click="_endExtraPeriodClick"  ToolTip="End extra period now" Margin="0,0,0,0" Style="{StaticResource TileButton}" Visibility="{Binding Path=CurrentOrEndedGame.Periods.CurrentPeriod.IsActiveExtraPeriod, Converter={StaticResource boolToVisiblityConverter}, FallbackValue=Hidden}">
                     <Grid>
@@ -69,7 +69,7 @@
                         <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
                     <Viewbox>
-                        <TextBlock FontFamily="./#DINEngschrift" Foreground="White" Text="{Binding Path=CurrentOrEndedGame.Team2, FallbackValue=None}" />
+                        <TextBlock FontFamily="../#DINEngschrift" Foreground="White" Text="{Binding Path=CurrentOrEndedGame.Team2, FallbackValue=None}" />
                     </Viewbox>
                     <Viewbox Grid.Row="1">
                         <TextBlock Foreground="#FFAAAAAA" Text="{Binding Path=CurrentOrEndedGame.Team2Color, FallbackValue=Click to select colour, TargetNullValue=Click to select colour}" />
@@ -110,7 +110,7 @@
                 </Button>
                 <Grid Grid.Column="2" Grid.Row="0" Margin="2" Background="{StaticResource BackgroundGreen}">
                     <Viewbox>
-                        <TextBlock Margin="1" FontFamily="./#DINEngschrift" FontSize="25" Foreground="White" Text="{Binding Path=CurrentTime, FallbackValue=19:30:00, StringFormat='{}{0:HH:mm:ss}'}"/>
+                        <TextBlock Margin="1" FontFamily="../#DINEngschrift" FontSize="25" Foreground="White" Text="{Binding Path=CurrentTime, FallbackValue=19:30:00, StringFormat='{}{0:HH:mm:ss}'}"/>
                     </Viewbox>
                 </Grid>
                 <Button Grid.Column="3" Name="_scoreboardMenuButton" ToolTip="Click to see the Scoreboard menu options" Click="_scoreboardMenuButtonClick" ContextMenuService.Placement="Bottom" Style="{StaticResource TileButtonGreen}">
@@ -254,7 +254,7 @@
                 </Grid>
             </Button>
             <Viewbox Grid.Column="0" Grid.Row="1" Grid.RowSpan="2">
-                <TextBlock FontFamily="./#DINEngschrift" FontSize="250" Foreground="White" Text="{Binding Path=CurrentOrEndedGame.Team1Score, FallbackValue=0}" Margin="0,-40,0,-40" IsHitTestVisible="False"/>
+                <TextBlock FontFamily="../#DINEngschrift" FontSize="250" Foreground="White" Text="{Binding Path=CurrentOrEndedGame.Team1Score, FallbackValue=0}" Margin="0,-40,0,-40" IsHitTestVisible="False"/>
             </Viewbox>
             <Button Grid.Column="0" Grid.Row="3" Click="bTeam1Card_Click" Style="{StaticResource TileButtonBlue}">
                 <Grid>
@@ -314,7 +314,7 @@
                 </Viewbox>
             </Grid>
             <Viewbox Grid.Column="1" Grid.Row="1">
-                <TextBlock FontFamily="./#DINEngschrift" FontSize="80" Margin="10"
+                <TextBlock FontFamily="../#DINEngschrift" FontSize="80" Margin="10"
                     Text="{Binding Path=CurrentGame.Periods.CurrentPeriod.TimeRemaining, Converter={StaticResource gameTimeConverter}, FallbackValue=0:00}"
                     Foreground="{Binding Path=CurrentGame.Periods.CurrentPeriod.Status, Converter={StaticResource gamePeriodStatusColorConverter}, FallbackValue=#FFFF6666}"
                     IsHitTestVisible="False"/>
@@ -393,7 +393,7 @@
                     </Viewbox>
                 </Grid>
                 <Viewbox Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="2">
-                    <TextBlock FontFamily="./#DINEngschrift" FontSize="80" Foreground="#FF9BF79B" Name="_shotTimeLabel" Text="{Binding Path=ShotTime, FallbackValue=0}" IsHitTestVisible="False"/>
+                    <TextBlock FontFamily="../#DINEngschrift" FontSize="80" Foreground="#FF9BF79B" Name="_shotTimeLabel" Text="{Binding Path=ShotTime, FallbackValue=0}" IsHitTestVisible="False"/>
                 </Viewbox>
             </Grid>
             <Grid Grid.Column="1" Grid.Row="3" Margin="2" Background="{StaticResource BackgroundBlue}">
@@ -475,7 +475,7 @@
                 </Grid>
             </Button>
             <Viewbox Grid.Column="2" Grid.Row="1" Grid.RowSpan="2">
-                <TextBlock FontFamily="./#DINEngschrift" FontSize="250" Foreground="White" Name="_team2ScoreLabel" Text="{Binding Path=CurrentOrEndedGame.Team2Score, FallbackValue=0}" Margin="0,-40,0,-40" IsHitTestVisible="False"/>
+                <TextBlock FontFamily="../#DINEngschrift" FontSize="250" Foreground="White" Name="_team2ScoreLabel" Text="{Binding Path=CurrentOrEndedGame.Team2Score, FallbackValue=0}" Margin="0,-40,0,-40" IsHitTestVisible="False"/>
             </Viewbox>
             <Button Grid.Column="2" Grid.Row="3" Click="bTeam2Card_Click" FontWeight="Bold" Style="{StaticResource TileButtonBlue}">
                 <Grid>

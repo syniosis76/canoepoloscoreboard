@@ -65,7 +65,7 @@
                     <ColumnDefinition Width="7*"/>                                        
                     <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="1" Margin="8,8,4,8" FontFamily="./#DINEngschrift" FontSize="22" FontWeight="Bold" IsDefault="True" Click="OkButtonClick">OK</Button>               
+                <Button Grid.Column="1" Margin="8,8,4,8" FontFamily="../#DINEngschrift" FontSize="22" FontWeight="Bold" IsDefault="True" Click="OkButtonClick">OK</Button>               
             </Grid>
         </Grid>
     </Grid>
