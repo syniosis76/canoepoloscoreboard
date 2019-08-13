@@ -123,7 +123,7 @@
                     <ColumnDefinition Width="7*"/>
                     <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="2" Margin="4,8,8,8" FontFamily="../#DINEngschrift" FontSize="22" FontWeight="Bold" IsCancel="True" Click="CloseButtonClick">
+                <Button Grid.Column="2" Margin="4,8,8,8" FontFamily="#DINEngschrift" FontSize="22" FontWeight="Bold" IsCancel="True" Click="CloseButtonClick">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Close " FontSize="20" FontWeight="Bold" Foreground="Black"/>
                         <TextBlock Text="(" FontSize="20" FontWeight="Bold" Foreground="Black"/>

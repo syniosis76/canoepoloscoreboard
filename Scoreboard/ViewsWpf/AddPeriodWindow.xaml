@@ -49,8 +49,8 @@
                     <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Text="The extra period will start Paused." FontSize="12" Foreground="WhiteSmoke" TextWrapping="Wrap"  VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <Button Grid.Column="1" Margin="8,8,4,8" FontFamily="../#DINEngschrift" FontSize="22" FontWeight="Bold" IsDefault="True" Click="OkButtonClick">OK</Button>
-                <Button Grid.Column="2" Margin="4,8,8,8" FontFamily="../#DINEngschrift" FontSize="22" FontWeight="Bold" IsCancel="True" Click="CancelButtonClick">Cancel</Button>
+                <Button Grid.Column="1" Margin="8,8,4,8" FontFamily="#DINEngschrift" FontSize="22" FontWeight="Bold" IsDefault="True" Click="OkButtonClick">OK</Button>
+                <Button Grid.Column="2" Margin="4,8,8,8" FontFamily="#DINEngschrift" FontSize="22" FontWeight="Bold" IsCancel="True" Click="CancelButtonClick">Cancel</Button>
             </Grid>
         </Grid>
     </Grid>

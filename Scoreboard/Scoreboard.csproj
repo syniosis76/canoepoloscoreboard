@@ -399,6 +399,10 @@
     <AvaloniaResource Include="Views\AddCardWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </AvaloniaResource>
+    <EmbeddedResource Include="Views\BaseResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ViewsWpf\Cards.xaml.cs">
@@ -726,7 +730,7 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="DINEngschrift.ttf" />
+    <EmbeddedResource Include="DINEngschrift.ttf" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="logo.ico" />

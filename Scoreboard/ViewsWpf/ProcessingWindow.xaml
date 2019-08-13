@@ -15,7 +15,7 @@
     </Window.Resources>
     <Grid Background="Black">
         <Grid Margin="4" Background="{StaticResource LightBlueGradient}">
-            <Label Name="SelectLabel" Grid.Row="0" Margin="8,3,0,0" Foreground="White" FontFamily="../#DINEngschrift" FontSize="32" FontWeight="Bold">Loading...</Label>
+            <Label Name="SelectLabel" Grid.Row="0" Margin="8,3,0,0" Foreground="White" FontFamily="#DINEngschrift" FontSize="32" FontWeight="Bold">Loading...</Label>
         </Grid>
     </Grid>
 </Window>

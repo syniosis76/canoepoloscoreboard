@@ -52,7 +52,7 @@
                     </Hyperlink>
                 </TextBlock>
                 <TextBlock Grid.Row="5" Grid.ColumnSpan="4" Text="Once you have started the server you can close this window and it will keep running, and you can return to this page to stop the server." FontSize="12" FontWeight="Normal" Foreground="White" TextWrapping="Wrap"/>
-                <Button Grid.Row="6" Grid.Column="3" Margin="4,9,8,7" FontFamily="../#DINEngschrift" FontSize="22" FontWeight="Bold" Click="CloseButtonClick">Close</Button>
+                <Button Grid.Row="6" Grid.Column="3" Margin="4,9,8,7" FontFamily="#DINEngschrift" FontSize="22" FontWeight="Bold" Click="CloseButtonClick">Close</Button>
             </Grid>      
         </Grid>
     </Grid>
