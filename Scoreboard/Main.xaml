@@ -320,7 +320,7 @@
                     IsHitTestVisible="False"/>
             </Viewbox>
             <!-- Shot Clock -->
-            <Grid Grid.Column="1" Grid.Row="2">
+            <Grid Grid.Column="1" Grid.Row="2" Visibility="{Binding Path=ShowShotClock, Converter={StaticResource boolToVisiblityConverter}, FallbackValue=Visible}">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition/>
@@ -657,7 +657,6 @@
                     </Grid>
                 </Grid>
             </Grid>
-            <!-- Competition Mode -->
             <Grid Grid.Column="4" Grid.Row="3" Margin="2" Background="{StaticResource BackgroundGreen}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
@@ -665,10 +664,13 @@
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="5*"/>
-                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="4*"/>
                 </Grid.ColumnDefinitions>
                 <Viewbox Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left">
                     <CheckBox Foreground="White" IsChecked="{Binding Path=RecordGoalScorers, FallbackValue=False}" Margin="5" Width="130">Record Goal Scorers</CheckBox>
+                </Viewbox>
+                <Viewbox Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left">
+                    <CheckBox Foreground="White" IsChecked="{Binding Path=ShowShotClock, FallbackValue=True}" Margin="5" Width="130">Show Shot Clock</CheckBox>
                 </Viewbox>
                 <Viewbox Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left">
                     <CheckBox Foreground="White" IsChecked="{Binding Path=StartPaused, FallbackValue=False}" Margin="5" Width="130">Start Paused</CheckBox>

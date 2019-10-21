@@ -198,6 +198,28 @@ namespace Scoreboard
             }
         }
 
+        private bool _showShotClock = false;
+        public bool ShowShotClock
+        {
+            get
+            {
+                return _showShotClock;
+            }
+            set
+            {
+                if (!_showShotClock.Equals(value))
+                {
+                    _showShotClock = value;
+                    if (ShowShotClock != Properties.Settings.Default.ShowShotClock)
+                    {
+                        Properties.Settings.Default.ShowShotClock = ShowShotClock;
+                        Properties.Settings.Default.Save();
+                    }
+                    NotifyPropertyChanged("ShowShotClock");
+                }
+            }
+        }
+
         private bool _lockResults = false;
         public bool LockResults
         {
@@ -464,6 +486,7 @@ namespace Scoreboard
             Games.SetParent(this);
             LoadBeep();
             RecordGoalScorers = Properties.Settings.Default.RecordGoalScorers;
+            ShowShotClock = Properties.Settings.Default.ShowShotClock;
             _lockResults = Properties.Settings.Default.LockResults;
             StartPaused = Properties.Settings.Default.StartPaused;
             ServerOptions.Port = Properties.Settings.Default.ServerPort;
