@@ -1,0 +1,59 @@
+﻿<Window x:Class="Scoreboard.ScoreboardServerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Scoreboard"
+        mc:Ignorable="d"
+        Title="Scoreboard Server" Height="300" Width="400"
+        ResizeMode="NoResize" WindowStartupLocation="CenterOwner" WindowStyle="None">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ScoreboardStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid Background="Black">
+        <Grid Margin="4" Background="{StaticResource DarkBlueGradient}">
+            <Grid Margin="8">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Grid.ColumnSpan="4" Text="Scoreboard Server" FontSize="16" FontWeight="Bold" Foreground="White"/>
+                <TextBlock Grid.Row="1" Grid.ColumnSpan="4"  VerticalAlignment="Center" Text="The Scoreboard Server is a mini web server that allows other devices to connect to the Scoreboard over a local network and display information such as the shot clock, current game, and results." FontSize="12" FontWeight="Normal" Foreground="White" TextWrapping="Wrap"/>
+                <TextBlock Grid.Row="2" VerticalAlignment="Center" Text="Port:" FontSize="14" FontWeight="Bold" Foreground="White" TextWrapping="Wrap"/>
+                <TextBox Grid.Row="2" Grid.Column="1" FontSize="14" Text="{Binding Path=Port}" Height="22"/>
+                <Viewbox Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" Margin="0,0,60,0" Height="20">
+                    <CheckBox Grid.Row="6" Grid.Column="0" Foreground="White" IsChecked="{Binding Path=Active, FallbackValue=False}" Click="CheckBox_Click">Active</CheckBox>
+                </Viewbox>
+                <TextBlock Grid.Row="3" VerticalAlignment="Center" Text="URL:" FontSize="12" FontWeight="Normal" Foreground="White" TextWrapping="Wrap"/>
+                <TextBlock Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" VerticalAlignment="Center">           
+                    <Hyperlink NavigateUri="{Binding Path=Url}" RequestNavigate="Hyperlink_RequestNavigate">
+                        <TextBlock Text="{Binding Path=Url, FallbackValue=http://computer:port/}"/>
+                    </Hyperlink>
+                </TextBlock>
+                <TextBlock Grid.Row="4" VerticalAlignment="Center" Text="Altermative URL: " FontSize="12" FontWeight="Normal" Foreground="White" TextWrapping="Wrap"/>
+                <TextBlock Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3" VerticalAlignment="Center">           
+                    <Hyperlink NavigateUri="{Binding Path=IpUrl}" RequestNavigate="Hyperlink_RequestNavigate">
+                        <TextBlock Text="{Binding Path=IpUrl, FallbackValue=http://ip:port/}"/>
+                    </Hyperlink>
+                </TextBlock>
+                <TextBlock Grid.Row="5" Grid.ColumnSpan="4" Text="Once you have started the server you can close this window and it will keep running, and you can return to this page to stop the server." FontSize="12" FontWeight="Normal" Foreground="White" TextWrapping="Wrap"/>
+                <Button Grid.Row="6" Grid.Column="3" Margin="4,9,8,7" FontFamily="./#DINEngschrift" FontSize="22" FontWeight="Bold" Click="CloseButtonClick">Close</Button>
+            </Grid>      
+        </Grid>
+    </Grid>
+</Window>

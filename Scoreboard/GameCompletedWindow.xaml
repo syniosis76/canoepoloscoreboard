@@ -1,0 +1,137 @@
+﻿<Window x:Class="Scoreboard.GameCompletedWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Add Period" Width="500" Height="450" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" WindowStyle="None" Closed="Window_Closed">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ScoreboardStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid Background="Black">
+        <Grid Margin="4" Background="{StaticResource DarkBlueGradient}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid Margin="8,8,8,0" Grid.ColumnSpan="2" Background="White">
+                <Grid Margin="8,0,8,8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="7*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" Text="Completed Game" FontSize="26" FontWeight="Bold" FontStyle="Italic" Foreground="Black"/>
+
+                    <TextBlock Grid.Column="0" Grid.Row="1" Text="{Binding Path=CompletedGame.Team1, FallbackValue=Team 1}" FontSize="24" FontWeight="Bold" Foreground="Black"/>
+                    <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Path=CompletedGame.Team1Score, FallbackValue=0}" FontSize="24" FontWeight="Bold" Foreground="Black"/>
+                    <Grid Grid.Column="2" Grid.Row="1" Margin="4,0,4,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="8*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="8*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Click="Team1AddGoalClick" Style="{StaticResource TileButtonBlue}">
+                            <Image Margin="2" Source="/Scoreboard;component/images/add.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        </Button>
+                        <Button Grid.Column="2" Click="Team1AddCardClick" Style="{StaticResource TileButtonBlue}">
+                            <Image Margin="2" Source="/Scoreboard;component/images/cards.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        </Button>
+                    </Grid>                    
+
+                    <TextBlock Grid.Column="0" Grid.Row="2" Text="{Binding Path=CompletedGame.Team2, FallbackValue=Team 2}" FontSize="24" FontWeight="Bold" Foreground="Black"/>
+                    <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding Path=CompletedGame.Team2Score, FallbackValue=0}" FontSize="24" FontWeight="Bold" Foreground="Black"/>
+                    <Grid Grid.Column="2" Grid.Row="2" Margin="4,0,4,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="8*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="8*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Click="Team2AddGoalClick" Style="{StaticResource TileButtonBlue}">
+                            <Image Margin="2" Grid.ColumnSpan="2" Source="/Scoreboard;component/images/add.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        </Button>
+                        <Button Grid.Column="2" Click="Team2AddCardClick" Style="{StaticResource TileButtonBlue}">
+                            <Image Margin="2" Source="/Scoreboard;component/images/cards.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        </Button>
+                    </Grid>
+
+                    <StackPanel Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="4" Orientation="Vertical">
+                        <TextBlock Text="This game ended in a Draw." FontSize="16" FontWeight="Bold" Foreground="Black" Visibility="{Binding Path=CompletedGame.IsDraw, FallbackValue=Hidden, Converter={StaticResource boolToVisiblityConverter}}"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="If this game has not finished you can " FontSize="16" FontWeight="Bold" Foreground="Black" VerticalAlignment="Bottom" Margin="0,0,0,1"/>
+                            <TextBlock>
+                                <Hyperlink FontSize="18" FontWeight="Bold" TextDecorations="Underline" Foreground="#FF0094FF" Click="StartExtraPeriodClick">start an extra period</Hyperlink>
+                            </TextBlock>
+                            <TextBlock Text="." FontSize="16" FontWeight="Bold" Foreground="Black" VerticalAlignment="Bottom" Margin="0,0,0,1"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+            <Grid Margin="8,0,8,0" Grid.ColumnSpan="2" Grid.Row="1" Background="White">
+                <Grid Margin="8,8,8,8" VerticalAlignment="Center" Grid.Visibility="{Binding Path=NextGameIsNull, FallbackValue=Hidden, Converter={StaticResource boolToVisiblityConverter}}">
+                    <TextBlock Grid.Column="1" Grid.Row="0" Text="There is no next game." FontSize="24" FontWeight="Bold" Foreground="Black"/>
+                </Grid>
+                <Grid Margin="8,8,8,8" Grid.Visibility="{Binding Path=NextGameIsNull, FallbackValue=Visible, Converter={StaticResource inverseBoolToVisiblityConverter}}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="20"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="Next Game" FontSize="26" FontWeight="Bold" FontStyle="Italic" Foreground="Black"/>
+
+                    <TextBlock Grid.Row="1" Text="{Binding Path=NextGame.Team1, FallbackValue=Team 1}" FontSize="24" FontWeight="Bold" Foreground="Black"/>
+                    <TextBlock Grid.Row="2" Text="{Binding Path=NextGame.Team2, FallbackValue=Team 2}" FontSize="24" FontWeight="Bold" Foreground="Black"/>
+
+                    <StackPanel Grid.Row="3" Orientation="Horizontal">
+                        <TextBlock Text="This will automatically start in " FontSize="14" FontWeight="Bold" Foreground="Black"/>
+                        <TextBlock Text="{Binding Path=NextGame.StartsIn, Converter={StaticResource gameTimeConverter}, FallbackValue=2:56}" FontSize="14" FontWeight="Bold" Foreground="Black"/>
+                        <TextBlock Text="." FontSize="14" FontWeight="Bold" Foreground="Black"/>
+                    </StackPanel>
+                    
+                    <TextBlock Grid.Row="4" Grid.ColumnSpan="2" Text="You don't need to do anything, but you can start it sooner if needed." FontSize="14" FontWeight="Bold" Foreground="Black"/>
+                    <StackPanel Grid.Row="5" Grid.ColumnSpan="2" Orientation="Horizontal">
+                        <TextBlock Margin="0,0,0,0">
+                            <Hyperlink FontSize="16" FontWeight="Bold" Foreground="#FF0094FF" TextDecorations="Underline" Click="CloseButtonClick">Wait</Hyperlink>
+                        </TextBlock>
+                        <TextBlock Margin="20,0,0,0">
+                            <Hyperlink FontSize="16" FontWeight="Bold" Foreground="#FF0094FF" TextDecorations="Underline" Click="StartNextGame60Click">Start in 1 minute</Hyperlink>
+                        </TextBlock>
+                        <TextBlock Margin="20,0,0,0">
+                            <Hyperlink FontSize="16" FontWeight="Bold" Foreground="#FF0094FF" TextDecorations="Underline" Click="StartNextGame30Click">Start in 30 seconds</Hyperlink>
+                        </TextBlock>
+                        <TextBlock Margin="20,0,0,0">
+                            <Hyperlink FontSize="16" FontWeight="Bold" Foreground="#FF0094FF" TextDecorations="Underline" Click="StartNextGameNowClick">Start now</Hyperlink>
+                        </TextBlock>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="7*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="2" Margin="4,8,8,8" FontFamily="./#DINEngschrift" FontSize="22" FontWeight="Bold" IsCancel="True" Click="CloseButtonClick">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Close " FontSize="20" FontWeight="Bold" Foreground="Black"/>
+                        <TextBlock Text="(" FontSize="20" FontWeight="Bold" Foreground="Black"/>
+                        <TextBlock Text="{Binding Path=CloseIn, FallbackValue=20}" FontSize="20" FontWeight="Bold" Foreground="Black"/>
+                        <TextBlock Text=")" FontSize="20" FontWeight="Bold" Foreground="Black"/>
+                    </StackPanel>
+                </Button>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
