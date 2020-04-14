@@ -39,6 +39,7 @@ namespace Scoreboard
             _webServer.AddMethod("scoreboard.js", ScoreboardJsMethod);
             _webServer.AddMethod("about", AboutMethod);
             _webServer.AddMethod("game", GameMethod);
+            _webServer.AddMethod("game-info", GameInfoMethod);
             _webServer.AddMethod("results", ResultsMethod);
             _webServer.AddMethod("results-page", ResultsPageMethod);
             _webServer.AddMethod("results.css", ResultsCssMethod);
@@ -130,6 +131,17 @@ namespace Scoreboard
             else
             {
                 return _score.CurrentGame.ToJson();
+            }
+        }
+        public string GameInfoMethod(HttpListenerRequest request)
+        {
+            if (_score.CurrentGame == null)
+            {
+                return "[]";
+            }
+            else
+            {
+                return "[" + _score.CurrentGame.ToJson() + "]";
             }
         }
 
