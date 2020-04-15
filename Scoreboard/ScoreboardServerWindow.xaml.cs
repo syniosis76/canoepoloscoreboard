@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Diagnostics;
 using System.Windows.Navigation;
+using System.Runtime.InteropServices;
 
 namespace Scoreboard
 {
@@ -41,7 +42,11 @@ namespace Scoreboard
 
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
-            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                string url = e.Uri.AbsoluteUri.Replace("&", "^&");
+                Process.Start(new ProcessStartInfo("cmd", $"/c start {url}") { CreateNoWindow = true });
+            }            
             e.Handled = true;
         }
 

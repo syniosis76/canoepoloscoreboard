@@ -1,18 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Net.Mail;
-using System.Net;
 using Microsoft.Win32;
 using Utilities;
 using System.Reflection;
@@ -68,29 +60,33 @@ namespace Scoreboard
             _secondary = new Secondary();
             _secondary.DataContext = Score;
 
-            // Todo - Do not use System.Windows.Forms and System.Drawing;
-            if (screenIndex < System.Windows.Forms.SystemInformation.MonitorCount)
+            // Todo - Detect monitors
+            /*Microsoft.Management.Infrastructure.CimSession session = Microsoft.Management.Infrastructure.CimSession.Create(Environment.MachineName);
+            IEnumerable<Microsoft.Management.Infrastructure.CimInstance> monitors = session.QueryInstances("root\\cimv2", "WQL", "SELECT * FROM Win32_DesktopMonitor");
+            int monitorCount = monitors.Count();
+
+            if (screenIndex < monitorCount)
             {
-                System.Windows.Forms.Screen[] screens = System.Windows.Forms.Screen.AllScreens;
-                System.Windows.Forms.Screen screen = screens[screenIndex];
+                //System.Windows.Forms.Screen[] screens = System.Windows.Forms.Screen.AllScreens;
+                //System.Windows.Forms.Screen screen = screens[screenIndex];
 
                 Secondary.WindowStyle = WindowStyle.None;
                 Secondary.ResizeMode = ResizeMode.NoResize;
 
                 Secondary.Show();
 
-                Secondary.Left = screen.Bounds.Left;
-                Secondary.Top = screen.Bounds.Top;
+                //Secondary.Left = screen.Bounds.Left;
+                //Secondary.Top = screen.Bounds.Top;
 
                 Secondary.WindowState = WindowState.Maximized;                
             }
             else
-            {
+            {*/
                 Secondary.WindowStyle = WindowStyle.ThreeDBorderWindow;
                 Secondary.ResizeMode = ResizeMode.CanResize;
                 Secondary.WindowState = WindowState.Normal;
                 Secondary.Show();
-            }                       
+            //}                       
         }                         
 
         private void bTeam1ScoreSubtract_Click(object sender, RoutedEventArgs e)
