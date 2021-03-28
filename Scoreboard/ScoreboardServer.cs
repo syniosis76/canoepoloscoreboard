@@ -124,24 +124,24 @@ namespace Scoreboard
 
         public string GameMethod(HttpListenerRequest request)
         {
-            if (_score.CurrentGame == null)
+            if (_score.CurrentOrEndedGame == null)
             {
                 return "null";
             }
             else
             {
-                return _score.CurrentGame.ToJson();
+                return _score.CurrentOrEndedGame.ToJson();
             }
         }
         public string GameInfoMethod(HttpListenerRequest request)
         {
-            if (_score.CurrentGame == null)
+            if (_score.CurrentOrEndedGame == null)
             {
                 return "[]";
             }
             else
             {
-                return "[" + _score.CurrentGame.ToJson() + "]";
+                return "[" + _score.CurrentOrEndedGame.ToJson() + "]";
             }
         }
 

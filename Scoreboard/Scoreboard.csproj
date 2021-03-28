@@ -41,9 +41,9 @@
     <Company>verner software</Company>
     <Product>Scoreboard</Product>
     <Description>Canoe Polo Scoreboard</Description>
-    <Copyright>Copyright © 2018</Copyright>
-    <AssemblyVersion>1.12.5.1</AssemblyVersion>
-    <FileVersion>1.12.5.1</FileVersion>
+    <Copyright>Copyright © 2021</Copyright>
+    <AssemblyVersion>1.12.6.1</AssemblyVersion>
+    <FileVersion>1.12.6.1</FileVersion>
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
@@ -60,7 +60,7 @@
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>Scoreboard.App</StartupObject>
+    <StartupObject></StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Update="Properties\Resources.resx">
