@@ -95,8 +95,7 @@ namespace Scoreboard
 
         private void Team1ScoreSubtract_Click(object sender, RoutedEventArgs e)
         {
-            //Score.Team1NoGoal();            
-            MessageBox.Show("Remove the goal from the events list instead.");
+            Score.Team1NoGoal();            
         }
 
         private void Team1Goal()
@@ -140,8 +139,7 @@ namespace Scoreboard
         
         private void Team2ScoreSubtract_Click(object sender, RoutedEventArgs e)
         {
-            //Score.Team2NoGoal();
-            MessageBox.Show("Remove the goal from the events list instead.");
+            Score.Team2NoGoal();            
         }
 
         private void Team2Goal()
@@ -353,14 +351,7 @@ namespace Scoreboard
 
         private bool OnAddExtraPeriod(object input, object output)
         {
-            if (AddPeriodWindow.AddPeriod(this, (Game)input))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return AddPeriodWindow.AddPeriod(this, (Game)input);
         }
 
         private bool OnGameCompleted(object input, object output)
@@ -642,20 +633,12 @@ namespace Scoreboard
             {
                 if (MessageBox.Show("Are you sure you want to remove this event?", "Remove Event", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    GameEvent gameEvent = ((GameEventView)_gameEventListView.SelectedItem).GameEvent;
                     Game game = (Game)_gamesListView.SelectedItem;
-                    if (gameEvent.EventType == "Yellow Card")
-                    {
-                        Score.Team1Cards.Remove(Score.Team1Cards.Where(x => x.GameEvent == gameEvent).FirstOrDefault());
-                        Score.Team2Cards.Remove(Score.Team2Cards.Where(x => x.GameEvent == gameEvent).FirstOrDefault());
-                    }
-                    game.GameEvents.Remove(gameEvent);
-                    game.FilterGameEvents();
-                    game.CalculateScoreFromEvents();
-                    Score.SaveGames();
+                    GameEvent gameEvent = ((GameEventView)_gameEventListView.SelectedItem).GameEvent;
+                    Score.RemoveGameEvent(game, gameEvent);
                 }
             }
-        }
+        }        
 
         private void ScrollEventsToEnd()
         {            

@@ -22,7 +22,7 @@ namespace Scoreboard
     /// </summary>
     public partial class ScoreboardServerWindow : Window
     {
-        private Score _score;
+        private readonly Score _score;
         public Score Score
         {
             get { return _score; }

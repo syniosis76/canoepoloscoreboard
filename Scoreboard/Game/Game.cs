@@ -66,7 +66,7 @@ namespace Scoreboard
         {
             get
             {
-                return Parent != null ? Parent.CurrentGame == this : false;
+                return Parent != null && Parent.CurrentGame == this;
             }
             set
             {
@@ -238,7 +238,7 @@ namespace Scoreboard
             }
         }
 
-        private GamePeriodList _periods = new GamePeriodList();
+        private readonly GamePeriodList _periods = new GamePeriodList();
         public GamePeriodList Periods
         {
             get
@@ -423,7 +423,7 @@ namespace Scoreboard
             }
         }
 
-        private GameEventList _gameEvents = new GameEventList();
+        private readonly GameEventList _gameEvents = new GameEventList();
         public GameEventList GameEvents
         {
             get
@@ -432,7 +432,7 @@ namespace Scoreboard
             }
         }
 
-        private BindingList<GameEventView> _gameEventsView = new BindingList<GameEventView>();
+        private readonly BindingList<GameEventView> _gameEventsView = new BindingList<GameEventView>();
         public BindingList<GameEventView> GameEventsView
         {
             get
@@ -486,6 +486,11 @@ namespace Scoreboard
             LogEvent(eventType, null, null, null);            
         }
 
+        public GameEvent FindLastGameEvent(string team, string eventType)
+        {
+            return GameEvents.Where(x => x.Team == team && x.EventType == eventType).LastOrDefault();
+        }
+
         public void StartFirstPeriodInSeconds(int seconds)
         {
             if (StartTime != null)
@@ -534,7 +539,7 @@ namespace Scoreboard
         public string ToJson()
         {
             StringBuilder result = new StringBuilder();
-            result.Append("{");
+            result.Append('{');
             result.Append("\"startTime\": \"" + (StartTime.HasValue ? StartTime.Value.ToString("HH:mm") : "--:--") + "\"");
             result.Append(", \"team1\": \"" + Team1 + "\"");
             if (!String.IsNullOrEmpty(Team1Flag))
@@ -589,7 +594,7 @@ namespace Scoreboard
                 result.Append(", \"hasCompleted\": false");
             }
 
-            result.Append("}");
+            result.Append('}');
 
             return result.ToString();
         }

@@ -96,6 +96,6 @@
                 </ListView.ItemsPanel>
             </ListView>
         </Viewbox>
-        <Label Grid.Row="2" Grid.Column="2" HorizontalAlignment="Right" Margin="0,0,2,2" Name="_closeLabel" Width="23" Foreground="#FF555555" FontSize="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Height="34" Grid.RowSpan="2" VerticalAlignment="Bottom" MouseUp="_closeLabel_MouseUp">x</Label>
+        <Label Grid.Row="2" Grid.Column="2" HorizontalAlignment="Right" Margin="0,0,2,2" Name="_closeLabel" Width="23" Foreground="#FF555555" FontSize="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Height="34" Grid.RowSpan="2" VerticalAlignment="Bottom" MouseUp="CloseLabel_MouseUp">x</Label>
     </Grid>
 </Window>

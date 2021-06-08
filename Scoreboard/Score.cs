@@ -777,7 +777,7 @@ namespace Scoreboard
 
         public void ShowGameCompleted(Game currentGame, Game nextGame)
         {
-            if (currentGame != null && OnGameCompleted != null)
+            if (RecordGoalScorers && OnGameCompleted != null && currentGame != null)
             {
                 if (currentGame.HasStarted && !currentGame.HasCompleted)
                 {
@@ -1159,13 +1159,33 @@ namespace Scoreboard
             UpdateTime();
         }
 
-        public void Team1NoGoal()
+        public void RemoveGameEvent(Game game, GameEvent gameEvent)
         {            
-            if (CurrentGame != null)
+            if (gameEvent.EventType == "Yellow Card")
             {
-                CurrentOrEndedGame.Team1Score--;
-                CurrentOrEndedGame.LogEvent("No Goal", CurrentOrEndedGame.Team1, null, CurrentOrEndedGame.Team1Score.ToString() + " to " + CurrentOrEndedGame.Team2Score.ToString());
-                SaveGames();
+                Team1Cards.Remove(Team1Cards.Where(x => x.GameEvent == gameEvent).FirstOrDefault());
+                Team2Cards.Remove(Team2Cards.Where(x => x.GameEvent == gameEvent).FirstOrDefault());
+            }
+            game.GameEvents.Remove(gameEvent);
+            game.FilterGameEvents();
+            game.CalculateScoreFromEvents();
+            SaveGames();
+        }
+
+        private void RemoveGameEvent(Game game, string team, string eventType)
+        {
+            GameEvent gameEvent = game.FindLastGameEvent(team, eventType);
+            if (gameEvent != null)
+            {
+                RemoveGameEvent(game, gameEvent);
+            }            
+        }
+
+        public void Team1NoGoal()
+        {
+            if (CurrentOrEndedGame != null)
+            {
+                RemoveGameEvent(CurrentOrEndedGame, CurrentOrEndedGame.Team1, "Goal");
             }
         }
 
@@ -1376,9 +1396,7 @@ namespace Scoreboard
         {
             if (CurrentOrEndedGame != null)
             {
-                CurrentOrEndedGame.Team2Score--;
-                CurrentOrEndedGame.LogEvent("No Goal", CurrentOrEndedGame.Team2, null, CurrentOrEndedGame.Team1Score.ToString() + " to " + CurrentOrEndedGame.Team2Score.ToString());
-                SaveGames();
+                RemoveGameEvent(CurrentOrEndedGame, CurrentOrEndedGame.Team2, "Goal");
             }
         }
 

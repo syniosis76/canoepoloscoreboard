@@ -25,7 +25,7 @@ namespace Scoreboard
             InitializeComponent();
         }
 
-        private void _closeLabel_MouseUp(object sender, MouseButtonEventArgs e)
+        private void CloseLabel_MouseUp(object sender, MouseButtonEventArgs e)
         {
             Close();
         }
