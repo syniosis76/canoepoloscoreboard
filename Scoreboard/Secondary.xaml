@@ -1,7 +1,7 @@
 ﻿<Window x:Class="Scoreboard.Secondary"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="Scoreboard" Width="808" Height="480" Background="Black" MinWidth="800" MinHeight="450" Icon="/Scoreboard;component/logo.ico">
+    Title="Scoreboard" Width="808" Height="480" Background="Black" MinWidth="800" MinHeight="450" Icon="/Scoreboard;component/logo.ico" KeyUp="Window_KeyUp">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

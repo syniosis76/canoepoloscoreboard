@@ -18,6 +18,8 @@ namespace Scoreboard
     /// </summary>
     public partial class Secondary : Window
     {
+        public KeyEventHandler SecondaryKeyUp;
+
         public Secondary()
         {
             InitializeComponent();
@@ -26,6 +28,11 @@ namespace Scoreboard
         private void _closeLabel_MouseUp(object sender, MouseButtonEventArgs e)
         {
             Close();
+        }
+
+        private void Window_KeyUp(object sender, KeyEventArgs e)
+        {
+            SecondaryKeyUp?.Invoke(sender, e);
         }
     }
 }

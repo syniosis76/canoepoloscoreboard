@@ -60,7 +60,8 @@ namespace Scoreboard
 
             _secondary = new Secondary
             {
-                DataContext = Score
+                DataContext = Score,
+                SecondaryKeyUp = MainKeyUp
             };
 
             // Todo - Detect monitors
@@ -158,10 +159,10 @@ namespace Scoreboard
 
         private void Main_KeyUp(object sender, KeyEventArgs e)
         {
-            ProcessKeyUp(e); 
+            MainKeyUp(sender, e); 
         }
 
-        public void ProcessKeyUp(KeyEventArgs e)
+        public void MainKeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.A)
             {
