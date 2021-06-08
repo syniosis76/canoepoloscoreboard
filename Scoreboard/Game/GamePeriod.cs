@@ -16,10 +16,7 @@ namespace Scoreboard
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged(PropertyChangedEventArgs e)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, e);
-            }
+            PropertyChanged?.Invoke(this, e);
         }
 
         public void NotifyPropertyChanged(string name)
@@ -356,7 +353,7 @@ namespace Scoreboard
 
         #endregion
 
-        protected TimeSpan ModifyByTimeSpan(DateTime time, int changeBy, int roundToNearest)
+        protected static TimeSpan ModifyByTimeSpan(DateTime time, int changeBy, int roundToNearest)
         {            
             DateTime newTime = time + new TimeSpan(0, 0, changeBy);
             DateTime newRoundedTime = new DateTime(newTime.Year, newTime.Month, newTime.Day, newTime.Hour, newTime.Minute, newTime.Second);

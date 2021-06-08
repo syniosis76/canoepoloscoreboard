@@ -42,6 +42,7 @@ namespace Scoreboard
             Title = "Scoreboard " + version.ToString();
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "<Pending>")]
         protected void CreateSecondary(int screenIndex)
         {
             if (_secondary != null)
@@ -57,8 +58,10 @@ namespace Scoreboard
                 _secondary = null;
             }
 
-            _secondary = new Secondary();
-            _secondary.DataContext = Score;
+            _secondary = new Secondary
+            {
+                DataContext = Score
+            };
 
             // Todo - Detect monitors
             /*Microsoft.Management.Infrastructure.CimSession session = Microsoft.Management.Infrastructure.CimSession.Create(Environment.MachineName);
@@ -82,14 +85,14 @@ namespace Scoreboard
             }
             else
             {*/
-                Secondary.WindowStyle = WindowStyle.ThreeDBorderWindow;
+            Secondary.WindowStyle = WindowStyle.ThreeDBorderWindow;
                 Secondary.ResizeMode = ResizeMode.CanResize;
                 Secondary.WindowState = WindowState.Normal;
                 Secondary.Show();
             //}                       
         }                         
 
-        private void bTeam1ScoreSubtract_Click(object sender, RoutedEventArgs e)
+        private void Team1ScoreSubtract_Click(object sender, RoutedEventArgs e)
         {
             //Score.Team1NoGoal();            
             MessageBox.Show("Remove the goal from the events list instead.");
@@ -129,12 +132,12 @@ namespace Scoreboard
             }
         }
 
-        private void bTeam1ScoreAdd_Click(object sender, RoutedEventArgs e)
+        private void Team1ScoreAdd_Click(object sender, RoutedEventArgs e)
         {
             Team1Goal();            
         }
         
-        private void bTeam2ScoreSubtract_Click(object sender, RoutedEventArgs e)
+        private void Team2ScoreSubtract_Click(object sender, RoutedEventArgs e)
         {
             //Score.Team2NoGoal();
             MessageBox.Show("Remove the goal from the events list instead.");
@@ -148,7 +151,7 @@ namespace Scoreboard
             }
         }
 
-        private void bTeam2ScoreAdd_Click(object sender, RoutedEventArgs e)
+        private void Team2ScoreAdd_Click(object sender, RoutedEventArgs e)
         {
             Team2Goal();
         }
@@ -172,7 +175,7 @@ namespace Scoreboard
             }
             else if (e.Key == Key.S)
             {
-                bTeam1Card_Click(null, null);
+                Team1Card_Click(null, null);
                 e.Handled = true;
             }
             else if (e.Key == Key.K)
@@ -187,7 +190,7 @@ namespace Scoreboard
             }
             else if (e.Key == Key.J)
             {
-                bTeam2Card_Click(null, null);
+                Team2Card_Click(null, null);
                 e.Handled = true;
             }
             else if (e.Key == Key.P)
@@ -227,7 +230,7 @@ namespace Scoreboard
             }
         }
 
-        private void bTeam1Card_Click(object sender, RoutedEventArgs e)
+        private void Team1Card_Click(object sender, RoutedEventArgs e)
         {
             if (Score.CurrentGame != null)
             {
@@ -236,7 +239,7 @@ namespace Scoreboard
             }
         }
 
-        private void bTeam2Card_Click(object sender, RoutedEventArgs e)
+        private void Team2Card_Click(object sender, RoutedEventArgs e)
         {
             if (Score.CurrentGame != null)
             {
@@ -262,12 +265,12 @@ namespace Scoreboard
             Score.PauseResume();
         }
 
-        private void bPause_Click(object sender, RoutedEventArgs e)
+        private void Pause_Click(object sender, RoutedEventArgs e)
         {
             PauseResume();
         }        
 
-        private void bSendLog_Click(object sender, RoutedEventArgs e)
+        private void SendLog_Click(object sender, RoutedEventArgs e)
         {
             /*TextDialog dlg = new TextDialog("Email Address", "Email Address");
             dlg.Text = Properties.Settings.Default.EmailAddress;
@@ -307,37 +310,37 @@ namespace Scoreboard
             */
         }
 
-        private void _secondaryScreen1_Click(object sender, RoutedEventArgs e)
+        private void SecondaryScreen1_Click(object sender, RoutedEventArgs e)
         {
             CreateSecondary(0);
         }
 
-        private void _secondaryScreen2_Click(object sender, RoutedEventArgs e)
+        private void SecondaryScreen2_Click(object sender, RoutedEventArgs e)
         {
             CreateSecondary(1);
         }
 
-        private void _pauseResumeShotButtonClick(object sender, RoutedEventArgs e)
+        private void PauseResumeShotButtonClick(object sender, RoutedEventArgs e)
         {
             Score.PauseResumeShotTime();
         }
 
-        private void _resetShotButtonClick(object sender, RoutedEventArgs e)
+        private void ResetShotButtonClick(object sender, RoutedEventArgs e)
         {
             Score.ResetShotTime();
         }
 
-        private void _resetResumeShotButtonClick(object sender, RoutedEventArgs e)
+        private void ResetResumeShotButtonClick(object sender, RoutedEventArgs e)
         {
             Score.ResetResumeShotTime();
         }
 
-        private void _incrementShotButtonClick(object sender, RoutedEventArgs e)
+        private void IncrementShotButtonClick(object sender, RoutedEventArgs e)
         {
             Score.IncrementShotTime();
         }
 
-        private void _decrementShotButtonClick(object sender, RoutedEventArgs e)
+        private void DecrementShotButtonClick(object sender, RoutedEventArgs e)
         {
             Score.DecrementShotTime();
         }        
@@ -366,11 +369,13 @@ namespace Scoreboard
             return true;
         }
 
-        private void _saveGamesClick(object sender, RoutedEventArgs e)
+        private void SaveGamesClick(object sender, RoutedEventArgs e)
         {
-            SaveFileDialog saveDialog = new SaveFileDialog();
-            saveDialog.DefaultExt = ".xml";
-            saveDialog.Filter = "Scoreboard games (.xml)|*.xml";
+            SaveFileDialog saveDialog = new SaveFileDialog
+            {
+                DefaultExt = ".xml",
+                Filter = "Scoreboard games (.xml)|*.xml"
+            };
 
             if (saveDialog.ShowDialog() == true)
             {
@@ -381,9 +386,11 @@ namespace Scoreboard
 
         protected void LoadGames(bool clearStatus, bool clearExistingGames)
         {
-            OpenFileDialog openDialog = new OpenFileDialog();
-            openDialog.DefaultExt = ".xml";
-            openDialog.Filter = "Scoreboard games (.xml)|*.xml";
+            OpenFileDialog openDialog = new OpenFileDialog
+            {
+                DefaultExt = ".xml",
+                Filter = "Scoreboard games (.xml)|*.xml"
+            };
 
             if (openDialog.ShowDialog() == true)
             {
@@ -396,32 +403,32 @@ namespace Scoreboard
             Score.Tourney.LoadGames(this);
         }
 
-        private void _loadGamesClick(object sender, RoutedEventArgs e)
+        private void LoadGamesClick(object sender, RoutedEventArgs e)
         {
             LoadGames(false, true);  
         }
 
-        private void _loadGamesWithoutStatusClick(object sender, RoutedEventArgs e)
+        private void LoadGamesWithoutStatusClick(object sender, RoutedEventArgs e)
         {
             LoadGames(true, true);
         }
 
-        private void _loadGamesFromTourneyClick(object sender, RoutedEventArgs e)
+        private void LoadGamesFromTourneyClick(object sender, RoutedEventArgs e)
         {
             LoadGamesFromTourney();
         }
 
-        private void _updateGamesFromTourneyClick(object sender, RoutedEventArgs e)
+        private void UpdateGamesFromTourneyClick(object sender, RoutedEventArgs e)
         {
             Score.Tourney.UpdateGameDetails();
         }
 
-        private void _mergeGamesClick(object sender, RoutedEventArgs e)
+        private void MergeGamesClick(object sender, RoutedEventArgs e)
         {
             LoadGames(false, false);
         }        
 
-        private void _restartGamesClick(object sender, RoutedEventArgs e)
+        private void RestartGamesClick(object sender, RoutedEventArgs e)
         {
             if (MessageBox.Show("This will find the game that should be in progress (based on the current time) and resume operation from there.\n\n"
                         + "You would use this after modifying the times of games.\n\n"
@@ -432,7 +439,8 @@ namespace Scoreboard
             }
         }
 
-        private void _gameEventListViewScrollChanged(object sender, ScrollChangedEventArgs e)
+        private void GameEventListViewScrollChanged
+            (object sender, ScrollChangedEventArgs e)
         {
             if (e.ExtentHeightChange > 0.0)
             {
@@ -440,25 +448,25 @@ namespace Scoreboard
             }
         }
 
-        private void _calculateStatisticsClick(object sender, RoutedEventArgs e)
+        private void CalculateStatisticsClick(object sender, RoutedEventArgs e)
         {
             string statistics = Score.CalculateStatistics(3, 1, 0);
             FlowDocumentWindow.ShowStatistics(this, statistics);
         }
 
-        private void _calculateTopGoalScorersClick(object sender, RoutedEventArgs e)
+        private void CalculateTopGoalScorersClick(object sender, RoutedEventArgs e)
         {
             string statistics = Score.CalculateTopGoalScorers();
             FlowDocumentWindow.ShowStatistics(this, statistics);
         }        
 
-        private void _copyResultsClick(object sender, RoutedEventArgs e)
+        private void CopyResultsClick(object sender, RoutedEventArgs e)
         {
             string statistics = Score.ResultsText();
             StatisticsWindow.ShowStatistics(this, statistics);
         }
 
-        private void _copyLogClick(object sender, RoutedEventArgs e)
+        private void CopyLogClick(object sender, RoutedEventArgs e)
         {
             string statistics = Score.LogText();
             StatisticsWindow.ShowStatistics(this, statistics);
@@ -528,11 +536,10 @@ namespace Scoreboard
             }
         }
 
-        private void _endExtraPeriodClick(object sender, RoutedEventArgs e)
+        private void EndExtraPeriodClick(object sender, RoutedEventArgs e)
         {
             if (_gamesListView.SelectedItem != null && _periodsListView.SelectedItem != null)
             {
-                Game game = (Game)_gamesListView.SelectedItem;
                 GamePeriod period = (GamePeriod)_periodsListView.SelectedItem;
 
                 period.EndNow();
@@ -545,15 +552,17 @@ namespace Scoreboard
             }
         }
 
-        private void _scoreboardMenuButtonClick(object sender, RoutedEventArgs e)
+        private void ScoreboardMenuButtonClick(object sender, RoutedEventArgs e)
         {
             ShowScoreboardMenu();
         }
 
-        private void _scoreboardServerClick(object sender, RoutedEventArgs e)
-        {            
-            ScoreboardServerWindow window = new ScoreboardServerWindow(Score);
-            window.Owner = this;
+        private void ScoreboardServerClick(object sender, RoutedEventArgs e)
+        {
+            ScoreboardServerWindow window = new ScoreboardServerWindow(Score)
+            {
+                Owner = this
+            };
             window.ShowDialog();
 
             Properties.Settings.Default.ServerPort = Score.ServerOptions.Port;
@@ -590,8 +599,6 @@ namespace Scoreboard
             if (_gamesListView.SelectedItem != null && _gameEventListView.SelectedItem != null)
             {
                 GameEvent gameEvent = ((GameEventView)_gameEventListView.SelectedItem).GameEvent;
-                Game game = (Game)_gamesListView.SelectedItem;
-
                 if (gameEvent.EventType.Contains("Card"))
                 {
                     EditCard(gameEvent);
@@ -653,13 +660,13 @@ namespace Scoreboard
         {            
             if (_gameEventListView.Items.Count > 0)
             {
-                Object item = _gameEventListView.Items[_gameEventListView.Items.Count - 1];                
+                Object item = _gameEventListView.Items[^1];                
                 _gameEventListView.UpdateLayout();
                 _gameEventListView.ScrollIntoView(item);
             }
         }
 
-        private void _gamesListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void GamesListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ScrollEventsToEnd();
         }
@@ -689,19 +696,15 @@ namespace Scoreboard
 
         private void EventScrollLeft(object sender, RoutedEventArgs e)
         {
-            var scrollViwer = GetScrollViewer(_gameEventListView) as ScrollViewer;
-
-            if (scrollViwer != null)
-            {             
+            if (GetScrollViewer(_gameEventListView) is ScrollViewer scrollViwer)
+            {
                 scrollViwer.ScrollToHorizontalOffset(scrollViwer.HorizontalOffset - 1);
             }
         }
 
         private void EventScrollRight(object sender, RoutedEventArgs e)
         {
-            var scrollViwer = GetScrollViewer(_gameEventListView) as ScrollViewer;
-
-            if (scrollViwer != null)
+            if (GetScrollViewer(_gameEventListView) is ScrollViewer scrollViwer)
             {
                 scrollViwer.ScrollToHorizontalOffset(scrollViwer.HorizontalOffset + 1);
             }
@@ -742,7 +745,7 @@ namespace Scoreboard
 
                 if (Cards.SelectCard(this, game, ref team, ref card, ref player, ref infringement, ref penaltyDuration))
                 {
-                    GameEvent gameEvent = game.LogEvent(card + " Card", team, player, infringement);
+                    game.LogEvent(card + " Card", team, player, infringement);
                     game.FilterGameEvents();
                     game.CalculateScoreFromEvents();
                     Score.SaveGames();
@@ -751,29 +754,29 @@ namespace Scoreboard
             }
         }
 
-        private void _team1CardsClick(object sender, RoutedEventArgs e)
+        private void Team1CardsClick(object sender, RoutedEventArgs e)
         {
             _team1CardsMenu.IsOpen = true;
         }
 
-        private void _team1CardCancelClick(object sender, RoutedEventArgs e)
+        private void Team1CardCancelClick(object sender, RoutedEventArgs e)
         {
-            if (_team1Cards.SelectedItem != null && _team1Cards.SelectedItem is Card)
+            if (_team1Cards.SelectedItem != null && _team1Cards.SelectedItem is Card card)
             {
-                Score.Team1Cards.Remove((Card)_team1Cards.SelectedItem);
+                Score.Team1Cards.Remove(card);
             }
         }
 
-        private void _team2CardsClick(object sender, RoutedEventArgs e)
+        private void Team2CardsClick(object sender, RoutedEventArgs e)
         {
             _team2CardsMenu.IsOpen = true;
         }
 
-        private void _team2CardCancelClick(object sender, RoutedEventArgs e)
+        private void Team2CardCancelClick(object sender, RoutedEventArgs e)
         {
-            if (_team2Cards.SelectedItem != null && _team2Cards.SelectedItem is Card)
+            if (_team2Cards.SelectedItem != null && _team2Cards.SelectedItem is Card card)
             {
-                Score.Team2Cards.Remove((Card)_team2Cards.SelectedItem);
+                Score.Team2Cards.Remove(card);
             }
         }
     }

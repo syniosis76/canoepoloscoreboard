@@ -42,9 +42,11 @@ namespace Scoreboard
 
         public static void ShowStatistics(Window owner, string statistics)
         {
-            FlowDocumentWindow window = new FlowDocumentWindow();
-            window.Owner = owner;
-            window.Statistics = statistics;
+            FlowDocumentWindow window = new FlowDocumentWindow
+            {
+                Owner = owner,
+                Statistics = statistics
+            };
             window.ShowDialog();
         }
 

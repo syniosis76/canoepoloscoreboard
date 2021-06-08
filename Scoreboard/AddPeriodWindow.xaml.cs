@@ -24,10 +24,7 @@ namespace Scoreboard
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged(PropertyChangedEventArgs e)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, e);
-            }
+            PropertyChanged?.Invoke(this, e);
         }
 
         public void NotifyPropertyChanged(string name)
@@ -81,9 +78,11 @@ namespace Scoreboard
 
         public static bool AddPeriod(Window owner, Game game)
         {
-            AddPeriodWindow windows = new AddPeriodWindow();
-            windows.Owner = owner;
-            windows.Game = game;
+            AddPeriodWindow windows = new AddPeriodWindow
+            {
+                Owner = owner,
+                Game = game
+            };
             return windows.ShowDialog() == true ? true : false;
         }
 
@@ -107,11 +106,13 @@ namespace Scoreboard
             DateTime startTime = DateTime.Now;
             TimeSpan extraPeriodDuration = Score.ParseTimeSpan(ExtraPeriodDuration);
 
-            GamePeriod gamePeriod = new GamePeriod();
-            gamePeriod.IsExtraPeriod = true;
-            gamePeriod.Name = ExtraPeriodName;
-            gamePeriod.StartTime = startTime;
-            gamePeriod.EndTime = startTime + extraPeriodDuration;
+            GamePeriod gamePeriod = new GamePeriod
+            {
+                IsExtraPeriod = true,
+                Name = ExtraPeriodName,
+                StartTime = startTime,
+                EndTime = startTime + extraPeriodDuration
+            };
             Game.Periods.Add(gamePeriod);
 
             gamePeriod.ModifyFollowingTimes(gamePeriod.EndTime - DateTime.Now, true);

@@ -16,10 +16,7 @@ namespace Scoreboard
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged(PropertyChangedEventArgs e)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, e);
-            }
+            PropertyChanged?.Invoke(this, e);
         }
 
         public void NotifyPropertyChanged(string name)
@@ -160,10 +157,12 @@ namespace Scoreboard
 
         public static bool AddGames(Window owner, Score score, GameList newGames)
         {
-            AddGamesWindow windows = new AddGamesWindow();
-            windows.Owner = owner;
-            windows.Score = score;
-            windows.NewGames = newGames;
+            AddGamesWindow windows = new AddGamesWindow
+            {
+                Owner = owner,
+                Score = score,
+                NewGames = newGames
+            };
             return windows.ShowDialog() == true ? true : false;
         }
 
@@ -213,9 +212,11 @@ namespace Scoreboard
                     team2Flag = team2.Split('|')[0].ToLower();
                     team2 = team2.Split('|')[1];
                 }
-                Game game = new Game(pool, team1, team2, null);
-                game.Team1Flag = team1Flag;
-                game.Team2Flag = team2Flag;
+                Game game = new Game(pool, team1, team2, null)
+                {
+                    Team1Flag = team1Flag,
+                    Team2Flag = team2Flag
+                };
 
                 DateTime periodTime = startTime;              
 

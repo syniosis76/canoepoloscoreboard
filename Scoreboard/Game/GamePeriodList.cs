@@ -13,10 +13,7 @@ namespace Scoreboard
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged(PropertyChangedEventArgs e)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, e);
-            }
+            PropertyChanged?.Invoke(this, e);
         }
 
         public void NotifyPropertyChanged(string name)
@@ -143,10 +140,12 @@ namespace Scoreboard
 
         public GamePeriod AddPeriod(String name, DateTime startTime, DateTime endTime)
         {
-            GamePeriod newPeriod = new GamePeriod();
-            newPeriod.Name = name;
-            newPeriod.StartTime = startTime;
-            newPeriod.EndTime = endTime;
+            GamePeriod newPeriod = new GamePeriod
+            {
+                Name = name,
+                StartTime = startTime,
+                EndTime = endTime
+            };
             Add(newPeriod);
             return newPeriod;
         }

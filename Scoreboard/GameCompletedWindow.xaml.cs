@@ -24,10 +24,7 @@ namespace Scoreboard
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged(PropertyChangedEventArgs e)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, e);
-            }
+            PropertyChanged?.Invoke(this, e);
         }
 
         public void NotifyPropertyChanged(string name)
@@ -109,10 +106,12 @@ namespace Scoreboard
 
         public static void ShowGameCompletedWindow(Window owner, Game completedGame, Game nextGame)
         {
-            _staticWindow = new GameCompletedWindow();
-            _staticWindow.Owner = owner;
-            _staticWindow.CompletedGame = completedGame;
-            _staticWindow.NextGame = nextGame;
+            _staticWindow = new GameCompletedWindow
+            {
+                Owner = owner,
+                CompletedGame = completedGame,
+                NextGame = nextGame
+            };
             _staticWindow.SetupCloseAt();
             _staticWindow.Show();
         }
@@ -139,7 +138,7 @@ namespace Scoreboard
             }
         }
 
-        public DateTime ParseTime(string time)
+        public static DateTime ParseTime(string time)
         {
             int hours = 0;
             int minutes = 0;
@@ -226,7 +225,7 @@ namespace Scoreboard
             if (Score.CurrentOrEndedGame != null)
             {
                 Game game = Score.CurrentOrEndedGame;
-                Score.SelectCard(this, Score.CurrentGame.Team1, game);
+                Score.SelectCard(this, team, game);
                 game.CalculateResult();
             }
         }

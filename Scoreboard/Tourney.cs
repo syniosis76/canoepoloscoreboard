@@ -18,11 +18,11 @@ namespace Scoreboard
     {
         private static HttpClient _httpClient = new HttpClient();
 
-        private string _baseUrl = null;
+        private readonly string _baseUrl = null;
         private Window _owner = null;
-        private Score _score = null;
+        private readonly Score _score = null;
 
-        private Queue<Game> _uploadQueue = new Queue<Game>();
+        private readonly Queue<Game> _uploadQueue = new Queue<Game>();
 
         private JObject _tournaments = null;
         private JObject _tournament = null;
@@ -51,8 +51,10 @@ namespace Scoreboard
 //#endif
             if (Tourney._httpClient == null)
             {
-                Tourney._httpClient = new HttpClient();
-                Tourney._httpClient.Timeout = TimeSpan.FromSeconds(20);
+                Tourney._httpClient = new HttpClient
+                {
+                    Timeout = TimeSpan.FromSeconds(20)
+                };
             }
             _score = score;
         }
@@ -147,21 +149,19 @@ namespace Scoreboard
             if (!_authenticated)
             {
                 UserCredential credential;
-                using (var stream = new FileStream("client_secrets.json", FileMode.Open, FileAccess.Read))
-                {
-                    credential = GoogleWebAuthorizationBroker.AuthorizeAsync(GoogleClientSecrets.Load(stream).Secrets, new[] { "profile" }, "profile", CancellationToken.None).Result;
-                    var m = credential.GetAccessTokenForRequestAsync().Result;
+                using FileStream stream = new FileStream("client_secrets.json", FileMode.Open, FileAccess.Read);
+                credential = GoogleWebAuthorizationBroker.AuthorizeAsync(GoogleClientSecrets.Load(stream).Secrets, new[] { "profile" }, "profile", CancellationToken.None).Result;
+                string m = credential.GetAccessTokenForRequestAsync().Result;
 
-                    _authenticated = true;
-                    _googleToken = credential.Token.IdToken;
+                _authenticated = true;
+                _googleToken = credential.Token.IdToken;
 
-                    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GoogleToken);
-                    _httpClient.DefaultRequestHeaders.Add("TOURNEYCLIENT", "Scoreboard");
-                }
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GoogleToken);
+                _httpClient.DefaultRequestHeaders.Add("TOURNEYCLIENT", "Scoreboard");
             }
         }
 
-        public void ApplyToGame(JObject gameObject, Game game)
+        public static void ApplyToGame(JObject gameObject, Game game)
         {
             game.Id = (string)(gameObject["id"]["value"]);
             game.Pool = (string)gameObject["group"];
@@ -173,7 +173,7 @@ namespace Scoreboard
             //newGame.Team2Points = (int)game["team2Points"];                                   
         }
 
-        private Game CreateFromTourneyGame(string gameTime, JObject game, TimeSpan duration)
+        private static Game CreateFromTourneyGame(string gameTime, JObject game, TimeSpan duration)
         {
             Game newGame = new Game();
             ApplyToGame(game, newGame);
@@ -229,10 +229,12 @@ namespace Scoreboard
         }
 
         private void SelectTournament()
-        {                                      
-            SelectListWindow selectListWindow = new SelectListWindow();
-            selectListWindow.Owner = _owner;
-            selectListWindow.Title = "Select Tournament";
+        {
+            SelectListWindow selectListWindow = new SelectListWindow
+            {
+                Owner = _owner,
+                Title = "Select Tournament"
+            };
 
             foreach (JObject tournament in _tournaments["tournaments"])
             {
@@ -268,9 +270,11 @@ namespace Scoreboard
 
         public void SelectPitch()
         {
-            SelectListWindow selectListWindow = new SelectListWindow();
-            selectListWindow.Owner = _owner;
-            selectListWindow.Title = "Select Pitch";
+            SelectListWindow selectListWindow = new SelectListWindow
+            {
+                Owner = _owner,
+                Title = "Select Pitch"
+            };
 
             foreach (JObject gameDate in _tournament["gameDates"])
             {
@@ -340,7 +344,7 @@ namespace Scoreboard
             _score.AddGames(newGames);
         }
 
-        public string GetGameJson(Game game)
+        public static string GetGameJson(Game game)
         {
             string status = "pending";
             if (game.IsCurrentGame) status = "active";
@@ -367,12 +371,14 @@ namespace Scoreboard
                         & !gameEvent.EventType.Equals("Resumed")
                         & !gameEvent.EventType.Contains("Shot"))
                 {
-                    JObject logEvent = new JObject();
-                    logEvent["Time"] = gameEvent.Time;
-                    logEvent["EventType"] = gameEvent.EventType;
-                    logEvent["Team"] = gameEvent.Team;
-                    logEvent["Player"] = gameEvent.Player;
-                    logEvent["Notes"] = gameEvent.Notes;
+                    JObject logEvent = new JObject
+                    {
+                        ["Time"] = gameEvent.Time,
+                        ["EventType"] = gameEvent.EventType,
+                        ["Team"] = gameEvent.Team,
+                        ["Player"] = gameEvent.Player,
+                        ["Notes"] = gameEvent.Notes
+                    };
                     log.Add(logEvent);
                 }
             }
@@ -380,7 +386,7 @@ namespace Scoreboard
             return data.ToString();
         }
 
-        public bool UploadGame(string url, string gameJson)
+        public static bool UploadGame(string url, string gameJson)
         {
             HttpContent content = new StringContent(gameJson, Encoding.UTF8, "application/json");            
             try
@@ -431,7 +437,7 @@ namespace Scoreboard
             }
         }
 
-        public JObject GetPitch(JObject tournament, string pitchId)
+        public static JObject GetPitch(JObject tournament, string pitchId)
         {
             foreach (JObject gameDate in tournament["gameDates"])
             {

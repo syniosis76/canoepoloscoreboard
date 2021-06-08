@@ -49,7 +49,7 @@
                 <Viewbox Grid.RowSpan="2">
                     <TextBlock FontFamily="./#DINEngschrift" FontSize="25" Foreground="White" Text="{Binding Path=CurrentOrEndedGame.Periods.CurrentPeriod.Description, FallbackValue=None}" />
                 </Viewbox>
-                <Button Click="_endExtraPeriodClick"  ToolTip="End extra period now" Margin="0,0,0,0" Style="{StaticResource TileButton}" Visibility="{Binding Path=CurrentOrEndedGame.Periods.CurrentPeriod.IsActiveExtraPeriod, Converter={StaticResource boolToVisiblityConverter}, FallbackValue=Hidden}">
+                <Button Click="EndExtraPeriodClick"  ToolTip="End extra period now" Margin="0,0,0,0" Style="{StaticResource TileButton}" Visibility="{Binding Path=CurrentOrEndedGame.Periods.CurrentPeriod.IsActiveExtraPeriod, Converter={StaticResource boolToVisiblityConverter}, FallbackValue=Hidden}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*"/>
@@ -113,7 +113,7 @@
                         <TextBlock Margin="1" FontFamily="./#DINEngschrift" FontSize="25" Foreground="White" Text="{Binding Path=CurrentTime, FallbackValue=19:30:00, StringFormat='{}{0:HH:mm:ss}'}"/>
                     </Viewbox>
                 </Grid>
-                <Button Grid.Column="3" Name="_scoreboardMenuButton" ToolTip="Click to see the Scoreboard menu options" Click="_scoreboardMenuButtonClick" ContextMenuService.Placement="Bottom" Style="{StaticResource TileButtonGreen}">
+                <Button Grid.Column="3" Name="_scoreboardMenuButton" ToolTip="Click to see the Scoreboard menu options" Click="ScoreboardMenuButtonClick" ContextMenuService.Placement="Bottom" Style="{StaticResource TileButtonGreen}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="5*"/>
@@ -132,12 +132,12 @@
                                 </MenuItem.Icon>
                             </MenuItem>
                             <Separator/>
-                            <MenuItem Header="Show Secondary on Screen 1" Click="_secondaryScreen1_Click">
+                            <MenuItem Header="Show Secondary on Screen 1" Click="SecondaryScreen1_Click">
                                 <MenuItem.Icon>
                                     <Image Source="/Scoreboard;component/images/logo_18.png" Height="18"/>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="Show Secondary on Screen 2" Click="_secondaryScreen2_Click">
+                            <MenuItem Header="Show Secondary on Screen 2" Click="SecondaryScreen2_Click">
                                 <MenuItem.Icon>
                                     <Image Source="/Scoreboard;component/images/logo_18.png" Height="18"/>
                                 </MenuItem.Icon>
@@ -159,65 +159,65 @@
                                 </MenuItem.Icon>
                             </MenuItem>
                             <Separator/>
-                            <MenuItem Header="Save Games..." Click="_saveGamesClick">
+                            <MenuItem Header="Save Games..." Click="SaveGamesClick">
                                 <MenuItem.Icon>
                                     <Image Source="/Scoreboard;component/images/save.png" Height="18"/>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="Load Games..." Click="_loadGamesClick" Visibility="{Binding Path=EditVisible}">
+                            <MenuItem Header="Load Games..." Click="LoadGamesClick" Visibility="{Binding Path=EditVisible}">
                                 <MenuItem.Icon>
                                     <Image Source="/Scoreboard;component/images/open.png" Height="18"/>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="Load Games without Status..." Click="_loadGamesWithoutStatusClick" Visibility="{Binding Path=EditVisible}">
+                            <MenuItem Header="Load Games without Status..." Click="LoadGamesWithoutStatusClick" Visibility="{Binding Path=EditVisible}">
                                 <MenuItem.Icon>
                                     <Image Source="/Scoreboard;component/images/open.png" Height="18"/>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="Merge Games..." Click="_mergeGamesClick" Visibility="{Binding Path=EditVisible}">
+                            <MenuItem Header="Merge Games..." Click="MergeGamesClick" Visibility="{Binding Path=EditVisible}">
                                 <MenuItem.Icon>
                                     <Image Source="/Scoreboard;component/images/open.png" Height="18"/>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="Load Games from Tourney..." Click="_loadGamesFromTourneyClick" Visibility="{Binding Path=EditVisible}">
+                            <MenuItem Header="Load Games from Tourney..." Click="LoadGamesFromTourneyClick" Visibility="{Binding Path=EditVisible}">
                                 <MenuItem.Icon>
                                     <Image Source="/Scoreboard;component/images/tourney.png" Height="18"/>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="Update Games from Tourney" Click="_updateGamesFromTourneyClick" Visibility="{Binding Path=EditVisible}">
+                            <MenuItem Header="Update Games from Tourney" Click="UpdateGamesFromTourneyClick" Visibility="{Binding Path=EditVisible}">
                                 <MenuItem.Icon>
                                     <Image Source="/Scoreboard;component/images/tourney.png" Height="18"/>
                                 </MenuItem.Icon>
                             </MenuItem>
                             <Separator/>
-                            <MenuItem Header="Restart Games..." Click="_restartGamesClick" Visibility="{Binding Path=EditVisible}">
+                            <MenuItem Header="Restart Games..." Click="RestartGamesClick" Visibility="{Binding Path=EditVisible}">
                                 <MenuItem.Icon>
                                     <Image Source="/Scoreboard;component/images/restart.png" Height="18"/>
                                 </MenuItem.Icon>
                             </MenuItem>
                             <Separator/>
-                            <MenuItem Header="Scoreboard Server" Click="_scoreboardServerClick">
+                            <MenuItem Header="Scoreboard Server" Click="ScoreboardServerClick">
                                 <MenuItem.Icon>
                                     <Image Source="/Scoreboard;component/images/right_arrow.png" Height="18"/>
                                 </MenuItem.Icon>
                             </MenuItem>
                             <Separator/>
-                            <MenuItem Header="Calculate Statistics..." Click="_calculateStatisticsClick" Visibility="{Binding Path=EditVisible}">
+                            <MenuItem Header="Calculate Statistics..." Click="CalculateStatisticsClick" Visibility="{Binding Path=EditVisible}">
                                 <MenuItem.Icon>
                                     <Image Source="/Scoreboard;component/images/sum.png" Height="18"/>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="Top Goal Scorers..." Click="_calculateTopGoalScorersClick" Visibility="{Binding Path=EditVisible}">
+                            <MenuItem Header="Top Goal Scorers..." Click="CalculateTopGoalScorersClick" Visibility="{Binding Path=EditVisible}">
                                 <MenuItem.Icon>
                                     <Image Source="/Scoreboard;component/images/sum.png" Height="18"/>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="Copy Results..." Click="_copyResultsClick" Visibility="{Binding Path=EditVisible}">
+                            <MenuItem Header="Copy Results..." Click="CopyResultsClick" Visibility="{Binding Path=EditVisible}">
                                 <MenuItem.Icon>
                                     <Image Source="/Scoreboard;component/images/sum.png" Height="18"/>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="Copy Log......" Click="_copyLogClick" Visibility="{Binding Path=EditVisible}">
+                            <MenuItem Header="Copy Log......" Click="CopyLogClick" Visibility="{Binding Path=EditVisible}">
                                 <MenuItem.Icon>
                                     <Image Source="/Scoreboard;component/images/sum.png" Height="18"/>
                                 </MenuItem.Icon>
@@ -227,7 +227,7 @@
                 </Button>
             </Grid>
             <!-- Team 1 -->
-            <Button Grid.Column="0" Grid.Row="1" Click="bTeam1ScoreAdd_Click" Style="{StaticResource TileButton}">
+            <Button Grid.Column="0" Grid.Row="1" Click="Team1ScoreAdd_Click" Style="{StaticResource TileButton}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*" />
@@ -240,7 +240,7 @@
                     <Image Grid.Column="2" VerticalAlignment="Top" Source="/Scoreboard;component/images/add.png"/>
                 </Grid>
             </Button>
-            <Button Grid.Column="0" Grid.Row="2" Click="bTeam1ScoreSubtract_Click" Style="{StaticResource TileButton}">
+            <Button Grid.Column="0" Grid.Row="2" Click="Team1ScoreSubtract_Click" Style="{StaticResource TileButton}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*" />
@@ -256,7 +256,7 @@
             <Viewbox Grid.Column="0" Grid.Row="1" Grid.RowSpan="2">
                 <TextBlock FontFamily="./#DINEngschrift" FontSize="250" Foreground="White" Text="{Binding Path=CurrentOrEndedGame.Team1Score, FallbackValue=0}" Margin="0,-40,0,-40" IsHitTestVisible="False"/>
             </Viewbox>
-            <Button Grid.Column="0" Grid.Row="3" Click="bTeam1Card_Click" Style="{StaticResource TileButtonBlue}">
+            <Button Grid.Column="0" Grid.Row="3" Click="Team1Card_Click" Style="{StaticResource TileButtonBlue}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"/>
@@ -269,7 +269,7 @@
                 </Grid>
             </Button>
             <!-- Timer -->
-            <Button Grid.Column="1" Grid.Row="1" Click="bPause_Click" Style="{StaticResource TileButton}">
+            <Button Grid.Column="1" Grid.Row="1" Click="Pause_Click" Style="{StaticResource TileButton}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*" />
@@ -329,7 +329,7 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Grid.Row="0" Margin="2,2,0,0" Click="_resetShotButtonClick" Style="{StaticResource TileButton}">
+                <Button Grid.Column="0" Grid.Row="0" Margin="2,2,0,0" Click="ResetShotButtonClick" Style="{StaticResource TileButton}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*" />
@@ -343,7 +343,7 @@
                         </StackPanel>
                     </Grid>
                 </Button>
-                <Button Grid.Column="0" Grid.Row="1" Margin="2,0,0,2" Click="_resetResumeShotButtonClick" Style="{StaticResource TileButton}">
+                <Button Grid.Column="0" Grid.Row="1" Margin="2,0,0,2" Click="ResetResumeShotButtonClick" Style="{StaticResource TileButton}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*" />
@@ -357,7 +357,7 @@
                         </StackPanel>
                     </Grid>
                 </Button>
-                <Button Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Margin="0,2,2,2" Click="_pauseResumeShotButtonClick" Style="{StaticResource TileButton}">
+                <Button Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Margin="0,2,2,2" Click="PauseResumeShotButtonClick" Style="{StaticResource TileButton}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="2.5*" />
@@ -382,12 +382,12 @@
                         <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
                     <Viewbox Grid.Column="1" Grid.Row="2" Margin="1">
-                        <RepeatButton Background="Transparent" Click="_decrementShotButtonClick" Delay="500" Interval="40" ToolTip="Reduce shot time by 1 second">
+                        <RepeatButton Background="Transparent" Click="DecrementShotButtonClick" Delay="500" Interval="40" ToolTip="Reduce shot time by 1 second">
                             <Image Source="/Scoreboard;component/images/remove.png"/>
                         </RepeatButton>
                     </Viewbox>
                     <Viewbox Grid.Column="2" Grid.Row="2" Margin="1">
-                        <RepeatButton Background="Transparent" Click="_incrementShotButtonClick" Delay="500" Interval="40" ToolTip="Increase shot time by 1 second">
+                        <RepeatButton Background="Transparent" Click="IncrementShotButtonClick" Delay="500" Interval="40" ToolTip="Increase shot time by 1 second">
                             <Image Source="/Scoreboard;component/images/add.png"/>
                         </RepeatButton>
                     </Viewbox>
@@ -404,10 +404,10 @@
                 </Grid.ColumnDefinitions>
                 <Viewbox Grid.Column="0" HorizontalAlignment="Left" Grid.ColumnSpan="2">
                     <ListView Name="_team1Cards" ItemsSource="{Binding Path=Team1Cards}" Background="Transparent" Focusable="False" ItemTemplateSelector="{StaticResource cardTemplateSelector}" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                              PreviewMouseLeftButtonUp="_team1CardsClick">
+                              PreviewMouseLeftButtonUp="Team1CardsClick">
                         <ListView.ContextMenu>
                             <ContextMenu Name="_team1CardsMenu">
-                                <MenuItem Header="Cancel" Click="_team1CardCancelClick">
+                                <MenuItem Header="Cancel" Click="Team1CardCancelClick">
                                     <MenuItem.Icon>
                                         <Image Source="/Scoreboard;component/images/cancel.png" Height="18"/>
                                     </MenuItem.Icon>
@@ -426,10 +426,10 @@
                 </Viewbox>
                 <Viewbox Grid.Column="2" HorizontalAlignment="Right">
                     <ListView Name="_team2Cards" ItemsSource="{Binding Path=Team2Cards}" Background="Transparent" FlowDirection="RightToLeft" Focusable="False" ItemTemplateSelector="{StaticResource cardTemplateSelector}"  ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                              PreviewMouseLeftButtonUp="_team2CardsClick">
+                              PreviewMouseLeftButtonUp="Team2CardsClick">
                         <ListView.ContextMenu>
                             <ContextMenu Name="_team2CardsMenu">
-                                <MenuItem Header="Cancel" Click="_team2CardCancelClick">
+                                <MenuItem Header="Cancel" Click="Team2CardCancelClick">
                                     <MenuItem.Icon>
                                         <Image Source="/Scoreboard;component/images/cancel.png" Height="18"/>
                                     </MenuItem.Icon>
@@ -448,7 +448,7 @@
                 </Viewbox>
             </Grid>
             <!-- Team 2 -->
-            <Button Grid.Column="2" Grid.Row="1" Click="bTeam2ScoreAdd_Click" Style="{StaticResource TileButton}">
+            <Button Grid.Column="2" Grid.Row="1" Click="Team2ScoreAdd_Click" Style="{StaticResource TileButton}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*" />
@@ -461,7 +461,7 @@
                     </Viewbox>
                 </Grid>
             </Button>
-            <Button Grid.Column="2" Grid.Row="2" Click="bTeam2ScoreSubtract_Click"  Style="{StaticResource TileButton}">
+            <Button Grid.Column="2" Grid.Row="2" Click="Team2ScoreSubtract_Click"  Style="{StaticResource TileButton}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*" />
@@ -477,7 +477,7 @@
             <Viewbox Grid.Column="2" Grid.Row="1" Grid.RowSpan="2">
                 <TextBlock FontFamily="./#DINEngschrift" FontSize="250" Foreground="White" Name="_team2ScoreLabel" Text="{Binding Path=CurrentOrEndedGame.Team2Score, FallbackValue=0}" Margin="0,-40,0,-40" IsHitTestVisible="False"/>
             </Viewbox>
-            <Button Grid.Column="2" Grid.Row="3" Click="bTeam2Card_Click" FontWeight="Bold" Style="{StaticResource TileButtonBlue}">
+            <Button Grid.Column="2" Grid.Row="3" Click="Team2Card_Click" FontWeight="Bold" Style="{StaticResource TileButtonBlue}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="6*"/>
@@ -491,7 +491,7 @@
             </Button>
             <!-- Games -->
             <ListView Grid.Column="4" Grid.Row="1" Margin="2,4,2,2" Name="_gamesListView" ItemsSource="{Binding Games}" SelectedItem="{Binding SelectedGame, Mode=TwoWay}" ItemContainerStyle="{StaticResource CurrentGameStyle}" BorderThickness="0"
-                      FontSize="{Binding Path=ActualWidth, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource doubleConverter}, ConverterParameter=0.035}" SelectionChanged="_gamesListView_SelectionChanged">
+                      FontSize="{Binding Path=ActualWidth, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource doubleConverter}, ConverterParameter=0.035}" SelectionChanged="GamesListView_SelectionChanged">
                 <ListView.Resources>
                     <Style x:Key="hcs" TargetType="{x:Type GridViewColumnHeader}">
                         <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
@@ -604,7 +604,7 @@
                         <Button Grid.Column="0" Background="Transparent" Content="+" Click="EventAddGoal" ToolTip="Add a goal to a team." />
                         <Button Grid.Column="1" Background="Transparent" Content="C" Click="EventAddCard" ToolTip="Add a card to a team." />
                     </Grid>
-                    <ListView Grid.Row="1" Name="_gameEventListView" ItemsSource="{Binding Path=SelectedItem.GameEventsView, ElementName=_gamesListView}" ScrollViewer.ScrollChanged="_gameEventListViewScrollChanged" BorderThickness="0"
+                    <ListView Grid.Row="1" Name="_gameEventListView" ItemsSource="{Binding Path=SelectedItem.GameEventsView, ElementName=_gamesListView}" ScrollViewer.ScrollChanged="GameEventListViewScrollChanged" BorderThickness="0"
                               FontSize="{Binding Path=ActualWidth, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource doubleConverter}, ConverterParameter=0.035}"
                               PreviewMouseLeftButtonUp="EventMenuClick"
                               ScrollViewer.HorizontalScrollBarVisibility="Hidden"

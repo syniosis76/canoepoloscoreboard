@@ -25,8 +25,10 @@ namespace Scoreboard
 
         public static bool ShowTextDialog(Window owner, string caption, string label, ref string text)
         {
-            TextDialog textDialog = new TextDialog(caption, label, text);
-            textDialog.Owner = owner;
+            TextDialog textDialog = new TextDialog(caption, label, text)
+            {
+                Owner = owner
+            };
             if (textDialog.ShowDialog() == true)
             {
                 text = textDialog.Text;

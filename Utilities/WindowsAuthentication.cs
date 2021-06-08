@@ -74,9 +74,11 @@ namespace Utilities
         {
             // Setup the flags and variables
             StringBuilder userPassword = new StringBuilder(), userID = new StringBuilder();
-            CREDUI_INFO credUI = new CREDUI_INFO();
-            credUI.pszCaptionText = "Authenticate";
-            credUI.pszMessageText = message;            
+            CREDUI_INFO credUI = new CREDUI_INFO
+            {
+                pszCaptionText = "Authenticate",
+                pszMessageText = message
+            };
 
             credUI.cbSize = Marshal.SizeOf(credUI);
             bool save = true;                        

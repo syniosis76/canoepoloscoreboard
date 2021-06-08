@@ -68,6 +68,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
     <None Include="client_secrets.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

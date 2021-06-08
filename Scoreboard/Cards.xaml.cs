@@ -25,10 +25,7 @@ namespace Scoreboard
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged(PropertyChangedEventArgs e)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, e);
-            }
+            PropertyChanged?.Invoke(this, e);
         }
 
         public void NotifyPropertyChanged(string name)
@@ -163,8 +160,10 @@ namespace Scoreboard
 
         public static bool SelectCard(Window owner, Game game, ref string team, ref string card, ref string player, ref string infringement, ref string penaltyDuration)
         {
-            Cards cards = new Cards();
-            cards.Owner = owner;
+            Cards cards = new Cards
+            {
+                Owner = owner
+            };
             cards._teamComboBox.Items.Add(game.Team1);
             cards._teamComboBox.Items.Add(game.Team2);
             if (!String.IsNullOrWhiteSpace(team)) cards._teamComboBox.SelectedItem = team; // GetItem(cards._teamComboBox.Items, team);

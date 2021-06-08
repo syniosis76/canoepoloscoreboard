@@ -29,9 +29,11 @@ namespace Scoreboard
 
         public static void ShowStatistics(Window owner, string statistics)
         {
-            StatisticsWindow window = new StatisticsWindow();
-            window.Owner = owner;
-            window._statistics = statistics;
+            StatisticsWindow window = new StatisticsWindow
+            {
+                Owner = owner,
+                _statistics = statistics
+            };
             window.ShowDialog();
         }
 

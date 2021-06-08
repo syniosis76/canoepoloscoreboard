@@ -159,12 +159,14 @@ namespace Utilities
         }
 
         public static void RunElevatedCommand(string command, string args)
-        {            
-            ProcessStartInfo psi = new ProcessStartInfo(command, args);
-            psi.Verb = "runas";
-            psi.CreateNoWindow = true;
-            psi.WindowStyle = ProcessWindowStyle.Hidden;
-            psi.UseShellExecute = true;
+        {
+            ProcessStartInfo psi = new ProcessStartInfo(command, args)
+            {
+                Verb = "runas",
+                CreateNoWindow = true,
+                WindowStyle = ProcessWindowStyle.Hidden,
+                UseShellExecute = true
+            };
 
             Process.Start(psi).WaitForExit();
         }

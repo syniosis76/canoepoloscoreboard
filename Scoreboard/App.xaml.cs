@@ -29,8 +29,10 @@ namespace Scoreboard
                 MessageBox.Show(exception.Message);
             }
 
-            MainWindow window = new MainWindow();
-            window.Score = score;            
+            MainWindow window = new MainWindow
+            {
+                Score = score
+            };
             window.Show();           
         }
 

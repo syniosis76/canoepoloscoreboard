@@ -62,8 +62,10 @@ namespace Scoreboard
 
         public static bool SelectPlayer(Window owner, Game game, ref string team, ref string player)
         {
-            Players players = new Players();
-            players.Owner = owner;
+            Players players = new Players
+            {
+                Owner = owner
+            };
 
             players._teamComboBox.Items.Add(game.Team1);
             players._teamComboBox.Items.Add(game.Team2);

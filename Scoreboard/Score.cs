@@ -22,10 +22,7 @@ namespace Scoreboard
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged(PropertyChangedEventArgs e)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, e);
-            }
+            PropertyChanged?.Invoke(this, e);
         }
 
         public void NotifyPropertyChanged(string name)
@@ -35,7 +32,7 @@ namespace Scoreboard
 
         #endregion
         
-        private GameList _games;
+        private readonly GameList _games;
         public GameList Games
         {
             get { return _games; }
@@ -303,7 +300,7 @@ namespace Scoreboard
             }
         }
 
-        private Tourney _tourney;
+        private readonly Tourney _tourney;
         public Tourney Tourney { get { return _tourney; } }
 
         public void ResetShotTime()
@@ -354,7 +351,7 @@ namespace Scoreboard
         {
             if (ShotTime < 60)
             {
-                ShotTime = ShotTime + 1;
+                ShotTime++;
             }
         }
 
@@ -362,7 +359,7 @@ namespace Scoreboard
         {
             if (ShotTime > 0)
             {
-                ShotTime = ShotTime - 1;
+                ShotTime--;
             }
         }
 
@@ -414,7 +411,7 @@ namespace Scoreboard
             }
         }
 
-        private System.Windows.Threading.DispatcherTimer gameTimer = new System.Windows.Threading.DispatcherTimer();
+        private readonly System.Windows.Threading.DispatcherTimer gameTimer = new System.Windows.Threading.DispatcherTimer();
         protected System.Windows.Threading.DispatcherTimer GameTimer
         {
             get { return gameTimer; }
@@ -439,10 +436,10 @@ namespace Scoreboard
             }
         }        
 
-        private BindingList<Card> _team1Cards = new BindingList<Card>();
+        private readonly BindingList<Card> _team1Cards = new BindingList<Card>();
         public BindingList<Card> Team1Cards { get { return _team1Cards; } }
 
-        private BindingList<Card> _team2Cards = new BindingList<Card>();
+        private readonly BindingList<Card> _team2Cards = new BindingList<Card>();
         public BindingList<Card> Team2Cards { get { return _team2Cards; } }
 
         public static string AppDataFolder
@@ -454,7 +451,7 @@ namespace Scoreboard
             } 
         }
 
-        protected string CurrentGamesFileName
+        protected static string CurrentGamesFileName
         {
             get
             {
@@ -500,13 +497,13 @@ namespace Scoreboard
             GameTimer.IsEnabled = true;            
         }
 
-        protected DateTime ReadTime(string time, DateTime current)
+        protected static DateTime ReadTime(string time, DateTime current)
         {
             if (time.Length > 0)
             {
                 if (time[0] == '+')
                 {
-                    return current + ReadTimeSpan(time.Substring(1));
+                    return current + ReadTimeSpan(time[1..]);
                 }
                 else
                 {
@@ -519,13 +516,13 @@ namespace Scoreboard
             }
         }
 
-        protected TimeSpan ReadTimeSpan(string time)
+        protected static TimeSpan ReadTimeSpan(string time)
         {
             string[] parts = time.Split(':');
             if (parts.Length > 0)
             {
                 int hours = 0;
-                int minutes = 0;
+                int minutes;
                 int seconds = 0;
 
                 if (parts.Length == 1)
@@ -799,11 +796,13 @@ namespace Scoreboard
             DateTime startTime = DateTime.Now;
             TimeSpan extraPeriodDuration = TimeSpan.FromSeconds(durationSeconds);
 
-            GamePeriod gamePeriod = new GamePeriod();
-            gamePeriod.EndTime = startTime + extraPeriodDuration;
-            gamePeriod.IsExtraPeriod = true;
-            gamePeriod.Name = "Extra Period";
-            gamePeriod.StartTime = startTime;
+            GamePeriod gamePeriod = new GamePeriod
+            {
+                EndTime = startTime + extraPeriodDuration,
+                IsExtraPeriod = true,
+                Name = "Extra Period",
+                StartTime = startTime
+            };
             game.Periods.Add(gamePeriod);
 
             gamePeriod.ModifyFollowingTimes(gamePeriod.EndTime - DateTime.Now, false);
@@ -880,7 +879,7 @@ namespace Scoreboard
                     NotifyPropertyChanged("SelectedGame");
                     if (SelectedGame != null)
                     {
-                        SelectedPeriod = SelectedGame.Periods.CurrentPeriod == null ? SelectedGame.Periods.FirstPeriod : SelectedGame.Periods.CurrentPeriod;
+                        SelectedPeriod = SelectedGame.Periods.CurrentPeriod ?? SelectedGame.Periods.FirstPeriod;
                     }
                 }
             }
@@ -1013,7 +1012,6 @@ namespace Scoreboard
             {                                
                 if (CurrentGame != null && CurrentGame.Periods.CurrentPeriod != null)
                 {
-                    GamePeriodStatus status = CurrentGame.Periods.CurrentPeriod.Status;
                     CurrentGame.Periods.CurrentPeriod.UpdatePeriod();
 
                     TimeSpan remaining = CurrentGame.Periods.CurrentPeriod.TimeRemaining;
@@ -1052,8 +1050,6 @@ namespace Scoreboard
                             }
                         }
                     }
-
-                    DateTime currentTime = DateTime.Now;
 
                     if (remaining.TotalMilliseconds <= 0)
                     {
@@ -1459,7 +1455,7 @@ namespace Scoreboard
             statistics.AppendLine("Top Goal Scorers");
             statistics.AppendLine();
 
-            if (sortedPlayers.Count() == 0)
+            if (!sortedPlayers.Any())
             {
                 statistics.AppendLine("No goals have been recorded against players.");
             }
@@ -1587,7 +1583,7 @@ namespace Scoreboard
                                select teamPoints;
 
             StringBuilder statistics = new StringBuilder();
-            if (sortedPoints.Count() == 0)
+            if (!sortedPoints.Any())
             {
                 statistics.AppendLine("No games have completed.");
             }
@@ -1638,7 +1634,7 @@ namespace Scoreboard
                             int? versesGoalDifferencValue = GameTeam.FindPoints(versesGoalDifference, pool, versesTeamName);
                             GameTeam versesKey = GameTeam.FindGameTeam(versesPoints, pool, versesTeamName);
 
-                            statistics.Append("\t");
+                            statistics.Append('\t');
                             if (versesPointsValue.HasValue)
                             {
                                 statistics.Append(versesPointsValue.Value + " / " + versesGoalDifferencValue.Value);
@@ -1669,15 +1665,15 @@ namespace Scoreboard
             foreach (Game game in Games)
             {
                 statistics.Append(game.StartTime.HasValue ? game.StartTime.Value.ToString("HH:mm") : "--:--");
-                statistics.Append("\t");
+                statistics.Append('\t');
                 statistics.Append(game.Team1);
-                statistics.Append("\t");
+                statistics.Append('\t');
                 statistics.Append(game.Team1Score);
-                statistics.Append("\t");
+                statistics.Append('\t');
                 statistics.Append(game.Team2);
-                statistics.Append("\t");
+                statistics.Append('\t');
                 statistics.Append(game.Team2Score);
-                statistics.Append("\t");
+                statistics.Append('\t');
                 statistics.Append(game.Pool);
                 statistics.AppendLine();
             }
@@ -1693,11 +1689,11 @@ namespace Scoreboard
             foreach (Game game in Games)
             {
                 statistics.Append(game.StartTime.HasValue ? game.StartTime.Value.ToString("HH:mm") : "--:--");
-                statistics.Append("\t");
+                statistics.Append('\t');
                 statistics.Append("Start Game");
-                statistics.Append("\t");
-                statistics.Append("\t");
-                statistics.Append("\t");
+                statistics.Append('\t');
+                statistics.Append('\t');
+                statistics.Append('\t');
                 statistics.Append(game.Team1 + " vs " + game.Team2 + (!String.IsNullOrEmpty(game.Pool) ? " (" + game.Pool + ")" : String.Empty));                
                 statistics.AppendLine();   
                 foreach (GameEvent gameEvent in game.GameEvents)
@@ -1709,7 +1705,7 @@ namespace Scoreboard
             return statistics.ToString();
         }
 
-        private SimpleWebServerOptions _serverOptions;
+        private readonly SimpleWebServerOptions _serverOptions;
         public SimpleWebServerOptions ServerOptions
         {
             get

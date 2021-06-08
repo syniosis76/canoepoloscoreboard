@@ -20,9 +20,11 @@ namespace Scoreboard
     {
         public static void EditGame(Window owner, Game game)
         {
-            EditGameWindow window = new EditGameWindow();
-            window.Owner = owner;        
-            window.DataContext = game;
+            EditGameWindow window = new EditGameWindow
+            {
+                Owner = owner,
+                DataContext = game
+            };
             window.ShowDialog();
         }
         
