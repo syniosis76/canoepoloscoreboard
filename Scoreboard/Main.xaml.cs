@@ -155,6 +155,11 @@ namespace Scoreboard
 
         private void Main_KeyUp(object sender, KeyEventArgs e)
         {
+            ProcessKeyUp(e); 
+        }
+
+        public void ProcessKeyUp(KeyEventArgs e)
+        {
             if (e.Key == Key.A)
             {
                 Team1Goal();
@@ -198,7 +203,7 @@ namespace Scoreboard
             else if (e.Key == Key.R)
             {
                 Score.ResetResumeShotTime();
-                e.Handled = true;                
+                e.Handled = true;
             }
             else if (e.Key == Key.T)
             {

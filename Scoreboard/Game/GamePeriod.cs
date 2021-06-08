@@ -467,15 +467,8 @@ namespace Scoreboard
 
         public void AdjustTimes(TimeSpan adjustment)
         {
-            if (StartTime != null)
-            {
-                StartTime += adjustment ;
-            }
-
-            if (EndTime != null)
-            {
-                EndTime += adjustment;
-            }
+            StartTime += adjustment ;            
+            EndTime += adjustment;            
         }
     }
 }

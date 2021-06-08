@@ -410,14 +410,7 @@ namespace Scoreboard
         {
             get
             {
-                if (CurrentTime == null)
-                {
-                    return 0;
-                }
-                else
-                {
-                    return (int)(DateTime.Now - CurrentTime).TotalMilliseconds;
-                }
+                return (int)(DateTime.Now - CurrentTime).TotalMilliseconds;                
             }
         }
 

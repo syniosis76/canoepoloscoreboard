@@ -91,14 +91,7 @@ namespace Scoreboard
         {
             get
             {
-                if (_closeAt == null)
-                {
-                    return null;
-                }
-                else
-                {
-                    return (int)(_closeAt - DateTime.Now).TotalSeconds;
-                }
+                return (int)(_closeAt - DateTime.Now).TotalSeconds;                
             }
         }
 
