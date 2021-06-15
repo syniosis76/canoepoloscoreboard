@@ -227,6 +227,11 @@ namespace Scoreboard
                 ShowScoreboardMenu();
                 e.Handled = true;
             }
+            else if (e.Key == Key.Y)
+            {
+                ShowTourneyMenu();
+                e.Handled = true;
+            }
         }
 
         private void Team1Card_Click(object sender, RoutedEventArgs e)
@@ -415,6 +420,17 @@ namespace Scoreboard
             Score.Tourney.UpdateGameDetails();
         }
 
+        private void TourneyLogoutClick(object sender, RoutedEventArgs e)
+        {
+            Score.Tourney.LogOut();
+        }
+
+        private void TourneyReauthenticateClick(object sender, RoutedEventArgs e)
+        {
+            Score.Tourney.LogOut();
+            Score.Tourney.Authenticate();
+        }
+
         private void MergeGamesClick(object sender, RoutedEventArgs e)
         {
             LoadGames(false, false);
@@ -549,6 +565,11 @@ namespace Scoreboard
             ShowScoreboardMenu();
         }
 
+        private void TourneyMenuButtonClick(object sender, RoutedEventArgs e)
+        {
+            ShowTourneyMenu();
+        }
+
         private void ScoreboardServerClick(object sender, RoutedEventArgs e)
         {
             ScoreboardServerWindow window = new ScoreboardServerWindow(Score)
@@ -567,6 +588,13 @@ namespace Scoreboard
             _scoreboardContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
             _scoreboardContextMenu.PlacementTarget = _scoreboardMenuButton;
             _scoreboardContextMenu.IsOpen = true;
+        }
+
+        private void ShowTourneyMenu()
+        {
+            _tourneyContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
+            _tourneyContextMenu.PlacementTarget = _tourneyMenuButton;
+            _tourneyContextMenu.IsOpen = true;
         }
 
         private void Main_Activated(object sender, EventArgs e)

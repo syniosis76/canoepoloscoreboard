@@ -3,58 +3,24 @@
     <ProductVersion>9.0.30729</ProductVersion>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
-	<UseWPF>true</UseWPF>
+    <UseWPF>true</UseWPF>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <ApplicationIcon>logo.ico</ApplicationIcon>
-    <IsWebBootstrapper>true</IsWebBootstrapper>
-    <ManifestCertificateThumbprint>BFC23A1B3704A90A6B4301B6973821A0D3CFBA31</ManifestCertificateThumbprint>
-    <ManifestKeyFile>Scoreboard.pfx</ManifestKeyFile>
-    <GenerateManifests>false</GenerateManifests>
-    <SignManifests>false</SignManifests>
-    <FileUpgradeFlags />
-    <UpgradeBackupLocation />
-    <PublishUrl>ftp://www.verner.co.nz/httpdocs/installer/Scoreboard/</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Web</InstallFrom>
-    <UpdateEnabled>true</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>http://www.verner.co.nz/installer/Scoreboard/</InstallUrl>
-    <SupportUrl>http://www.verner.co.nz</SupportUrl>
-    <ErrorReportUrl>http://www.verner.co.nz</ErrorReportUrl>
-    <ProductName>Scoreboard</ProductName>
-    <PublisherName>verner software</PublisherName>
-    <SuiteName>Scoreboard</SuiteName>
-    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
-    <WebPage>publish.htm</WebPage>
-    <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>0.0.0.%2a</ApplicationVersion>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <PublishWizardCompleted>true</PublishWizardCompleted>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
-    <AssemblyTitle>Scoreboard</AssemblyTitle>
+    <ApplicationIcon>logo.ico</ApplicationIcon>    
     <Company>verner software</Company>
-    <Product>Scoreboard</Product>
-    <Description>Canoe Polo Scoreboard</Description>
+    <Product>Tourney Scoreboard</Product>
+    <Description>Tourney Scoreboard</Description>
     <Copyright>Copyright © 2021</Copyright>
     <AssemblyVersion>1.20.1.1</AssemblyVersion>
     <FileVersion>1.20.1.1</FileVersion>
     <OutputPath>bin\$(Configuration)\</OutputPath>
-    <UseWPF>true</UseWPF>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>portable</DebugType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>x64</PlatformTarget>
     <DebugType>portable</DebugType>
-  </PropertyGroup>
-  <PropertyGroup>
-    <TargetZone>LocalIntranet</TargetZone>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
@@ -66,6 +32,7 @@
   <ItemGroup>
     <None Remove="images\icon.png" />
     <None Remove="images\icon18.png" />
+    <None Remove="images\tourney_white.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Properties\Resources.resx">
@@ -357,6 +324,7 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="DINEngschrift.ttf" />
+    <Resource Include="images\tourney_white.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="logo.ico" />
@@ -422,5 +390,18 @@
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />	
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
     <PackageReference Include="System.DirectoryServices.AccountManagement" Version="4.7.0" />  
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 </Project>

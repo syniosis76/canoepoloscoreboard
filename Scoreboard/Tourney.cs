@@ -157,9 +157,23 @@ namespace Scoreboard
                 _googleToken = credential.Token.IdToken;
 
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GoogleToken);
+                _httpClient.DefaultRequestHeaders.Remove("TOURNEYCLIENT");
                 _httpClient.DefaultRequestHeaders.Add("TOURNEYCLIENT", "Scoreboard");
             }
         }
+
+        public void LogOut()
+        {
+            UserCredential credential;
+            using FileStream stream = new FileStream("client_secrets.json", FileMode.Open, FileAccess.Read);
+            credential = GoogleWebAuthorizationBroker.AuthorizeAsync(GoogleClientSecrets.Load(stream).Secrets, new[] { "profile" }, "profile", CancellationToken.None).Result;            
+            bool result = credential.RevokeTokenAsync(CancellationToken.None).Result;
+
+            _authenticated = false;
+            _googleToken = null;
+
+            _httpClient.DefaultRequestHeaders.Authorization = null;
+        }        
 
         public static void ApplyToGame(JObject gameObject, Game game)
         {

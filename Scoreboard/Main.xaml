@@ -83,6 +83,7 @@
                     <ColumnDefinition Width="1*" />
                     <ColumnDefinition Width="2*" />
                     <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
                 </Grid.ColumnDefinitions>
                 <Button Grid.Column="0" ToolTip="Add Games..." Command="{Binding Path=AddGamesCommand}" Visibility="{Binding Path=EditVisible}" Style="{StaticResource TileButtonGreen}">
                     <Grid>
@@ -113,7 +114,43 @@
                         <TextBlock Margin="1" FontFamily="./#DINEngschrift" FontSize="25" Foreground="White" Text="{Binding Path=CurrentTime, FallbackValue=19:30:00, StringFormat='{}{0:HH:mm:ss}'}"/>
                     </Viewbox>
                 </Grid>
-                <Button Grid.Column="3" Name="_scoreboardMenuButton" ToolTip="Click to see the Scoreboard menu options" Click="ScoreboardMenuButtonClick" ContextMenuService.Placement="Bottom" Style="{StaticResource TileButtonGreen}">
+                <Button Grid.Column="3" Name="_tourneyMenuButton" ToolTip="Click to see the Tourney menu options" Click="TourneyMenuButtonClick" ContextMenuService.Placement="Bottom" Style="{StaticResource TileButtonGreen}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.ColumnSpan="2" Margin="6" Source="/Scoreboard;component/images/tourney_white.png"/>
+                        <Viewbox Grid.Column="1" VerticalAlignment="Bottom">
+                            <TextBlock Margin="0" FontWeight="Bold">(y)</TextBlock>
+                        </Viewbox>
+                    </Grid>
+                    <Button.ContextMenu>
+                        <ContextMenu x:Uid="_tourneyContextMenu" x:Name="_tourneyContextMenu">
+                            <MenuItem Header="Load Games from Tourney..." Click="LoadGamesFromTourneyClick" Visibility="{Binding Path=EditVisible}">
+                                <MenuItem.Icon>
+                                    <Image Source="/Scoreboard;component/images/add.png" Height="18"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Update Games from Tourney" Click="UpdateGamesFromTourneyClick" Visibility="{Binding Path=EditVisible}">
+                                <MenuItem.Icon>
+                                    <Image Source="/Scoreboard;component/images/revert.png" Height="18"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Logout" Click="TourneyLogoutClick" Visibility="{Binding Path=EditVisible}">
+                                <MenuItem.Icon>
+                                    <Image Source="/Scoreboard;component/images/cancel.png" Height="18"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Reauthenticate" Click="TourneyReauthenticateClick" Visibility="{Binding Path=EditVisible}">
+                                <MenuItem.Icon>
+                                    <Image Source="/Scoreboard;component/images/restart.png" Height="18"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </ContextMenu>
+                    </Button.ContextMenu>
+                </Button>
+                <Button Grid.Column="4" Name="_scoreboardMenuButton" ToolTip="Click to see the Scoreboard menu options" Click="ScoreboardMenuButtonClick" ContextMenuService.Placement="Bottom" Style="{StaticResource TileButtonGreen}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="5*"/>
@@ -177,16 +214,6 @@
                             <MenuItem Header="Merge Games..." Click="MergeGamesClick" Visibility="{Binding Path=EditVisible}">
                                 <MenuItem.Icon>
                                     <Image Source="/Scoreboard;component/images/open.png" Height="18"/>
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="Load Games from Tourney..." Click="LoadGamesFromTourneyClick" Visibility="{Binding Path=EditVisible}">
-                                <MenuItem.Icon>
-                                    <Image Source="/Scoreboard;component/images/tourney.png" Height="18"/>
-                                </MenuItem.Icon>
-                            </MenuItem>
-                            <MenuItem Header="Update Games from Tourney" Click="UpdateGamesFromTourneyClick" Visibility="{Binding Path=EditVisible}">
-                                <MenuItem.Icon>
-                                    <Image Source="/Scoreboard;component/images/tourney.png" Height="18"/>
                                 </MenuItem.Icon>
                             </MenuItem>
                             <Separator/>
