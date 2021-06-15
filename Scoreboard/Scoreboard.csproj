@@ -42,8 +42,8 @@
     <Product>Scoreboard</Product>
     <Description>Canoe Polo Scoreboard</Description>
     <Copyright>Copyright © 2021</Copyright>
-    <AssemblyVersion>1.12.6.1</AssemblyVersion>
-    <FileVersion>1.12.6.1</FileVersion>
+    <AssemblyVersion>1.20.1.1</AssemblyVersion>
+    <FileVersion>1.20.1.1</FileVersion>
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
@@ -61,7 +61,12 @@
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject></StartupObject>
+    <Version>1.20.1</Version>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="images\icon.png" />
+    <None Remove="images\icon18.png" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -72,6 +77,10 @@
     <None Include="client_secrets.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Resource Include="images\icon.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\icon18.png" />
     <Resource Include="images\restart_resume.png" />
     <Resource Include="images\tourney.png" />
     <Resource Include="images\card.png" />
@@ -364,7 +373,6 @@
     <Resource Include="images\revert.png" />
     <Resource Include="images\sum.png" />
     <Resource Include="images\menu.png" />
-    <Resource Include="images\logo_18.png" />
     <Resource Include="images\left_arrow.png" />
     <Resource Include="images\left_arrow_small.png" />
     <Resource Include="images\right_arrow.png" />

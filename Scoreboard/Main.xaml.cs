@@ -39,7 +39,7 @@ namespace Scoreboard
         {
             InitializeComponent();
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
-            Title = "Scoreboard " + version.ToString();
+            Title = "Tourney Scoreboard " + version.ToString();
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "<Pending>")]
