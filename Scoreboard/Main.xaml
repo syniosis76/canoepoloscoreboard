@@ -691,16 +691,20 @@
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="5*"/>
-                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
                 <Viewbox Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left">
-                    <CheckBox Foreground="White" IsChecked="{Binding Path=RecordGoalScorers, FallbackValue=False}" Margin="5" Width="130">Record Goal Scorers</CheckBox>
+                    <CheckBox Foreground="White" IsChecked="{Binding Path=RecordGoalScorers, FallbackValue=False}" Margin="5">Record Goal Scorers</CheckBox>
                 </Viewbox>
                 <Viewbox Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left">
-                    <CheckBox Foreground="White" IsChecked="{Binding Path=ShowShotClock, FallbackValue=True}" Margin="5" Width="130">Show Shot Clock</CheckBox>
+                    <CheckBox Grid.Column="0" Foreground="White" IsChecked="{Binding Path=ShowShotClock, FallbackValue=True}" Margin="5">Shot Clock</CheckBox>
+                </Viewbox>
+                <Viewbox  Grid.Row="0" Grid.Column="2" HorizontalAlignment="Right">
+                    <TextBox Grid.Column="1" FontSize="12" Margin="4" Width="20" Text="{Binding Path=ShotClockTimeLimit}"/>
                 </Viewbox>
                 <Viewbox Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left">
-                    <CheckBox Foreground="White" IsChecked="{Binding Path=StartPaused, FallbackValue=False}" Margin="5" Width="130">Start Paused</CheckBox>
+                    <CheckBox Foreground="White" IsChecked="{Binding Path=StartPaused, FallbackValue=False}" Margin="5">Start Paused</CheckBox>
                 </Viewbox>
                 <Viewbox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left">
                     <CheckBox Foreground="White" IsChecked="{Binding Path=LockResults, FallbackValue=False}" Margin="5">Lock Results</CheckBox>

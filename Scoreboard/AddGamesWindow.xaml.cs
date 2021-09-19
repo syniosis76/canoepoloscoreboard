@@ -55,6 +55,8 @@ namespace Scoreboard
             set
             {
                 _startTime = value;
+                Properties.Settings.Default.StartTime = _startTime;
+                Properties.Settings.Default.Save();
                 NotifyPropertyChanged("StartTime");
             }
         }
@@ -66,6 +68,8 @@ namespace Scoreboard
             set
             {
                 _gameDuration = value;
+                Properties.Settings.Default.GameDuration = _gameDuration;
+                Properties.Settings.Default.Save();
                 NotifyPropertyChanged("GameDuration");
             }
         }
@@ -77,6 +81,8 @@ namespace Scoreboard
             set
             {
                 _numberOfPeriods = value;
+                Properties.Settings.Default.NumberOfPeriods = _numberOfPeriods = value;
+                Properties.Settings.Default.Save();
                 NotifyPropertyChanged("NumberOfPeriods");
             }
         }
@@ -88,6 +94,8 @@ namespace Scoreboard
             set
             {
                 _periodDuration = value;
+                Properties.Settings.Default.PeriodDuration = _periodDuration;
+                Properties.Settings.Default.Save();
                 NotifyPropertyChanged("PeriodDuration");
             }
         }
@@ -99,7 +107,22 @@ namespace Scoreboard
             set
             {
                 _intervalDuration = value;
+                Properties.Settings.Default.IntervalDuration = _intervalDuration;
+                Properties.Settings.Default.Save();
                 NotifyPropertyChanged("IntervalDuration");
+            }
+        }
+
+        private bool _removeExistingGames;
+        public bool RemoveExistingGames
+        {
+            get { return _removeExistingGames; }
+            set
+            {
+                _removeExistingGames = value;
+                Properties.Settings.Default.RemoveExistingGames = _removeExistingGames;
+                Properties.Settings.Default.Save();
+                NotifyPropertyChanged("RemoveExistingGames");
             }
         }
 
@@ -135,17 +158,6 @@ namespace Scoreboard
                 NotifyPropertyChanged("Team2");
             }
         }
-
-        private bool _removeExistingGames;
-        public bool RemoveExistingGames
-        {
-            get { return _removeExistingGames; }
-            set
-            {
-                _removeExistingGames = value;
-                NotifyPropertyChanged("RemoveExistingGames");
-            }
-        }
         
         public AddGamesWindow()
         {
@@ -163,7 +175,7 @@ namespace Scoreboard
                 Score = score,
                 NewGames = newGames
             };
-            return windows.ShowDialog() == true ? true : false;
+            return windows.ShowDialog() ?? false;
         }
 
         public void AddGame()
@@ -192,8 +204,11 @@ namespace Scoreboard
             DateTime startTime = Score.ParseTime(StartTime);
             TimeSpan gameDuration = Score.ParseTimeSpan(GameDuration);
 
-            int numberOfPeriods = 2;
-            int.TryParse(NumberOfPeriods, out numberOfPeriods);
+            if (!int.TryParse(NumberOfPeriods, out int numberOfPeriods))
+            {
+                numberOfPeriods = 2;
+            }
+
             TimeSpan periodDuration = Score.ParseTimeSpan(PeriodDuration);
             TimeSpan intervalDuration = Score.ParseTimeSpan(IntervalDuration);
 
@@ -334,7 +349,7 @@ namespace Scoreboard
             Close();
         }
 
-        private void _gamesList_KeyUp(object sender, KeyEventArgs e)
+        private void GamesList_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.V && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
             {
@@ -342,7 +357,7 @@ namespace Scoreboard
             }
         }
 
-        private void _textBoxKeyUp(object sender, KeyEventArgs e)
+        private void TextBox_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Return)
             {
@@ -360,23 +375,9 @@ namespace Scoreboard
             RemoveExistingGames = Properties.Settings.Default.RemoveExistingGames;            
         }
 
-        private void WriteSettings()
-        {
-            Properties.Settings.Default.StartTime = StartTime;
-            Properties.Settings.Default.GameDuration = GameDuration;
-            Properties.Settings.Default.NumberOfPeriods = NumberOfPeriods;
-            Properties.Settings.Default.PeriodDuration = PeriodDuration;
-            Properties.Settings.Default.IntervalDuration = IntervalDuration;
-            Properties.Settings.Default.RemoveExistingGames = RemoveExistingGames;
-            Properties.Settings.Default.Save();
-        }
-
         private void Window_Closed(object sender, EventArgs e)
         {
-            if (DialogResult == true)
-            {
-                WriteSettings();
-            }
+            
         }
     }
 }

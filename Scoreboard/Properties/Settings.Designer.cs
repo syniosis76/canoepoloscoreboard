@@ -238,5 +238,17 @@ namespace Scoreboard.Properties {
                 this["ShowShotClock"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("24")]
+        public int ShotClockTimeLimit {
+            get {
+                return ((int)(this["ShotClockTimeLimit"]));
+            }
+            set {
+                this["ShotClockTimeLimit"] = value;
+            }
+        }
     }
 }

@@ -78,8 +78,8 @@
                     <TextBlock Grid.Column="4" Grid.Row="6" Grid.ColumnSpan="2" Text="Pool" FontSize="12" FontWeight="Bold" Foreground="WhiteSmoke"/>
 
                     <TextBox Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="2" FontSize="12" Margin="0,0,4,0" Text="{Binding Path=Team1}" Name="_team1TextBox"/>
-                    <TextBox Grid.Column="2" Grid.Row="7" Grid.ColumnSpan="2" FontSize="12" Margin="0,0,4,0" Text="{Binding Path=Team2}" KeyUp="_textBoxKeyUp"/>
-                    <TextBox Grid.Column="4" Grid.Row="7" Grid.ColumnSpan="2" FontSize="12" Margin="0,0,4,0" Text="{Binding Path=Pool}" KeyUp="_textBoxKeyUp"/>
+                    <TextBox Grid.Column="2" Grid.Row="7" Grid.ColumnSpan="2" FontSize="12" Margin="0,0,4,0" Text="{Binding Path=Team2}" KeyUp="TextBox_KeyUp"/>
+                    <TextBox Grid.Column="4" Grid.Row="7" Grid.ColumnSpan="2" FontSize="12" Margin="0,0,4,0" Text="{Binding Path=Pool}" KeyUp="TextBox_KeyUp"/>
                     <StackPanel Grid.Column="6" Grid.Row="7" Orientation="Horizontal" Height="22">
                         <Button ToolTip="Add game" Click="AddGameButtonClick" Margin="0,0,0,0">
                             <Image Source="/Scoreboard;component/images/add.png" />
@@ -90,7 +90,7 @@
                     </StackPanel>                    
                 </Grid>                                                           
             </Grid>
-            <ListView Name="_gamesList" ItemsSource="{Binding NewGames}" Grid.Row="1" Grid.ColumnSpan="2" Margin="8,8,8,0" FontSize="12" KeyUp="_gamesList_KeyUp">
+            <ListView Name="_gamesList" ItemsSource="{Binding NewGames}" Grid.Row="1" Grid.ColumnSpan="2" Margin="8,8,8,0" FontSize="12" KeyUp="GamesList_KeyUp">
                 <ListView.Resources>
                     <Style x:Key="hcs" TargetType="{x:Type GridViewColumnHeader}">
                         <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>

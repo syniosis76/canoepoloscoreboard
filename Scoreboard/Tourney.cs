@@ -187,21 +187,25 @@ namespace Scoreboard
             //newGame.Team2Points = (int)game["team2Points"];                                   
         }
 
-        private static Game CreateFromTourneyGame(string gameTime, JObject game, TimeSpan duration)
+        private static Game CreateFromTourneyGame(string gameTime, JObject game)
         {
             Game newGame = new Game();
             ApplyToGame(game, newGame);
 
             DateTime startTime = Score.ParseTime(gameTime);
 
-            int durationMinutes = (int)Math.Round(duration.TotalMinutes);
+            if (!int.TryParse(Properties.Settings.Default.NumberOfPeriods, out int numberOfPeriods))
+            {
+                numberOfPeriods = 2;
+            }
+            TimeSpan periodDuration = Score.ParseTimeSpan(Properties.Settings.Default.PeriodDuration);
+            TimeSpan intervalDuration = Score.ParseTimeSpan(Properties.Settings.Default.IntervalDuration);
 
-            TimeSpan periodDuration = durationMinutes >= 24 ? new TimeSpan(0, 10, 0) : new TimeSpan(0, (int)((durationMinutes - 4) / 2.0), 0);
-            TimeSpan intervalDuration = durationMinutes > 24 ? new TimeSpan(0, 2, 0) : new TimeSpan(0, 1, 0);                       
-
-            newGame.Periods.AddPeriod("Period 1", startTime, startTime + periodDuration);
-            startTime = startTime + periodDuration + intervalDuration;
-            newGame.Periods.AddPeriod("Period 2", startTime, startTime + periodDuration);
+            for (int period = 1; period <= numberOfPeriods; period++)
+            {
+                newGame.Periods.AddPeriod("Period " + period.ToString(), startTime, startTime + periodDuration);
+                startTime = startTime + periodDuration + intervalDuration;
+            }
 
             string gameStatus = (string)game["status"];
             GamePeriodStatus status = GamePeriodStatus.Ended;
@@ -326,7 +330,6 @@ namespace Scoreboard
 
         private void AddGames()
         {
-            TimeSpan? duration = null;
             GameList newGames = new GameList();
 
             JArray gameTimes = (JArray)_gameDate["gameTimes"];
@@ -334,27 +337,17 @@ namespace Scoreboard
 
             int count = Math.Min(games.Count, gameTimes.Count);
             for (int gameIndex = 0; gameIndex < count; gameIndex++)
-            {                
+            {
                 string gameTime = (string)gameTimes[gameIndex];
                 JObject game = (JObject)games[gameIndex];
 
-                if (gameIndex < gameTimes.Count - 1) // Calculate duration to next game.
-                {
-                    string nextGameTime = (string)gameTimes[gameIndex + 1];
-                    duration = Score.ParseTime(nextGameTime) - Score.ParseTime(gameTime);
-                }
-                else if (duration == null) // Will use previous duration for the last game.
-                {
-                    duration = new TimeSpan(0, 24, 0); // Default to 24 minutes if just 1 game.
-                }
-                
-                newGames.Add(CreateFromTourneyGame(gameTime, game, duration.Value));
+                newGames.Add(CreateFromTourneyGame(gameTime, game));
             }
 
             _score.Games.ClearGames();
             _score.Games.TournamentId = _tournamentId;
             _score.Games.GameDateId = _gameDateId;
-            _score.Games.PitchId = _pitchId;            
+            _score.Games.PitchId = _pitchId;
             _score.AddGames(newGames);
         }
 

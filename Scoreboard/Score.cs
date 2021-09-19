@@ -217,6 +217,28 @@ namespace Scoreboard
             }
         }
 
+        private int _shotClockTimeLimit = 60;
+        public int ShotClockTimeLimit
+        {
+            get
+            {
+                return _shotClockTimeLimit;
+            }
+            set
+            {
+                if (!_shotClockTimeLimit.Equals(value))
+                {
+                    _shotClockTimeLimit = value;
+                    if (Properties.Settings.Default.ShotClockTimeLimit != _shotClockTimeLimit)
+                    {
+                        Properties.Settings.Default.ShotClockTimeLimit = _shotClockTimeLimit;
+                        Properties.Settings.Default.Save();
+                    }
+                    NotifyPropertyChanged("ShotClockTimeLimit");
+                }
+            }
+        }
+
         private bool _lockResults = false;
         public bool LockResults
         {
@@ -307,7 +329,7 @@ namespace Scoreboard
         {
             ShotTimeVisible = Visibility.Visible;
             _decrementShotTime = false;
-            ShotTime = 60;
+            ShotTime = ShotClockTimeLimit;
             if (CurrentGame != null)
             {
                 CurrentGame.LogEvent("Reset Shot Clock");
@@ -336,7 +358,7 @@ namespace Scoreboard
                 {
                     if (ShotTime <= 0)
                     {
-                        ShotTime = 60;
+                        ShotTime = ShotClockTimeLimit;
                     }
                     CurrentGame.LogEvent("Resume Shot Clock");
                 }
@@ -477,6 +499,7 @@ namespace Scoreboard
             LoadBeep();
             RecordGoalScorers = Properties.Settings.Default.RecordGoalScorers;
             ShowShotClock = Properties.Settings.Default.ShowShotClock;
+            ShotClockTimeLimit = Properties.Settings.Default.ShotClockTimeLimit;
             _lockResults = Properties.Settings.Default.LockResults;
             StartPaused = Properties.Settings.Default.StartPaused;
             ServerOptions.Port = Properties.Settings.Default.ServerPort;
