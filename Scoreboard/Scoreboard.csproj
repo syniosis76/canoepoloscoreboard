@@ -10,8 +10,8 @@
     <Product>Tourney Scoreboard</Product>
     <Description>Tourney Scoreboard</Description>
     <Copyright>Copyright © 2021</Copyright>
-    <AssemblyVersion>1.20.4.1</AssemblyVersion>
-    <FileVersion>1.20.4.1</FileVersion>
+    <AssemblyVersion>1.20.5.1</AssemblyVersion>
+    <FileVersion>1.20.5.1</FileVersion>
     <OutputPath>bin\$(Configuration)\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -27,7 +27,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>Scoreboard.App</StartupObject>
-    <Version>1.20.4</Version>
+    <Version>1.20.5</Version>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="images\icon.png" />

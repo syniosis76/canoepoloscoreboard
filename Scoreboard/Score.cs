@@ -1095,7 +1095,7 @@ namespace Scoreboard
                         }
                         else if (oldShotTime != ShotTime)
                         {
-                            if (oldShotTime == 21 && ShotTime == 20)
+                            if (ShotClockTimeLimit >= 60 && oldShotTime == 21 && ShotTime == 20)
                             {
                                 _shotClockBell.Play();
                                 _shotClockBell.Play();
