@@ -649,6 +649,7 @@ namespace Scoreboard
                 game.CalculateScoreFromEvents();
                 Score.SaveGames();
                 ScrollEventsToEnd();
+                Score.Tourney.ApplyGame(game);
             }
         }
 

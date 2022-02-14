@@ -332,7 +332,7 @@ namespace Scoreboard
             ShotTime = ShotClockTimeLimit;
             if (CurrentGame != null)
             {
-                CurrentGame.LogEvent("Reset Shot Clock");
+                CurrentGame.LogEvent("Reset Shot Clock", false);
             }
         }
 
@@ -360,11 +360,11 @@ namespace Scoreboard
                     {
                         ShotTime = ShotClockTimeLimit;
                     }
-                    CurrentGame.LogEvent("Resume Shot Clock");
+                    CurrentGame.LogEvent("Resume Shot Clock", false);
                 }
                 else
                 {
-                    CurrentGame.LogEvent("Pause Shot Clock"); 
+                    CurrentGame.LogEvent("Pause Shot Clock", false); 
                 }
             }
         }
@@ -1106,7 +1106,7 @@ namespace Scoreboard
                                 _shotClockEnd.Play();
                                 if (CurrentGame != null)
                                 {
-                                    CurrentGame.LogEvent("Shot Elapsed");
+                                    CurrentGame.LogEvent("Shot Elapsed", false);
                                 }
                             }
                         }
@@ -1193,6 +1193,7 @@ namespace Scoreboard
             game.FilterGameEvents();
             game.CalculateScoreFromEvents();
             SaveGames();
+            Tourney.ApplyGame(game);
         }
 
         private void RemoveGameEvent(Game game, string team, string eventType)
@@ -1368,7 +1369,7 @@ namespace Scoreboard
         {
             if (!Paused)
             {
-                if (CurrentGame != null) CurrentGame.LogEvent("Paused");
+                if (CurrentGame != null) CurrentGame.LogEvent("Paused", false);
                 Paused = true;
                 UpdateDisplay();
             }
@@ -1380,7 +1381,7 @@ namespace Scoreboard
             {
                 if (CurrentGame != null)
                 {                                        
-                    CurrentGame.LogEvent("Resumed");
+                    CurrentGame.LogEvent("Resumed", false);
                     GamePeriod period = CurrentGame.Periods.CurrentPeriod;
                     if (period != null)
                     {

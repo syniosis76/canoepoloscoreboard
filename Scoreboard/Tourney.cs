@@ -44,11 +44,9 @@ namespace Scoreboard
 
         public Tourney(Score score)
         {
-//#if DEBUG
-//            _baseUrl = "http://localhost:8000"; // Testing 
-//#else
+            //_baseUrl = "http://localhost:8000"; // Testing 
             _baseUrl = Properties.Settings.Default.TourneyUrl;
-//#endif
+
             if (Tourney._httpClient == null)
             {
                 Tourney._httpClient = new HttpClient

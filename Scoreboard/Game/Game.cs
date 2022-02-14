@@ -462,28 +462,32 @@ namespace Scoreboard
             FilterGameEvents();
         }
 
-        public GameEvent LogEvent(string eventType, string team, string player, string notes)
+        public GameEvent LogEvent(string eventType, string team, string player, string notes, bool apply = true)
         {
             GameEvent gameEvent = new GameEvent(DateTime.Now, eventType, team, player, notes);
             GameEvents.Add(gameEvent);
-            FilterGameEvents();
+            FilterGameEvents();            
             SaveGames();
+            if (apply)
+            {
+                Parent.Parent.Tourney.ApplyGame(this);
+            }
             return gameEvent;
         }
 
-        public void LogEvent(string eventType, string team, string player)
+        public GameEvent LogEvent(string eventType, string team, string player, bool apply = true)
         {
-            LogEvent(eventType, team, player, null);
+            return LogEvent(eventType, team, player, null, apply);
         }
 
-        public void LogEvent(string eventType, string notes)
+        public GameEvent LogEvent(string eventType, string notes, bool apply = true)
         {
-            LogEvent(eventType, null, null, notes);
+            return LogEvent(eventType, null, null, notes, apply);
         }
 
-        public void LogEvent(string eventType)
+        public GameEvent LogEvent(string eventType, bool apply = true)
         {
-            LogEvent(eventType, null, null, null);            
+            return LogEvent(eventType, null, null, null, apply);         
         }
 
         public GameEvent FindLastGameEvent(string team, string eventType)
