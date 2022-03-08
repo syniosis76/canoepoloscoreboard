@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
+using System.Windows.Media;
 
 namespace Scoreboard
 {
@@ -37,6 +38,31 @@ namespace Scoreboard
                     _time = value;
                     NotifyPropertyChanged("Time");  
                 }
+            }
+        }
+
+        public Brush DisplayColor
+        {
+            get
+            {
+                Color color;
+                if (GameEvent.EventType == "Green Card")
+                {
+                    color = Color.FromArgb(0xFF, 0x3A, 0xC8, 0x2B);
+                }
+                else if (GameEvent.EventType == "Yellow Card")
+                {
+                    color = Color.FromArgb(0xFF, 0xF7, 0xCA, 0x16);
+                }
+                else if (GameEvent.EventType == "Red Card")
+                {
+                    color = Color.FromArgb(0xFF, 0xD3, 0x26, 0x28);
+                }
+                else
+                {
+                    color = Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF);
+                }
+                return new SolidColorBrush(color);
             }
         }
 

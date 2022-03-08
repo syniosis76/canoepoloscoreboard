@@ -1243,23 +1243,21 @@ namespace Scoreboard
                 if (Cards.SelectCard(owner, game, ref team, ref card, ref player, ref infringement, ref penaltyDuration) && game != null)
                 {
                     GameEvent gameEvent = game.LogEvent(card + " Card", team, player, infringement);
-                    if (card.Equals("Yellow"))
+                    
+                    int penaltyDurationSeconds = 120;
+                    TimeSpan penaltyDurationTimeSpan = ParseTimeSpan(penaltyDuration);
+                    if (penaltyDurationTimeSpan.TotalSeconds > 0)
                     {
-                        int penaltyDurationSeconds = 120;
-                        TimeSpan penaltyDurationTimeSpan = ParseTimeSpan(penaltyDuration);
-                        if (penaltyDurationTimeSpan.TotalSeconds > 0)
-                        {
-                            penaltyDurationSeconds = (int)penaltyDurationTimeSpan.TotalSeconds;
-                        }
+                        penaltyDurationSeconds = (int)penaltyDurationTimeSpan.TotalSeconds;
+                    }
 
-                        if (team == game.Team1)
-                        {
-                            Team1Cards.Add(new Card(penaltyDurationSeconds, gameEvent));
-                        }
-                        else
-                        {
-                            Team2Cards.Add(new Card(penaltyDurationSeconds, gameEvent));
-                        }
+                    if (team == game.Team1)
+                    {
+                        Team1Cards.Add(new Card(penaltyDurationSeconds, gameEvent));
+                    }
+                    else
+                    {
+                        Team2Cards.Add(new Card(penaltyDurationSeconds, gameEvent));
                     }
                 }
             }
