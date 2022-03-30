@@ -241,7 +241,7 @@ namespace Scoreboard.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("24")]
+        [global::System.Configuration.DefaultSettingValueAttribute("60")]
         public int ShotClockTimeLimit {
             get {
                 return ((int)(this["ShotClockTimeLimit"]));
