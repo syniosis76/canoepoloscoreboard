@@ -148,9 +148,7 @@ namespace Scoreboard
             {
                 var googleJwt = Properties.Settings.Default.GoogleJwt;
 
-                var payload = Google.Apis.Auth.GoogleJsonWebSignature.ValidateAsync(googleJwt).Result;
-
-                if (!String.IsNullOrEmpty(payload.Email))
+                if (ValidateJwt(googleJwt))                
                 {    
                     _googleToken = googleJwt;
                     _authenticated = true;
@@ -176,15 +174,20 @@ namespace Scoreboard
                 var scopes = new[] { "profile", "email" };
                 var user = "profile2";
                 UserCredential credential = GoogleWebAuthorizationBroker.AuthorizeAsync(clientSecrets, scopes, user, CancellationToken.None).Result;
-                bool result = credential.RevokeTokenAsync(CancellationToken.None).Result;
+                var googleJwt = credential.Token.IdToken;                                
 
-                _authenticated = true;
-                _googleToken = credential.Token.IdToken;
-                Properties.Settings.Default.GoogleJwt = _googleToken;
-                Properties.Settings.Default.Save();
+                if (ValidateJwt(googleJwt))
+                {
+                    // Immediately Revoke Token but keep JWT.
+                    bool result = credential.RevokeTokenAsync(CancellationToken.None).Result;
+
+                    _authenticated = true;
+                    _googleToken = googleJwt;
+                    Properties.Settings.Default.GoogleJwt = _googleToken;                    
+                    Properties.Settings.Default.Save();
+                    SetAuthenticationHeaders();  
+                }
             }
-
-            SetAuthenticationHeaders();                            
         }
 
         public void LogOut()
@@ -195,6 +198,24 @@ namespace Scoreboard
             Properties.Settings.Default.Save();
 
             _httpClient.DefaultRequestHeaders.Authorization = null;
+        }
+
+        public bool ValidateJwt(string jwt)
+        {
+            try
+            {
+                var payload = Google.Apis.Auth.GoogleJsonWebSignature.ValidateAsync(jwt).Result;
+                if (!String.IsNullOrEmpty(payload.Email))
+                {
+                    return true;
+                }
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.ToString()); 
+            }
+
+            return false;
         }
 
         public void SetAuthenticationHeaders()
@@ -250,29 +271,40 @@ namespace Scoreboard
         }        
 
         public void SelectPitchAndAddGames()
-        {
-            if (!_authenticated) Authenticate();
-
-            ProcessingWindow.ShowProcessing(_owner, "Listing Tournaments...");
-
-            // List Tournaments
-            BackgroundWorker worker = new BackgroundWorker();
-            worker.DoWork += delegate {
-                _tournaments = GetRequestAsJObject("/data/tournaments?admin=1");
+        {                        
+            // Authenticate            
+            BackgroundWorker authenticateWorker = new BackgroundWorker();
+            authenticateWorker.DoWork += delegate {
+                if (!_authenticated) Authenticate();                
             };
-            worker.RunWorkerCompleted += delegate
+            authenticateWorker.RunWorkerCompleted += delegate
             {
+                if (_authenticated)
+                {
+                    // List Tournaments
+                    ProcessingWindow.ShowProcessing(_owner, "Listing Tournaments...");
+                    
+                    BackgroundWorker listWorker = new BackgroundWorker();
+                    listWorker.DoWork += delegate {
+                        _tournaments = GetRequestAsJObject("/data/tournaments?admin=1");
+                    };
+                    listWorker.RunWorkerCompleted += delegate
+                    {
+                        ProcessingWindow.HideProcessing();
+                        if (_tournaments != null)
+                        {
+                            SelectTournament();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Unable to list Tournaments.");
+                        }
+                    };
+                    listWorker.RunWorkerAsync();
+                }
                 ProcessingWindow.HideProcessing();
-                if (_tournaments != null)
-                {
-                    SelectTournament();
-                }
-                else
-                {
-                    MessageBox.Show("Unable to list Tournaments.");
-                }
             };
-            worker.RunWorkerAsync();
+            authenticateWorker.RunWorkerAsync();                        
         }
 
         private void SelectTournament()

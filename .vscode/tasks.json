@@ -1,10 +1,8 @@
 {
-  // See https://go.microsoft.com/fwlink/?LinkId=733558
-  // for the documentation about the tasks.json format
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "build Debug",
+      "label": "Build Debug",
       "command": "dotnet",
       "type": "shell",
       "args": [
@@ -21,7 +19,7 @@
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "build Release",
+      "label": "Build Release",
       "command": "dotnet",
       "type": "shell",
       "args": [
@@ -38,6 +36,19 @@
         "reveal": "silent"
       },
       "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "Inno Setup: Compile Script",
+      "type": "process",
+      "command": "C:\\Program Files (x86)\\Inno Setup 5\\ISCC.exe",
+      "args": [
+        "${file}"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "echo": false
+      },      
     }
   ]
 }
