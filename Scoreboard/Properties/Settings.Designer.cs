@@ -250,5 +250,17 @@ namespace Scoreboard.Properties {
                 this["ShotClockTimeLimit"] = value;
             }
         }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string GoogleJwt {
+            get {
+                return ((string)(this["GoogleJwt"]));
+            }
+            set {
+                this["GoogleJwt"] = value;
+            }
+        }
     }
 }

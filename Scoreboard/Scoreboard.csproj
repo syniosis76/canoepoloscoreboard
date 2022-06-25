@@ -10,8 +10,8 @@
     <Product>Tourney Scoreboard</Product>
     <Description>Tourney Scoreboard</Description>
     <Copyright>Copyright © 2022</Copyright>
-    <AssemblyVersion>1.30.2.1</AssemblyVersion>
-    <FileVersion>1.30.2.1</FileVersion>
+    <AssemblyVersion>1.30.4.1</AssemblyVersion>
+    <FileVersion>1.30.4.1</FileVersion>
     <OutputPath>bin\$(Configuration)\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -19,7 +19,7 @@
     <DebugType>portable</DebugType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugType>portable</DebugType>
   </PropertyGroup>
   <PropertyGroup>
@@ -27,7 +27,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>Scoreboard.App</StartupObject>
-    <Version>1.30.2</Version>
+    <Version>1.30.4</Version>
     <Authors>verner software</Authors>
     <PackageId>Scoreboard</PackageId>
   </PropertyGroup>
@@ -386,11 +386,10 @@
     <ProjectReference Include="..\Utilities\Utilities.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Google.Apis.Auth" Version="1.45.0" />
-    <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.7" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="System.ValueTuple" Version="4.5.0" />	
-    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+    <PackageReference Include="Google.Apis.Auth" Version="1.57.0" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.9" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
     <PackageReference Include="System.DirectoryServices.AccountManagement" Version="4.7.0" />  
   </ItemGroup>
   <ItemGroup>

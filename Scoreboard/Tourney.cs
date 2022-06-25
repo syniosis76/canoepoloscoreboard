@@ -54,7 +54,7 @@ namespace Scoreboard
                     Timeout = TimeSpan.FromSeconds(20)
                 };
             }
-            _score = score;
+            _score = score;            
         }
 
         public void LoadGames(Window owner)
@@ -142,36 +142,68 @@ namespace Scoreboard
             return null;
         }
 
+        public void RefreshAuthentication()
+        {
+            if (!String.IsNullOrEmpty(Properties.Settings.Default.GoogleJwt))
+            {
+                var googleJwt = Properties.Settings.Default.GoogleJwt;
+
+                //var payload = Google.Apis.Auth.JsonWebSignature.VerifySignedTokenAsync(googleJwt).Result;
+                var payload = Google.Apis.Auth.GoogleJsonWebSignature.ValidateAsync(googleJwt).Result;
+
+                if (!String.IsNullOrEmpty(payload.Email))
+                {    
+                    _googleToken = googleJwt;
+                    _authenticated = true;
+
+                    SetAuthenticationHeaders();
+                }                
+            }
+        }
+
         public void Authenticate()
         {
+            // Check if previously logged in.
             if (!_authenticated)
             {
-                UserCredential credential;
+                RefreshAuthentication();
+            }
+
+            // If still not logged in Log In.
+            if (!_authenticated)
+            {                                 
                 using FileStream stream = new FileStream("client_secrets.json", FileMode.Open, FileAccess.Read);
-                credential = GoogleWebAuthorizationBroker.AuthorizeAsync(GoogleClientSecrets.Load(stream).Secrets, new[] { "profile" }, "profile", CancellationToken.None).Result;
-                string m = credential.GetAccessTokenForRequestAsync().Result;
+                var clientSecrets = GoogleClientSecrets.FromStream(stream).Secrets;
+                var scopes = new[] { "profile", "email" };
+                var user = "profile2";
+                UserCredential credential = GoogleWebAuthorizationBroker.AuthorizeAsync(clientSecrets, scopes, user, CancellationToken.None).Result;
+                bool result = credential.RevokeTokenAsync(CancellationToken.None).Result;
 
                 _authenticated = true;
                 _googleToken = credential.Token.IdToken;
-
-                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GoogleToken);
-                _httpClient.DefaultRequestHeaders.Remove("TOURNEYCLIENT");
-                _httpClient.DefaultRequestHeaders.Add("TOURNEYCLIENT", "Scoreboard");
+                Properties.Settings.Default.GoogleJwt = _googleToken;
+                Properties.Settings.Default.Save();
             }
+
+            SetAuthenticationHeaders();                            
         }
 
         public void LogOut()
         {
-            UserCredential credential;
-            using FileStream stream = new FileStream("client_secrets.json", FileMode.Open, FileAccess.Read);
-            credential = GoogleWebAuthorizationBroker.AuthorizeAsync(GoogleClientSecrets.Load(stream).Secrets, new[] { "profile" }, "profile", CancellationToken.None).Result;            
-            bool result = credential.RevokeTokenAsync(CancellationToken.None).Result;
-
             _authenticated = false;
             _googleToken = null;
+            Properties.Settings.Default.GoogleJwt = "";
+            Properties.Settings.Default.Save();
 
             _httpClient.DefaultRequestHeaders.Authorization = null;
-        }        
+        }
+
+        public void SetAuthenticationHeaders()
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GoogleToken);
+            _httpClient.DefaultRequestHeaders.Remove("TOURNEYCLIENT");
+            _httpClient.DefaultRequestHeaders.Add("TOURNEYCLIENT", "Scoreboard");
+        } 
 
         public static void ApplyToGame(JObject gameObject, Game game)
         {
