@@ -148,7 +148,6 @@ namespace Scoreboard
             {
                 var googleJwt = Properties.Settings.Default.GoogleJwt;
 
-                //var payload = Google.Apis.Auth.JsonWebSignature.VerifySignedTokenAsync(googleJwt).Result;
                 var payload = Google.Apis.Auth.GoogleJsonWebSignature.ValidateAsync(googleJwt).Result;
 
                 if (!String.IsNullOrEmpty(payload.Email))
