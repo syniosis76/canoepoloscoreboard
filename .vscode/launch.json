@@ -8,7 +8,7 @@
       "name": ".NET Core Debug",
       "type": "coreclr",
       "request": "launch",
-      "preLaunchTask": "build",
+      "preLaunchTask": "build Debug",
       "program": "${workspaceFolder}/Scoreboard/bin/Debug/net5.0-windows/Scoreboard.exe",
       "args": [],
       "cwd": "${workspaceFolder}/Scoreboard/bin/Debug/net5.0-windows/",
