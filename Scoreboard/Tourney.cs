@@ -200,11 +200,33 @@ namespace Scoreboard
             _httpClient.DefaultRequestHeaders.Authorization = null;
         }
 
+        internal static string Base64UrlToString(string base64Url) =>
+            Encoding.UTF8.GetString(Base64UrlDecode(base64Url));
+
+        internal static byte[] Base64UrlDecode(string base64Url)
+        {
+            var base64 = base64Url.Replace('-', '+').Replace('_', '/');
+            switch (base64.Length % 4)
+            {
+                case 2: base64 += "=="; break;
+                case 3: base64 += "="; break;
+            }
+            return Convert.FromBase64String(base64);
+        }
+
+
         public bool ValidateJwt(string jwt)
         {
             try
             {
-                var payload = Google.Apis.Auth.GoogleJsonWebSignature.ValidateAsync(jwt).Result;
+                var parts = jwt.Split('.');
+                if (parts.Length != 3)
+                {
+                    return false;
+                }
+                var encodedPayload = parts[1];
+                var payload = Google.Apis.Json.NewtonsoftJsonSerializer.Instance.Deserialize<Google.Apis.Auth.GoogleJsonWebSignature.Payload>(Base64UrlToString(encodedPayload));
+
                 if (!String.IsNullOrEmpty(payload.Email))
                 {
                     return true;
@@ -283,7 +305,7 @@ namespace Scoreboard
                 {
                     // List Tournaments
                     ProcessingWindow.ShowProcessing(_owner, "Listing Tournaments...");
-                    
+
                     BackgroundWorker listWorker = new BackgroundWorker();
                     listWorker.DoWork += delegate {
                         _tournaments = GetRequestAsJObject("/data/tournaments?admin=1");
