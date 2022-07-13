@@ -470,7 +470,7 @@ namespace Scoreboard
             SaveGames();
             if (apply)
             {
-                Parent.Parent.Tourney.ApplyGame(this);
+                Parent?.Parent?.Tourney?.ApplyGame(this);
             }
             return gameEvent;
         }

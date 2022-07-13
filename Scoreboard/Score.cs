@@ -70,10 +70,6 @@ namespace Scoreboard
                 {
                     CurrentGame = Games[_currentGameIndex];
                 }
-                else if (Games.Count > 0)
-                {
-                    CurrentGame = Games.Last();
-                }
                 else
                 {
                     CurrentGame = null;
