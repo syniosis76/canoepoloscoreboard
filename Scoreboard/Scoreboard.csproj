@@ -1,8 +1,8 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <ProductVersion>9.0.30729</ProductVersion>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net5.0-windows</TargetFramework>
+    <TargetFramework>net7.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <ApplicationIcon>logo.ico</ApplicationIcon>    
@@ -10,8 +10,8 @@
     <Product>Tourney Scoreboard</Product>
     <Description>Tourney Scoreboard</Description>
     <Copyright>Copyright © 2022</Copyright>
-    <AssemblyVersion>1.30.4.1</AssemblyVersion>
-    <FileVersion>1.30.4.1</FileVersion>
+    <AssemblyVersion>1.31.1.1</AssemblyVersion>
+    <FileVersion>1.31.1.1</FileVersion>
     <OutputPath>bin\$(Configuration)\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -27,7 +27,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>Scoreboard.App</StartupObject>
-    <Version>1.30.4</Version>
+    <Version>1.31.1</Version>
     <Authors>verner software</Authors>
     <PackageId>Scoreboard</PackageId>
   </PropertyGroup>
@@ -47,7 +47,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Resource Include="images\icon.png">
-      <CopyToOutputDirectory></CopyToOutputDirectory>
+      <CopyToOutputDirectoryyyy/>
     </Resource>
     <Resource Include="images\icon18.png" />
     <Resource Include="images\restart_resume.png" />
@@ -386,11 +386,11 @@
     <ProjectReference Include="..\Utilities\Utilities.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Google.Apis.Auth" Version="1.57.0" />
+    <PackageReference Include="Google.Apis.Auth" Version="1.58.0" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.9" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
-    <PackageReference Include="System.DirectoryServices.AccountManagement" Version="4.7.0" />  
+    <PackageReference Include="System.DirectoryServices.AccountManagement" Version="7.0.0" />  
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Settings.Designer.cs">
