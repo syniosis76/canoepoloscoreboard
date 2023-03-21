@@ -33,7 +33,7 @@
                 <Style TargetType="{x:Type Viewbox}">
                     <Setter Property="Grid.RowSpan" Value="1"/>
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding ShowShotClock}" Value="False">
+                        <DataTrigger Binding="{Binding ShowShotClockActive}" Value="False">
                             <Setter Property="Grid.RowSpan" Value="2"/>
                         </DataTrigger>
                     </Style.Triggers>
@@ -54,7 +54,7 @@
         <Viewbox Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left">
             <Label Margin="0,-32,0,-31" FontFamily="./#DINEngschrift" FontSize="100" Foreground="White" Name="lTeam1Score" Content="{Binding Path=CurrentOrEndedGame.Team1Score, FallbackValue=-}"/>
         </Viewbox>
-        <Viewbox Grid.Row="1" Grid.Column="1" Visibility="{Binding Path=ShowShotClock, Converter={StaticResource boolToVisiblityConverter}, FallbackValue=Visible}">
+        <Viewbox Grid.Row="1" Grid.Column="1" Visibility="{Binding Path=ShowShotClockActive, Converter={StaticResource boolToVisiblityConverter}, FallbackValue=Visible}">
             <Label Margin="0,-24,0,-32" FontFamily="./#DINEngschrift" FontSize="100" Foreground="#FF9BF79B" HorizontalContentAlignment="Center" Name="lShotTime" VerticalContentAlignment="Center" Content="{Binding Path=ShotTime, StringFormat={}{0:00}, FallbackValue=--}"/>
         </Viewbox>
         <Viewbox Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right">

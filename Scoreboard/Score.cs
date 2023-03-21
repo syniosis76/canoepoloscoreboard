@@ -209,6 +209,24 @@ namespace Scoreboard
                         Properties.Settings.Default.Save();
                     }
                     NotifyPropertyChanged("ShowShotClock");
+                    ShowOrHideShotClock();
+                }
+            }
+        }
+
+        private bool _showShotClockActive = false;
+        public bool ShowShotClockActive
+        {
+            get
+            {
+                return _showShotClockActive;
+            }
+            set
+            {
+                if (!_showShotClockActive.Equals(value))
+                {
+                    _showShotClockActive = value;
+                    NotifyPropertyChanged("ShowShotClockActive");
                 }
             }
         }
@@ -297,7 +315,20 @@ namespace Scoreboard
                 {
                     _shotTime = shotTime;
                     NotifyPropertyChanged("ShotTime");
+                    ShowOrHideShotClock();
                 }
+            }
+        }
+
+        protected void ShowOrHideShotClock()
+        {
+            if (SecondsRemaining < _shotTime || CurrentGame != null && CurrentGame.Periods.CurrentPeriod != null && CurrentGame.Periods.CurrentPeriod.Status != GamePeriodStatus.Active)
+            {
+                ShowShotClockActive = false;
+            }
+            else
+            {
+                ShowShotClockActive = ShowShotClock;
             }
         }
         
@@ -1019,6 +1050,18 @@ namespace Scoreboard
             }
             CurrentGameIndex = gameIndex;
         }
+
+        public double SecondsRemaining
+        {
+            get
+            {
+                if (CurrentGame != null && CurrentGame.Periods.CurrentPeriod != null)
+                {                    
+                    return CurrentGame.Periods.CurrentPeriod.TimeRemaining.TotalSeconds;
+                }
+                return 0;
+            }
+        }
      
         protected void UpdateTime()
         {
@@ -1150,6 +1193,7 @@ namespace Scoreboard
         protected void UpdateDisplay()
         {
             GameCaption = GetGameCaption();
+            ShowOrHideShotClock();
         }
 
         protected string GetGameCaption()

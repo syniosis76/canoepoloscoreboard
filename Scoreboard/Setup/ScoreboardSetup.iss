@@ -4,8 +4,8 @@
 ; Press Shift + Alt + B to build in VS Code
 
 #define MyAppName "Tourney Scoreboard"
-#define MyAppVersion "1.31.001"
-#define MyAppFileVersion "1_31_001"
+#define MyAppVersion "1.31.003"
+#define MyAppFileVersion "1_31_003"
 #define MyAppPublisher "verner software"
 #define MyAppURL "https://www.verner.co.nz"
 #define MyAppExeName "Scoreboard.exe"
@@ -36,25 +36,25 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "..\bin\Release\net5.0-windows\Scoreboard.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\Release\net5.0-windows\Scoreboard.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\Release\net5.0-windows\Scoreboard.dll.config"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\Release\net7.0-windows\Scoreboard.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\Release\net7.0-windows\Scoreboard.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\Release\net7.0-windows\Scoreboard.dll.config"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\Properties\app.manifest"; DestDir: "{app}"; DestName: "Scoreboard.exe.manifest"; Flags: ignoreversion
-Source: "..\bin\Release\net5.0-windows\Scoreboard.pdb"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\Release\net5.0-windows\Utilities.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\Release\net5.0-windows\Utilities.pdb"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\Release\net5.0-windows\ref\*"; DestDir: "{app}\ref"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "..\bin\Release\net5.0-windows\runtimes\*"; DestDir: "{app}\runtimes\"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "..\bin\Release\net5.0-windows\sounds\*"; DestDir: "{app}\sounds"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "..\bin\Release\net5.0-windows\pages\*"; DestDir: "{app}\pages"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\bin\Release\net7.0-windows\Scoreboard.pdb"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\Release\net7.0-windows\Utilities.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\Release\net7.0-windows\Utilities.pdb"; DestDir: "{app}"; Flags: ignoreversion
+;Source: "..\bin\Release\net7.0-windows\ref\*"; DestDir: "{app}\ref"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\bin\Release\net7.0-windows\runtimes\*"; DestDir: "{app}\runtimes\"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\bin\Release\net7.0-windows\sounds\*"; DestDir: "{app}\sounds"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\bin\Release\net7.0-windows\pages\*"; DestDir: "{app}\pages"; Flags: ignoreversion recursesubdirs createallsubdirs
 
-Source: "..\bin\Release\net5.0-windows\client_secrets.json"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\Release\net5.0-windows\Google.Apis.*"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\Release\net5.0-windows\Newtonsoft.Json.*"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\Release\net5.0-windows\System.Net.Http.Formatting*"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\Release\net5.0-windows\System.DirectoryServices*"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\Release\net5.0-windows\Scoreboard.runtimeconfig*"; DestDir: "{app}"; Flags: ignoreversion
-;Source: "..\bin\Release\net5.0-windows\System.ValueTuple.*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\Release\net7.0-windows\client_secrets.json"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\Release\net7.0-windows\Google.Apis.*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\Release\net7.0-windows\Newtonsoft.Json.*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\Release\net7.0-windows\System.Net.Http.Formatting*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\Release\net7.0-windows\System.DirectoryServices*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\Release\net7.0-windows\Scoreboard.runtimeconfig*"; DestDir: "{app}"; Flags: ignoreversion
+;Source: "..\bin\Release\net7.0-windows\System.ValueTuple.*"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
