@@ -8,6 +8,7 @@ using System.Windows.Media;
 using Microsoft.Win32;
 using Utilities;
 using System.Reflection;
+using System.Diagnostics;
 
 namespace Scoreboard
 {
@@ -40,6 +41,27 @@ namespace Scoreboard
             InitializeComponent();
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
             Title = "Tourney Scoreboard " + version.ToString();
+            CheckForExistingProcess();          
+        }
+
+        public void CheckForExistingProcess()
+        {
+            Process currentProcess = Process.GetCurrentProcess();
+
+            Process[] scoreboardProcesses = Process.GetProcessesByName("scoreboard");
+
+            foreach (Process process in scoreboardProcesses)
+            {
+                if (process.Id != currentProcess.Id)
+                {
+                    MessageBoxResult result = MessageBox.Show("Tourney Scoreboard is already running.\n\nAre you sure you want to run another copy.", "Already Running", MessageBoxButton.YesNo);
+                    if (result == MessageBoxResult.No)
+                    {
+                        System.Windows.Application.Current.Shutdown();                        
+                    }
+                    break;
+                }
+            }
         }
 
         protected void CreateSecondary(int screenIndex)
