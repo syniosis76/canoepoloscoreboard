@@ -10,8 +10,8 @@
     <Product>Tourney Scoreboard</Product>
     <Description>Tourney Scoreboard</Description>
     <Copyright>Copyright © 2022</Copyright>
-    <AssemblyVersion>1.31.3.1</AssemblyVersion>
-    <FileVersion>1.31.3.1</FileVersion>
+    <AssemblyVersion>1.31.4.1</AssemblyVersion>
+    <FileVersion>1.31.4.1</FileVersion>
     <OutputPath>bin\$(Configuration)\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -27,7 +27,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>Scoreboard.App</StartupObject>
-    <Version>1.31.3</Version>
+    <Version>1.31.4</Version>
     <Authors>verner software</Authors>
     <PackageId>Scoreboard</PackageId>
   </PropertyGroup>
@@ -373,8 +373,9 @@
     <Resource Include="images\pause.png" />
     <Resource Include="images\cards.png" />
     <Resource Include="images\green_card.png" />
-    <Resource Include="images\red_card.png" />
     <Resource Include="images\yellow_card.png" />
+    <Resource Include="images\red_card.png" />    
+    <Resource Include="images\ejection_red_card.png" />
     <Content Include="sounds\shot_clock_bell.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -205,6 +205,10 @@ namespace Scoreboard
             {
                 _cardsList.SelectedIndex = 2;
             }
+            else if (e.Key == Key.E)
+            {
+                _cardsList.SelectedIndex = 3;
+            }
         }
 
         private void _okButtonClick(object sender, RoutedEventArgs e)

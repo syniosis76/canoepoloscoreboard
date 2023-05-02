@@ -49,6 +49,12 @@
                             <TextBlock VerticalAlignment="Center">Red Card</TextBlock>
                         </StackPanel>
                     </ListBoxItem>
+                    <ListBoxItem Height="50" Tag="Ejection Red">
+                        <StackPanel Orientation="Horizontal" Margin="2">
+                            <Image Source="/Scoreboard;component/images/ejection_red_card.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                            <TextBlock VerticalAlignment="Center">Ejection Red Card</TextBlock>
+                        </StackPanel>
+                    </ListBoxItem>
                 </ListBox.Items>   
             </ListBox>
             <ListBox Name="_playersList" Grid.Row ="1" Grid.Column="1" Margin="4,4,4,0" FontFamily="./#DINEngschrift" FontSize="30">

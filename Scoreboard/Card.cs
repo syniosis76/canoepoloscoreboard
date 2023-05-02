@@ -58,6 +58,10 @@ namespace Scoreboard
                 {
                     color = Color.FromArgb(0xFF, 0xD3, 0x26, 0x28);
                 }
+                else if (GameEvent.EventType == "Ejection Red Card")
+                {
+                    color = Color.FromArgb(0xFF, 0xD3, 0x26, 0x28);
+                }
                 else
                 {
                     color = Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF);

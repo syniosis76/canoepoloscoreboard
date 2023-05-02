@@ -58,6 +58,7 @@ namespace Scoreboard
             else if (EventType == "Green Card") _image = "/Scoreboard;component/images/green_card.png";
             else if (EventType == "Yellow Card") _image = "/Scoreboard;component/images/yellow_card.png";
             else if (EventType == "Red Card") _image = "/Scoreboard;component/images/red_card.png";
+            else if (EventType == "Ejection Red Card") _image = "/Scoreboard;component/images/ejection_red_card.png";
             _team1Player = team1Player;
             _team2Player = team2Player;
         }
