@@ -415,7 +415,17 @@ namespace Scoreboard
         {
             GameList newGames = new GameList();
 
-            JArray gameTimes = (JArray)_gameDate["gameTimes"];
+            JArray gameTimes;
+            
+            if (_pitch.ContainsKey("gameTimes") && _pitch["gameTimes"].HasValues)
+            {
+                gameTimes = (JArray)_pitch["gameTimes"];
+            }
+            else
+            {
+                gameTimes = (JArray)_gameDate["gameTimes"];
+            }
+
             JArray games = (JArray)_pitch["games"];
 
             int count = Math.Min(games.Count, gameTimes.Count);
