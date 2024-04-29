@@ -9,6 +9,7 @@ using Microsoft.Win32;
 using Utilities;
 using System.Reflection;
 using System.Diagnostics;
+using System.Drawing.Text;
 
 namespace Scoreboard
 {
@@ -614,6 +615,80 @@ namespace Scoreboard
             _tourneyContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
             _tourneyContextMenu.PlacementTarget = _tourneyMenuButton;
             _tourneyContextMenu.IsOpen = true;
+        }
+
+        private void EventButtonClick(object sender, RoutedEventArgs e)
+        {
+            ShowEventMenu();
+        }
+		
+        private void ShowEventMenu()
+        {
+            _eventContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
+            _eventContextMenu.PlacementTarget = _eventMenuButton;
+            _eventContextMenu.IsOpen = true;
+        }
+
+        private void AddExtraPeriodClick(object sender, RoutedEventArgs e)
+        {
+            if (_gamesListView.SelectedItem != null)
+            {                
+                Game game = (Game)_gamesListView.SelectedItem;
+                AddPeriodWindow.AddPeriod(this, game); 
+            }    
+        }
+
+        private void RunSelectedPeriodClick(object sender, RoutedEventArgs e)
+        {
+            RunSelectedPeriod();
+        }
+
+        private void RunSelectedPeriod()
+        {
+            if (_gamesListView.SelectedItem != null && _periodsListView.SelectedItem != null)
+            {
+                MessageBoxResult result = MessageBox.Show("This will start the selected period with at least 1 minute on the clock.\n\nAre you sure?", "Run Reriod", MessageBoxButton.YesNo);
+                if (result == MessageBoxResult.Yes)
+                {
+                    Game game = (Game)_gamesListView.SelectedItem;
+                    GamePeriod period = (GamePeriod)_periodsListView.SelectedItem;            
+                    RunPeriod(game, period);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Select a Period");
+            }
+        }
+
+        private void RunPeriod(Game game, GamePeriod period)
+        {
+            if (period.EndTime < DateTime.Now)
+            {
+                // Start Paused with 1 minute remaining;                
+                TimeSpan remaining = new TimeSpan(0, 1, 0);                
+                TimeSpan adjustment = DateTime.Now - period.EndTime + remaining;
+                period.EndTime = DateTime.Now + remaining;
+                game.Periods.ModifyFollowingTimes(period, adjustment, true);
+            }
+            
+            game.CalculateResult();
+
+            int selectedIndex = game.Periods.IndexOf(period);
+            game.Periods.CurrentIndex = selectedIndex;
+            Score.CurrentGame = game;
+        }
+
+        private void PeriodButtonClick(object sender, RoutedEventArgs e)
+        {
+            ShowPeriodMenu();
+        }
+		
+        private void ShowPeriodMenu()
+        {
+            _periodContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
+            _periodContextMenu.PlacementTarget = _periodMenuButton;
+            _periodContextMenu.IsOpen = true;
         }
 
         private void Main_Activated(object sender, EventArgs e)

@@ -9,9 +9,9 @@
     <Company>verner software</Company>
     <Product>Tourney Scoreboard</Product>
     <Description>Tourney Scoreboard</Description>
-    <Copyright>Copyright © 2022</Copyright>
-    <AssemblyVersion>1.31.5.1</AssemblyVersion>
-    <FileVersion>1.31.5.1</FileVersion>
+    <Copyright>Copyright © 2024</Copyright>
+    <AssemblyVersion>1.32.1.1</AssemblyVersion>
+    <FileVersion>1.32.1.1</FileVersion>
     <OutputPath>bin\$(Configuration)\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -27,7 +27,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>Scoreboard.App</StartupObject>
-    <Version>1.31.5</Version>
+    <Version>1.32.1</Version>
     <Authors>verner software</Authors>
     <PackageId>Scoreboard</PackageId>
   </PropertyGroup>

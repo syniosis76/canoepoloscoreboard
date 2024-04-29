@@ -552,7 +552,15 @@
                 </Grid.RowDefinitions>
                 <!-- Periods -->
                 <Grid Grid.Row="0">
-                    <ListView Name="_periodsListView" ItemsSource="{Binding Path=SelectedItem.Periods, ElementName=_gamesListView}" SelectedItem="{Binding SelectedPeriod, Mode=TwoWay}" ItemContainerStyle="{StaticResource CurrentPeriodStyle}"
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>                        
+                        <RowDefinition Height="4*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="14*"/>
+                        <ColumnDefinition Width="1*"/>                        
+                    </Grid.ColumnDefinitions>                    
+                    <ListView Grid.RowSpan="2" Grid.ColumnSpan="2" Name="_periodsListView" ItemsSource="{Binding Path=SelectedItem.Periods, ElementName=_gamesListView}" SelectedItem="{Binding SelectedPeriod, Mode=TwoWay}" ItemContainerStyle="{StaticResource CurrentPeriodStyle}"
                               Margin="2,4,2,0" BorderThickness="0" FontSize="{Binding Path=ActualWidth, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource doubleConverter}, ConverterParameter=0.035}">
                         <ListView.Resources>
                             <Style x:Key="hcs" TargetType="{x:Type GridViewColumnHeader}">
@@ -614,24 +622,42 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
+                    <Grid Grid.Row="0" Grid.Column="2">                                                
+                        <Button Margin="-5,4,2,-7" Name="_periodMenuButton" ToolTip="Click to see the period options" Click="PeriodButtonClick" ContextMenuService.Placement="Bottom">
+                            <Image Margin="-2" Source="/Scoreboard;component/images/menu.png"/>
+                            <Button.ContextMenu>
+                                <ContextMenu x:Uid="_periodContextMenu" x:Name="_periodContextMenu">
+                                    <MenuItem Header="Add Period" Click="AddExtraPeriodClick">
+                                        <MenuItem.Icon>
+                                            <Image Source="/Scoreboard;component/images/add.png" Height="18"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <Separator/>
+                                    <MenuItem Header="Run Selected Period" Click="RunSelectedPeriodClick">
+                                        <MenuItem.Icon>
+                                            <Image Source="/Scoreboard;component/images/right_arrow.png" Height="18"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>                                    
+                                </ContextMenu>
+                            </Button.ContextMenu>
+                        </Button>
+                    </Grid>
                 </Grid>
+                <!-- Events -->
                 <Grid Grid.Column="4" Grid.Row="2" Margin="2,4,2,2" Background="{x:Static SystemColors.WindowBrush}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"/>
                         <RowDefinition Height="3*"/>
                         <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="13*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
                     <TextBlock Grid.Row="0" Margin="3,0,0,0" Foreground="{x:Static SystemColors.WindowTextBrush}" Text="{Binding Path=SelectedItem.Team1, ElementName=_gamesListView, FallbackValue=Team 1}"
-                               FontSize="{Binding Path=ActualWidth, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource doubleConverter}, ConverterParameter=0.035}"/>
-                    <Grid Grid.Row="0" HorizontalAlignment="Right" Width="60">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="1*"/>
-                        </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" Background="Transparent" Content="+" Click="EventAddGoal" ToolTip="Add a goal to a team." />
-                        <Button Grid.Column="1" Background="Transparent" Content="C" Click="EventAddCard" ToolTip="Add a card to a team." />
-                    </Grid>
-                    <ListView Grid.Row="1" Name="_gameEventListView" ItemsSource="{Binding Path=SelectedItem.GameEventsView, ElementName=_gamesListView}" ScrollViewer.ScrollChanged="GameEventListViewScrollChanged" BorderThickness="0"
+                               FontSize="{Binding Path=ActualWidth, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource doubleConverter}, ConverterParameter=0.035}"/>                    
+                    <ListView Grid.Row="1" Grid.ColumnSpan="3" Name="_gameEventListView" ItemsSource="{Binding Path=SelectedItem.GameEventsView, ElementName=_gamesListView}" ScrollViewer.ScrollChanged="GameEventListViewScrollChanged" BorderThickness="0"
                               FontSize="{Binding Path=ActualWidth, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource doubleConverter}, ConverterParameter=0.035}"
                               PreviewMouseLeftButtonUp="EventMenuClick"
                               ScrollViewer.HorizontalScrollBarVisibility="Hidden"
@@ -672,16 +698,30 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-                    <TextBlock Grid.Row="3" Margin="3,0,0,0" Foreground="{x:Static SystemColors.WindowTextBrush}" Text="{Binding Path=SelectedItem.Team2, ElementName=_gamesListView, FallbackValue=Team 2}"
-                               FontSize="{Binding Path=ActualWidth, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource doubleConverter}, ConverterParameter=0.035}"/>
-                    <Grid Grid.Row="3" HorizontalAlignment="Right" Width="60">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="1*"/>
-                        </Grid.ColumnDefinitions>
-                        <RepeatButton Grid.Column="0" Background="Transparent" Delay="500" Interval="40" Content="&lt;" Click="EventScrollLeft" />
-                        <RepeatButton Grid.Column="1" Background="Transparent" Delay="500" Interval="40" Content="&gt;" Click="EventScrollRight" />
+                    <Grid Grid.Row="0" Grid.Column="2">                                                
+                        <Button Margin="-3,-1,0,-4" Name="_eventMenuButton" ToolTip="Click to see the event options" Click="EventButtonClick" ContextMenuService.Placement="Bottom">
+                            <Image Margin="-1" Source="/Scoreboard;component/images/menu.png"/>
+                            <Button.ContextMenu>
+                                <ContextMenu x:Uid="_eventContextMenu" x:Name="_eventContextMenu">
+                                    <MenuItem Header="Add Goal..." Click="EventAddGoal">
+                                        <MenuItem.Icon>
+                                            <Image Source="/Scoreboard;component/images/add.png" Height="18"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <Separator/>
+                                    <MenuItem Header="Add Card..." Click="EventAddCard">
+                                        <MenuItem.Icon>
+                                            <Image Source="/Scoreboard;component/images/card.png" Height="18"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>                                    
+                                </ContextMenu>
+                            </Button.ContextMenu>
+                        </Button>
                     </Grid>
+                    <TextBlock Grid.Row="3" Margin="3,0,0,0" Foreground="{x:Static SystemColors.WindowTextBrush}" Text="{Binding Path=SelectedItem.Team2, ElementName=_gamesListView, FallbackValue=Team 2}"
+                               FontSize="{Binding Path=ActualWidth, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource doubleConverter}, ConverterParameter=0.035}"/>                    
+                    <RepeatButton Grid.Row="3" Grid.Column="1" Margin="0" Background="Transparent" Delay="500" Interval="40" Content="&lt;" Click="EventScrollLeft" />
+                    <RepeatButton Grid.Row="3" Grid.Column="2" Margin="0" Background="Transparent" Delay="500" Interval="40" Content="&gt;" Click="EventScrollRight" />
                 </Grid>
             </Grid>
             <Grid Grid.Column="4" Grid.Row="3" Margin="2" Background="{StaticResource BackgroundGreen}">
