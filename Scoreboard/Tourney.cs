@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -39,6 +40,9 @@ namespace Scoreboard
         private bool _authenticated = false;
         public bool Authenticated { get { return _authenticated; } }
 
+        private List<string> _events = new List<string>();
+
+        public List<string> Events { get { return _events;}}
         private string _googleToken;
         public string GoogleToken { get { return _googleToken; } }
 
@@ -83,6 +87,10 @@ namespace Scoreboard
         {
             if (!String.IsNullOrWhiteSpace(_score.Games.PitchId) && !_queueIsProcessing)
             {
+                if (_uploadQueue.Count > 0)
+                {
+                    AddEvent($"Uploading {_uploadQueue.Count} games.");
+                }
                 _queueIsProcessing = true;
                 ProcessQueueItem(); // This is recursive. 
             }
@@ -98,16 +106,18 @@ namespace Scoreboard
             {
                 Game game = _uploadQueue.Peek();
                 string url = _baseUrl + "/data/tournament/" + _score.Games.TournamentId + "/date/" + _score.Games.GameDateId + "/pitch/" + _score.Games.PitchId + "/game/" + game.Id;
+                AddEvent($"Uploading Game {game.Team1} vs {game.Team2}");
                 string gameJson = GetGameJson(game);
-                bool gameUploaded = false;
+                HttpStatusCode statusCode = HttpStatusCode.Unused;
+                string message = "";
 
                 BackgroundWorker worker = new BackgroundWorker();
-                worker.DoWork += delegate {
-                    gameUploaded = UploadGame(url, gameJson);                    
+                worker.DoWork += delegate {                    
+                    statusCode = UploadGame(url, gameJson, out message);                    
                 };
                 worker.RunWorkerCompleted += delegate
                 {
-                    if (gameUploaded)
+                    if (statusCode == HttpStatusCode.OK)
                     {
                         if (_uploadQueue.Count > 0)
                         {
@@ -118,6 +128,7 @@ namespace Scoreboard
                     }
                     else
                     {
+                        AddEvent($"Error: {message}");
                         _queueIsProcessing = false;
                     }
 
@@ -486,17 +497,19 @@ namespace Scoreboard
             return data.ToString();
         }
 
-        public static bool UploadGame(string url, string gameJson)
+        public static HttpStatusCode UploadGame(string url, string gameJson, out string message)
         {
             HttpContent content = new StringContent(gameJson, Encoding.UTF8, "application/json");            
             try
             {
                 HttpResponseMessage response = _httpClient.PutAsync(new Uri(url), content).Result;
-                return response.StatusCode == HttpStatusCode.OK;
+                message = response.Content.ToString();
+                return response.StatusCode;
             }
-            catch
+            catch (Exception exception)
             {
-                return false;
+                message = exception.Message;
+                return HttpStatusCode.InternalServerError;
             }
         }
 
@@ -550,6 +563,18 @@ namespace Scoreboard
                 }
             }
             return null;
+        }
+
+        public void AddEvent(string eventText)
+        {
+            _events.Add(eventText);
+            Console.WriteLine(eventText);
+
+            // Keep at most 50 events
+            if (_events.Count > 50)
+            {
+                _events.RemoveAt(0);
+            }
         }
     }
 }
