@@ -451,6 +451,12 @@ namespace Scoreboard
             Score.Tourney.Authenticate();
         }
 
+        private void TourneyShowLogClick(object sender, RoutedEventArgs e)
+        {
+            string tourneyEvents = String.Join("\n", Score.Tourney.Events);
+            StatisticsWindow.ShowStatistics(this, tourneyEvents);
+        }
+
         private void MergeGamesClick(object sender, RoutedEventArgs e)
         {
             LoadGames(false, false);
@@ -498,7 +504,7 @@ namespace Scoreboard
         {
             string statistics = Score.LogText();
             StatisticsWindow.ShowStatistics(this, statistics);
-        }
+        }        
 
         private void Team1EditClick(object sender, RoutedEventArgs e)
         {

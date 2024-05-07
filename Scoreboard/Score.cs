@@ -911,6 +911,7 @@ namespace Scoreboard
                 return;
             }
 
+            Tourney.ClearQueue();
             Games.ClearGames();
             StartGames();
 

@@ -83,6 +83,11 @@ namespace Scoreboard
             }
         }
 
+        public void ClearQueue()
+        {
+            _uploadQueue.Clear();
+        }
+
         public void ProcessQueue()
         {
             if (!String.IsNullOrWhiteSpace(_score.Games.PitchId) && !_queueIsProcessing)
@@ -448,6 +453,7 @@ namespace Scoreboard
                 newGames.Add(CreateFromTourneyGame(gameTime, game));
             }
 
+            ClearQueue();
             _score.Games.ClearGames();
             _score.Games.TournamentId = _tournamentId;
             _score.Games.GameDateId = _gameDateId;
@@ -503,7 +509,16 @@ namespace Scoreboard
             try
             {
                 HttpResponseMessage response = _httpClient.PutAsync(new Uri(url), content).Result;
-                message = response.Content.ToString();
+                message = response.Content.ReadAsStringAsync().Result;
+                if (String.IsNullOrWhiteSpace(message))
+                {
+                    message = response.ReasonPhrase;
+                }
+                else if (message.StartsWith("{\"message\"=\""))
+                {
+                    message = message.Substring(12, message.Length - 14);
+                }
+                
                 return response.StatusCode;
             }
             catch (Exception exception)
@@ -566,8 +581,8 @@ namespace Scoreboard
         }
 
         public void AddEvent(string eventText)
-        {
-            _events.Add(eventText);
+        {            
+            _events.Add(DateTime.Now.ToString("HH:mm:ss") + ": " + eventText);
             Console.WriteLine(eventText);
 
             // Keep at most 50 events

@@ -147,6 +147,11 @@
                                     <Image Source="/Scoreboard;component/images/restart.png" Height="18"/>
                                 </MenuItem.Icon>
                             </MenuItem>
+                            <MenuItem Header="Show Log" Click="TourneyShowLogClick" Visibility="{Binding Path=EditVisible}">
+                                <MenuItem.Icon>
+                                    <Image Source="/Scoreboard;component/images/menu.png" Height="18"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
                         </ContextMenu>
                     </Button.ContextMenu>
                 </Button>
