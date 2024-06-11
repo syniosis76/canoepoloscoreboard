@@ -1,6 +1,9 @@
-@font-face {
-  font-family: DINEngschrift;
-  src: url(DINEngschrift.ttf);
+@font-face{
+	font-family: "DINEngschrift";
+	src: url("c8785886e87999bc62f09333e0a27e86.woff2")format("woff2");
+	font-weight:normal;
+	font-style:normal;
+	font-display:swap;
 }
 
 body

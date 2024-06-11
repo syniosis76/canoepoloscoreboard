@@ -310,17 +310,8 @@
     <Resource Include="flags\za.png" />
     <Resource Include="flags\zm.png" />
     <Resource Include="flags\zw.png" />
-    <Content Include="pages\home.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="pages\results.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="pages\results.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="pages\scoreboard.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Content Include="pages\**"> 
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory> 
     </Content>
     <None Include="Properties\app.manifest" />
   </ItemGroup>
@@ -347,21 +338,6 @@
     <Resource Include="images\left_arrow_small.png" />
     <Resource Include="images\right_arrow.png" />
     <Resource Include="images\right_arrow_small.png" />
-    <Content Include="pages\controller.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="pages\scoreboard.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="pages\scoreboard.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="pages\shot-clock.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="pages\statistics.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="sounds\beep.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -8,6 +8,8 @@ using Utilities;
 using System.Windows;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.IO.Enumeration;
+using System.Security.Policy;
 
 namespace Scoreboard
 {
@@ -16,15 +18,7 @@ namespace Scoreboard
         Score _score;
         WebServer _webServer;
 
-        string _scoreboardCss;
-        string _scoreboardJs;
-        string _homePage;
-        string _shotClockPage;
-        string _scoreboardPage;
-        string _controllerPage;
-        string _resultsPage;
-        string _resultsCss;
-        string _statisticsPage;
+        Dictionary <string, string> _contentCache;
 
         // netsh http add urlacl url="http://+:8080/" user=everyone
         // netsh advfirewall firewall add rule name="Scoreboard" dir=in action=allow protocol=TCP localport=8080
@@ -32,21 +26,15 @@ namespace Scoreboard
         public ScoreboardServer(Score score)
         {
             _score = score;
-                      
+            _contentCache = new Dictionary<string, string>();  
+
             _webServer = new WebServer(score.ServerOptions.Port);
-            _webServer.AddMethod(String.Empty, HomeMethod);
-            _webServer.AddMethod("scoreboard.css", ScoreboardCssMethod);
-            _webServer.AddMethod("scoreboard.js", ScoreboardJsMethod);
+
+            _webServer.AddMethod(String.Empty, HomeMethod);            
             _webServer.AddMethod("about", AboutMethod);
             _webServer.AddMethod("game", GameMethod);
             _webServer.AddMethod("game-info", GameInfoMethod);
             _webServer.AddMethod("results", ResultsMethod);
-            _webServer.AddMethod("results-page", ResultsPageMethod);
-            _webServer.AddMethod("results.css", ResultsCssMethod);
-            _webServer.AddMethod("statistics", StatisticsPageMethod);
-            _webServer.AddMethod("scoreboard", ScoreboardMethod);
-            _webServer.AddMethod("controller", ControllerMethod);
-            _webServer.AddMethod("shot-clock", ShotClockMethod);
             _webServer.AddMethod("shot-clock-time", ShotClockTimeMethod);            
 
             _webServer.AddMethod("executeTeam1ScoreUp", ExecuteTeam1ScoreUp);
@@ -60,6 +48,8 @@ namespace Scoreboard
             _webServer.AddMethod("replace-team-names", ExecuteReplaceTeamNames);
             _webServer.AddMethod("add-game", ExecuteAddGame);
             _webServer.AddMethod("clear-games", ExecuteClearGames);
+
+            _webServer.DefaultMethod = FileContentMethod;       
 
             _webServer.Run();            
         }
@@ -88,33 +78,8 @@ namespace Scoreboard
         }
 
         public string HomeMethod(HttpListenerRequest request)
-        {
-            if (String.IsNullOrEmpty(_homePage))
-            {
-                _homePage = File.ReadAllText("pages\\home.html");
-            }
-
-            return _homePage;
-        }
-
-        public string ScoreboardCssMethod(HttpListenerRequest request)
-        {
-            if (String.IsNullOrEmpty(_scoreboardCss))
-            {
-                _scoreboardCss = File.ReadAllText("pages\\scoreboard.css");
-            }
-             
-            return _scoreboardCss;
-        }
-
-        public string ScoreboardJsMethod(HttpListenerRequest request)
-        {
-            if (String.IsNullOrEmpty(_scoreboardJs))
-            {
-                _scoreboardJs = File.ReadAllText("pages\\scoreboard.js");
-            }
-
-            return _scoreboardJs;
+        {            
+            return CachedFileContent("home.html");
         }
 
         public string AboutMethod(HttpListenerRequest request)
@@ -168,70 +133,12 @@ namespace Scoreboard
             return result.ToString();
         }
 
-        public string ResultsPageMethod(HttpListenerRequest request)
-        {
-            if(String.IsNullOrEmpty(_resultsPage))
-            {
-                _resultsPage = File.ReadAllText("pages\\results.html");
-            }
-
-            return _resultsPage;
-        }
-
-        public string ResultsCssMethod(HttpListenerRequest request)
-        {
-            if (String.IsNullOrEmpty(_resultsCss))
-            {
-                _resultsCss = File.ReadAllText("pages\\results.css");
-            }
-
-            return _resultsCss;
-        }
-
-        public string StatisticsPageMethod(HttpListenerRequest request)
-        {
-            if (String.IsNullOrEmpty(_statisticsPage))
-            {
-                _statisticsPage = File.ReadAllText("pages\\statistics.html");
-            }
-
-            return _statisticsPage;
-        }
-
-        public string ShotClockMethod(HttpListenerRequest request)
-        {
-            if (String.IsNullOrEmpty(_shotClockPage))
-            {
-                _shotClockPage = File.ReadAllText("pages\\shot-clock.html");
-            }
-
-            return _shotClockPage;
-        }
-
         public string ShotClockTimeMethod(HttpListenerRequest request)
         {
             return "{\"shot-clock-time\": " + _score.ShotTime.ToString() + "}";
         }
 
-        public string ScoreboardMethod(HttpListenerRequest request)
-        {
-            if (String.IsNullOrEmpty(_scoreboardPage))
-            {
-                _scoreboardPage = File.ReadAllText("pages\\scoreboard.html");
-            }
 
-            return _scoreboardPage;
-        }
-
-        public string ControllerMethod(HttpListenerRequest request)
-        {
-            if (String.IsNullOrEmpty(_controllerPage))
-            {
-                _controllerPage = File.ReadAllText("pages\\controller.html");
-            }
-
-            return _controllerPage;
-        }
 
         public string ExecuteTeam1ScoreUp(HttpListenerRequest request)
         {
@@ -319,6 +226,51 @@ namespace Scoreboard
         {
             Application.Current.Dispatcher.Invoke(new Action(() => { _score.Games.ClearGames(); }));
             return "OK";
+        }
+
+        public string FileContentMethod(HttpListenerRequest request)
+        {
+            string url = request.RawUrl.TrimStart('/');
+
+            if (url == "favicon.ico") 
+            {
+                return "Invalid Request";
+            }
+            else
+            {
+                return CachedFileContent(url);
+            }
+        }
+
+        public string CachedFileContent(string url)
+        {
+            string content;
+
+            if (_contentCache.ContainsKey(url))
+            {
+                content = _contentCache[url]; // Read Content from Cache
+            }
+            else
+            {
+                string fileName = url;
+                if (!fileName.Contains('.'))
+                {
+                    fileName += ".html";
+                }
+                Console.WriteLine($"Reading File: {fileName}");  
+                if (WebServer.IsBinaryFile(url))
+                {
+                    byte[] bytes = File.ReadAllBytes("pages\\" + fileName);
+                    content = Convert.ToBase64String(bytes);
+                }              
+                else
+                {
+                    content = File.ReadAllText("pages\\" + fileName);
+                }
+                _contentCache.Add(url, content);
+            }
+
+            return content;
         }
 
     }

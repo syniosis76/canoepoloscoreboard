@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Net;
 using System.Threading;
-using System.Linq;
 using System.Text;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
+using System.Runtime.Serialization;
+using System.Drawing;
 
 namespace Utilities
 {
@@ -16,6 +17,13 @@ namespace Utilities
         private string _basePath;
         private HttpListener _listener;        
         private Dictionary<string, Func<HttpListenerRequest, string>> _methods;
+
+        private Func<HttpListenerRequest, string> _defaultMethod { get; set; }
+        public Func<HttpListenerRequest, string> DefaultMethod
+        {
+            get { return _defaultMethod; }
+            set { _defaultMethod = value; }
+        }
 
         public WebServer(int port)
         {
@@ -105,13 +113,28 @@ namespace Utilities
                                     Func<HttpListenerRequest, string> method = _methods[path];
                                     rstr = method(ctx.Request);
                                 }
+                                else if (_defaultMethod != null)
+                                {
+                                    rstr = _defaultMethod(ctx.Request);    
+                                }
                                 else
                                 {
                                     rstr = "Invalid Request";
-                                }
-                                                            
-                                byte[] buf = Encoding.UTF8.GetBytes(rstr);
+                                }                                
+
                                 ctx.Response.AppendHeader("Access-Control-Allow-Origin", "*");
+
+                                byte[] buf;                                
+                                
+                                if (IsBinaryFile(path))
+                                {
+                                    buf = Convert.FromBase64String(rstr);
+                                }
+                                else
+                                {
+                                    buf = Encoding.UTF8.GetBytes(rstr);
+                                }                                
+                                
                                 ctx.Response.ContentLength64 = buf.Length;
                                 ctx.Response.OutputStream.Write(buf, 0, buf.Length);                                
                             }
@@ -176,6 +199,18 @@ namespace Utilities
             get
             {
                 return _listener != null;
+            }
+        }
+
+        public static bool IsBinaryFile(string url)
+        {
+            if (url.EndsWith(".woff2"))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
     }
