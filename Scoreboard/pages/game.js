@@ -33,18 +33,25 @@ export const game = {
     },    
     getGame: async function()
     {
-      var _this = this
-      _this.loading = true
+      var _this = this;
+      _this.loading = true;
+      _this.game = null;
 
-      const response = await fetch ('/game')
-      const game = await response.json();      
-      _this.game = game;        
+      try {
+        const response = await fetch ('/game');
+        if (response?.ok)
+        {
+          const game = await response.json();      
+          _this.game = game;                  
+        }
+        else
+        {
+          console.log(await response.text());
+        }              
+      } catch (error) {
+        console.log(error);
+      }
       _this.loading = false;
-      
-      /*.fail(function (error) {
-        console.log(error);        
-        _this.loading = false;
-      });*/
     }
   }   
 };
