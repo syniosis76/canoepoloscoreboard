@@ -18,6 +18,15 @@ namespace Utilities
         private HttpListener _listener;        
         private Dictionary<string, Func<HttpListenerRequest, string>> _methods;
 
+        private static Dictionary<string, string> _contentType = new Dictionary<string, string>
+        {
+            { ".html", "text/html" }
+            , { ".css", "text/css" }
+            , { ".js", "text/javascript" }
+            , { ".svg", "image/svg+xml" }
+            , { ".woff2", "font/woff2" }
+        };
+
         private Func<HttpListenerRequest, string> _defaultMethod { get; set; }
         public Func<HttpListenerRequest, string> DefaultMethod
         {
@@ -123,6 +132,7 @@ namespace Utilities
                                 }                                
 
                                 ctx.Response.AppendHeader("Access-Control-Allow-Origin", "*");
+                                ctx.Response.AppendHeader("Content-Type", GetContentType(ctx.Request.Url.ToString()));
 
                                 byte[] buf;                                
                                 
@@ -211,6 +221,26 @@ namespace Utilities
             else
             {
                 return false;
+            }
+        }
+
+        public static string GetFileExtensionFromUrl(string url)
+        {
+            url = url.Split('?')[0];
+            url = url.Split('/')[^1];
+            return url.Contains('.') ? url.Substring(url.LastIndexOf('.')) : "";
+        }
+
+        public static string GetContentType(string url)
+        {
+            string extension = GetFileExtensionFromUrl(url);
+            if (_contentType.ContainsKey(extension))
+            {
+                return _contentType[extension];
+            }
+            else
+            {
+                return null;
             }
         }
     }

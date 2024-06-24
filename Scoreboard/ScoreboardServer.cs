@@ -257,6 +257,12 @@ namespace Scoreboard
                 {
                     fileName += ".html";
                 }
+                        
+                if (fileName.EndsWith("/"))
+                {
+                    fileName = fileName[..^1];
+                }
+
                 Console.WriteLine($"Reading File: {fileName}");  
                 if (WebServer.IsBinaryFile(url))
                 {
