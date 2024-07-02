@@ -1796,6 +1796,7 @@ namespace Scoreboard
         }
 
         private ScoreboardServer _server;
+        public ScoreboardServer Server { get { return _server; } }
 
         public void StartStopServer()
         {

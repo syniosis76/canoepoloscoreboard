@@ -10,10 +10,11 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.IO.Enumeration;
 using System.Security.Policy;
+using System.Threading;
 
 namespace Scoreboard
 {
-    class ScoreboardServer
+    public class ScoreboardServer
     {
         Score _score;
         WebServer _webServer;
@@ -51,7 +52,7 @@ namespace Scoreboard
 
             _webServer.DefaultMethod = FileContentMethod;       
 
-            _webServer.Run();            
+            _webServer.Run();     
         }
 
         ~ScoreboardServer()
@@ -277,6 +278,11 @@ namespace Scoreboard
             }
 
             return content;
+        }
+
+        public void SendWebSocketMessage(string message)
+        {
+            _webServer.SendWebSocketMessage(message);
         }
 
     }

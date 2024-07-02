@@ -549,6 +549,7 @@ namespace Scoreboard
                 EditGameWindow.EditGame(this, game);
                 Score.Tourney.ApplyGame(game);
                 game.LogEvent("Edit Game");
+                Score.Server.SendWebSocketMessage("Edited Game " + game.Team1 + " " + game.Team2);
             }
         }
 

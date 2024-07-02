@@ -3,7 +3,9 @@ export const game = {
 <div class="nomargin">
   <div v-if="loading" class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
   <div v-if="game" class="flexcolumn">    
-    Team 1: {{ game.team1 }}
+    <div>Team 1: {{ game.team1 }}: {{ game.team1score }}</div>
+    <div>Team 2 {{ game.team2 }}: {{ game.team2score }}</div>    
+    <div>Time: {{ game.timeRemaining }} {{ game.period }}</div> 
   </div>
   <div v-if="!game && !loading">
     <p>Oops. Something went wrong.</p>  

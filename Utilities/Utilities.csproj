@@ -3,8 +3,8 @@
     <ProductVersion>9.0.30729</ProductVersion>
     <TargetFramework>net7.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
-    <FileUpgradeFlagss/>
-    <UpgradeBackupLocationn/>
+    <FileUpgradeFlagss />
+    <UpgradeBackupLocationn />
     <AssemblyTitle>RelayCommand</AssemblyTitle>
     <Product>RelayCommand</Product>
     <Copyright>Copyright © 2024</Copyright>
@@ -18,6 +18,6 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="System.DirectoryServices.AccountManagement" Version="7.0.0" />
+    <PackageReference Include="System.DirectoryServices.AccountManagement" Version="8.0.0" />
   </ItemGroup>
 </Project>

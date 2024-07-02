@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Net;
+using System.Net.WebSockets;
 using System.Threading;
 using System.Text;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
-using System.Runtime.Serialization;
-using System.Drawing;
 
 namespace Utilities
 {
@@ -15,7 +14,8 @@ namespace Utilities
     {
         private int _port;
         private string _basePath;
-        private HttpListener _listener;        
+        private HttpListener _listener; 
+        private List<WebSocket> _webSockets = new List<WebSocket>();      
         private Dictionary<string, Func<HttpListenerRequest, string>> _methods;
 
         private static Dictionary<string, string> _contentType = new Dictionary<string, string>
@@ -111,48 +111,56 @@ namespace Utilities
                     {
                         ThreadPool.QueueUserWorkItem((c) =>
                         {
-                            var ctx = c as HttpListenerContext;
-                            try
+                            var listenerContext = c as HttpListenerContext;
+
+                            if (listenerContext.Request.IsWebSocketRequest)
                             {
-                                string path = ctx.Request.RawUrl.Substring(1);
-                                string rstr;
-
-                                if (_methods.ContainsKey(path))
-                                {
-                                    Func<HttpListenerRequest, string> method = _methods[path];
-                                    rstr = method(ctx.Request);
-                                }
-                                else if (_defaultMethod != null)
-                                {
-                                    rstr = _defaultMethod(ctx.Request);    
-                                }
-                                else
-                                {
-                                    rstr = "Invalid Request";
-                                }                                
-
-                                ctx.Response.AppendHeader("Access-Control-Allow-Origin", "*");
-                                ctx.Response.AppendHeader("Content-Type", GetContentType(ctx.Request.Url.ToString()));
-
-                                byte[] buf;                                
-                                
-                                if (IsBinaryFile(path))
-                                {
-                                    buf = Convert.FromBase64String(rstr);
-                                }
-                                else
-                                {
-                                    buf = Encoding.UTF8.GetBytes(rstr);
-                                }                                
-                                
-                                ctx.Response.ContentLength64 = buf.Length;
-                                ctx.Response.OutputStream.Write(buf, 0, buf.Length);                                
+                                ProcessWebSocketRequest(listenerContext);
                             }
-                            catch { } // suppress any exceptions
-                            finally
-                            {
-                                // always close the stream
-                                ctx.Response.OutputStream.Close();
+                            else
+                            {    
+                                try
+                                {                                                            
+                                    string path = listenerContext.Request.RawUrl.Substring(1);
+                                    string rstr;
+
+                                    if (_methods.ContainsKey(path))
+                                    {
+                                        Func<HttpListenerRequest, string> method = _methods[path];
+                                        rstr = method(listenerContext.Request);
+                                    }
+                                    else if (_defaultMethod != null)
+                                    {
+                                        rstr = _defaultMethod(listenerContext.Request);    
+                                    }
+                                    else
+                                    {
+                                        rstr = "Invalid Request";
+                                    }                                
+
+                                    listenerContext.Response.AppendHeader("Access-Control-Allow-Origin", "*");
+                                    listenerContext.Response.AppendHeader("Content-Type", GetContentType(listenerContext.Request.Url.ToString()));
+
+                                    byte[] buf;                                
+                                    
+                                    if (IsBinaryFile(path))
+                                    {
+                                        buf = Convert.FromBase64String(rstr);
+                                    }
+                                    else
+                                    {
+                                        buf = Encoding.UTF8.GetBytes(rstr);
+                                    }                                
+                                    
+                                    listenerContext.Response.ContentLength64 = buf.Length;
+                                    listenerContext.Response.OutputStream.Write(buf, 0, buf.Length);                                
+                                }
+                                catch { } // suppress any exceptions
+                                finally
+                                {
+                                    // always close the stream
+                                    listenerContext.Response.OutputStream.Close();
+                                }
                             }
                         }, _listener.GetContext());
                     }
@@ -165,6 +173,7 @@ namespace Utilities
         {
             try
             {
+                CloseWebSockets();
                 if (_listener != null)
                 {
                     _listener.Stop();
@@ -242,6 +251,49 @@ namespace Utilities
             {
                 return null;
             }
+        }
+
+        private async void ProcessWebSocketRequest(HttpListenerContext listenerContext)
+        {            
+            WebSocketContext webSocketContext = null;
+
+            try
+            {                
+                // When calling `AcceptWebSocketAsync` the negotiated subprotocol must be specified. This sample assumes that no subprotocol 
+                // was requested. 
+                webSocketContext = await listenerContext.AcceptWebSocketAsync(subProtocol: null);
+                Console.WriteLine("ProcessWebSocketRequest");
+            }
+            catch(Exception e)
+            {
+                // The upgrade process failed somehow. For simplicity lets assume it was a failure on the part of the server and indicate this using 500.
+                listenerContext.Response.StatusCode = 500;
+                listenerContext.Response.Close();
+                Console.WriteLine("Exception: {0}", e);
+                return;
+            }
+                                
+            WebSocket webSocket = webSocketContext.WebSocket;
+
+            _webSockets.Add(webSocket);            
+        }
+
+        public void SendWebSocketMessage(string message)
+        {
+            foreach (WebSocket webSocket in _webSockets)
+            {
+                webSocket.SendAsync(new ArraySegment<byte>(Encoding.UTF8.GetBytes(message)), WebSocketMessageType.Text, true, CancellationToken.None);  
+            }            
+        }
+
+        private void CloseWebSockets()
+        {
+            foreach (WebSocket webSocket in _webSockets)
+            {
+                webSocket.Dispose();
+            }
+
+            _webSockets.Clear();
         }
     }
 }
