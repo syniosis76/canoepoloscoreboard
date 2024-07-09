@@ -1155,6 +1155,11 @@ namespace Scoreboard
                     GameCompletedWindow.StaticTick();
                 }
             }
+
+            if (Server != null)
+            {
+                Server.SendGame(CurrentOrEndedGame);
+            }
             
             // Try to send the queue every 20 seconds.
             if (CurrentTime.Second % 20 == 0)

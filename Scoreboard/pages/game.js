@@ -20,7 +20,8 @@ export const game = {
     }
   },
   created () {    
-    this.loadData(false);  
+    this.loadData(false);
+    this.initialiseWebSocket();
   },
   mounted() {
     
@@ -31,8 +32,21 @@ export const game = {
       this.getGame(this.$route.params.id)      
     },
     refresh: function() {
-      this.loadData();
-    },    
+      this.loadData();      
+    },
+    initialiseWebSocket: function() {
+      const webSocketUri = "ws://" + window.location.host;
+      const webSocket = new WebSocket(webSocketUri);
+
+      webSocket.onmessage = (e) => {
+        const game = JSON.parse(e.data);
+        this.game = game; 
+      };
+  
+      webSocket.onerror = (e) => {
+        console.Log("Web Socket Error");
+      };
+    },
     getGame: async function()
     {
       var _this = this;

@@ -548,8 +548,7 @@ namespace Scoreboard
                 Game game = (Game)_gamesListView.SelectedItem;
                 EditGameWindow.EditGame(this, game);
                 Score.Tourney.ApplyGame(game);
-                game.LogEvent("Edit Game");
-                Score.Server.SendWebSocketMessage("Edited Game " + game.Team1 + " " + game.Team2);
+                game.LogEvent("Edit Game");                
             }
         }
 

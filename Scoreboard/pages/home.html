@@ -49,48 +49,56 @@
     </div>
     <script src="scoreboard.js"></script>
     <script>          
-        var urlPrefix = "" // Live
-		//var urlPrefix = "http://localhost:8080/" // Debug
-		
-		function refreshEvent() {
-            showGame();
-            showTime();
-        }
-
         function showTime() {
             var currentTime = new Date();
             document.getElementById("current-time").innerHTML = currentTime.toLocaleTimeString('en-GB', { hour12: false });
         }
 
-        function showGame() {
-            asyncGetRequest(urlPrefix + "game", function (response) {
-                document.getElementById("team-1-name").innerHTML = response["team1"];
-                document.getElementById("team-2-name").innerHTML = response["team2"];
-                document.getElementById("team-1-score").innerHTML = response["team1Score"];
-                document.getElementById("team-2-score").innerHTML = response["team2Score"];
-                document.getElementById("period").innerHTML = response["period"];
-                document.getElementById("period-time").innerHTML = response["timeRemaining"];
-                if (response["periodIsActive"] == "1") {
-                    document.getElementById("period-time").style.color = "#FFFFFF";
-                }
-                else {
-                    document.getElementById("period-time").style.color = "#FF6666";
-                }
-                document.getElementById("shot-clock-time").innerHTML = response["shotClockTime"];
+        function showGame(game) {
+            document.getElementById("team-1-name").innerHTML = game["team1"];
+            document.getElementById("team-2-name").innerHTML = game["team2"];
+            document.getElementById("team-1-score").innerHTML = game["team1Score"];
+            document.getElementById("team-2-score").innerHTML = game["team2Score"];
+            document.getElementById("period").innerHTML = game["period"];
+            document.getElementById("period-time").innerHTML = game["timeRemaining"];
+            if (game["periodIsActive"] == "1") {
+                document.getElementById("period-time").style.color = "#FFFFFF";
+            }
+            else {
+                document.getElementById("period-time").style.color = "#FF6666";
+            }
+            document.getElementById("shot-clock-time").innerHTML = game["shotClockTime"];                                    
+        }                
+
+        function initialiseGame() {
+            asyncGetRequest("/game", function (response) {
+                showGame(response);
             });                        
-        }
+        }        
+
+        function initialiseWebSocket() {
+            const webSocketUri = "ws://" + window.location.host;
+            const webSocket = new WebSocket(webSocketUri);
+
+            webSocket.onmessage = (e) => {
+                const game = JSON.parse(e.data);
+                showGame(game);
+                showTime(); 
+            };
         
+            webSocket.onerror = (e) => {
+                console.Log("Web Socket Error");
+            };
+        }
+
         function executeMethod(method) {
             xmlHttp = new XMLHttpRequest();
             xmlHttp.open("GET", method, true);
             xmlHttp.send();            
-        }        
-
-        function startTimer() {
-            var refreshTimer = setInterval(function () { refreshEvent() }, 250);
         }
 
-        startTimer();
+        initialiseGame();
+        initialiseWebSocket();
     </script>
 </body>
 </html>

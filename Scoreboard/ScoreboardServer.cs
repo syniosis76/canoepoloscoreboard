@@ -285,5 +285,15 @@ namespace Scoreboard
             _webServer.SendWebSocketMessage(message);
         }
 
+        public void SendGame(Game game)
+        {
+            if (game != null)
+            {
+                
+                string gameJson = game.ToJson();
+                SendWebSocketMessage(gameJson);
+            }           
+        }
+
     }
 }

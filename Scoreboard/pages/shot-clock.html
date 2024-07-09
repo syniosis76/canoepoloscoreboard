@@ -14,30 +14,39 @@
     </div>
 
     <script src="scoreboard.js"></script>
-    <script>	
-        function refreshEvent()
-        {
-            showShotClockTime();
-            showTime();
-        }
-
+    <script>	        
 		function showTime()
 		{
             var currentTime = new Date();
             document.getElementById("current-time").innerHTML = currentTime.toLocaleTimeString('en-GB', { hour12: false });
         }
 
-        function showShotClockTime()
+        function showGame(game)
         {
-            asyncGetRequest("shot-clock-time", function (response)
+            document.getElementById("shot-clock-time").innerHTML = game["shotClockTime"];
+        }
+
+        function initialiseGame()
+        {
+            asyncGetRequest("/game", function (response)
             {
-                document.getElementById("shot-clock-time").innerHTML = response["shot-clock-time"];
+                showGame(response);
             });
         }
 
-        function startTimer()
-        {
-            var refreshTimer = setInterval(function () { refreshEvent() }, 200);
+        function initialiseWebSocket() {
+            const webSocketUri = "ws://" + window.location.host;
+            const webSocket = new WebSocket(webSocketUri);
+
+            webSocket.onmessage = (e) => {
+                const game = JSON.parse(e.data);
+                showGame(game);
+                showTime(); 
+            };
+        
+            webSocket.onerror = (e) => {
+                console.Log("Web Socket Error");
+            };
         }
 
         function resizeShotClockFont()
@@ -59,10 +68,11 @@
             document.getElementById("shot-clock-time").style.fontSize = (size * ratio) + "px";
         }
         
-        resizeShotClockFont();
-        startTimer();
-
+        resizeShotClockFont();        
         document.body.onresize = resizeShotClockFont;
+
+        initialiseGame();
+        initialiseWebSocket();
     </script>
 </body>
 </html>

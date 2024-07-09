@@ -280,10 +280,27 @@ namespace Utilities
 
         public void SendWebSocketMessage(string message)
         {
+            List<WebSocket> inactiveWebSockets = new List<WebSocket>();
+
             foreach (WebSocket webSocket in _webSockets)
             {
-                webSocket.SendAsync(new ArraySegment<byte>(Encoding.UTF8.GetBytes(message)), WebSocketMessageType.Text, true, CancellationToken.None);  
-            }            
+                if (webSocket.State == WebSocketState.Open)
+                {
+                    webSocket.SendAsync(new ArraySegment<byte>(Encoding.UTF8.GetBytes(message)), WebSocketMessageType.Text, true, CancellationToken.None);  
+                }
+                else
+                {
+                    inactiveWebSockets.Add(webSocket);
+                }
+            }
+
+            // Remove Inactive Web Sockets
+            foreach (WebSocket webSocket in inactiveWebSockets)
+            {
+                _webSockets.Remove(webSocket);
+                webSocket.Dispose();
+                Console.WriteLine("Dispose Inactive WebSocket");
+            }
         }
 
         private void CloseWebSockets()
