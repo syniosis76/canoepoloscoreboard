@@ -838,6 +838,7 @@ namespace Scoreboard
                     game.LogEvent("Goal", team, player, String.Empty);                    
                     game.FilterGameEvents();
                     game.CalculateScoreFromEvents();
+                    Score.SendGame(game);
                     Score.SaveGames();
                     ScrollEventsToEnd();
                 }

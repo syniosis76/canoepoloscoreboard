@@ -1156,16 +1156,21 @@ namespace Scoreboard
                 }
             }
 
-            if (Server != null)
-            {
-                Server.SendGame(CurrentOrEndedGame);
-            }
+            SendGame(CurrentOrEndedGame);            
             
             // Try to send the queue every 20 seconds.
             if (CurrentTime.Second % 20 == 0)
             {
                 Tourney.ProcessQueue();
             }
+        }
+
+        public void SendGame(Game game)
+        {
+            if (Server != null)
+            {
+                Server.SendGame(CurrentOrEndedGame);
+            }   
         }
 
         protected void LoadBeep()

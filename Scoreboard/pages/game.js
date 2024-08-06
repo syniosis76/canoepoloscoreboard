@@ -12,7 +12,10 @@ export const game = {
     </div>
     <div class="flexrow">
       <div class="card gamecell gamenumber"><h2>{{ game.team1Score }}</h2></div>
-      <div class="card gamecell gamenumber"><h2>{{ game.timeRemaining }}</h2></div>
+      <div class="flexcolumn">
+        <div class="card gamecell gamenumber"><h2>{{ game.timeRemaining }}</h2></div>
+        <div class="card gamecell gamenumber"><h2>{{ game.shotClockTime }}</h2></div>
+      </div>
       <div class="card gamecell gamenumber"><h2>{{ game.team2Score }}</h2></div>
     </div>
   </div>
