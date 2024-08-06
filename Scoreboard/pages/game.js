@@ -1,15 +1,23 @@
+import * as utilities from "./utilities.js";
+
 export const game = {
   template: `
-<div class="nomargin">
+<div class="mainmargin">
   <div v-if="loading" class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
   <div v-if="game" class="flexcolumn">    
-    <div>Team 1: {{ game.team1 }}: {{ game.team1score }}</div>
-    <div>Team 2 {{ game.team2 }}: {{ game.team2score }}</div>    
-    <div>Time: {{ game.timeRemaining }} {{ game.period }}</div> 
+    <div class="flexrow">
+      <div class="card gamecell"><h2>{{ game.team1 }}</h2></div>
+      <div class="card gamecell"><h2>{{ game.period }}</h2></div>
+      <div class="card gamecell"><h2>{{ game.team2 }}</h2></div>
+    </div>
+    <div class="flexrow">
+      <div class="card gamecell gamenumber"><h2>{{ game.team1Score }}</h2></div>
+      <div class="card gamecell gamenumber"><h2>{{ game.timeRemaining }}</h2></div>
+      <div class="card gamecell gamenumber"><h2>{{ game.team2Score }}</h2></div>
+    </div>
   </div>
   <div v-if="!game && !loading">
     <p>Oops. Something went wrong.</p>  
-    <router-link to="/tournaments">Tournaments</router-link>
   </div>
 </div>
   `,
@@ -21,7 +29,7 @@ export const game = {
   },
   created () {    
     this.loadData(false);
-    this.initialiseWebSocket();
+    this.webSocket = utilities.initialiseWebSocket(this.onWebSocketMessage, this.onCheckWebSocket);
   },
   mounted() {
     
@@ -34,18 +42,12 @@ export const game = {
     refresh: function() {
       this.loadData();      
     },
-    initialiseWebSocket: function() {
-      const webSocketUri = "ws://" + window.location.host;
-      const webSocket = new WebSocket(webSocketUri);
-
-      webSocket.onmessage = (e) => {
-        const game = JSON.parse(e.data);
-        this.game = game; 
-      };
-  
-      webSocket.onerror = (e) => {
-        console.Log("Web Socket Error");
-      };
+    onWebSocketMessage: function(e) {
+      const game = JSON.parse(e.data);
+      this.game = game; 
+    },
+    onCheckWebSocket: function() {
+      this.webSocket = utilities.checkWebSocket(this.webSocket, this.onWebSocketMessage, this.onCheckWebSocket);
     },
     getGame: async function()
     {

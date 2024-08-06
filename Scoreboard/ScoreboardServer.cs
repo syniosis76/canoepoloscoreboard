@@ -31,7 +31,7 @@ namespace Scoreboard
 
             _webServer = new WebServer(score.ServerOptions.Port);
 
-            _webServer.AddMethod(String.Empty, HomeMethod);            
+            _webServer.AddMethod(String.Empty, delegate (HttpListenerRequest request) { return CachedFileContent("index.html"); });            
             _webServer.AddMethod("about", AboutMethod);
             _webServer.AddMethod("game", GameMethod);
             _webServer.AddMethod("game-info", GameInfoMethod);
@@ -76,11 +76,6 @@ namespace Scoreboard
                 + content + "\n"
                 + "</body>\n"
                 + "</html>";
-        }
-
-        public string HomeMethod(HttpListenerRequest request)
-        {            
-            return CachedFileContent("home.html");
         }
 
         public string AboutMethod(HttpListenerRequest request)
@@ -138,8 +133,6 @@ namespace Scoreboard
         {
             return "{\"shot-clock-time\": " + _score.ShotTime.ToString() + "}";
         }
-
-
 
         public string ExecuteTeam1ScoreUp(HttpListenerRequest request)
         {

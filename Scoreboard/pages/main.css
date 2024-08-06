@@ -1,3 +1,19 @@
+@font-face{
+	font-family: "Roboto";
+	src: url("roboto-regular.woff2")format("woff2");
+	font-weight:normal;
+	font-style:normal;
+	font-display:swap;
+}
+
+@font-face{
+	font-family: "DINEngschrift";
+	src: url("DINEngschrift.woff2")format("woff2");
+	font-weight:normal;
+	font-style:normal;
+	font-display:swap;
+}
+
 :root {
   --main-background: #F9F9F9;
   --main-hover: #EEEEFF;
@@ -154,6 +170,7 @@ main {
 
 .mainmargin {
   margin-left: 4px;
+  margin-top: 4px;
 }
 
 .editmargin {
@@ -262,6 +279,17 @@ tr:hover {
   position: -webkit-sticky; /* Safari */
   position: sticky;  
   left: 4px;
+}
+
+.gamecell {
+  width: 200px;
+  margin: 2px;
+  padding: 4px;
+  text-align: center;
+}
+
+.gamenumber {
+  font-family: "DINEngschrift";
 }
 
 .tournamentheader {  
