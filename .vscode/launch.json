@@ -9,9 +9,9 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "Build Debug",
-      "program": "${workspaceFolder}/Scoreboard/bin/Debug/net7.0-windows/Scoreboard.exe",
+      "program": "${workspaceFolder}/Scoreboard/bin/Debug/net8.0-windows/Scoreboard.exe",
       "args": [],
-      "cwd": "${workspaceFolder}/Scoreboard/bin/Debug/net7.0-windows/",
+      "cwd": "${workspaceFolder}/Scoreboard/bin/Debug/net8.0-windows/",
       "stopAtEntry": false,
       "console": "internalConsole"
     }
