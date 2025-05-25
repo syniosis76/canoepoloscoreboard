@@ -893,5 +893,10 @@ namespace Scoreboard
                 Score.Team2Cards.Remove(card);
             }
         }
+
+        private void RestartProtoSlaveClick(object sender, RoutedEventArgs e)
+        {
+            Score.RestartProtoSlave();
+        }        
     }
 }

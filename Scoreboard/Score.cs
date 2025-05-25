@@ -31,7 +31,10 @@ namespace Scoreboard
         }
 
         #endregion
-        
+
+        public const int ExtraPeriodDuration = 60 * 5;        
+        public const string ExtraPeriodDescription = "Extra Period";
+
         private readonly GameList _games;
         public GameList Games
         {
@@ -305,8 +308,8 @@ namespace Scoreboard
         public int ShotTime
         {
             get
-            {
-                return _shotTime;
+            {              
+                return _shotTime;                
             }
             set
             {
@@ -315,8 +318,21 @@ namespace Scoreboard
                 {
                     _shotTime = shotTime;
                     NotifyPropertyChanged("ShotTime");
+                    NotifyPropertyChanged("ShotDisplayTime");
                     ShowOrHideShotClock();
                 }
+            }
+        }
+
+        public int ShotDisplayTime
+        {
+            get
+            {
+                if (SecondsRemaining < _shotTime)
+                {
+                    return (int)(SecondsRemaining + 0.5);
+                }                
+                return _shotTime;                
             }
         }
 
@@ -406,9 +422,10 @@ namespace Scoreboard
 
         public void DecrementShotTime()
         {
-            if (ShotTime > 0)
+            int shotTime = ShotDisplayTime;
+            if (shotTime > 0)
             {
-                ShotTime--;
+                ShotTime = shotTime - 1;
             }
         }
 
@@ -532,12 +549,39 @@ namespace Scoreboard
             ServerOptions.Port = Properties.Settings.Default.ServerPort;
             ServerOptions.Active = Properties.Settings.Default.ServerActive;
             StartStopServer();
+            InitialiseProtoSlave();
+        }
+
+        ~Score()
+        {
+            DisposeProtoSlave();    
         }
 
         public void Initialise()
         {            
             StartTimer();
             LoadGames();
+        }
+
+        public void InitialiseProtoSlave()
+        {
+            _protoSlave = new ProtoSlave();
+        }
+
+        public void DisposeProtoSlave()
+        {
+            if (_protoSlave != null)
+            {
+                ProtoSlave disposingSlave = _protoSlave;
+                _protoSlave = null;
+                disposingSlave.Dispose();                
+            }
+        }
+
+        public void RestartProtoSlave()
+        {
+            DisposeProtoSlave();
+            InitialiseProtoSlave();  
         }
 
         public void StartTimer()
@@ -837,23 +881,25 @@ namespace Scoreboard
             }
         }
 
-        public void AddExtraPeriod(Game game, int durationSeconds)
+        public void AddExtraPeriod(Game game)
         {
             game.HasCompleted = false; // Just in case we need another extra period.
 
             CurrentGame = game;
 
             DateTime startTime = DateTime.Now;
-            TimeSpan extraPeriodDuration = TimeSpan.FromSeconds(durationSeconds);
+            TimeSpan extraPeriodDuration = TimeSpan.FromSeconds(ExtraPeriodDuration);
 
             GamePeriod gamePeriod = new GamePeriod
             {
                 EndTime = startTime + extraPeriodDuration,
                 IsExtraPeriod = true,
-                Name = "Extra Period",
+                Name = ExtraPeriodDescription,
                 StartTime = startTime
             };
             game.Periods.Add(gamePeriod);
+
+            game.LogEvent("Add " + ExtraPeriodDescription);
 
             gamePeriod.ModifyFollowingTimes(gamePeriod.EndTime - DateTime.Now, false);
 
@@ -1084,6 +1130,11 @@ namespace Scoreboard
                     {
                         ShotTime--;
                     }
+                    else
+                    {
+                        // For when game time is less than shot time.
+                        NotifyPropertyChanged("ShotDisplayTime");
+                    }
 
                     if (CurrentGame.Periods.CurrentPeriod != null && CurrentGame.Periods.CurrentPeriod.Status == GamePeriodStatus.Active)
                     {
@@ -1142,7 +1193,8 @@ namespace Scoreboard
                             }
                             else if (oldShotTime == 1 && ShotTime == 0)
                             {
-                                _decrementShotTime = false;
+                                _decrementShotTime = false;                                
+                                _protoSlave.PlaySiren();
                                 _shotClockEnd.Play();
                                 if (CurrentGame != null)
                                 {
@@ -1156,7 +1208,7 @@ namespace Scoreboard
                 }
             }
 
-            SendGame(CurrentOrEndedGame);            
+            SendGame(CurrentOrEndedGame);
             
             // Try to send the queue every 20 seconds.
             if (CurrentTime.Second % 20 == 0)
@@ -1165,12 +1217,17 @@ namespace Scoreboard
             }
         }
 
-        public void SendGame(Game game)
+        public async void SendGame(Game game)
         {
             if (Server != null)
+            {                
+                Server.SendGameAsync(CurrentOrEndedGame);
+            }
+
+            if (_protoSlave != null)
             {
-                Server.SendGame(CurrentOrEndedGame);
-            }   
+                _protoSlave.SendGameAsync(CurrentOrEndedGame);
+            }
         }
 
         protected void LoadBeep()
@@ -1191,12 +1248,13 @@ namespace Scoreboard
                     && !(StartPaused && CurrentGame.Periods.CurrentPeriod != null && CurrentGame.Periods.CurrentPeriod.Status == GamePeriodStatus.Pending))
             {
                 if (longBeep)
-                {                    
-                    _beepEnd.Play();
+                {                                        
+                    _protoSlave.PlaySiren();
+                    _beepEnd.Play();                    
                 }
                 else
                 {                                        
-                    _beep.Play();
+                    _beep.Play();                    
                 }
             }
         }
@@ -1429,11 +1487,17 @@ namespace Scoreboard
             if (Paused)
             {
                 if (CurrentGame != null)
-                {                                        
+                {                                                            
                     CurrentGame.LogEvent("Resumed", false);
                     GamePeriod period = CurrentGame.Periods.CurrentPeriod;
                     if (period != null)
                     {
+                        // If this is the start of an extra period log that the extra period is starting.
+                        if (period.Description == ExtraPeriodDescription && (ExtraPeriodDuration - period.TimeRemaining.TotalSeconds) < 1.0)
+                        {
+                            CurrentGame.LogEvent("Start " + ExtraPeriodDescription);
+                        }
+                        
                         DateTime targetTime = DateTime.Now + period.TimeRemaining;
 
                         if (period.Status == GamePeriodStatus.Pending)
@@ -1444,7 +1508,7 @@ namespace Scoreboard
                         {
                             period.ModifyEndTime(targetTime - period.EndTime, false);
                         }
-                    }                    
+                    }                      
                 }
                 Paused = false;                                
                 
@@ -1807,6 +1871,8 @@ namespace Scoreboard
 
         private ScoreboardServer _server;
         public ScoreboardServer Server { get { return _server; } }
+
+        private ProtoSlave _protoSlave;
 
         public void StartStopServer()
         {

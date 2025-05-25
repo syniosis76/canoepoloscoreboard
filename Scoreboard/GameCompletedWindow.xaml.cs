@@ -259,7 +259,7 @@ namespace Scoreboard
         {
             if (Score != null)
             {
-                Score.AddExtraPeriod(CompletedGame, 60 * 5);
+                Score.AddExtraPeriod(CompletedGame);
             }
             Close();            
         }

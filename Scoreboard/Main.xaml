@@ -233,6 +233,11 @@
                                     <Image Source="/Scoreboard;component/images/right_arrow.png" Height="18"/>
                                 </MenuItem.Icon>
                             </MenuItem>
+                            <MenuItem Header="Restart Proto Interface" Click="RestartProtoSlaveClick">
+                                <MenuItem.Icon>
+                                    <Image Source="/Scoreboard;component/images/restart.png" Height="18"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
                             <Separator/>
                             <MenuItem Header="Calculate Statistics..." Click="CalculateStatisticsClick" Visibility="{Binding Path=EditVisible}">
                                 <MenuItem.Icon>
@@ -425,7 +430,7 @@
                     </Viewbox>
                 </Grid>
                 <Viewbox Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="2">
-                    <TextBlock FontFamily="./#DINEngschrift" FontSize="80" Foreground="#FF9BF79B" Name="_shotTimeLabel" Text="{Binding Path=ShotTime, FallbackValue=0}" IsHitTestVisible="False"/>
+                    <TextBlock FontFamily="./#DINEngschrift" FontSize="80" Foreground="#FF9BF79B" Name="_shotTimeLabel" Text="{Binding Path=ShotDisplayTime, FallbackValue=0}" IsHitTestVisible="False"/>
                 </Viewbox>
             </Grid>
             <Grid Grid.Column="1" Grid.Row="3" Margin="2" Background="{StaticResource BackgroundBlue}">

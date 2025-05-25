@@ -17,7 +17,7 @@ namespace Scoreboard
     public class ScoreboardServer
     {
         Score _score;
-        WebServer _webServer;
+        WebServer _webServer;        
 
         Dictionary <string, string> _contentCache;
 
@@ -27,7 +27,7 @@ namespace Scoreboard
         public ScoreboardServer(Score score)
         {
             _score = score;
-            _contentCache = new Dictionary<string, string>();  
+            _contentCache = new Dictionary<string, string>();            
 
             _webServer = new WebServer(score.ServerOptions.Port);
 
@@ -50,7 +50,7 @@ namespace Scoreboard
             _webServer.AddMethod("add-game", ExecuteAddGame);
             _webServer.AddMethod("clear-games", ExecuteClearGames);
 
-            _webServer.DefaultMethod = FileContentMethod;       
+            _webServer.DefaultMethod = FileContentMethod;               
 
             _webServer.Run();     
         }
@@ -284,9 +284,16 @@ namespace Scoreboard
             {
                 
                 string gameJson = game.ToJson();
-                SendWebSocketMessage(gameJson);
-            }           
+                SendWebSocketMessage(gameJson);                
+            }            
         }
 
+        public void SendGameAsync(Game game)
+        {
+            ThreadPool.QueueUserWorkItem(delegate
+            {
+                SendGame(game);
+            }, null);
+        }
     }
 }

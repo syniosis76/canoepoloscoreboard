@@ -11,18 +11,35 @@ namespace Scoreboard
     public class GameTimeConverter : IValueConverter
     {
         public static string ToString(TimeSpan timeSpan)
-        {
+        {                        
             int seconds = timeSpan.Milliseconds > 500 ? timeSpan.Seconds + 1 : timeSpan.Seconds; // Round up seconds for display.
-            string result = seconds.ToString("00");
-            if (timeSpan.Hours != 0)
+            int minutes = timeSpan.Minutes;            
+            int hours = timeSpan.Hours;
+
+            if (seconds == 60)
             {
-                result = timeSpan.Hours.ToString() + ":" + timeSpan.Minutes.ToString("00") + ":" + result;
+                seconds = 0;
+                minutes += 1;
             }
-            else if (timeSpan.Minutes != 0)
+
+            if (minutes == 60)
             {
-                result = timeSpan.Minutes.ToString() + ":" + result;
+                minutes = 0;
+                hours += 1;
             }
-            return result;
+            
+            if (hours != 0)
+            {
+                return hours.ToString() + ":" + minutes.ToString("00") + ":" + seconds.ToString("00");
+            }
+            else if (minutes != 0)
+            {
+                return minutes.ToString() + ":" + seconds.ToString("00");
+            }
+            else
+            {
+                return seconds.ToString("00");
+            }
         }
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
