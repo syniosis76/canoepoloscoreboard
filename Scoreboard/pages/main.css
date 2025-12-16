@@ -15,7 +15,7 @@
 }
 
 :root {
-  --main-background: #F9F9F9;
+  --main-background: #99999;
   --main-hover: #EEEEFF;
   --main-selected: #EEEEFF;
   --table-border: #E0E0E0;
@@ -37,7 +37,7 @@ html, body {
 
 body {
   background-color: var(--main-background);
-  background: linear-gradient(to bottom, #feffff 0%,#d2ebf9 100%);
+  /*background: linear-gradient(to bottom, #feffff 0%,#d2ebf9 100%);*/
   /*background-image: url('https://docs.google.com/uc?id=1OPigd5b97cS5nwNdTpHvw-hvhkCx5cwh');*/
 }
 
@@ -209,11 +209,12 @@ main {
 }
 
 .card {
-  background: rgba(256, 256, 256, 1);
+  background: rgba(50, 50, 50, 1);
   border-radius: 2px;
   border-style: solid;
   border-width: 1px;
-  border-color: var(--table-border);  
+  border-color: var(--table-border);
+  font-size: 20pt;
 }
 
 .fullwidth {
@@ -285,11 +286,17 @@ tr:hover {
   width: 200px;
   margin: 2px;
   padding: 4px;
+  padding-top: 10px;
   text-align: center;
+  font-family: "DINEngschrift";
+}
+
+.gamecelllarge {
+  width: 408px;
 }
 
 .gamenumber {
-  font-family: "DINEngschrift";
+  
 }
 
 .tournamentheader {  

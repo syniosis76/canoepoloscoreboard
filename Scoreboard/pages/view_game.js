@@ -14,13 +14,27 @@ export const game = {
       <div class="card gamecell gamenumber"><h2>{{ game.team1Score }}</h2></div>
       <div class="flexcolumn">
         <div class="card gamecell gamenumber"><h2>{{ game.timeRemaining }}</h2></div>
-        <div class="card gamecell gamenumber"><h2>{{ game.shotClockTime }}</h2></div>
+        <div class="card gamecell gamenumber"><h2>{{ game.shotClockDisplayTime }}</h2></div>
       </div>
       <div class="card gamecell gamenumber"><h2>{{ game.team2Score }}</h2></div>
     </div>
+    <p>
+      <div class="flexcolumn" style="font-size: 16pt;">
+        <div class="flexrow">
+          <a href="/shot-clock.html">Shot Clock</a>
+        </div>
+        <div class="flexrow">
+          <RouterLink to="/controller">Controller</RouterLink>
+        </div>
+        <div class="flexrow">
+          <RouterLink to="/shotcontroller">Shot Clock Controller</RouterLink>
+        </div>        
+      </div>
+    </p>
   </div>
   <div v-if="!game && !loading">
-    <p>Oops. Something went wrong.</p>  
+    <h3>Error</h3>
+    <p>There is no active game.</p>
   </div>
 </div>
   `,

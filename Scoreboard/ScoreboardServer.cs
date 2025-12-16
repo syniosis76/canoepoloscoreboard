@@ -44,6 +44,7 @@ namespace Scoreboard
             _webServer.AddMethod("executeTeam2ScoreDown", ExecuteTeam2ScoreDown);
             _webServer.AddMethod("executePlayPause", ExecutePlayPause);
             _webServer.AddMethod("executeShotClockReset", ExecuteShotClockReset);
+            _webServer.AddMethod("executeShotClockResetResume", ExecuteShotClockResetResume);
             _webServer.AddMethod("executeShotClockPlayPause", ExecuteShotClockPlayPause);
 
             _webServer.AddMethod("replace-team-names", ExecuteReplaceTeamNames);
@@ -168,6 +169,12 @@ namespace Scoreboard
         public string ExecuteShotClockReset(HttpListenerRequest request)
         {
             Application.Current.Dispatcher.Invoke(new Action(() => { _score.ResetShotTime(); }));
+            return "OK";
+        }
+
+        public string ExecuteShotClockResetResume(HttpListenerRequest request)
+        {
+            Application.Current.Dispatcher.Invoke(new Action(() => { _score.ResetResumeShotTime(); }));
             return "OK";
         }
 

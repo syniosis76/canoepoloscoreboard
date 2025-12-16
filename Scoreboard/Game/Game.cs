@@ -580,10 +580,12 @@ namespace Scoreboard
             if (Parent != null && Parent.Parent != null)
             {
                 result.Append(", \"shotClockTime\": \"" + Parent.Parent.ShotTime.ToString() + "\"");
+                result.Append(", \"shotClockDisplayTime\": \"" + Parent.Parent.ShotDisplayTime.ToString() + "\"");
             }
             else
             {
                 result.Append(", \"shotClockTime\": \"0\"");
+                result.Append(", \"shotClockDisplayTime\": \"0\"");
             }            
 
             if (Result != GameResult.None)

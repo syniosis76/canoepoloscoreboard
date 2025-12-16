@@ -4,7 +4,7 @@
     <title>Scoreboard Shot Clock</title>
     <link rel="stylesheet" type="text/css" href="scoreboard.css">    
 </head>
-<body>
+<body style="overflow-y: hidden;">
     <div class="contentFull row">
         <div id="shot-clock-time" class="shot-clock-large">...</div>
     </div>
@@ -23,7 +23,7 @@
 
         function showGame(game)
         {
-            document.getElementById("shot-clock-time").innerHTML = game["shotClockTime"];
+            document.getElementById("shot-clock-time").innerHTML = game["shotClockDisplayTime"];
         }
 
         function initialiseGame()
@@ -65,7 +65,7 @@
                 var ratio = 0.95
             }
 
-            document.getElementById("shot-clock-time").style.fontSize = (size * ratio) + "px";
+            document.getElementById("shot-clock-time").style.fontSize = (size * ratio * 0.8) + "px";
         }
         
         resizeShotClockFont();        
