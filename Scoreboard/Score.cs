@@ -372,9 +372,10 @@ namespace Scoreboard
         {
             ShotTimeVisible = Visibility.Visible;
             _decrementShotTime = false;
-            ShotTime = ShotClockTimeLimit;
+            ShotTime = ShotClockTimeLimit;            
             if (CurrentGame != null)
             {
+                SendGame(CurrentGame);
                 CurrentGame.LogEvent("Reset Shot Clock", false);
             }
         }

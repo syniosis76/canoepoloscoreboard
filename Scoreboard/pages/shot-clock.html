@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Scoreboard Shot Clock</title>
-    <link rel="stylesheet" type="text/css" href="scoreboard.css">    
+    <title>Scoreboard Shot Clock</title>    
+    <link rel="stylesheet" type="text/css" href="scoreboard.css">   
 </head>
 <body style="overflow-y: hidden;">
-    <div class="contentFull row">
+    <div class="contentFull row" style="height: 100vh; display: flex; justify-content: center; align-items: center;" >
         <div id="shot-clock-time" class="shot-clock-large">...</div>
     </div>
     <div class="footer row">
-        <span class="footer-title">Canoe Polo Scoreboard</span>
+        <span class="footer-title">Tourney Scoreboard</span>
         <span id="current-time" class="footer-time">...</span>
     </div>
 
     <script src="scoreboard.js"></script>
-    <script>	        
+    <script type="module">
+        import * as utilities from "./utilities.js";
+    
 		function showTime()
 		{
             var currentTime = new Date();
@@ -25,54 +27,18 @@
         {
             document.getElementById("shot-clock-time").innerHTML = game["shotClockDisplayTime"];
         }
-
-        function initialiseGame()
-        {
-            asyncGetRequest("/game", function (response)
-            {
-                showGame(response);
-            });
-        }
-
-        function initialiseWebSocket() {
-            const webSocketUri = "ws://" + window.location.host;
-            const webSocket = new WebSocket(webSocketUri);
-
-            webSocket.onmessage = (e) => {
-                const game = JSON.parse(e.data);
-                showGame(game);
-                showTime(); 
-            };
         
-            webSocket.onerror = (e) => {
-                console.Log("Web Socket Error");
-            };
+        function onWebSocketMessage(e) {
+            const game = JSON.parse(e.data);
+            showGame(game);
+            showTime();
         }
 
-        function resizeShotClockFont()
-        {
-            var scrollingElement = getScrollingElement();
-            var width = scrollingElement.scrollWidth;
-            var height = scrollingElement.scrollHeight;
-            var sizeRatio = width / height;
-
-            if (sizeRatio > 1.4) {
-                var size = height
-                var ratio = 1.36
-            }
-            else {
-                var size = width
-                var ratio = 0.95
-            }
-
-            document.getElementById("shot-clock-time").style.fontSize = (size * ratio * 0.8) + "px";
+        function onCheckWebSocket() {
+            webSocket = utilities.checkWebSocket(webSocket, onWebSocketMessage, onCheckWebSocket);
         }
-        
-        resizeShotClockFont();        
-        document.body.onresize = resizeShotClockFont;
 
-        initialiseGame();
-        initialiseWebSocket();
+        var webSocket = utilities.initialiseWebSocket(onWebSocketMessage, onCheckWebSocket);
     </script>
 </body>
 </html>

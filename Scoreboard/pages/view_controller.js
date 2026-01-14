@@ -6,12 +6,12 @@ export const controller = {
   <div v-if="loading" class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
   <div v-if="game" class="flexcolumn">    
     <div class="content row blue-background">
-        <div style="width: 100%; height: 100vw;">
+        <div style="width: 100%; height: 110vw; max-width: 100vh; max-height: 90vh;">
             <div class="section-padded" style="padding-right: 2px; width: 50%; height: 98.5%;">
                 <div class="section-label" style="height: 10%;">
                     <span id="team-1-name" class="section-label-span">{{ game.team1 }}</span>
                 </div>
-                <div class="absolute-parent" style="height: 45%">                                    
+                <div class="absolute-parent" style="height: 40%">                                    
                     <div class="section-button" style="height: 50%;" @click="executeMethod('executeTeam1ScoreUp')">
                         <div class="icon-add"></div>   
                     </div>
@@ -20,7 +20,7 @@ export const controller = {
                     </div>                                    
                     <div id="team-1-score" class="score-large">{{ game.team1Score }}</div>
                 </div>                                
-                <div class="absolute-parent" style="height: 45%; margin-top:8px;">                                    
+                <div class="absolute-parent" style="height: 40%; margin-top:8px;">                                    
                     <div style="width: 100%; height: 100%; position: absolute;">
                         <div class="section-button" style="width: 49%; height: 49%; float: left; margin-right: 4px" @click="executeMethod('executeShotClockReset')">
                           <div class="icon-reset" style="position: absolute; left: 0; top: 0;"></div>
@@ -34,12 +34,22 @@ export const controller = {
                     </div>
                     <div id="shot-clock-time" class="shot-clock score-large">{{ game.shotClockDisplayTime }}</div>
                 </div>
+                <div class="absolute-parent" style="height: 9.4%; margin-top: 3px;">                                    
+                    <div style="width: 100%; height: 100%; position: absolute;">
+                        <div class="section-button" style="width: 49%; height: 100%; float: left; margin-right: 4px" @click="executeMethod('executeShotClockDecrement')">                        
+                          <div class="icon-remove" style="position: absolute; left: 0; bottom: 15%;"></div>                      
+                        </div>
+                        <div class="section-button" style="width: auto; height: 100%; overflow:hidden; margin-left: 4px" @click="executeMethod('executeShotClockIncrement')">                        
+                          <div class="icon-add" style="position: absolute; right: 0; bottom: 7%;"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="section-padded" style="padding-left: 2px; width: 50%; height: 98.5%;">
                 <div class="section-label" style="height: 10%;">
                     <span id="team-2-name" class="section-label-span">{{ game.team2 }}</span>
                 </div>
-                <div class="absolute-parent" style="height: 45%">                                    
+                <div class="absolute-parent" style="height: 40%">                                    
                     <div class="section-button" style="height: 50%;" @click="executeMethod('executeTeam2ScoreUp')">
                         <div class="icon-add" style="position: absolute; right: 0;"></div>
                     </div>
@@ -48,7 +58,7 @@ export const controller = {
                     </div>                                    
                     <div id="team-2-score" class="score-large">{{ game.team2Score }}</div>
                 </div>
-                <div class="absolute-parent" style="height: 45%; margin-top:8px;">                                    
+                <div class="absolute-parent" style="height: 50%; margin-top:8px;">                                    
                     <div class="section-button" style="height: 100%;" @click="executeMethod('executePlayPause')">
                         <div id="period" style="position: absolute; width: 100%; height: 20%; top: 5%; font-size: 6vw; text-align: center; pointer-events: none;">{{ game.period }}</div>
                         <div class="icon-pause" style="position: absolute; right: 0; bottom: 0;"></div>                    

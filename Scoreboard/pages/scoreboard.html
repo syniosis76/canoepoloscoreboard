@@ -9,7 +9,7 @@
         <span id="team-1" class="left">Team 1</span>
         <span id="team-2" class="right">Team 2</span>
     </div>
-    <div class="contentHeader row">
+    <div class="contentHeader row" style="height: 80vh;">
 		<div style="width: 100%; height: 50%;">
             <div class="absolute-parent" style="height: 100%"> 
 				<div id="period-time" class="scoreboard-period-time">...</div>						           			
@@ -52,7 +52,9 @@
     </div>
 
     <script src="scoreboard.js"></script>
-    <script>	
+    <script type="module">
+        import * as utilities from "./utilities.js";
+
 		function showTime()
 		{
             var currentTime = new Date();
@@ -71,32 +73,11 @@
             }
             document.getElementById("team-1").innerHTML = game["team1"];
             document.getElementById("team-1-score").innerHTML = game["team1Score"];
-            document.getElementById("shot-clock-time").innerHTML = game["shotClockTime"];
+            document.getElementById("shot-clock-time").innerHTML = game["shotClockDisplayTime"];
             document.getElementById("team-2").innerHTML = game["team2"];
             document.getElementById("team-2-score").innerHTML = game["team2Score"];
             document.getElementById("period").innerHTML = game["period"];            
         }
-
-        function initialiseGame() {
-            asyncGetRequest("/game", function (response) {
-                showGame(response);
-            });                        
-        }        
-
-        function initialiseWebSocket() {
-            const webSocketUri = "ws://" + window.location.host;
-            const webSocket = new WebSocket(webSocketUri);
-
-            webSocket.onmessage = (e) => {
-                const game = JSON.parse(e.data);
-                showGame(game);
-                showTime(); 
-            };
-        
-            webSocket.onerror = (e) => {
-                console.Log("Web Socket Error");
-            };
-        }		
 
         function resizeFontEvent()
         {
@@ -119,12 +100,21 @@
 			document.getElementById("shot-clock-time").style.fontSize = (size * ratio * 0.35) + "px";
 			document.getElementById("team-2-score").style.fontSize = (size * ratio * 0.35) + "px";
         }
+
+        function onWebSocketMessage(e) {
+            const game = JSON.parse(e.data);
+            showGame(game);
+            showTime();
+        }
+
+        function onCheckWebSocket() {
+            webSocket = utilities.checkWebSocket(webSocket, onWebSocketMessage, onCheckWebSocket);
+        }
         
         resizeFontEvent();
         document.body.onresize = resizeFontEvent;
 
-        initialiseGame();
-        initialiseWebSocket();        
+        var webSocket = utilities.initialiseWebSocket(onWebSocketMessage, onCheckWebSocket);
     </script>
 </body>
 </html>

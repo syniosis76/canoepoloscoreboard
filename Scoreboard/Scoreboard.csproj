@@ -9,9 +9,9 @@
     <Company>verner software</Company>
     <Product>Tourney Scoreboard</Product>
     <Description>Tourney Scoreboard</Description>
-    <Copyright>Copyright © 2024</Copyright>
-    <AssemblyVersion>1.33.7.1</AssemblyVersion>
-    <FileVersion>1.33.7.1</FileVersion>
+    <Copyright>Copyright © 2026</Copyright>
+    <AssemblyVersion>1.34.2.1</AssemblyVersion>
+    <FileVersion>1.34.2.1</FileVersion>
     <OutputPath>bin\$(Configuration)\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">

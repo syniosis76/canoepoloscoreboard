@@ -6,20 +6,23 @@ export const game = {
   <div v-if="loading" class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
   <div v-if="game" class="flexcolumn">    
     <div class="flexrow">
-      <div class="card gamecell"><h2>{{ game.team1 }}</h2></div>
-      <div class="card gamecell"><h2>{{ game.period }}</h2></div>
-      <div class="card gamecell"><h2>{{ game.team2 }}</h2></div>
+      <div class="card gamecell">{{ game.team1 }}</div>
+      <div class="card gamecell">{{ game.period }}</div>
+      <div class="card gamecell">{{ game.team2 }}</div>
     </div>
     <div class="flexrow">
-      <div class="card gamecell gamenumber"><h2>{{ game.team1Score }}</h2></div>
+      <div class="card gamecell gamenumber" style="font-size: 70pt">{{ game.team1Score }}</div>
       <div class="flexcolumn">
-        <div class="card gamecell gamenumber"><h2>{{ game.timeRemaining }}</h2></div>
-        <div class="card gamecell gamenumber"><h2>{{ game.shotClockDisplayTime }}</h2></div>
+        <div class="card gamecell gamenumber">{{ game.timeRemaining }}</div>
+        <div class="card gamecell gamenumber">{{ game.shotClockDisplayTime }}</div>
       </div>
-      <div class="card gamecell gamenumber"><h2>{{ game.team2Score }}</h2></div>
+      <div class="card gamecell gamenumber" style="font-size: 70pt">{{ game.team2Score }}</div>
     </div>
     <p>
-      <div class="flexcolumn" style="font-size: 16pt;">
+      <div class="flexcolumn" style="font-size: 20pt">
+        <div class="flexrow">
+          <a href="/scoreboard.html">Scoreboard</a>
+        </div>  
         <div class="flexrow">
           <a href="/shot-clock.html">Shot Clock</a>
         </div>

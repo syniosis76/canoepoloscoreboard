@@ -6,14 +6,6 @@
 	font-display:swap;
 }
 
-@font-face{
-	font-family: "DINEngschrift";
-	src: url("DINEngschrift.woff2")format("woff2");
-	font-weight:normal;
-	font-style:normal;
-	font-display:swap;
-}
-
 :root {
   --main-background: #99999;
   --main-hover: #EEEEFF;
@@ -48,7 +40,6 @@ h1, h2, h3 {
 }
 
 a {
-  font-weight: bold;
   text-decoration: none;
   color: var(--link-color);
   cursor: pointer;
@@ -209,12 +200,12 @@ main {
 }
 
 .card {
-  background: rgba(50, 50, 50, 1);
+  background: rgba(34, 34, 34, 1);
   border-radius: 2px;
   border-style: solid;
   border-width: 1px;
-  border-color: var(--table-border);
-  font-size: 20pt;
+  border-color: rgba(50, 50, 50, 1);
+  font-size: 30pt;
 }
 
 .fullwidth {

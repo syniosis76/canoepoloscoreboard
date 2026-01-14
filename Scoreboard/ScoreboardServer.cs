@@ -46,6 +46,8 @@ namespace Scoreboard
             _webServer.AddMethod("executeShotClockReset", ExecuteShotClockReset);
             _webServer.AddMethod("executeShotClockResetResume", ExecuteShotClockResetResume);
             _webServer.AddMethod("executeShotClockPlayPause", ExecuteShotClockPlayPause);
+            _webServer.AddMethod("executeShotClockDecrement", ExecuteShotClockDecrement);
+            _webServer.AddMethod("executeShotClockIncrement", ExecuteShotClockIncrement);
 
             _webServer.AddMethod("replace-team-names", ExecuteReplaceTeamNames);
             _webServer.AddMethod("add-game", ExecuteAddGame);
@@ -181,6 +183,18 @@ namespace Scoreboard
         public string ExecuteShotClockPlayPause(HttpListenerRequest request)
         {
             Application.Current.Dispatcher.Invoke(new Action(() => { _score.PauseResumeShotTime(); }));
+            return "OK";
+        }
+
+        public string ExecuteShotClockDecrement(HttpListenerRequest request)
+        {
+            Application.Current.Dispatcher.Invoke(new Action(() => { _score.DecrementShotTime(); }));
+            return "OK";
+        }
+
+        public string ExecuteShotClockIncrement(HttpListenerRequest request)
+        {
+            Application.Current.Dispatcher.Invoke(new Action(() => { _score.IncrementShotTime(); }));
             return "OK";
         }
 
