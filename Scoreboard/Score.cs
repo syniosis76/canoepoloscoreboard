@@ -116,7 +116,8 @@ namespace Scoreboard
                 {
                     _currentOrEndedGame = value;
                     SelectedGame = CurrentOrEndedGame;
-                    NotifyPropertyChanged("CurrentOrEndedGame");
+                    NotifyPropertyChanged("CurrentOrEndedGame");                    
+                    SendGame(true);
                 }
             }
         }
@@ -375,7 +376,7 @@ namespace Scoreboard
             ShotTime = ShotClockTimeLimit;            
             if (CurrentGame != null)
             {
-                SendGame(CurrentGame);
+                SendGame(false);
                 CurrentGame.LogEvent("Reset Shot Clock", false);
             }
         }
@@ -993,6 +994,7 @@ namespace Scoreboard
                 {
                     _selectedPeriod = value;
                     NotifyPropertyChanged("SelectedPeriod");
+                    SendGame(true);
                 }
             }
         }
@@ -1209,7 +1211,7 @@ namespace Scoreboard
                 }
             }
 
-            SendGame(CurrentOrEndedGame);
+            SendGame(false);
             
             // Try to send the queue every 20 seconds.
             if (CurrentTime.Second % 20 == 0)
@@ -1218,7 +1220,7 @@ namespace Scoreboard
             }
         }
 
-        public async void SendGame(Game game)
+        public async void SendGame(Boolean sendAll)
         {
             if (Server != null)
             {                
@@ -1227,7 +1229,7 @@ namespace Scoreboard
 
             if (_protoSlave != null)
             {
-                _protoSlave.SendGameAsync(CurrentOrEndedGame);
+                _protoSlave.SendGameAsync(CurrentOrEndedGame, sendAll);
             }
         }
 

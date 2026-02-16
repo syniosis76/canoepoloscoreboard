@@ -7,12 +7,14 @@ using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
 using Websocket.Client;
+using System.Net.Http;
 
 namespace Scoreboard
 {
     public class ProtoSlave
     {
         private WebsocketClient _webSocket;
+        private HttpClient _httpClient;
         private string _address;
         private string _port;
         private ConcurrentDictionary<string, string> _valueCache;
@@ -26,6 +28,8 @@ namespace Scoreboard
           _port = "9090";          
 
           _valueCache = new ConcurrentDictionary<string, string>();
+
+          _httpClient = new HttpClient();
 
           InitialiseWebSocket();
         }
@@ -134,9 +138,48 @@ namespace Scoreboard
           }
         }
 
-        public void SendGame(Game game)
+        public void SendHttpCommand(string command)
+        {                    
+          string url = $"https://{_address}{command}";
+          Console.WriteLine(url);
+
+          try
+          {
+              Task<HttpResponseMessage> getTask = _httpClient.GetAsync(url);
+
+              getTask.ContinueWith(task =>
+              {
+                  if (task.IsFaulted)
+                  {
+                      Console.WriteLine($"Error in background request: {task.Exception?.InnerException?.Message}");
+                  }
+                  else
+                  {
+                      using var response = task.Result;
+                      response.EnsureSuccessStatusCode(); // Throws if not a success code.
+                      Console.WriteLine($"Background request to {url} completed with status: {response.StatusCode}");
+                  }
+              });
+              
+              Console.WriteLine("Main thread continues immediately after starting the GET request.");
+          }
+          catch (Exception ex)
+          {
+              Console.WriteLine($"Synchronous error starting the request: {ex.Message}");
+          }
+        }
+
+        public void SendGame(Game game, Boolean sendAll)
         {                              
-          AddEvent("SendGame");
+          if (sendAll)
+          {
+            AddEvent("SendGame All");
+          }
+          else
+          {
+            AddEvent("SendGame");
+          }
+          
           CheckAndConnectWebSocket();
 
           int minutes = 0;
@@ -201,30 +244,35 @@ namespace Scoreboard
           SendUpdate($"SLAVE,sendText,Shotclock,", $"{shotSeconds:D2}", $",CS");
           SendUpdate($"SLAVE,sendText,Minutes,", $"{minutes:D2}", $",CS");
 
-          SendUpdate($"SLAVE,configText,intShotclock,", $"{shotColour}", $",CS");
-          SendUpdate($"SLAVE,configText,Shotclock,", $"{shotColour}", $",CS");
+          if (sendAll)
+          {
+            SendUpdate($"SLAVE,configText,intShotclock,", $"{shotColour}", $",CS");
+            SendUpdate($"SLAVE,configText,Shotclock,", $"{shotColour}", $",CS");
 
-          SendUpdate($"SLAVE,configText,Minutes,", $"{timeColour}", $",CS");
-          SendUpdate($"SLAVE,configText,ColonS,", $"{timeColour}", $",CS");
-          SendUpdate($"SLAVE,configText,Seconds,", $"{timeColour}", $",CS");
+            SendUpdate($"SLAVE,configText,Minutes,", $"{timeColour}", $",CS");
+            SendUpdate($"SLAVE,configText,ColonS,", $"{timeColour}", $",CS");
+            SendUpdate($"SLAVE,configText,Seconds,", $"{timeColour}", $",CS");
 
-          SendUpdate($"SLAVE,sendText,ScoreA,", $"{team1Score}", $",CS");
-          SendUpdate($"SLAVE,sendText,ScoreB,", $"{team2Score}", $",CS");
-          SendUpdate($"SLAVE,configText,ScoreA,", $"{scoreColour}", $",CS");
-          SendUpdate($"SLAVE,configText,ScoreB,", $"{scoreColour}", $",CS");
+            SendUpdate($"SLAVE,sendText,ScoreA,", $"{team1Score}", $",CS");
+            SendUpdate($"SLAVE,sendText,ScoreB,", $"{team2Score}", $",CS");
+            SendUpdate($"SLAVE,configText,ScoreA,", $"{scoreColour}", $",CS");
+            SendUpdate($"SLAVE,configText,ScoreB,", $"{scoreColour}", $",CS");
 
-          SendUpdate($"SLAVE,sendText,NameTeamA,", $"{team1Name}", $",CS");
-          SendUpdate($"SLAVE,sendText,NameTeamB,", $"{team2Name}", $",CS");
+            SendUpdate($"SLAVE,sendText,NameTeamA,", $"{team1Name}", $",CS");
+            SendUpdate($"SLAVE,sendText,NameTeamB,", $"{team2Name}", $",CS");
 
-          SendUpdate($"SLAVE,setText,PeriodName", $",{periodNameVisible}", $",CS");
-          SendUpdate($"SLAVE,sendText,PeriodName", $",P{periodIndex}", $",CS");
+            SendUpdate($"SLAVE,setText,PeriodName", $",{periodNameVisible}", $",CS");
+            SendUpdate($"SLAVE,sendText,PeriodName", $",P{periodIndex}", $",CS");
+
+            SendHttpCommand("/Scripts/setBrightness.php?Brightness=99");
+          }
         }
 
-        public void SendGameAsync(Game game)
+        public void SendGameAsync(Game game, Boolean sendAll)
         {
           ThreadPool.QueueUserWorkItem(delegate
           {
-              SendGame(game);
+              SendGame(game, sendAll);
           }, null);
         }
 

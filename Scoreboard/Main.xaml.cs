@@ -548,6 +548,7 @@ namespace Scoreboard
                 Game game = (Game)_gamesListView.SelectedItem;
                 EditGameWindow.EditGame(this, game);
                 Score.Tourney.ApplyGame(game);
+                Score.SendGame(true);
                 game.LogEvent("Edit Game");                
             }
         }
@@ -838,7 +839,7 @@ namespace Scoreboard
                     game.LogEvent("Goal", team, player, String.Empty);                    
                     game.FilterGameEvents();
                     game.CalculateScoreFromEvents();
-                    Score.SendGame(game);
+                    Score.SendGame(true);
                     Score.SaveGames();
                     ScrollEventsToEnd();
                 }
