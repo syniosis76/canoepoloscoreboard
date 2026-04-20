@@ -127,27 +127,27 @@
                     </Grid>
                     <Button.ContextMenu>
                         <ContextMenu x:Uid="_tourneyContextMenu" x:Name="_tourneyContextMenu">
-                            <MenuItem Header="Load Games from Tourney..." Click="LoadGamesFromTourneyClick" Visibility="{Binding Path=EditVisible}">
+                            <MenuItem Header="_Load Games from Tourney..." Click="LoadGamesFromTourneyClick" Visibility="{Binding Path=EditVisible}">
                                 <MenuItem.Icon>
                                     <Image Source="/Scoreboard;component/images/add.png" Height="18"/>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="Update Games from Tourney" Click="UpdateGamesFromTourneyClick" Visibility="{Binding Path=EditVisible}">
+                            <MenuItem Header="_Update Games from Tourney" Click="UpdateGamesFromTourneyClick" Visibility="{Binding Path=EditVisible}">
                                 <MenuItem.Icon>
                                     <Image Source="/Scoreboard;component/images/revert.png" Height="18"/>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="Logout" Click="TourneyLogoutClick" Visibility="{Binding Path=EditVisible}">
+                            <MenuItem Header="Log_out" Click="TourneyLogoutClick" Visibility="{Binding Path=EditVisible}">
                                 <MenuItem.Icon>
                                     <Image Source="/Scoreboard;component/images/cancel.png" Height="18"/>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="Reauthenticate" Click="TourneyReauthenticateClick" Visibility="{Binding Path=EditVisible}">
+                            <MenuItem Header="_Reauthenticate" Click="TourneyReauthenticateClick" Visibility="{Binding Path=EditVisible}">
                                 <MenuItem.Icon>
                                     <Image Source="/Scoreboard;component/images/restart.png" Height="18"/>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="Show Log" Click="TourneyShowLogClick" Visibility="{Binding Path=EditVisible}">
+                            <MenuItem Header="_Show Log" Click="TourneyShowLogClick" Visibility="{Binding Path=EditVisible}">
                                 <MenuItem.Icon>
                                     <Image Source="/Scoreboard;component/images/menu.png" Height="18"/>
                                 </MenuItem.Icon>
@@ -168,29 +168,29 @@
                     </Grid>
                     <Button.ContextMenu>
                         <ContextMenu x:Uid="_scoreboardContextMenu" x:Name="_scoreboardContextMenu">
-                            <MenuItem Header="Add Games..." Command="{Binding Path=AddGamesCommand}" Visibility="{Binding Path=EditVisible}">
+                            <MenuItem Header="_Add Games..." Command="{Binding Path=AddGamesCommand}" Visibility="{Binding Path=EditVisible}">
                                 <MenuItem.Icon>
                                     <Image Source="/Scoreboard;component/images/add.png" Height="18"/>
                                 </MenuItem.Icon>
                             </MenuItem>
                             <Separator/>
-                            <MenuItem Header="Show Secondary on Screen 1" Click="SecondaryScreen1_Click">
+                            <MenuItem Header="Show Secondary on Screen _1" Click="SecondaryScreen1_Click">
                                 <MenuItem.Icon>
                                     <Image Source="/Scoreboard;component/images/icon18.png" Height="18"/>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="Show Secondary on Screen 2" Click="SecondaryScreen2_Click">
+                            <MenuItem Header="Show Secondary on Screen _2" Click="SecondaryScreen2_Click">
                                 <MenuItem.Icon>
                                     <Image Source="/Scoreboard;component/images/icon18.png" Height="18"/>
                                 </MenuItem.Icon>
                             </MenuItem>
                             <Separator/>
-                            <MenuItem Header="Edit Game..." Click="EditGameClick" Visibility="{Binding Path=EditVisible}">
+                            <MenuItem Header="_Edit Game..." Click="EditGameClick" Visibility="{Binding Path=EditVisible}">
                                 <MenuItem.Icon>
                                     <Image Source="/Scoreboard;component/images/Edit.png" Height="18"/>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="Remove the Selected Game" Click="RemoveGameClick" Visibility="{Binding Path=EditVisible}">
+                            <MenuItem Header="_Remove the Selected Game" Click="RemoveGameClick" Visibility="{Binding Path=EditVisible}">
                                 <MenuItem.Icon>
                                     <Image Source="/Scoreboard;component/images/remove.png" Height="18"/>
                                 </MenuItem.Icon>
@@ -201,34 +201,34 @@
                                 </MenuItem.Icon>
                             </MenuItem>
                             <Separator/>
-                            <MenuItem Header="Save Games..." Click="SaveGamesClick">
+                            <MenuItem Header="Sa_ve Games..." Click="SaveGamesClick">
                                 <MenuItem.Icon>
                                     <Image Source="/Scoreboard;component/images/save.png" Height="18"/>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="Load Games..." Click="LoadGamesClick" Visibility="{Binding Path=EditVisible}">
+                            <MenuItem Header="_Load Games..." Click="LoadGamesClick" Visibility="{Binding Path=EditVisible}">
                                 <MenuItem.Icon>
                                     <Image Source="/Scoreboard;component/images/open.png" Height="18"/>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="Load Games without Status..." Click="LoadGamesWithoutStatusClick" Visibility="{Binding Path=EditVisible}">
+                            <MenuItem Header="Load Games _without Status..." Click="LoadGamesWithoutStatusClick" Visibility="{Binding Path=EditVisible}">
                                 <MenuItem.Icon>
                                     <Image Source="/Scoreboard;component/images/open.png" Height="18"/>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="Merge Games..." Click="MergeGamesClick" Visibility="{Binding Path=EditVisible}">
+                            <MenuItem Header="_Merge Games..." Click="MergeGamesClick" Visibility="{Binding Path=EditVisible}">
                                 <MenuItem.Icon>
                                     <Image Source="/Scoreboard;component/images/open.png" Height="18"/>
                                 </MenuItem.Icon>
                             </MenuItem>
                             <Separator/>
-                            <MenuItem Header="Restart Games..." Click="RestartGamesClick" Visibility="{Binding Path=EditVisible}">
+                            <MenuItem Header="_Restart Games..." Click="RestartGamesClick" Visibility="{Binding Path=EditVisible}">
                                 <MenuItem.Icon>
                                     <Image Source="/Scoreboard;component/images/restart.png" Height="18"/>
                                 </MenuItem.Icon>
                             </MenuItem>
                             <Separator/>
-                            <MenuItem Header="Scoreboard Server" Click="ScoreboardServerClick">
+                            <MenuItem Header="Scoreboard _Server" Click="ScoreboardServerClick">
                                 <MenuItem.Icon>
                                     <Image Source="/Scoreboard;component/images/right_arrow.png" Height="18"/>
                                 </MenuItem.Icon>

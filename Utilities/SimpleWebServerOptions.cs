@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Net;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net.NetworkInformation;
 
 namespace Utilities
 {
@@ -100,18 +97,32 @@ namespace Utilities
 
         private string GetIpAddress()
         {
-            IPHostEntry host;
-            string localIp = "?";
-            host = Dns.GetHostEntry(Dns.GetHostName());
-            foreach (IPAddress ip in host.AddressList)
+            var interfaces = NetworkInterface.GetAllNetworkInterfaces()
+                .Where(n =>
+                    n.OperationalStatus == OperationalStatus.Up &&
+                    (n.NetworkInterfaceType == NetworkInterfaceType.Wireless80211 ||
+                    n.NetworkInterfaceType == NetworkInterfaceType.Ethernet) &&
+                    !n.Description.ToLower().Contains("virtual") &&
+                    !n.Description.ToLower().Contains("vpn"));
+
+            foreach (var ni in interfaces)
             {
-                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                var ipProps = ni.GetIPProperties();
+
+                // Must have a gateway to be considered "active"
+                if (!ipProps.GatewayAddresses.Any(g => g.Address.AddressFamily == AddressFamily.InterNetwork))
+                    continue;
+
+                var address = ipProps.UnicastAddresses
+                    .FirstOrDefault(a => a.Address.AddressFamily == AddressFamily.InterNetwork);
+
+                if (address != null)
                 {
-                    localIp = ip.ToString();
-                    break;
+                    return address.Address.ToString();
                 }
             }
-            return localIp;
+
+            return "Unknown";
         }
     }
 }
