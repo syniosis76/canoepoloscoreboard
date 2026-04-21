@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -129,7 +129,101 @@ namespace Scoreboard
             if (_gameEndDelayTime == null || DateTime.Now >= _gameEndDelayTime.Value)
             {
                 _gameEndDelayTime = null;
-                CurrentOrEndedGame = CurrentGame;                
+                CurrentOrEndedGame = CurrentGame;
+                UpdateSecondarySwapped();
+            }
+        }
+
+        private bool _swapSecondaryAtHalfTime = false;
+        public bool SwapSecondaryAtHalfTime
+        {
+            get
+            {
+                return _swapSecondaryAtHalfTime;
+            }
+            set
+            {
+                if (_swapSecondaryAtHalfTime != value)
+                {
+                    _swapSecondaryAtHalfTime = value;
+                    NotifyPropertyChanged("SwapSecondaryAtHalfTime");
+                    UpdateSecondarySwapped();
+                }
+            }
+        }
+
+        private bool _isAtHalfTime = false;
+        public bool IsAtHalfTime
+        {
+            get
+            {
+                return _isAtHalfTime;
+            }
+            set
+            {
+                if (_isAtHalfTime != value)
+                {
+                    _isAtHalfTime = value;
+                    NotifyPropertyChanged("IsAtHalfTime");
+                    UpdateSecondarySwapped();
+                }
+            }
+        }
+
+        private bool _secondarySwapped = false;
+        public bool SecondarySwapped
+        {
+            get
+            {
+                return _secondarySwapped;
+            }
+        }
+
+        private SwappedGame _secondaryCurrentGame = null;
+        public SwappedGame SecondaryCurrentGame
+        {
+            get
+            {
+                return _secondaryCurrentGame;
+            }
+        }
+
+        private SwappedGame _secondaryCurrentOrEndedGame = null;
+        public SwappedGame SecondaryCurrentOrEndedGame
+        {
+            get
+            {
+                return _secondaryCurrentOrEndedGame;
+            }
+        }
+
+        private void UpdateSecondarySwapped()
+        {
+            bool shouldSwap = _swapSecondaryAtHalfTime && _isAtHalfTime;
+            if (_secondarySwapped != shouldSwap)
+            {
+                _secondarySwapped = shouldSwap;
+                NotifyPropertyChanged("SecondarySwapped");
+                _secondaryCurrentGame = _currentGame != null ? new SwappedGame(_currentGame, _secondarySwapped) : null;
+                _secondaryCurrentOrEndedGame = _currentOrEndedGame != null ? new SwappedGame(_currentOrEndedGame, _secondarySwapped) : null;
+                NotifyPropertyChanged("SecondaryCurrentGame");
+                NotifyPropertyChanged("SecondaryCurrentOrEndedGame");
+            }
+            else if (_currentGame != null)
+            {
+                if (_secondaryCurrentGame == null || _secondaryCurrentGame.Game != _currentGame || _secondaryCurrentGame.Swapped != _secondarySwapped)
+                {
+                    _secondaryCurrentGame = new SwappedGame(_currentGame, _secondarySwapped);
+                    NotifyPropertyChanged("SecondaryCurrentGame");
+                }
+                if (_currentOrEndedGame != null)
+                {
+                    if (_secondaryCurrentOrEndedGame == null || _secondaryCurrentOrEndedGame.Game != _currentOrEndedGame || _secondaryCurrentOrEndedGame.Swapped != _secondarySwapped)
+                    {
+                        _secondaryCurrentOrEndedGame = new SwappedGame(_currentOrEndedGame, _secondarySwapped);
+                        NotifyPropertyChanged("SecondaryCurrentOrEndedGame");
+                    }
+                }
             }
         }
 
@@ -1032,21 +1126,31 @@ namespace Scoreboard
 
             if (CurrentGame != null)
             {
+                int oldPeriodIndex = CurrentGame.Periods.CurrentIndex ?? 0;
                 CurrentGame.Periods.NextPeriod();
                 SelectedPeriod = CurrentGame.Periods.CurrentPeriod;
-                // Do not log the start of this period now, as there is an interval delay.
-            }            
-          
-            UpdateDisplay(); 
+
+                int newPeriodIndex = CurrentGame.Periods.CurrentIndex ?? 0;
+                if (oldPeriodIndex == 0 && newPeriodIndex == 1)
+                {
+                    IsAtHalfTime = true;
+                }
+                else if (oldPeriodIndex > 0)
+                {
+                    IsAtHalfTime = false;
+                }
+            }
+
+            UpdateDisplay();
         }
 
-        public void NextGame(bool delayCurrentEnd)
+public void NextGame(bool delayCurrentEnd)
         {
             DateTime now = DateTime.Now;
 
             StopShotTime();
 
-            Game currentGame = CurrentGame;            
+            Game currentGame = CurrentGame;
 
             int currentGameIndex = Games.IndexOf(CurrentGame);
             int nextGameIndex = currentGameIndex + 1;
@@ -1070,6 +1174,8 @@ namespace Scoreboard
             {
                 _gameEndDelayTime = null;
             }
+
+            IsAtHalfTime = false;
 
             SelectCurrentGame(nextGameIndex);
             if (CurrentGame != null && !CurrentGame.HasEnded)
@@ -1222,14 +1328,18 @@ namespace Scoreboard
 
         public async void SendGame(Boolean sendAll)
         {
+            SwappedGame swappedGameToSend = SecondaryCurrentOrEndedGame;
+
             if (Server != null)
-            {                
-                Server.SendGameAsync(CurrentOrEndedGame);
+            {
+                object gameToSend = (object)swappedGameToSend ?? (object)CurrentOrEndedGame;
+                Server.SendGameAsync(gameToSend);
             }
 
             if (_protoSlave != null)
             {
-                _protoSlave.SendGameAsync(CurrentOrEndedGame, sendAll);
+                object gameToSend = (object)swappedGameToSend ?? (object)CurrentOrEndedGame;
+                _protoSlave.SendGameAsync(gameToSend, sendAll);
             }
         }
 

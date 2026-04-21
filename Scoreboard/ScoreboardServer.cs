@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -94,7 +94,8 @@ namespace Scoreboard
             }
             else
             {
-                return _score.CurrentOrEndedGame.ToJson();
+                var swapped = _score.SecondaryCurrentOrEndedGame;
+                return swapped?.ToJson() ?? _score.CurrentOrEndedGame.ToJson();
             }
         }
         public string GameInfoMethod(HttpListenerRequest request)
@@ -105,7 +106,9 @@ namespace Scoreboard
             }
             else
             {
-                return "[" + _score.CurrentOrEndedGame.ToJson() + "]";
+                var swapped = _score.SecondaryCurrentOrEndedGame;
+                var json = swapped?.ToJson() ?? _score.CurrentOrEndedGame.ToJson();
+                return "[" + json + "]";
             }
         }
 
@@ -299,17 +302,33 @@ namespace Scoreboard
             _webServer.SendWebSocketMessage(message);
         }
 
-        public void SendGame(Game game)
+        public void SendGame(object game)
         {
             if (game != null)
             {
-                
-                string gameJson = game.ToJson();
-                SendWebSocketMessage(gameJson);                
-            }            
+                string gameJson;
+
+                if (game is SwappedGame swapped)
+                {
+                    gameJson = swapped.ToJson();
+                }
+                else if (game is Game g)
+                {
+                    gameJson = g.ToJson();
+                }
+                else
+                {
+                    return;
+                }
+
+                if (!string.IsNullOrEmpty(gameJson))
+                {
+                    SendWebSocketMessage(gameJson);
+                }
+            }
         }
 
-        public void SendGameAsync(Game game)
+        public void SendGameAsync(object game)
         {
             ThreadPool.QueueUserWorkItem(delegate
             {

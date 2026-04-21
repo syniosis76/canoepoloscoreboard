@@ -268,12 +268,131 @@ namespace Scoreboard
           }
         }
 
-        public void SendGameAsync(Game game, Boolean sendAll)
+        public void SendGameAsync(object game, Boolean sendAll)
         {
           ThreadPool.QueueUserWorkItem(delegate
           {
-              SendGame(game, sendAll);
+              if (game is SwappedGame swapped)
+              {
+                  SendGame(swapped, sendAll);
+              }
+              else if (game is Game g)
+              {
+                  SendGame(g, sendAll);
+              }
           }, null);
+        }
+
+        public void SendGame(SwappedGame game, Boolean sendAll)
+        {
+            if (game == null || game.Game == null)
+            {
+                SendEmptyGame(sendAll);
+                return;
+            }
+
+            CheckAndConnectWebSocket();
+
+            int minutes = 0;
+            int seconds = 0;
+            int shotSeconds = 0;
+            string timeColour = "#ffffff";
+            string shotColour = "#ff8888";
+            string team1Score = "-";
+            string team2Score = "-";
+            string scoreColour = "#88ff88";
+            string team1Name = "";
+            string team2Name = "";
+            int periodIndex = 0;
+            string periodNameVisible = "false";
+
+            Game g = game.Game;
+
+            if (g.Periods.CurrentPeriod != null)
+            {
+                minutes = g.Periods.CurrentPeriod.TimeRemaining.Minutes;
+                seconds = g.Periods.CurrentPeriod.TimeRemaining.Seconds;
+
+                periodIndex = g.Periods.IndexOf(g.Periods.CurrentPeriod) + 1;
+                periodNameVisible = "true";
+
+                if (g.Periods.CurrentPeriod.Status != GamePeriodStatus.Active)
+                {
+                    timeColour = "#ff8888";
+                }
+            }
+
+            if (g.Parent != null && g.Parent.Parent != null)
+            {
+                shotSeconds = g.Parent.Parent.ShotTime;
+            }
+
+            team1Score = $"{game.Team1Score}";
+            team2Score = $"{game.Team2Score}";
+
+            if (game.Team1 != null && game.Team1.Length > 0)
+            {
+                team1Name = game.Team1[0..Math.Min(game.Team1.Length, 10)];
+            }
+            if (game.Team2 != null && game.Team2.Length > 0)
+            {
+                team2Name = game.Team2[0..Math.Min(game.Team2.Length, 10)];
+            }
+
+            SendUpdate($"SLAVE,sendText,Seconds,", $"{seconds:D2}", $",CS");
+            if (_siren == 1)
+            {
+                _siren = 2;
+                SendCommand("SLAVE,Siren,true,true,CS");
+            }
+            else if (_siren == 2)
+            {
+                _siren = 0;
+                SendCommand("SLAVE,Siren,false,false,CS");
+            }
+            SendUpdate($"SLAVE,sendText,intShotclock,", $"{shotSeconds:D2}", $",CS");
+            SendUpdate($"SLAVE,sendText,Shotclock,", $"{shotSeconds:D2}", $",CS");
+            SendUpdate($"SLAVE,sendText,Minutes,", $"{minutes:D2}", $",CS");
+
+            if (sendAll)
+            {
+                SendUpdate($"SLAVE,configText,intShotclock,", $"{shotColour}", $",CS");
+                SendUpdate($"SLAVE,configText,Shotclock,", $"{shotColour}", $",CS");
+
+                SendUpdate($"SLAVE,configText,Minutes,", $"{timeColour}", $",CS");
+                SendUpdate($"SLAVE,configText,ColonS,", $"{timeColour}", $",CS");
+                SendUpdate($"SLAVE,configText,Seconds,", $"{timeColour}", $",CS");
+
+                SendUpdate($"SLAVE,sendText,ScoreA,", $"{team1Score}", $",CS");
+                SendUpdate($"SLAVE,sendText,ScoreB,", $"{team2Score}", $",CS");
+                SendUpdate($"SLAVE,configText,ScoreA,", $"{scoreColour}", $",CS");
+                SendUpdate($"SLAVE,configText,ScoreB,", $"{scoreColour}", $",CS");
+
+                SendUpdate($"SLAVE,sendText,NameTeamA,", $"{team1Name}", $",CS");
+                SendUpdate($"SLAVE,sendText,NameTeamB,", $"{team2Name}", $",CS");
+
+                SendUpdate($"SLAVE,setText,PeriodName", $",{periodNameVisible}", $",CS");
+                SendUpdate($"SLAVE,sendText,PeriodName", $",P{periodIndex}", $",CS");
+
+                SendHttpCommand("/Scripts/setBrightness.php?Brightness=99");
+            }
+        }
+
+        private void SendEmptyGame(Boolean sendAll)
+        {
+            SendUpdate($"SLAVE,sendText,Seconds,", "00", $",CS");
+            SendUpdate($"SLAVE,sendText,intShotclock,", "00", $",CS");
+            SendUpdate($"SLAVE,sendText,Shotclock,", "00", $",CS");
+            SendUpdate($"SLAVE,sendText,Minutes,", "00", $",CS");
+
+            if (sendAll)
+            {
+                SendUpdate($"SLAVE,sendText,ScoreA,", "-", $",CS");
+                SendUpdate($"SLAVE,sendText,ScoreB,", "-", $",CS");
+                SendUpdate($"SLAVE,sendText,NameTeamA,", "", $",CS");
+                SendUpdate($"SLAVE,sendText,NameTeamB,", "", $",CS");
+                SendUpdate($"SLAVE,setText,PeriodName", ",false", $",CS");
+            }
         }
 
         public void PlaySiren()
