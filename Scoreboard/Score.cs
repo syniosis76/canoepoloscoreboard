@@ -146,6 +146,11 @@ namespace Scoreboard
                 if (_swapSecondaryAtHalfTime != value)
                 {
                     _swapSecondaryAtHalfTime = value;
+                    if (SwapSecondaryAtHalfTime != Properties.Settings.Default.SwapSecondaryAtHalfTime)
+                    {
+                        Properties.Settings.Default.SwapSecondaryAtHalfTime = SwapSecondaryAtHalfTime;
+                        Properties.Settings.Default.Save();
+                    }
                     NotifyPropertyChanged("SwapSecondaryAtHalfTime");
                     UpdateSecondarySwapped();
                 }
@@ -644,6 +649,7 @@ namespace Scoreboard
             StartPaused = Properties.Settings.Default.StartPaused;
             ServerOptions.Port = Properties.Settings.Default.ServerPort;
             ServerOptions.Active = Properties.Settings.Default.ServerActive;
+            SwapSecondaryAtHalfTime = Properties.Settings.Default.SwapSecondaryAtHalfTime;
             StartStopServer();
             InitialiseProtoSlave();
         }
