@@ -25,7 +25,7 @@
                 <Image Source="{Binding Path=SecondaryCurrentGame.Team1FlagImage}" RenderOptions.BitmapScalingMode="HighQuality" HorizontalAlignment="Center" IsHitTestVisible="False"/>
             </Viewbox>
             <Viewbox>
-                <Label MinWidth="110" HorizontalContentAlignment="Center" FontFamily="./#DINEngschrift" Margin="0,-4,0,-8" FontSize="25" Foreground="White" Name="lTeam1Name" Content="{Binding Path=SecondaryCurrentOrEndedGame.Team1, FallbackValue=Team 1}"/>
+                <Label MinWidth="110" HorizontalContentAlignment="Center" FontFamily="./#DINEngschrift" Margin="0,-4,0,-8" FontSize="25" Foreground="White" Name="lTeam1Name" Content="{Binding Path=SecondaryCurrentGame.Team1, FallbackValue=Team 1}"/>
             </Viewbox>
         </StackPanel>
         <Viewbox Grid.Row="0" Grid.Column="1">
@@ -45,14 +45,14 @@
         </Viewbox>
         <StackPanel Grid.Row="0" Grid.Column="2">
             <Viewbox Margin="4">
-                <Image Source="{Binding Path=SecondaryCurrentGame.Team2FlagImage}" RenderOptions.BitmapScalingMode="HighQuality" HorizontalAlignment="Center" IsHitTestVisible="False"/>
+                <Image Source="{Binding Path=SecondaryCurrentOrEndedGame.Team2FlagImage}" RenderOptions.BitmapScalingMode="HighQuality" HorizontalAlignment="Center" IsHitTestVisible="False"/>
             </Viewbox>
             <Viewbox>
-                <Label MinWidth="110" HorizontalContentAlignment="Center" FontFamily="./#DINEngschrift" Margin="0,-4,0,-8" FontSize="25" Foreground="White" Name="lTeam2Name" Content="{Binding Path=SecondaryCurrentOrEndedGame.Team2, FallbackValue=Team 2}" />
+                <Label MinWidth="110" HorizontalContentAlignment="Center" FontFamily="./#DINEngschrift" Margin="0,-4,0,-8" FontSize="25" Foreground="White" Name="lTeam2Name" Content="{Binding Path=SecondaryCurrentGame.Team2, FallbackValue=Team 2}" />
             </Viewbox>
         </StackPanel>
         <Viewbox Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left">
-            <Label Margin="0,-32,0,-31" FontFamily="./#DINEngschrift" FontSize="100" Foreground="White" Name="lTeam1Score" Content="{Binding Path=SecondaryCurrentOrEndedGame.Team1Score, FallbackValue=-}"/>
+            <Label Margin="0,-32,0,-31" FontFamily="./#DINEngschrift" FontSize="100" Foreground="White" Name="lTeam1Score" Content="{Binding Path=SecondaryCurrentGame.Team1Score, FallbackValue=-}"/>
         </Viewbox>
         <Viewbox Grid.Row="1" Grid.Column="1" Visibility="{Binding Path=ShowShotClockActive, Converter={StaticResource boolToVisiblityConverter}, FallbackValue=Visible}">
             <Label Margin="0,-24,0,-32" FontFamily="./#DINEngschrift" FontSize="100" Foreground="#FF9BF79B" HorizontalContentAlignment="Center" Name="lShotTime" VerticalContentAlignment="Center" Content="{Binding Path=ShotTime, StringFormat={}{0:00}, FallbackValue=--}"/>
@@ -61,7 +61,7 @@
             <Label Margin="0,-32,0,-31" FontFamily="./#DINEngschrift" FontSize="100" Foreground="White" Name="lTeam2Score" Content="{Binding Path=SecondaryCurrentOrEndedGame.Team2Score, FallbackValue=-}"/>
         </Viewbox>
         <Viewbox Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left">
-            <ListView Margin="-4,-11,0,-18" ItemsSource="{Binding Path=Team1Cards}" Background="Transparent" Focusable="False" ItemTemplateSelector="{StaticResource cardTemplateSelector}"  ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+            <ListView Margin="-4,-11,0,-18" ItemsSource="{Binding Path=SecondaryCurrentGame.Team1Cards}" Background="Transparent" Focusable="False" ItemTemplateSelector="{StaticResource cardTemplateSelector}"  ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden">
                 <ListView.BorderBrush>
                     <SolidColorBrush />
                 </ListView.BorderBrush>
@@ -85,7 +85,7 @@
             </Viewbox>
         </Grid>
         <Viewbox Grid.Row="2" Grid.Column="2" HorizontalAlignment="Right">
-            <ListView Margin="0,-11,-4,-18" ItemsSource="{Binding Path=Team2Cards}" Background="Transparent" Focusable="False" FlowDirection="RightToLeft" ItemTemplateSelector="{StaticResource cardTemplateSelector}" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+            <ListView Margin="0,-11,-4,-18" ItemsSource="{Binding Path=SecondaryCurrentOrEndedGame.Team2Cards}" Background="Transparent" Focusable="False" FlowDirection="RightToLeft" ItemTemplateSelector="{StaticResource cardTemplateSelector}" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden">
                 <ListView.BorderBrush>
                     <SolidColorBrush />
                 </ListView.BorderBrush>

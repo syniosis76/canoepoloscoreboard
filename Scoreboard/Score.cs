@@ -209,8 +209,8 @@ namespace Scoreboard
             {
                 _secondarySwapped = shouldSwap;
                 NotifyPropertyChanged("SecondarySwapped");
-                _secondaryCurrentGame = _currentGame != null ? new SwappedGame(_currentGame, _secondarySwapped) : null;
-                _secondaryCurrentOrEndedGame = _currentOrEndedGame != null ? new SwappedGame(_currentOrEndedGame, _secondarySwapped) : null;
+_secondaryCurrentGame = _currentGame != null ? new SwappedGame(_currentGame, _secondarySwapped, this) : null;
+            _secondaryCurrentOrEndedGame = _currentOrEndedGame != null ? new SwappedGame(_currentOrEndedGame, _secondarySwapped, this) : null;
                 NotifyPropertyChanged("SecondaryCurrentGame");
                 NotifyPropertyChanged("SecondaryCurrentOrEndedGame");
             }
@@ -218,14 +218,14 @@ namespace Scoreboard
             {
                 if (_secondaryCurrentGame == null || _secondaryCurrentGame.Game != _currentGame || _secondaryCurrentGame.Swapped != _secondarySwapped)
                 {
-                    _secondaryCurrentGame = new SwappedGame(_currentGame, _secondarySwapped);
+                    _secondaryCurrentGame = new SwappedGame(_currentGame, _secondarySwapped, this);
                     NotifyPropertyChanged("SecondaryCurrentGame");
                 }
                 if (_currentOrEndedGame != null)
                 {
                     if (_secondaryCurrentOrEndedGame == null || _secondaryCurrentOrEndedGame.Game != _currentOrEndedGame || _secondaryCurrentOrEndedGame.Swapped != _secondarySwapped)
                     {
-                        _secondaryCurrentOrEndedGame = new SwappedGame(_currentOrEndedGame, _secondarySwapped);
+                        _secondaryCurrentOrEndedGame = new SwappedGame(_currentOrEndedGame, _secondarySwapped, this);
                         NotifyPropertyChanged("SecondaryCurrentOrEndedGame");
                     }
                 }

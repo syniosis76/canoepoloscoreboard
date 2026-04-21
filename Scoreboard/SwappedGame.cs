@@ -9,15 +9,42 @@ namespace Scoreboard
         private readonly bool _swapped;
         private readonly string[] _teamProperties = { "Team1", "Team2", "Team1Score", "Team2Score", "Team1Color", "Team2Color", "Team1Flag", "Team2Flag", "Result", "ResultDescription" };
 
-        public SwappedGame(Game game, bool swapped)
+        public SwappedGame(Game game, bool swapped, Score score)
         {
             _game = game;
+            _score = score;
             _swapped = swapped;
 
             if (_game != null)
             {
                 _game.PropertyChanged += OnGamePropertyChanged;
+                if (_score != null)
+                {
+                    if (_score.Team1Cards != null)
+                    {
+                        _score.Team1Cards.ListChanged += OnTeam1CardsChanged;
+                    }
+                    if (_score.Team2Cards != null)
+                    {
+                        _score.Team2Cards.ListChanged += OnTeam2CardsChanged;
+                    }
+                }
             }
+        }
+
+        // Expose per-team card collections from Score (to allow swapping cards as well)
+        private Score _score;
+        public System.ComponentModel.BindingList<Card> Team1Cards => _swapped ? _score.Team2Cards : _score.Team1Cards;
+        public System.ComponentModel.BindingList<Card> Team2Cards => _swapped ? _score.Team1Cards : _score.Team2Cards;
+
+        private void OnTeam1CardsChanged(object sender, System.ComponentModel.ListChangedEventArgs e)
+        {
+            NotifyPropertyChanged("Team1Cards");
+        }
+
+        private void OnTeam2CardsChanged(object sender, System.ComponentModel.ListChangedEventArgs e)
+        {
+            NotifyPropertyChanged("Team2Cards");
         }
 
         private void OnGamePropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -65,6 +92,8 @@ namespace Scoreboard
         public Game Game => _game;
 
         public bool Swapped => _swapped;
+
+        // Card collections exposed via Score to support swapping across UI
 
         public string Id => _game?.Id;
         public string Pool => _game?.Pool;
