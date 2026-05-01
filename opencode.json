@@ -1,0 +1,12 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "watcher": {
+    "ignore": [
+      "**/bin/**",
+      "**/obj/**",
+      "**/.vs/**",
+      "**/*.user",
+      "**/TestResults/**"
+    ]
+  }
+}
