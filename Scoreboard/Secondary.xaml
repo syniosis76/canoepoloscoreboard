@@ -40,8 +40,8 @@
                 </Style>
             </Viewbox.Style>
 <Label Margin="0,-25,0,-31" FontFamily="./#DINEngschrift" FontSize="100" HorizontalContentAlignment="Center" Name="lTime" VerticalContentAlignment="Center" BorderThickness="0"
-                         Content="{Binding Path=SecondaryCurrentGame.Periods.CurrentPeriod.TimeRemaining, Converter={StaticResource gameTimeConverter}, FallbackValue=--}"
-                         Foreground="{Binding Path=SecondaryCurrentGame.Periods.CurrentPeriod.Status, Converter={StaticResource gamePeriodStatusColorConverter}, FallbackValue=White}"/>
+                         Content="{Binding Path=CurrentGame.Periods.CurrentPeriod.TimeRemaining, Converter={StaticResource gameTimeConverter}, FallbackValue=--}"
+                         Foreground="{Binding Path=CurrentGame.Periods.CurrentPeriod.Status, Converter={StaticResource gamePeriodStatusColorConverter}, FallbackValue=White}"/>
         </Viewbox>
         <StackPanel Grid.Row="0" Grid.Column="2">
             <Viewbox Margin="4">
@@ -81,7 +81,7 @@
                 <TextBlock FontFamily="./#DINEngschrift" Margin="0,0,0,-4" FontSize="25" Foreground="White" Text="{Binding Path=CurrentTime, FallbackValue=19:30:00, StringFormat='{}{0:HH:mm:ss}'}"/>
             </Viewbox>
             <Viewbox Grid.Column="1">
-                <Label FontFamily="./#DINEngschrift" Margin="0,-4,0,-8" FontSize="25" Foreground="White" Name="lTimeDescription" Content="{Binding Path=SecondaryCurrentOrEndedGame.Periods.CurrentPeriod.Description, FallbackValue=Peroid 1}" />
+                <Label FontFamily="./#DINEngschrift" Margin="0,-4,0,-8" FontSize="25" Foreground="White" Name="lTimeDescription" Content="{Binding Path=CurrentGame.Periods.CurrentPeriod.Description, FallbackValue=Peroid 1}" />
             </Viewbox>
         </Grid>
         <Viewbox Grid.Row="2" Grid.Column="2" HorizontalAlignment="Right">
