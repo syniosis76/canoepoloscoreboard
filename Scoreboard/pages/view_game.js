@@ -13,7 +13,7 @@ export const game = {
     <div class="flexrow">
       <div class="card gamecell gamenumber" style="font-size: 70pt">{{ game.team1Score }}</div>
       <div class="flexcolumn">
-        <div class="card gamecell gamenumber">{{ game.timeRemaining }}</div>
+        <div class="card gamecell gamenumber">{{ game.mainTimeRemaining }}</div>
         <div class="card gamecell gamenumber">{{ game.shotClockDisplayTime }}</div>
       </div>
       <div class="card gamecell gamenumber" style="font-size: 70pt">{{ game.team2Score }}</div>

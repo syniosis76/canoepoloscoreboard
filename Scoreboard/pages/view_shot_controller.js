@@ -23,7 +23,7 @@ export const shotcontroller = {
                   </div>
                   <div class="absolute-parent" style="height: 70%">                                    
                       <div class="section-button" style="height: 100%;"></div>
-                      <div id="team-2-score" class="period-time" style="font-size: 15vmin">{{ game.timeRemaining }}</div>
+                      <div id="team-2-score" class="period-time" style="font-size: 15vmin">{{ game.mainTimeRemaining }}</div>
                   </div>
               </div>
               <div class="section-padded" style="padding-left: 2px; width: 33%; height: 100%;">

@@ -423,6 +423,18 @@ namespace Scoreboard
             }
         }
 
+        public TimeSpan? MainTimeRemaining
+        {
+            get
+            {
+                if (Parent != null && Parent.Parent != null)
+                {
+                    return Parent.Parent.TimeRemaining;
+                }
+                return null;
+            }
+        }
+
         private readonly GameEventList _gameEvents = new GameEventList();
         public GameEventList GameEvents
         {
@@ -576,6 +588,14 @@ namespace Scoreboard
                 result.Append(", \"period\": \"None\"");
                 result.Append(", \"periodIsActive\": false");
                 result.Append(", \"timeRemaining\": \"0:00\"");
+            }
+            if (MainTimeRemaining != null)
+            {
+                result.Append(", \"mainTimeRemaining\": \"" + GameTimeConverter.ToString(MainTimeRemaining.Value) + "\"");                
+            }
+            else
+            {
+                result.Append(", \"mainTimeRemaining\": \"0:00\"");
             }
             if (Parent != null && Parent.Parent != null)
             {

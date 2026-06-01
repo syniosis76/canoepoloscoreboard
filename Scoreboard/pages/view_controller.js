@@ -63,7 +63,7 @@ export const controller = {
                         <div id="period" style="position: absolute; width: 100%; height: 20%; top: 5%; font-size: 6vw; text-align: center; pointer-events: none;">{{ game.period }}</div>
                         <div class="icon-pause" style="position: absolute; right: 0; bottom: 0;"></div>                    
                     </div>                                                                            
-                    <div id="period-time" class="period-time">{{ game.timeRemaining }}</div>
+                    <div id="period-time" class="period-time">{{ game.mainTimeRemaining }}</div>
                 </div>
             </div>             
         </div>

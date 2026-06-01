@@ -1150,7 +1150,7 @@ _secondaryCurrentGame = _currentGame != null ? new SwappedGame(_currentGame, _se
             UpdateDisplay();
         }
 
-public void NextGame(bool delayCurrentEnd)
+        public void NextGame(bool delayCurrentEnd)
         {
             DateTime now = DateTime.Now;
 
@@ -1213,13 +1213,25 @@ public void NextGame(bool delayCurrentEnd)
             CurrentGameIndex = gameIndex;
         }
 
+        public TimeSpan? TimeRemaining
+        {
+            get
+            {
+                    if (CurrentGame != null && CurrentGame.Periods.CurrentPeriod != null)
+                {                    
+                    return CurrentGame.Periods.CurrentPeriod.TimeRemaining;
+                }
+                return null;
+            }
+        }
+
         public double SecondsRemaining
         {
             get
             {
-                if (CurrentGame != null && CurrentGame.Periods.CurrentPeriod != null)
+                if (TimeRemaining != null)
                 {                    
-                    return CurrentGame.Periods.CurrentPeriod.TimeRemaining.TotalSeconds;
+                    return TimeRemaining.Value.TotalSeconds;
                 }
                 return 0;
             }

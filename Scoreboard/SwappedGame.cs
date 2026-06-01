@@ -225,6 +225,14 @@ namespace Scoreboard
                 sb.Append(", \"periodIsActive\": false");
                 sb.Append(", \"timeRemaining\": \"0:00\"");
             }
+            if (_game.MainTimeRemaining != null)
+            {
+                sb.Append(", \"mainTimeRemaining\": \"" + GameTimeConverter.ToString(_game.MainTimeRemaining.Value) + "\"");                
+            }
+            else
+            {
+                sb.Append(", \"mainTimeRemaining\": \"0:00\"");
+            }
             if (_game.Parent != null && _game.Parent.Parent != null)
             {
                 sb.Append(", \"shotClockTime\": \"" + _game.Parent.Parent.ShotTime.ToString() + "\"");
