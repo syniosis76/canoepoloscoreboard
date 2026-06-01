@@ -438,14 +438,7 @@ _secondaryCurrentGame = _currentGame != null ? new SwappedGame(_currentGame, _se
 
         protected void ShowOrHideShotClock()
         {
-            if (SecondsRemaining < _shotTime || CurrentGame != null && CurrentGame.Periods.CurrentPeriod != null && CurrentGame.Periods.CurrentPeriod.Status != GamePeriodStatus.Active)
-            {
-                ShowShotClockActive = false;
-            }
-            else
-            {
-                ShowShotClockActive = ShowShotClock;
-            }
+            ShowShotClockActive = ShowShotClock;            
         }
         
         private Visibility _shotTimeVisible = Visibility.Collapsed;
