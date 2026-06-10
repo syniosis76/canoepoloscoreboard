@@ -1427,6 +1427,7 @@ _secondaryCurrentGame = _currentGame != null ? new SwappedGame(_currentGame, _se
             game.CalculateScoreFromEvents();
             SaveGames();
             Tourney.ApplyGame(game);
+            SendGame(false);
         }
 
         private void RemoveGameEvent(Game game, string team, string eventType)
@@ -1455,6 +1456,7 @@ _secondaryCurrentGame = _currentGame != null ? new SwappedGame(_currentGame, _se
             if (game != null)
             {
                 game.Team1Score++;
+                SendGame(true);
                 game.LogEvent("Goal", game.Team1, player, game.Team1Score.ToString() + " to " + game.Team2Score.ToString());                
                 SaveGames();
             }
@@ -1670,6 +1672,7 @@ _secondaryCurrentGame = _currentGame != null ? new SwappedGame(_currentGame, _se
             if (game != null)
             {
                 game.Team2Score++;
+                SendGame(true);             
                 game.LogEvent("Goal", game.Team2, player, game.Team1Score.ToString() + " to " + game.Team2Score.ToString());
                 SaveGames();
             }

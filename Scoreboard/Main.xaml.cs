@@ -728,6 +728,7 @@ namespace Scoreboard
                 {
                     EditGoal(gameEvent);
                 }
+                Score.SendGame(true);
             }
         }
 
