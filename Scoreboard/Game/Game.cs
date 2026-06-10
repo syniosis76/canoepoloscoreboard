@@ -7,7 +7,7 @@ using System.Windows;
 
 namespace Scoreboard
 {    
-    public class Game : INotifyPropertyChanged
+    public class Game : INotifyPropertyChanged, IGameDisplay
     {
         #region INotifyPropertyChanged
 

@@ -1339,17 +1339,15 @@ _secondaryCurrentGame = _currentGame != null ? new SwappedGame(_currentGame, _se
 
         public async void SendGame(Boolean sendAll)
         {
-            SwappedGame swappedGameToSend = SecondaryCurrentOrEndedGame;
+            IGameDisplay gameToSend = SecondaryCurrentOrEndedGame ?? (IGameDisplay)CurrentOrEndedGame;
 
             if (Server != null)
             {
-                object gameToSend = (object)swappedGameToSend ?? (object)CurrentOrEndedGame;
                 Server.SendGameAsync(gameToSend);
             }
 
             if (_protoSlave != null)
-            {                
-                object gameToSend = (object)swappedGameToSend ?? (object)CurrentOrEndedGame;
+            {
                 _protoSlave.SendGameAsync(gameToSend, sendAll);
             }
         }

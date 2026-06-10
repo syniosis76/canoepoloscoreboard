@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace Scoreboard
 {
-    public class SwappedGame : INotifyPropertyChanged
+    public class SwappedGame : INotifyPropertyChanged, IGameDisplay
     {
         private readonly Game _game;
         private readonly bool _swapped;
@@ -174,6 +174,8 @@ namespace Scoreboard
         }
 
         public GamePeriodList Periods => _game?.Periods;
+
+        public GameList Parent => _game?.Parent;
 
         public bool HasStarted => _game?.HasStarted ?? false;
         public bool HasEnded => _game?.HasEnded ?? false;

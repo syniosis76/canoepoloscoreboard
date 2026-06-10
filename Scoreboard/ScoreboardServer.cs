@@ -302,24 +302,11 @@ namespace Scoreboard
             _webServer.SendWebSocketMessage(message);
         }
 
-        public void SendGame(object game)
+        public void SendGame(IGameDisplay game)
         {
             if (game != null)
             {
-                string gameJson;
-
-                if (game is SwappedGame swapped)
-                {
-                    gameJson = swapped.ToJson();
-                }
-                else if (game is Game g)
-                {
-                    gameJson = g.ToJson();
-                }
-                else
-                {
-                    return;
-                }
+                string gameJson = game.ToJson();
 
                 if (!string.IsNullOrEmpty(gameJson))
                 {
@@ -328,11 +315,12 @@ namespace Scoreboard
             }
         }
 
-        public void SendGameAsync(object game)
+        public void SendGameAsync(IGameDisplay game)
         {
+            IGameDisplay capturedGame = game;
             ThreadPool.QueueUserWorkItem(delegate
             {
-                SendGame(game);
+                SendGame(capturedGame);
             }, null);
         }
     }
