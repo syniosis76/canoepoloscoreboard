@@ -728,7 +728,7 @@ namespace Scoreboard
                 {
                     EditGoal(gameEvent);
                 }
-                Score.SendGame(true);
+                Score.SendGame(false);
             }
         }
 
@@ -840,7 +840,7 @@ namespace Scoreboard
                     game.LogEvent("Goal", team, player, String.Empty);                    
                     game.FilterGameEvents();
                     game.CalculateScoreFromEvents();
-                    Score.SendGame(true);
+                    Score.SendGame(false);
                     Score.SaveGames();
                     ScrollEventsToEnd();
                 }

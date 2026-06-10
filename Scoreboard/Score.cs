@@ -1348,7 +1348,7 @@ _secondaryCurrentGame = _currentGame != null ? new SwappedGame(_currentGame, _se
             }
 
             if (_protoSlave != null)
-            {
+            {                
                 object gameToSend = (object)swappedGameToSend ?? (object)CurrentOrEndedGame;
                 _protoSlave.SendGameAsync(gameToSend, sendAll);
             }
@@ -1456,7 +1456,7 @@ _secondaryCurrentGame = _currentGame != null ? new SwappedGame(_currentGame, _se
             if (game != null)
             {
                 game.Team1Score++;
-                SendGame(true);
+                SendGame(false);
                 game.LogEvent("Goal", game.Team1, player, game.Team1Score.ToString() + " to " + game.Team2Score.ToString());                
                 SaveGames();
             }
@@ -1672,7 +1672,7 @@ _secondaryCurrentGame = _currentGame != null ? new SwappedGame(_currentGame, _se
             if (game != null)
             {
                 game.Team2Score++;
-                SendGame(true);             
+                SendGame(false);             
                 game.LogEvent("Goal", game.Team2, player, game.Team1Score.ToString() + " to " + game.Team2Score.ToString());
                 SaveGames();
             }
