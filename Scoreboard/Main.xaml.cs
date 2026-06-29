@@ -896,9 +896,14 @@ namespace Scoreboard
             }
         }
 
+        private void RefreshProtoSlaveClick(object sender, RoutedEventArgs e)
+        {
+            Score.RefreshProtoSlave();
+        }
+
         private void RestartProtoSlaveClick(object sender, RoutedEventArgs e)
         {
             Score.RestartProtoSlave();
-        }        
+        }
     }
 }

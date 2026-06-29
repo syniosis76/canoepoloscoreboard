@@ -228,13 +228,16 @@ namespace Scoreboard
           if (game.Periods.CurrentPeriod != null)
           {
               IGameDisplay timeGame = game;
-              if (game.Parent != null && game.Parent.Parent != null)
+              if (game.Parent != null && game.Parent.Parent != null && game.Parent.Parent.CurrentGame != null)
               {
                 timeGame = game.Parent.Parent.CurrentGame;
               }
-              TimeSpan timeRemaining = timeGame.Periods.CurrentPeriod.TimeRemaining;
-              minutes = timeRemaining.Minutes;
-              seconds = timeRemaining.Seconds;
+              TimeSpan? timeRemaining = timeGame?.Periods?.CurrentPeriod?.TimeRemaining;
+              if (timeRemaining.HasValue)
+              {
+                minutes = timeRemaining.Value.Minutes;
+                seconds = timeRemaining.Value.Milliseconds > 500 ? timeRemaining.Value.Seconds + 1 : timeRemaining.Value.Seconds; // Round up seconds for display.
+              }
 
               periodIndex = game.Periods.IndexOf(game.Periods.CurrentPeriod) + 1;
               periodNameVisible = "true";

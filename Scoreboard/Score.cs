@@ -12,6 +12,7 @@ using System.Drawing;
 using System.Xml.Serialization;
 using Utilities;
 using System.Windows.Input;
+using System.Windows.Media.Animation;
 
 namespace Scoreboard
 {
@@ -116,21 +117,32 @@ namespace Scoreboard
                 {
                     _currentOrEndedGame = value;
                     SelectedGame = CurrentOrEndedGame;
-                    NotifyPropertyChanged("CurrentOrEndedGame");                    
+                    NotifyPropertyChanged("CurrentOrEndedGame");
                     SendGame(true);
                 }
             }
-        }
-
-        private DateTime? _gameEndDelayTime = null;
-
+        }        
         protected void SetupCurrentOrEndedGame()
         {
-            if (_gameEndDelayTime == null || DateTime.Now >= _gameEndDelayTime.Value)
+            if (_currentGame != null && _currentOrEndedGame != null && _currentOrEndedGame != _currentGame)
             {
-                _gameEndDelayTime = null;
-                CurrentOrEndedGame = CurrentGame;
-                UpdateSecondarySwapped();
+                bool updateCurrentOrEndedGame = false;                
+
+                if (_currentOrEndedGame.EndTime != null && (DateTime.Now - _currentOrEndedGame.EndTime.Value).TotalSeconds > 60) 
+                {
+                    updateCurrentOrEndedGame = true;
+                }
+
+                if (!updateCurrentOrEndedGame && _currentGame.StartTime != null && (_currentGame.EndTime.Value - DateTime.Now).TotalSeconds < 30)
+                {
+                    updateCurrentOrEndedGame = true;
+                }
+
+                if (updateCurrentOrEndedGame)
+                {                    
+                    CurrentOrEndedGame = CurrentGame;
+                    UpdateSecondarySwapped();
+                }
             }
         }
 
@@ -209,8 +221,8 @@ namespace Scoreboard
             {
                 _secondarySwapped = shouldSwap;
                 NotifyPropertyChanged("SecondarySwapped");
-_secondaryCurrentGame = _currentGame != null ? new SwappedGame(_currentGame, _secondarySwapped, this) : null;
-            _secondaryCurrentOrEndedGame = _currentOrEndedGame != null ? new SwappedGame(_currentOrEndedGame, _secondarySwapped, this) : null;
+                _secondaryCurrentGame = _currentGame != null ? new SwappedGame(_currentGame, _secondarySwapped, this) : null;
+                _secondaryCurrentOrEndedGame = _currentOrEndedGame != null ? new SwappedGame(_currentOrEndedGame, _secondarySwapped, this) : null;
                 NotifyPropertyChanged("SecondaryCurrentGame");
                 NotifyPropertyChanged("SecondaryCurrentOrEndedGame");
             }
@@ -430,7 +442,13 @@ _secondaryCurrentGame = _currentGame != null ? new SwappedGame(_currentGame, _se
             {
                 if (SecondsRemaining < _shotTime)
                 {
-                    return (int)(SecondsRemaining + 0.5);
+                    double seconds = (int)SecondsRemaining;
+                    if (SecondsRemaining - seconds > 0.5)
+                    {   
+                        seconds++; // Round up seconds for display.
+                    }
+                    
+                    return (int)seconds;
                 }                
                 return _shotTime;                
             }
@@ -673,6 +691,18 @@ _secondaryCurrentGame = _currentGame != null ? new SwappedGame(_currentGame, _se
             }
         }
 
+        public void RefreshProtoSlave()
+        {
+            if (_protoSlave != null)
+            {
+                _protoSlave.ResetUpdates();              
+            }
+            else
+            {
+                InitialiseProtoSlave();
+            }
+        }
+
         public void RestartProtoSlave()
         {
             DisposeProtoSlave();
@@ -780,6 +810,7 @@ _secondaryCurrentGame = _currentGame != null ? new SwappedGame(_currentGame, _se
                 }
                 CurrentOrEndedGame = CurrentGame;
             }
+            RefreshProtoSlave();
         }
         
         public void RestartGames()
@@ -1152,27 +1183,7 @@ _secondaryCurrentGame = _currentGame != null ? new SwappedGame(_currentGame, _se
             Game currentGame = CurrentGame;
 
             int currentGameIndex = Games.IndexOf(CurrentGame);
-            int nextGameIndex = currentGameIndex + 1;
-            Game nextGame = nextGameIndex < Games.Count ? Games[nextGameIndex] : null;
-
-            if (delayCurrentEnd)
-            {
-                TimeSpan nextGameDelay = new TimeSpan(0, 0, 30);
-
-                if (nextGame != null && nextGame.StartTime != null)
-                {
-                    TimeSpan nextGameStartDuration = nextGame.StartTime.Value - now;
-                    if (nextGameStartDuration.TotalSeconds < 60)
-                    {
-                        nextGameDelay = new TimeSpan(0, 0, (int)Math.Round(nextGameStartDuration.TotalSeconds / 3));
-                    }
-                }
-                _gameEndDelayTime = now + nextGameDelay;
-            }
-            else
-            {
-                _gameEndDelayTime = null;
-            }
+            int nextGameIndex = currentGameIndex + 1;            
 
             IsAtHalfTime = false;
 

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
+using System.Linq;
 
 namespace Utilities
 {
@@ -282,15 +283,22 @@ namespace Utilities
         {
             List<WebSocket> inactiveWebSockets = new List<WebSocket>();
 
-            foreach (WebSocket webSocket in _webSockets)
+            foreach (WebSocket webSocket in _webSockets.ToList())
             {
-                if (webSocket.State == WebSocketState.Open)
+                try
                 {
-                    webSocket.SendAsync(new ArraySegment<byte>(Encoding.UTF8.GetBytes(message)), WebSocketMessageType.Text, true, CancellationToken.None);  
+                    if (webSocket.State == WebSocketState.Open)
+                    {
+                        webSocket.SendAsync(new ArraySegment<byte>(Encoding.UTF8.GetBytes(message)), WebSocketMessageType.Text, true, CancellationToken.None);  
+                    }
+                    else
+                    {
+                        inactiveWebSockets.Add(webSocket);
+                    }
                 }
-                else
+                catch (ObjectDisposedException)
                 {
-                    inactiveWebSockets.Add(webSocket);
+                    // Alread removed and disposed.
                 }
             }
 
