@@ -118,6 +118,7 @@ namespace Scoreboard
                     _currentOrEndedGame = value;
                     SelectedGame = CurrentOrEndedGame;
                     NotifyPropertyChanged("CurrentOrEndedGame");
+                    UpdateSecondaryOrEndedSwapped();
                     SendGame(true);
                 }
             }
@@ -133,15 +134,14 @@ namespace Scoreboard
                     updateCurrentOrEndedGame = true;
                 }
 
-                if (!updateCurrentOrEndedGame && _currentGame.StartTime != null && (_currentGame.EndTime.Value - DateTime.Now).TotalSeconds < 30)
+                if (!updateCurrentOrEndedGame && _currentGame.StartTime != null && (_currentGame.StartTime.Value - DateTime.Now).TotalSeconds < 30)
                 {
                     updateCurrentOrEndedGame = true;
                 }
 
                 if (updateCurrentOrEndedGame)
-                {                    
+                {
                     CurrentOrEndedGame = CurrentGame;
-                    UpdateSecondarySwapped();
                 }
             }
         }
@@ -214,33 +214,43 @@ namespace Scoreboard
             }
         }
 
+        private bool SwapForGame(Game game)
+        {
+            if (!_swapSecondaryAtHalfTime || game == null) return false;
+            int? periodIndex = game.Periods.CurrentIndex;
+            if (periodIndex == null && game.HasEnded)
+            {
+                periodIndex = game.Periods.Count - 1;
+            }
+            return periodIndex != null && periodIndex.Value % 2 == 1;
+        }
+
         private void UpdateSecondarySwapped()
         {
-            bool shouldSwap = _swapSecondaryAtHalfTime && _isAtHalfTime;
+            bool shouldSwap = SwapForGame(_currentGame);
+
             if (_secondarySwapped != shouldSwap)
             {
                 _secondarySwapped = shouldSwap;
                 NotifyPropertyChanged("SecondarySwapped");
-                _secondaryCurrentGame = _currentGame != null ? new SwappedGame(_currentGame, _secondarySwapped, this) : null;
-                _secondaryCurrentOrEndedGame = _currentOrEndedGame != null ? new SwappedGame(_currentOrEndedGame, _secondarySwapped, this) : null;
-                NotifyPropertyChanged("SecondaryCurrentGame");
-                NotifyPropertyChanged("SecondaryCurrentOrEndedGame");
             }
-            else if (_currentGame != null)
+
+            if (_secondaryCurrentGame == null || _secondaryCurrentGame.Game != _currentGame || _secondaryCurrentGame.Swapped != _secondarySwapped)
             {
-                if (_secondaryCurrentGame == null || _secondaryCurrentGame.Game != _currentGame || _secondaryCurrentGame.Swapped != _secondarySwapped)
-                {
-                    _secondaryCurrentGame = new SwappedGame(_currentGame, _secondarySwapped, this);
-                    NotifyPropertyChanged("SecondaryCurrentGame");
-                }
-                if (_currentOrEndedGame != null)
-                {
-                    if (_secondaryCurrentOrEndedGame == null || _secondaryCurrentOrEndedGame.Game != _currentOrEndedGame || _secondaryCurrentOrEndedGame.Swapped != _secondarySwapped)
-                    {
-                        _secondaryCurrentOrEndedGame = new SwappedGame(_currentOrEndedGame, _secondarySwapped, this);
-                        NotifyPropertyChanged("SecondaryCurrentOrEndedGame");
-                    }
-                }
+                _secondaryCurrentGame = _currentGame != null ? new SwappedGame(_currentGame, _secondarySwapped, this) : null;
+                NotifyPropertyChanged("SecondaryCurrentGame");
+            }
+
+            UpdateSecondaryOrEndedSwapped();
+        }
+
+        private void UpdateSecondaryOrEndedSwapped()
+        {
+            bool orEndedShouldSwap = SwapForGame(_currentOrEndedGame);
+            if (_secondaryCurrentOrEndedGame == null || _secondaryCurrentOrEndedGame.Game != _currentOrEndedGame || _secondaryCurrentOrEndedGame.Swapped != orEndedShouldSwap)
+            {
+                _secondaryCurrentOrEndedGame = _currentOrEndedGame != null ? new SwappedGame(_currentOrEndedGame, orEndedShouldSwap, this) : null;
+                NotifyPropertyChanged("SecondaryCurrentOrEndedGame");
             }
         }
 
@@ -1145,8 +1155,8 @@ namespace Scoreboard
                 CurrentGame.Periods.SetFirstPeriod();
             }
             
-            Paused = false;        
-         
+            Paused = false;
+            UpdateSecondarySwapped();
             UpdateDisplay();            
         }
 
@@ -1161,14 +1171,7 @@ namespace Scoreboard
                 SelectedPeriod = CurrentGame.Periods.CurrentPeriod;
 
                 int newPeriodIndex = CurrentGame.Periods.CurrentIndex ?? 0;
-                if (oldPeriodIndex == 0 && newPeriodIndex == 1)
-                {
-                    IsAtHalfTime = true;
-                }
-                else if (oldPeriodIndex > 0)
-                {
-                    IsAtHalfTime = false;
-                }
+                IsAtHalfTime = newPeriodIndex % 2 == 1;
             }
 
             UpdateDisplay();
