@@ -263,26 +263,27 @@ namespace Scoreboard
         public string CachedFileContent(string url)
         {
             string content;
+            string urlBase = url.Split('?')[0];
 
-            if (_contentCache.ContainsKey(url))
+            if (_contentCache.ContainsKey(urlBase))
             {
-                content = _contentCache[url]; // Read Content from Cache
+                content = _contentCache[urlBase];
             }
             else
             {
-                string fileName = url;
+                string fileName = urlBase;
                 if (!fileName.Contains('.'))
                 {
                     fileName += ".html";
                 }
-                        
+                         
                 if (fileName.EndsWith("/"))
                 {
                     fileName = fileName[..^1];
                 }
 
                 Console.WriteLine($"Reading File: {fileName}");  
-                if (WebServer.IsBinaryFile(url))
+                if (WebServer.IsBinaryFile(urlBase))
                 {
                     byte[] bytes = File.ReadAllBytes("pages\\" + fileName);
                     content = Convert.ToBase64String(bytes);
@@ -291,7 +292,7 @@ namespace Scoreboard
                 {
                     content = File.ReadAllText("pages\\" + fileName);
                 }
-                _contentCache.Add(url, content);
+                _contentCache.Add(urlBase, content);
             }
 
             return content;

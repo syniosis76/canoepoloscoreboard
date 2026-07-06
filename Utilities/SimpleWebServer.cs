@@ -23,7 +23,7 @@ namespace Utilities
         {
             { ".html", "text/html" }
             , { ".css", "text/css" }
-            , { ".js", "text/javascript" }
+            , { ".js", "application/javascript" }
             , { ".svg", "image/svg+xml" }
             , { ".woff2", "font/woff2" }
         };
@@ -140,7 +140,7 @@ namespace Utilities
                                     }                                
 
                                     listenerContext.Response.AppendHeader("Access-Control-Allow-Origin", "*");
-                                    listenerContext.Response.AppendHeader("Content-Type", GetContentType(listenerContext.Request.Url.ToString()));
+                                    listenerContext.Response.AppendHeader("Content-Type", GetContentType(path));
 
                                     byte[] buf;                                
                                     
@@ -224,7 +224,7 @@ namespace Utilities
 
         public static bool IsBinaryFile(string url)
         {
-            if (url.EndsWith(".woff2"))
+            if (url.Split('?')[0].EndsWith(".woff2"))
             {
                 return true;
             }
@@ -243,14 +243,21 @@ namespace Utilities
 
         public static string GetContentType(string url)
         {
-            string extension = GetFileExtensionFromUrl(url);
-            if (_contentType.ContainsKey(extension))
+            if (string.IsNullOrEmpty(url))
             {
-                return _contentType[extension];
+                return _contentType[".html"];
             }
             else
             {
-                return null;
+                string extension = GetFileExtensionFromUrl(url);
+                if (_contentType.ContainsKey(extension))
+                {
+                    return _contentType[extension];
+                }
+                else
+                {
+                    return "application/octet-stream";
+                }
             }
         }
 
