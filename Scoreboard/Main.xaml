@@ -363,7 +363,16 @@
                     IsHitTestVisible="False"/>
             </Viewbox>
             <!-- Shot Clock -->
-            <Grid Grid.Column="1" Grid.Row="2" Visibility="{Binding Path=ShowShotClock, Converter={StaticResource boolToVisiblityConverter}, FallbackValue=Visible}">
+            <Grid Grid.Column="1" Grid.Row="2" IsHitTestVisible="{Binding Path=ShowShotClock, FallbackValue=True}">
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=ShowShotClock}" Value="False">
+                                <Setter Property="Opacity" Value="0.3"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition/>

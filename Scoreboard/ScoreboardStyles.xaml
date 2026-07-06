@@ -113,9 +113,6 @@
                             <Setter Property="Background" Value="{StaticResource BackgroundSelected}"/>
                             <Setter Property="BorderBrush" Value="{StaticResource BorderBrushSelected}"/>
                         </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Visibility" Value="Hidden"/>
-                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
