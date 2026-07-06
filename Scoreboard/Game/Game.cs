@@ -600,7 +600,7 @@ namespace Scoreboard
             if (Parent != null && Parent.Parent != null)
             {
                 result.Append(", \"shotClockTime\": \"" + Parent.Parent.ShotTime.ToString() + "\"");
-                result.Append(", \"shotClockDisplayTime\": \"" + Parent.Parent.ShotDisplayTime.ToString() + "\"");
+                result.Append(", \"shotClockDisplayTime\": \"" + Parent.Parent.ShotDisplayTime.ToString("00") + "\"");
             }
             else
             {

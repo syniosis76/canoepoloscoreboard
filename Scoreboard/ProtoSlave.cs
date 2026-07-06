@@ -22,8 +22,14 @@ namespace Scoreboard
 
         public ProtoSlave()        
         {
-          //_address = "192.168.0.1";          
-          _address = "localhost";
+          #if DEBUG
+              _address = "localhost";
+          #elif RELEASE
+              Console.WriteLine("Release configuration active.");
+          #else
+              _address = "192.168.0.1"; 
+          #endif      
+          
           _port = "9090";          
 
           _valueCache = new ConcurrentDictionary<string, string>();

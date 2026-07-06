@@ -238,7 +238,7 @@ namespace Scoreboard
             if (_game.Parent != null && _game.Parent.Parent != null)
             {
                 sb.Append(", \"shotClockTime\": \"" + _game.Parent.Parent.ShotTime.ToString() + "\"");
-                sb.Append(", \"shotClockDisplayTime\": \"" + _game.Parent.Parent.ShotDisplayTime.ToString() + "\"");
+                sb.Append(", \"shotClockDisplayTime\": \"" + _game.Parent.Parent.ShotDisplayTime.ToString("00") + "\"");
             }
             else
             {

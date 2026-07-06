@@ -436,7 +436,7 @@
                     </Viewbox>
                 </Grid>
                 <Viewbox Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="2">
-                    <TextBlock FontFamily="./#DINEngschrift" FontSize="80" Foreground="#FF9BF79B" Name="_shotTimeLabel" Text="{Binding Path=ShotDisplayTime, FallbackValue=0}" IsHitTestVisible="False"/>
+                    <TextBlock FontFamily="./#DINEngschrift" FontSize="80" Margin="10" Foreground="#FF9BF79B" Name="_shotTimeLabel" Text="{Binding Path=ShotDisplayTime, StringFormat={}{0:00}, FallbackValue=00}" IsHitTestVisible="False"/>
                 </Viewbox>
             </Grid>
             <Grid Grid.Column="1" Grid.Row="3" Margin="2" Background="{StaticResource BackgroundBlue}">
