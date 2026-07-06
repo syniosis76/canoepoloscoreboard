@@ -601,11 +601,13 @@ namespace Scoreboard
             {
                 result.Append(", \"shotClockTime\": \"" + Parent.Parent.ShotTime.ToString() + "\"");
                 result.Append(", \"shotClockDisplayTime\": \"" + Parent.Parent.ShotDisplayTime.ToString("00") + "\"");
+                result.Append(", \"showShotClock\": \"" + (Parent.Parent.ShowShotClock ? "1" : "0") + "\"");
             }
             else
             {
                 result.Append(", \"shotClockTime\": \"0\"");
                 result.Append(", \"shotClockDisplayTime\": \"0\"");
+                result.Append(", \"showShotClock\": \"0\"");
             }            
 
             if (Result != GameResult.None)

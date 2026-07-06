@@ -239,11 +239,13 @@ namespace Scoreboard
             {
                 sb.Append(", \"shotClockTime\": \"" + _game.Parent.Parent.ShotTime.ToString() + "\"");
                 sb.Append(", \"shotClockDisplayTime\": \"" + _game.Parent.Parent.ShotDisplayTime.ToString("00") + "\"");
+                sb.Append(", \"showShotClock\": \"" + (_game.Parent.Parent.ShowShotClock ? "1" : "0") + "\"");
             }
             else
             {
                 sb.Append(", \"shotClockTime\": \"0\"");
                 sb.Append(", \"shotClockDisplayTime\": \"0\"");
+                sb.Append(", \"showShotClock\": \"0\"");
             }
 
             if (Result != GameResult.None)
