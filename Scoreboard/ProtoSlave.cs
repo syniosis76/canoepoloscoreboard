@@ -24,8 +24,6 @@ namespace Scoreboard
         {
           #if DEBUG
               _address = "localhost";
-          #elif RELEASE
-              Console.WriteLine("Release configuration active.");
           #else
               _address = "192.168.0.1"; 
           #endif      

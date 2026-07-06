@@ -95,10 +95,10 @@
                 var ratio = 0.95
             }
 	
-            document.getElementById("period-time").style.fontSize = (size * ratio * 0.40) + "px";
-			document.getElementById("team-1-score").style.fontSize = (size * ratio * 0.35) + "px";               
+            document.getElementById("period-time").style.fontSize = (size * ratio * 0.38) + "px";
+			document.getElementById("team-1-score").style.fontSize = (size * ratio * 0.43) + "px";               
 			document.getElementById("shot-clock-time").style.fontSize = (size * ratio * 0.35) + "px";
-			document.getElementById("team-2-score").style.fontSize = (size * ratio * 0.35) + "px";
+			document.getElementById("team-2-score").style.fontSize = (size * ratio * 0.43) + "px";
         }
 
         function onWebSocketMessage(e) {
@@ -111,7 +111,7 @@
             webSocket = utilities.checkWebSocket(webSocket, onWebSocketMessage, onCheckWebSocket);
         }
         
-        resizeFontEvent();
+        window.onload = resizeFontEvent;
         document.body.onresize = resizeFontEvent;
 
         var webSocket = utilities.initialiseWebSocket(onWebSocketMessage, onCheckWebSocket);
