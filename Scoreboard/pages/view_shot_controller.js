@@ -7,61 +7,50 @@ export const shotcontroller = {
   <div v-if="game" class="flexcolumn">    
     <div class="content row blue-background" style="max-width: 100vh; margin: 0 auto;">
         <div style="container-type: inline-size; width: 100%; height: 110vw; max-width: 100vh; max-height: 90vh;">
-            <div style="width: 100%; height: 25%;">    
-              <div class="section-padded" style="padding-right: 2px; width: 33%; height: 100%;">
-                  <div class="section-label" style="height: 30%; font-size: min(6cqw, 3cqh);">
-                      <span id="team-1-name" class="section-label-span">{{ game.team1 }}</span>
-                  </div>
-                  <div class="absolute-parent" style="height: 70%">                                    
-                      <div class="section-button" style="height: 100%;"></div>
-                       <div id="team-1-score" class="score-large" style="font-size: min(18cqw, 12cqh)">{{ game.team1Score }}</div>
-                  </div>                                                
-              </div>            
-              <div class="section-padded" style="padding-left: 2px; width: 33%; height: 100%;">
-                  <div class="section-label" style="height: 30%; font-size: min(6cqw, 3cqh);">
-                      <span id="team-2-name" class="section-label-span">{{ game.period }}</span>
-                  </div>
-                  <div class="absolute-parent" style="height: 70%">                                    
-                      <div class="section-button" style="height: 100%;"></div>
-                       <div id="team-2-score" class="period-time" style="font-size: min(15cqw, 10cqh)">{{ game.mainTimeRemaining }}</div>
-                  </div>
-              </div>
-              <div class="section-padded" style="padding-left: 2px; width: 33%; height: 100%;">
-                  <div class="section-label" style="height: 30%; font-size: min(6cqw, 3cqh);">
-                      <span id="team-2-name" class="section-label-span">{{ game.team2 }}</span>
-                  </div>
-                  <div class="absolute-parent" style="height: 70%">                                    
-                      <div class="section-button" style="height: 100%;"></div>
-                       <div id="team-2-score" class="score-large" style="font-size: min(18cqw, 12cqh)">{{ game.team2Score }}</div>
-                  </div>
-              </div>
-            </div>            
-            <div class="absolute-parent" style="height: 64%; margin-top:4px;">                                    
-                <div style="width: 49%; height: 100%; position: absolute;">
-                    <div class="section-button" style="width: 100%; height: 49%; float: left; margin-left: 4px; margin-right: 4px" @click="executeMethod('executeShotClockReset')">
-                      <div class="icon-reset" style="width: min(6cqw, 3cqh); height: min(6cqw, 3cqh); position: absolute; left: 0; top: 0;"></div>
-                    </div>
-                    <div class="section-button" style="width: 100%; height: 49%; overflow:hidden; margin-top: 4px; margin-left: 4px;" @click="executeMethod('executeShotClockResetResume')">
-                      <div class="icon-reset-resume" style="width: min(6cqw, 3cqh); height: min(6cqw, 3cqh); position: absolute; left: 0; bottom: 0;"></div>          
-                    </div>
+            <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 2fr; grid-template-rows: 1fr 2fr 4fr 4fr 1fr; gap: 4px; padding: 4px; width: 100%; height: 100%; box-sizing: border-box;">
+                <!-- Team Names & Period -->
+                <div class="section-label" style="grid-column: 1; grid-row: 1; margin: 0; font-size: min(9cqw, 4.5cqh); position: relative;">
+                    <span id="team-1-name" class="section-label-span">{{ game.team1 }}</span>
                 </div>
-                <div style="width: 48%; height: 99%; left: 50.5%; position: absolute;">
-                    <div class="section-button" style="width: 100%; height: 100%; float: right; margin-left: 4px;" @click="executeMethod('executeShotClockPlayPause')">                        
-                      <div class="icon-play-pause" style="width: min(6cqw, 3cqh); height: min(6cqw, 3cqh); position: absolute; right: 0; top: 0;"></div>
-                    </div>
+                <div class="section-label" style="grid-column: 2 / span 2; grid-row: 1; margin: 0; font-size: min(9cqw, 4.5cqh); position: relative;">
+                    <span id="period-label" class="section-label-span">{{ game.period }}</span>
                 </div>
-                <div id="shot-clock-time" class="shot-clock score-large" style="font-size: min(80cqw, 45cqh)">{{ game.shotClockDisplayTime }}</div>
-            </div>
-            <div class="absolute-parent" style="height: 9.8%;">                                    
-                <div style="width: 49%; height: 100%; position: absolute;">
-                    <div class="section-button" style="width: 100%; height: 100%; float: left; margin-left: 4px;" @click="executeMethod('executeShotClockDecrement')">                        
-                      <div class="icon-remove" style="width: min(6cqw, 3cqh); height: min(6cqw, 3cqh); position: absolute; left: 0; bottom: 15%;"></div>                      
-                    </div>
+                <div class="section-label" style="grid-column: 4; grid-row: 1; margin: 0; font-size: min(9cqw, 4.5cqh); position: relative;">
+                    <span id="team-2-name" class="section-label-span">{{ game.team2 }}</span>
                 </div>
-                <div style="width: 48%; height: 99%; left: 50.5%; position: absolute;">
-                    <div class="section-button" style="width: 100%; height: 100%; float: right; margin-left: 4px;" @click="executeMethod('executeShotClockIncrement')">                        
-                      <div class="icon-add" style="width: min(6cqw, 3cqh); height: min(6cqw, 3cqh); position: absolute; right: 0; bottom: 7%;"></div>
-                    </div>
+
+                <!-- Scores & Main Time -->
+                <div class="section-button" style="grid-column: 1; grid-row: 2; margin: 0; position: relative;"></div>
+                <div style="grid-column: 1; grid-row: 2; position: relative; pointer-events: none;">
+                    <div id="team-1-score" class="score-large" style="font-size: min(14cqw, 14cqh)">{{ game.team1Score }}</div>
+                </div>
+                <div class="section-button" style="grid-column: 2 / span 2; grid-row: 2; margin: 0; position: relative;"></div>
+                <div style="grid-column: 2 / span 2; grid-row: 2; position: relative; pointer-events: none;">
+                    <div id="main-time" class="period-time" style="font-size: min(14cqw, 14cqh)">{{ game.mainTimeRemaining }}</div>
+                </div>
+                <div class="section-button" style="grid-column: 4; grid-row: 2; margin: 0; position: relative;"></div>
+                <div style="grid-column: 4; grid-row: 2; position: relative; pointer-events: none;">
+                    <div id="team-2-score" class="score-large" style="font-size: min(14cqw, 14cqh)">{{ game.team2Score }}</div>
+                </div>
+
+                <!-- Shot Clock -->                
+                <div class="section-button" style="grid-column: 1 / span 2; grid-row: 3; margin: 0; position: relative;" @click="executeMethod('executeShotClockReset')">
+                    <div class="icon-reset" style="width: min(6cqw, 3cqh); height: min(6cqw, 3cqh); position: absolute; left: 0; top: 0;"></div>
+                </div>
+                <div class="section-button" style="grid-column: 3 / span 2; grid-row: 3 / span 2; margin: 0; position: relative;" @click="executeMethod('executeShotClockPlayPause')">
+                    <div class="icon-play-pause" style="width: min(6cqw, 3cqh); height: min(6cqw, 3cqh); position: absolute; right: 0; bottom: 0;"></div>
+                </div>
+                <div class="section-button" style="grid-column: 1 / span 2; grid-row: 4; margin: 0; position: relative;" @click="executeMethod('executeShotClockResetResume')">
+                    <div class="icon-reset-resume" style="width: min(6cqw, 3cqh); height: min(6cqw, 3cqh); position: absolute; left: 0; bottom: 0;"></div>
+                </div>
+                <div class="section-button" style="grid-column: 1 / span 2; grid-row: 5; margin: 0; position: relative;" @click="executeMethod('executeShotClockDecrement')">
+                    <div class="icon-remove" style="width: min(6cqw, 3cqh); height: min(6cqw, 3cqh); position: absolute; bottom: 0px; left: 0px;"></div>
+                </div>
+                <div class="section-button" style="grid-column: 3 / span 2; grid-row: 5; margin: 0; position: relative;" @click="executeMethod('executeShotClockIncrement')">
+                    <div class="icon-add" style="width: min(6cqw, 3cqh); height: min(6cqw, 3cqh); position: absolute; bottom: 0px; right: 0px;"></div>
+                </div>
+                <div style="grid-column: 1 / span 4; grid-row: 3 / span 2; position: relative; pointer-events: none;">
+                    <div id="shot-clock-time" class="shot-clock score-large" style="font-size: min(60cqw, 60cqh)">{{ game.shotClockDisplayTime }}</div>
                 </div>
             </div>
         </div>

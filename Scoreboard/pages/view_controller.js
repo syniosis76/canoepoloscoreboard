@@ -47,7 +47,7 @@ export const controller = {
                     <div class="icon-reset-resume" style="width: min(6cqw, 3cqh); height: min(6cqw, 3cqh); position: absolute; left: 0; bottom: 0;"></div>
                 </div> 
                 <div style="grid-column: 1 / span 2; grid-row: 4 / span 2; position: relative; pointer-events: none;">
-                    <div id="shot-clock-time" class="shot-clock score-large" style="font-size: min(50cqw, 30cqh)">{{ game.shotClockDisplayTime }}</div>
+                    <div id="shot-clock-time" class="shot-clock score-large" style="font-size: min(40cqw, 40cqh)">{{ game.shotClockDisplayTime }}</div>
                 </div>
                 <div class="section-button" style="grid-column: 1; grid-row: 6; margin: 0; position: relative;" @click="executeMethod('executeShotClockDecrement')">
                     <div class="icon-remove" style="width: min(6cqw, 3cqh); height: min(6cqw, 3cqh); position: absolute; bottom: 0px; left: 0px;"></div>
