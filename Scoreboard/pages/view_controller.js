@@ -5,8 +5,8 @@ export const controller = {
 <div class="mainmargin">
   <div v-if="loading" class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
   <div v-if="game" class="flexcolumn">    
-    <div class="content row blue-background" style="max-width: 100vh; margin: 0 auto;">
-        <div style="container-type: inline-size; width: 100%; height: 110vw; max-width: 100vh; max-height: 90vh;">
+    <div class="content row blue-background" style="margin: 0 auto; max-height: 100vh; max-width: 100vh; display: flex; align-items: center; justify-content: center;">
+        <div style="container-type: inline-size; width: 100%; height: 100%; aspect-ratio: 1 / 1; display: flex;">
             <div class="section-padded" style="padding-right: 2px; width: 50%; height: 98.5%;">
                 <div class="section-label" style="height: 10%; font-size: min(6cqw, 3cqh);">
                     <span id="team-1-name" class="section-label-span">{{ game.team1 }}</span>
@@ -21,25 +21,27 @@ export const controller = {
                     <div id="team-1-score" class="score-large" style="font-size: min(50cqw, 30cqh)">{{ game.team1Score }}</div>
                 </div>                                
                 <div class="absolute-parent" style="height: 40%; margin-top:8px;">                                    
-                    <div style="width: 100%; height: 100%; position: absolute;">
-                        <div class="section-button" style="width: 49%; height: 49%; float: left; margin-right: 4px" @click="executeMethod('executeShotClockReset')">
-                          <div class="icon-reset" style="width: min(6cqw, 3cqh); height: min(6cqw, 3cqh); position: absolute; left: 0; top: 0;"></div>
+                    <div style="width: 100%; height: 100%; position: absolute; display: flex; gap: 4px;">
+                        <div style="flex: 0 0 calc(50% - 2px); display: flex; flex-direction: column; gap: 2px;">
+                            <div class="section-button" style="flex: 0 0 49.5%;" @click="executeMethod('executeShotClockReset')">
+                              <div class="icon-reset" style="width: min(6cqw, 3cqh); height: min(6cqw, 3cqh); position: absolute; left: 0; top: 0;"></div>
+                            </div>
+                            <div class="section-button" style="flex: 0 0 49.5%; margin-top: -2px;" @click="executeMethod('executeShotClockResetResume')">
+                              <div class="icon-reset-resume" style="width: min(6cqw, 3cqh); height: min(6cqw, 3cqh); position: absolute; left: 0; bottom: 0;"></div>          
+                            </div>
                         </div>
-                        <div class="section-button" style="width: 49%; height: 49%; float: left; margin-right: 4px" @click="executeMethod('executeShotClockResetResume')">
-                          <div class="icon-reset-resume" style="width: min(6cqw, 3cqh); height: min(6cqw, 3cqh); position: absolute; left: 0; bottom: 0;"></div>          
-                        </div>
-                        <div class="section-button" style="width: auto; height: 100%; overflow:hidden; margin-left: 4px" @click="executeMethod('executeShotClockPlayPause')">                        
+                        <div class="section-button" style="flex: 1 1 auto;" @click="executeMethod('executeShotClockPlayPause')">                        
                           <div class="icon-play-pause" style="width: min(6cqw, 3cqh); height: min(6cqw, 3cqh); position: absolute; right: 0; bottom: 0;"></div>                        
                         </div>
                     </div>
                     <div id="shot-clock-time" class="shot-clock score-large" style="font-size: min(50cqw, 30cqh)">{{ game.shotClockDisplayTime }}</div>
                 </div>
                 <div class="absolute-parent" style="height: 9.4%; margin-top: 3px;">                                    
-                    <div style="width: 100%; height: 100%; position: absolute;">
-                        <div class="section-button" style="width: 49%; height: 100%; float: left; margin-right: 4px" @click="executeMethod('executeShotClockDecrement')">                        
+                    <div style="width: 100%; height: 100%; position: absolute; display: flex; gap: 4px;">
+                        <div class="section-button" style="flex: 0 0 calc(50% - 2px);" @click="executeMethod('executeShotClockDecrement')">                        
                           <div class="icon-remove" style="width: min(6cqw, 3cqh); height: min(6cqw, 3cqh); position: absolute; left: 0; bottom: 15%;"></div>                      
                         </div>
-                        <div class="section-button" style="width: auto; height: 100%; overflow:hidden; margin-left: 4px" @click="executeMethod('executeShotClockIncrement')">                        
+                        <div class="section-button" style="flex: 1 1 auto;" @click="executeMethod('executeShotClockIncrement')">                        
                           <div class="icon-add" style="width: min(6cqw, 3cqh); height: min(6cqw, 3cqh); position: absolute; right: 0; bottom: 7%;"></div>
                         </div>
                     </div>
