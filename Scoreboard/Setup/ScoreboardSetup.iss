@@ -4,8 +4,8 @@
 ; Press Shift + Alt + B to build in VS Code
 
 #define MyAppName "Tourney Scoreboard"
-#define MyAppVersion "1.34.004"
-#define MyAppFileVersion "1_34_004"
+#define MyAppVersion "1.40.002"
+#define MyAppFileVersion "1_40_002"
 #define MyAppPublisher "verner software"
 #define MyAppURL "https://www.verner.co.nz"
 #define MyAppExeName "Scoreboard.exe"
@@ -36,22 +36,22 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "..\bin\Release\net8.0-windows\Scoreboard.*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\Release\net10.0-windows\Scoreboard.*"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\Properties\app.manifest"; DestDir: "{app}"; DestName: "Scoreboard.exe.manifest"; Flags: ignoreversion
 
-Source: "..\bin\Release\net8.0-windows\Utilities.*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\Release\net10.0-windows\Utilities.*"; DestDir: "{app}"; Flags: ignoreversion
 
-Source: "..\bin\Release\net8.0-windows\runtimes\*"; DestDir: "{app}\runtimes\"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "..\bin\Release\net8.0-windows\sounds\*"; DestDir: "{app}\sounds"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "..\bin\Release\net8.0-windows\pages\*"; DestDir: "{app}\pages"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\bin\Release\net10.0-windows\runtimes\*"; DestDir: "{app}\runtimes\"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\bin\Release\net10.0-windows\sounds\*"; DestDir: "{app}\sounds"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\bin\Release\net10.0-windows\pages\*"; DestDir: "{app}\pages"; Flags: ignoreversion recursesubdirs createallsubdirs
 
-Source: "..\bin\Release\net8.0-windows\client_secrets.json"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\Release\net10.0-windows\client_secrets.json"; DestDir: "{app}"; Flags: ignoreversion
 
-Source: "..\bin\Release\net8.0-windows\System.*"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\Release\net8.0-windows\Microsoft.*"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\Release\net8.0-windows\Google.Apis.*"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\Release\net8.0-windows\Newtonsoft.Json.*"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\Release\net8.0-windows\Websocket.Client.*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\Release\net10.0-windows\System.*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\Release\net10.0-windows\Microsoft.*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\Release\net10.0-windows\Google.Apis.*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\Release\net10.0-windows\Newtonsoft.Json.*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\Release\net10.0-windows\Websocket.Client.*"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"

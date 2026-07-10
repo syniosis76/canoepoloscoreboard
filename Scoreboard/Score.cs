@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Media;
-using System.Windows.Threading;
 using System.Threading;
 using System.Windows;
 using System.ComponentModel;
@@ -129,12 +128,12 @@ namespace Scoreboard
             {
                 bool updateCurrentOrEndedGame = false;                
 
-                if (_currentOrEndedGame.EndTime != null && (DateTime.Now - _currentOrEndedGame.EndTime.Value).TotalSeconds > 60) 
+                if (_currentOrEndedGame.EndTime != null && (_timeService.Now - _currentOrEndedGame.EndTime.Value).TotalSeconds > 60) 
                 {
                     updateCurrentOrEndedGame = true;
                 }
 
-                if (!updateCurrentOrEndedGame && _currentGame.StartTime != null && (_currentGame.StartTime.Value - DateTime.Now).TotalSeconds < 30)
+                if (!updateCurrentOrEndedGame && _currentGame.StartTime != null && (_currentGame.StartTime.Value - _timeService.Now).TotalSeconds < 30)
                 {
                     updateCurrentOrEndedGame = true;
                 }
@@ -595,15 +594,11 @@ namespace Scoreboard
         {
             get
             {
-                return (int)(DateTime.Now - CurrentTime).TotalMilliseconds;                
+                return (int)(_timeService.Now - CurrentTime).TotalMilliseconds;                
             }
         }
 
-        private readonly System.Windows.Threading.DispatcherTimer gameTimer = new System.Windows.Threading.DispatcherTimer();
-        protected System.Windows.Threading.DispatcherTimer GameTimer
-        {
-            get { return gameTimer; }
-        }
+        private readonly ITimeService _timeService;
 
         private SoundPlayer _beep;
         private SoundPlayer _beepEnd;
@@ -656,8 +651,13 @@ namespace Scoreboard
         #endregion
 
 
-        public Score()
+        public Score() : this(new SystemTimeService())
         {
+        }
+
+        public Score(ITimeService timeService)
+        {
+            _timeService = timeService;
             _games = new GameList();
             _serverOptions = new SimpleWebServerOptions();
             _tourney = new Tourney(this);
@@ -721,9 +721,8 @@ namespace Scoreboard
 
         public void StartTimer()
         {
-            GameTimer.Interval = new TimeSpan(0, 0, 1);
-            GameTimer.Tick += new EventHandler(GameTimer_Tick);
-            GameTimer.IsEnabled = true;            
+            _timeService.Tick += GameTimer_Tick;
+            _timeService.Start();
         }
 
         protected static DateTime ReadTime(string time, DateTime current)
@@ -814,7 +813,7 @@ namespace Scoreboard
             SelectCurrentGame(0);
             if (CurrentGame != null)
             {
-                if (CurrentGame.EndTime > DateTime.Now)
+                if (CurrentGame.EndTime > _timeService.Now)
                 {
                     StartGame();
                 }
@@ -1023,7 +1022,7 @@ namespace Scoreboard
 
             CurrentGame = game;
 
-            DateTime startTime = DateTime.Now;
+            DateTime startTime = _timeService.Now;
             TimeSpan extraPeriodDuration = TimeSpan.FromSeconds(ExtraPeriodDuration);
 
             GamePeriod gamePeriod = new GamePeriod
@@ -1037,7 +1036,7 @@ namespace Scoreboard
 
             game.LogEvent("Add " + ExtraPeriodDescription);
 
-            gamePeriod.ModifyFollowingTimes(gamePeriod.EndTime - DateTime.Now, false);
+            gamePeriod.ModifyFollowingTimes(gamePeriod.EndTime - _timeService.Now, false);
 
             game.CalculateResult();
             if (CurrentGame != game)
@@ -1179,7 +1178,7 @@ namespace Scoreboard
 
         public void NextGame(bool delayCurrentEnd)
         {
-            DateTime now = DateTime.Now;
+            DateTime now = _timeService.Now;
 
             StopShotTime();
 
@@ -1205,7 +1204,7 @@ namespace Scoreboard
 
         protected void SelectCurrentGame(int startIndex)
         {
-            DateTime now = DateTime.Now;
+            DateTime now = _timeService.Now;
 
             int gameIndex = startIndex;
             while (gameIndex < Games.Count)
@@ -1246,7 +1245,7 @@ namespace Scoreboard
      
         protected void UpdateTime()
         {
-            DateTime now = DateTime.Now;            
+            DateTime now = _timeService.Now;            
             CurrentTime = now;
 
             SetupCurrentOrEndedGame();
@@ -1255,7 +1254,7 @@ namespace Scoreboard
             {                                
                 if (CurrentGame != null && CurrentGame.Periods.CurrentPeriod != null)
                 {
-                    CurrentGame.Periods.CurrentPeriod.UpdatePeriod();
+                    CurrentGame.Periods.CurrentPeriod.UpdatePeriod(now);
 
                     TimeSpan remaining = CurrentGame.Periods.CurrentPeriod.TimeRemaining;
 
@@ -1636,7 +1635,7 @@ namespace Scoreboard
                             CurrentGame.LogEvent("Start " + ExtraPeriodDescription);
                         }
                         
-                        DateTime targetTime = DateTime.Now + period.TimeRemaining;
+                        DateTime targetTime = _timeService.Now + period.TimeRemaining;
 
                         if (period.Status == GamePeriodStatus.Pending)
                         {

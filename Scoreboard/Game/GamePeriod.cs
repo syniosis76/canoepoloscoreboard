@@ -437,17 +437,17 @@ namespace Scoreboard
             }
         }
 
-        public GamePeriodStatus UpdatePeriod()
+        public GamePeriodStatus UpdatePeriod(DateTime? now = null)
         {
-            DateTime now = DateTime.Now;
-            if (now < StartTime)
+            DateTime currentNow = now ?? DateTime.Now;
+            if (currentNow < StartTime)
             {
-                TimeRemaining = StartTime - now;
+                TimeRemaining = StartTime - currentNow;
                 Status = GamePeriodStatus.Pending;
             }
-            else if (now < EndTime)
+            else if (currentNow < EndTime)
             {
-                TimeRemaining = EndTime - now;
+                TimeRemaining = EndTime - currentNow;
                 Status = GamePeriodStatus.Active;
                 if (Parent != null && Parent.Parent != null)
                 {

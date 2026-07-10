@@ -5,6 +5,11 @@
 dotnet build Scoreboard/Scoreboard.csproj
 ```
 
+## Test
+```bash
+dotnet test Testing/Scoreboard.Tests/Scoreboard.Tests.csproj
+```
+
 ## Settings Persistence
 Settings are in `Properties/Settings.settings` and `Properties/Settings.Designer.cs`. To add a new setting:
 1. Add to both files
@@ -25,9 +30,9 @@ The `Score` reference is needed because card collections (`Team1Cards`, `Team2Ca
 - Subscribe to `Game.PropertyChanged` and `Score.Team1Cards.ListChanged`/`Team2Cards.ListChanged`
 
 ## Architecture
-- **Scoreboard**: WPF app (WinExe, net8.0-windows)
+- **Scoreboard**: WPF app (WinExe, net10.0-windows)
 - **Utilities**: Shared library
-- **Testing**: Python server test only
+- **Testing**: .NET unit tests (xUnit) and Python server tests
 - Secondary displays: XAML window (WPF bindings), HTML (web sockets via ScoreboardServer), LED (ProtoSlave web sockets)
 
 ## Style
