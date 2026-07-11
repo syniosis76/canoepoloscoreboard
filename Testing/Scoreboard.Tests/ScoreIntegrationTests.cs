@@ -3,6 +3,7 @@ using Scoreboard.Tests.TestDoubles;
 
 namespace Scoreboard.Tests;
 
+[Collection("Score Tests")]
 public class ScoreIntegrationTests : IDisposable
 {
     private readonly FakeTimeService _time;
