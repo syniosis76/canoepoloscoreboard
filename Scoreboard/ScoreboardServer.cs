@@ -283,14 +283,15 @@ namespace Scoreboard
                 }
 
                 Console.WriteLine($"Reading File: {fileName}");  
+                string pagesDirectory = Path.Combine(AppContext.BaseDirectory, "pages");
                 if (WebServer.IsBinaryFile(urlBase))
                 {
-                    byte[] bytes = File.ReadAllBytes("pages\\" + fileName);
+                    byte[] bytes = File.ReadAllBytes(Path.Combine(pagesDirectory, fileName));
                     content = Convert.ToBase64String(bytes);
                 }              
                 else
                 {
-                    content = File.ReadAllText("pages\\" + fileName);
+                    content = File.ReadAllText(Path.Combine(pagesDirectory, fileName));
                 }
                 _contentCache.Add(urlBase, content);
             }

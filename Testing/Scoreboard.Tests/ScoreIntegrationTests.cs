@@ -1,3 +1,4 @@
+using System.Windows;
 using FluentAssertions;
 using Scoreboard.Tests.TestDoubles;
 
@@ -153,6 +154,106 @@ public class ScoreIntegrationTests : IDisposable
         _score.IncrementShotTime();
 
         _score.ShotTime.Should().Be(11);
+    }
+
+    [Fact]
+    public void ShotClock_LastResetVisible_InitiallyCollapsed()
+    {
+        _score.LastShotResetVisible.Should().Be(Visibility.Collapsed);
+    }
+
+    [Fact]
+    public void ShotClock_ResetToSeconds_SetsTimeAndStoresPrevious()
+    {
+        _score.StartGames();
+        _time.AdvanceSeconds(1);
+        _score.ShotClockTimeLimit = 60;
+        _score.StopShotTime();
+        _score.ShotTime = 10;
+
+        _score.ResetShotTime(40);
+
+        _score.ShotTime.Should().Be(40);
+        _score.LastShotResetTime.Should().Be(10);
+        _score.LastShotResetVisible.Should().Be(Visibility.Visible);
+    }
+
+    [Fact]
+    public void ShotClock_ResetToSeconds_PausesClock()
+    {
+        _score.StartGames();
+        _time.AdvanceSeconds(1);
+        _score.ShotClockTimeLimit = 60;
+        _score.StopShotTime();
+        _score.ShotTime = 10;
+
+        _score.ResetShotTime(40);
+        _time.AdvanceSeconds(1);
+
+        _score.ShotTime.Should().Be(40);
+    }
+
+    [Fact]
+    public void ShotClock_ResetFromFullTime_HidesUndo()
+    {
+        _score.StartGames();
+        _time.AdvanceSeconds(1);
+        _score.ShotClockTimeLimit = 60;
+        _score.StopShotTime();
+        _score.ShotTime = 60;
+
+        _score.ResetShotTime(40);
+
+        _score.LastShotResetTime.Should().Be(60);
+        _score.LastShotResetVisible.Should().Be(Visibility.Collapsed);
+    }
+
+    [Fact]
+    public void ShotClock_ResetFromZero_HidesUndo()
+    {
+        _score.StartGames();
+        _time.AdvanceSeconds(1);
+        _score.ShotClockTimeLimit = 60;
+        _score.StopShotTime();
+        _score.ShotTime = 0;
+
+        _score.ResetShotTime(40);
+
+        _score.LastShotResetTime.Should().Be(0);
+        _score.LastShotResetVisible.Should().Be(Visibility.Collapsed);
+    }
+
+    [Fact]
+    public void ShotClock_ResetResumeToSeconds_SetsTimeAndRuns()
+    {
+        _score.StartGames();
+        _time.AdvanceSeconds(1);
+        _score.ShotClockTimeLimit = 60;
+        _score.StopShotTime();
+        _score.ShotTime = 10;
+
+        _score.ResetResumeShotTime(40);
+        _time.AdvanceSeconds(1);
+
+        _score.ShotTime.Should().Be(39);
+    }
+
+    [Fact]
+    public void ShotClock_UndoRestoresPreviousTimeAndPauses()
+    {
+        _score.StartGames();
+        _time.AdvanceSeconds(1);
+        _score.ShotClockTimeLimit = 60;
+        _score.StopShotTime();
+        _score.ShotTime = 27;
+
+        _score.ResetShotTime();
+        _score.ShotTime.Should().Be(60);
+        _score.UndoShotReset();
+        _time.AdvanceSeconds(1);
+
+        _score.ShotTime.Should().Be(27);
+        _score.LastShotResetVisible.Should().Be(Visibility.Collapsed);
     }
 
     [Fact]

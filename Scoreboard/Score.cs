@@ -377,6 +377,28 @@ namespace Scoreboard
             }
         }
 
+        private int _shortShotClockTimeLimit = 40;
+        public int ShortShotClockTimeLimit
+        {
+            get
+            {
+                return _shortShotClockTimeLimit;
+            }
+            set
+            {
+                if (!_shortShotClockTimeLimit.Equals(value))
+                {
+                    _shortShotClockTimeLimit = value;
+                    if (Properties.Settings.Default.ShortShotClockTimeLimit != _shortShotClockTimeLimit)
+                    {
+                        Properties.Settings.Default.ShortShotClockTimeLimit = _shortShotClockTimeLimit;
+                        Properties.Settings.Default.Save();
+                    }
+                    NotifyPropertyChanged("ShortShotClockTimeLimit");
+                }
+            }
+        }
+
         private bool _lockResults = false;
         public bool LockResults
         {
@@ -485,14 +507,56 @@ namespace Scoreboard
             }
         }
 
+        private int _lastShotResetTime = 0;
+        public int LastShotResetTime
+        {
+            get
+            {
+                return _lastShotResetTime;
+            }
+            set
+            {
+                if (_lastShotResetTime != value)
+                {
+                    _lastShotResetTime = value;
+                    NotifyPropertyChanged("LastShotResetTime");
+                }
+            }
+        }
+
+        private Visibility _lastShotResetVisible = Visibility.Collapsed;
+        public Visibility LastShotResetVisible
+        {
+            get
+            {
+                return _lastShotResetVisible;
+            }
+            set
+            {
+                if (_lastShotResetVisible != value)
+                {
+                    _lastShotResetVisible = value;
+                    NotifyPropertyChanged("LastShotResetVisible");
+                }
+            }
+        }
+
         private readonly Tourney _tourney;
         public Tourney Tourney { get { return _tourney; } }
 
         public void ResetShotTime()
         {
+            ResetShotTime(ShotClockTimeLimit);
+        }
+
+        public void ResetShotTime(int seconds)
+        {
             ShotTimeVisible = Visibility.Visible;
+            int previousShotTime = ShotTime;
+            LastShotResetTime = previousShotTime;
+            LastShotResetVisible = (previousShotTime == 0 || previousShotTime == ShotClockTimeLimit) ? Visibility.Collapsed : Visibility.Visible;
             _decrementShotTime = false;
-            ShotTime = ShotClockTimeLimit;            
+            ShotTime = seconds;
             if (CurrentGame != null)
             {
                 SendGame(false);
@@ -502,8 +566,26 @@ namespace Scoreboard
 
         public void ResetResumeShotTime()
         {
-            ResetShotTime();
+            ResetResumeShotTime(ShotClockTimeLimit);
+        }
+
+        public void ResetResumeShotTime(int seconds)
+        {
+            ResetShotTime(seconds);
             PauseResumeShotTime();
+        }
+
+        public void UndoShotReset()
+        {
+            ShotTimeVisible = Visibility.Visible;
+            _decrementShotTime = false;
+            ShotTime = LastShotResetTime;
+            LastShotResetVisible = Visibility.Collapsed;
+            if (CurrentGame != null)
+            {
+                SendGame(false);
+                CurrentGame.LogEvent("Undo Shot Clock Reset", false);
+            }
         }
 
         public void StopShotTime()
@@ -602,7 +684,6 @@ namespace Scoreboard
 
         private SoundPlayer _beep;
         private SoundPlayer _beepEnd;
-        private SoundPlayer _shotClockBell;
         private SoundPlayer _shotClockEnd;
 
         private bool _paused = false;
@@ -666,6 +747,7 @@ namespace Scoreboard
             RecordGoalScorers = Properties.Settings.Default.RecordGoalScorers;
             ShowShotClock = Properties.Settings.Default.ShowShotClock;
             ShotClockTimeLimit = Properties.Settings.Default.ShotClockTimeLimit;
+            ShortShotClockTimeLimit = Properties.Settings.Default.ShortShotClockTimeLimit;
             _lockResults = Properties.Settings.Default.LockResults;
             StartPaused = Properties.Settings.Default.StartPaused;
             ServerOptions.Port = Properties.Settings.Default.ServerPort;
@@ -1319,12 +1401,7 @@ namespace Scoreboard
                         }
                         else if (oldShotTime != ShotTime)
                         {
-                            if (ShotClockTimeLimit >= 60 && oldShotTime == 21 && ShotTime == 20)
-                            {
-                                _shotClockBell.Play();
-                                _shotClockBell.Play();
-                            }
-                            else if (oldShotTime == 1 && ShotTime == 0)
+                            if (oldShotTime == 1 && ShotTime == 0)
                             {
                                 _decrementShotTime = false;                                
                                 _protoSlave.PlaySiren();
@@ -1367,13 +1444,12 @@ namespace Scoreboard
 
         protected void LoadBeep()
         {
-            _beep = new SoundPlayer(@"sounds\beep.wav");
+            string soundDirectory = Path.Combine(AppContext.BaseDirectory, "sounds");
+            _beep = new SoundPlayer(Path.Combine(soundDirectory, "beep.wav"));
             _beep.LoadAsync();
-            _beepEnd = new SoundPlayer(@"sounds\beep_end.wav");
+            _beepEnd = new SoundPlayer(Path.Combine(soundDirectory, "beep_end.wav"));
             _beepEnd.LoadAsync();
-            _shotClockBell = new SoundPlayer(@"sounds\shot_clock_bell.wav");
-            _shotClockBell.LoadAsync();
-            _shotClockEnd = new SoundPlayer(@"sounds\shot_clock_end.wav");
+            _shotClockEnd = new SoundPlayer(Path.Combine(soundDirectory, "shot_clock_end.wav"));
             _shotClockEnd.LoadAsync();
         }
 

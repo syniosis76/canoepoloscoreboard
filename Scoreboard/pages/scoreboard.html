@@ -119,6 +119,16 @@
             webSocket = utilities.checkWebSocket(webSocket, onWebSocketMessage, onCheckWebSocket);
         }
         
+        let cursorTimer;
+        function showCursor() {
+            document.body.style.cursor = "";
+            clearTimeout(cursorTimer);
+            cursorTimer = setTimeout(() => document.body.style.cursor = "none", 5000);
+        }
+        document.addEventListener("mousemove", showCursor);
+        document.addEventListener("keydown", showCursor);
+        document.body.style.cursor = "none";
+
         window.onload = resizeFontEvent;
         document.body.onresize = resizeFontEvent;
 

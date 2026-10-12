@@ -92,9 +92,7 @@
                             <ColumnDefinition Width="2*"/>
                         </Grid.ColumnDefinitions>
                         <Image Grid.ColumnSpan="2" Margin="4" Source="/Scoreboard;component/images/add.png"/>
-                        <Viewbox Grid.Column="1" VerticalAlignment="Bottom">
-                            <TextBlock Margin="0" FontWeight="Bold">(u)</TextBlock>
-                        </Viewbox>
+                        <TextBlock Grid.Column="1" Margin="0" FontWeight="Bold" FontSize="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource doubleConverter}, ConverterParameter=0.01}" VerticalAlignment="Bottom" HorizontalAlignment="Center">u</TextBlock>
                     </Grid>
                 </Button>
                 <Button Grid.Column="1" ToolTip="Edit the selected game" Click="EditGameClick" Visibility="{Binding Path=EditVisible}" Style="{StaticResource TileButtonGreen}">
@@ -104,9 +102,7 @@
                             <ColumnDefinition Width="3*"/>
                         </Grid.ColumnDefinitions>
                         <Image Grid.ColumnSpan="2" Margin="4" Source="/Scoreboard;component/images/edit.png"/>
-                        <Viewbox Grid.Column="1" VerticalAlignment="Bottom">
-                            <TextBlock Margin="0" FontWeight="Bold">(i)</TextBlock>
-                        </Viewbox>
+                        <TextBlock Grid.Column="1" Margin="0" FontWeight="Bold" FontSize="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource doubleConverter}, ConverterParameter=0.01}" VerticalAlignment="Bottom" HorizontalAlignment="Center">i</TextBlock>
                     </Grid>
                 </Button>
                 <Grid Grid.Column="2" Grid.Row="0" Margin="2" Background="{StaticResource BackgroundGreen}">
@@ -121,9 +117,7 @@
                             <ColumnDefinition Width="2*"/>
                         </Grid.ColumnDefinitions>
                         <Image Grid.ColumnSpan="2" Margin="6" Source="/Scoreboard;component/images/tourney_white.png"/>
-                        <Viewbox Grid.Column="1" VerticalAlignment="Bottom">
-                            <TextBlock Margin="0" FontWeight="Bold">(y)</TextBlock>
-                        </Viewbox>
+                        <TextBlock Grid.Column="1" Margin="0" FontWeight="Bold" FontSize="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource doubleConverter}, ConverterParameter=0.01}" VerticalAlignment="Bottom" HorizontalAlignment="Center">y</TextBlock>
                     </Grid>
                     <Button.ContextMenu>
                         <ContextMenu x:Uid="_tourneyContextMenu" x:Name="_tourneyContextMenu">
@@ -162,9 +156,7 @@
                             <ColumnDefinition Width="2*"/>
                         </Grid.ColumnDefinitions>
                         <Image Grid.ColumnSpan="2" Margin="4" Source="/Scoreboard;component/images/menu.png"/>
-                        <Viewbox Grid.Column="1" VerticalAlignment="Bottom">
-                            <TextBlock Margin="0" FontWeight="Bold">(o)</TextBlock>
-                        </Viewbox>
+                        <TextBlock Grid.Column="1" Margin="0" FontWeight="Bold" FontSize="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource doubleConverter}, ConverterParameter=0.01}" VerticalAlignment="Bottom" HorizontalAlignment="Center">o</TextBlock>
                     </Grid>
                     <Button.ContextMenu>
                         <ContextMenu x:Uid="_scoreboardContextMenu" x:Name="_scoreboardContextMenu">
@@ -277,9 +269,7 @@
                         <ColumnDefinition Width="5*" />
                         <ColumnDefinition Width="1*" />
                     </Grid.ColumnDefinitions>
-                    <Viewbox VerticalAlignment="Top">
-                        <TextBlock FontWeight="Bold">(a)</TextBlock>
-                    </Viewbox>
+                    <TextBlock FontWeight="Bold" FontSize="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource doubleConverter}, ConverterParameter=0.02}" VerticalAlignment="Top" HorizontalAlignment="Center">a</TextBlock>
                     <Image Grid.Column="2" VerticalAlignment="Top" Source="/Scoreboard;component/images/add.png"/>
                 </Grid>
             </Button>
@@ -290,9 +280,7 @@
                         <ColumnDefinition Width="5*" />
                         <ColumnDefinition Width="1*" />
                     </Grid.ColumnDefinitions>
-                    <Viewbox VerticalAlignment="Bottom">
-                        <TextBlock FontWeight="Bold">(z)</TextBlock>
-                    </Viewbox>
+                    <TextBlock FontWeight="Bold" FontSize="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource doubleConverter}, ConverterParameter=0.02}" VerticalAlignment="Bottom" HorizontalAlignment="Center">z</TextBlock>
                     <Image Grid.Column="2" VerticalAlignment="Bottom" Source="/Scoreboard;component/images/remove.png" />
                 </Grid>
             </Button>
@@ -306,9 +294,7 @@
                         <ColumnDefinition Width="6*"/>
                     </Grid.ColumnDefinitions>
                     <Image Margin="10" Grid.ColumnSpan="2" Source="/Scoreboard;component/images/cards.png" RenderOptions.BitmapScalingMode="HighQuality"/>
-                    <Viewbox VerticalAlignment="Bottom">
-                        <TextBlock FontWeight="Bold">(s)</TextBlock>
-                    </Viewbox>
+                    <TextBlock FontWeight="Bold" FontSize="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource doubleConverter}, ConverterParameter=0.02}" VerticalAlignment="Bottom" HorizontalAlignment="Center">s</TextBlock>
                 </Grid>
             </Button>
             <!-- Timer -->
@@ -323,9 +309,7 @@
                         <RowDefinition Height="1*"/>
                         <RowDefinition Height="6*"/>
                     </Grid.RowDefinitions>
-                    <Viewbox Grid.Column="0" Grid.Row="0">
-                        <TextBlock FontWeight="Bold">(p)</TextBlock>
-                    </Viewbox>
+                    <TextBlock Grid.Column="0" Grid.Row="0" FontWeight="Bold" FontSize="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource doubleConverter}, ConverterParameter=0.02}" VerticalAlignment="Center" HorizontalAlignment="Center">p</TextBlock>
                     <Image Grid.Column="2" Grid.Row="0" Source="/Scoreboard;component/images/pause.png"/>
                     <Viewbox Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center">
                         <Grid>
@@ -342,17 +326,18 @@
                     <ColumnDefinition Width="1*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="9*"/>
+                    <RowDefinition Height="8*"/>
+                    <RowDefinition Height="1*"/>
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
-                <Viewbox Grid.Column="1" Grid.Row="2" Margin="1">
-                    <RepeatButton Background="Transparent" Command="{Binding Path=CurrentGame.Periods.CurrentPeriod.DecrementGameTimeCommand}" Delay="500" Interval="40" ToolTip="Reduce time by 1 second">
-                        <Image Source="/Scoreboard;component/images/remove.png"/>
+                <Viewbox Grid.Column="2" Grid.Row="1" Margin="1">
+                    <RepeatButton Background="Transparent" Command="{Binding Path=CurrentGame.Periods.CurrentPeriod.IncrementGameTimeCommand}" Delay="500" Interval="40" ToolTip="Increase time by 1 second">
+                        <Image Source="/Scoreboard;component/images/add.png"/>
                     </RepeatButton>
                 </Viewbox>
                 <Viewbox Grid.Column="2" Grid.Row="2" Margin="1">
-                    <RepeatButton Background="Transparent" Command="{Binding Path=CurrentGame.Periods.CurrentPeriod.IncrementGameTimeCommand}" Delay="500" Interval="40" ToolTip="Increase time by 1 second">
-                        <Image Source="/Scoreboard;component/images/add.png"/>
+                    <RepeatButton Background="Transparent" Command="{Binding Path=CurrentGame.Periods.CurrentPeriod.DecrementGameTimeCommand}" Delay="500" Interval="40" ToolTip="Reduce time by 1 second">
+                        <Image Source="/Scoreboard;component/images/remove.png"/>
                     </RepeatButton>
                 </Viewbox>
             </Grid>
@@ -376,75 +361,133 @@
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Grid.Row="0" Margin="2,2,0,0" Click="ResetShotButtonClick" Style="{StaticResource TileButton}">
+                <Button Grid.Column="0" Grid.Row="0" Margin="2,2,0,0" Click="ResetShotButtonClick" Style="{StaticResource TileButton}" ToolTip="Reset shot clock and pause">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*" />
                             <ColumnDefinition Width="2.5*" />
                         </Grid.ColumnDefinitions>
-                        <StackPanel VerticalAlignment="Top">
-                            <Image Grid.Row="2" Source="/Scoreboard;component/images/revert.png" />
-                            <Viewbox>
-                                <TextBlock FontWeight="Bold">(e)</TextBlock>
-                            </Viewbox>
-                        </StackPanel>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*" />
+                            <RowDefinition Height="1*" />
+                        </Grid.RowDefinitions>
+                        <Image Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Margin="2,0,0,0" Source="/Scoreboard;component/images/revert.png" />
+                        <Viewbox Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left">
+                            <TextBlock FontFamily="./#DINEngschrift" FontSize="80" Foreground="White" Text="{Binding Path=ShotClockTimeLimit, StringFormat={}{0:00}, FallbackValue=60}"/>
+                        </Viewbox>
+                        <TextBlock Grid.Column="0" Grid.Row="1" FontWeight="Bold" FontSize="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource doubleConverter}, ConverterParameter=0.02}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2,0,0,0">e</TextBlock>
                     </Grid>
                 </Button>
-                <Button Grid.Column="0" Grid.Row="1" Margin="2,0,0,2" Click="ResetResumeShotButtonClick" Style="{StaticResource TileButton}">
+                <Button Grid.Column="0" Grid.Row="1" Margin="2,0,0,0" Click="ResetResumeShotButtonClick" Style="{StaticResource TileButton}" ToolTip="Reset shot clock and resume">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*" />
                             <ColumnDefinition Width="2.5*" />
                         </Grid.ColumnDefinitions>
-                        <StackPanel VerticalAlignment="Bottom">
-                            <Viewbox>
-                                <TextBlock FontWeight="Bold">(r)</TextBlock>
-                            </Viewbox>
-                            <Image Grid.Row="2" Source="/Scoreboard;component/images/restart_resume.png" />
-                        </StackPanel>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*" />
+                            <RowDefinition Height="1*" />
+                        </Grid.RowDefinitions>
+                        <Image Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Margin="2,0,0,0" Source="/Scoreboard;component/images/restart_resume.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        <Viewbox Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left">
+                            <TextBlock FontFamily="./#DINEngschrift" FontSize="80" Foreground="White" Text="{Binding Path=ShotClockTimeLimit, StringFormat={}{0:00}, FallbackValue=60}"/>
+                        </Viewbox>
+                        <TextBlock Grid.Column="0" Grid.Row="1" FontWeight="Bold" FontSize="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource doubleConverter}, ConverterParameter=0.02}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2,0,0,0">r</TextBlock>
                     </Grid>
                 </Button>
-                <Button Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Margin="0,2,2,2" Click="PauseResumeShotButtonClick" Style="{StaticResource TileButton}">
+                <Button Grid.Column="0" Grid.Row="2" Margin="2,0,0,0" Click="ResetShortShotButtonClick" Style="{StaticResource TileButton}" ToolTip="Reset shot clock to short time limit and pause">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="2.5*" />
                             <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="2.5*" />
                         </Grid.ColumnDefinitions>
-                        <StackPanel Grid.Column="1" VerticalAlignment="Top">
-                            <Image Grid.Row="2" Grid.Column="1" Source="/Scoreboard;component/images/restart.png" />
-                            <Viewbox>
-                                <TextBlock FontWeight="Bold">(t)</TextBlock>
-                            </Viewbox>
-                        </StackPanel>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*" />
+                            <RowDefinition Height="1*" />
+                        </Grid.RowDefinitions>
+                        <Image Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Margin="2,0,0,0" Source="/Scoreboard;component/images/revert.png" />
+                        <Viewbox Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left">
+                            <TextBlock FontFamily="./#DINEngschrift" FontSize="80" Foreground="White" Text="{Binding Path=ShortShotClockTimeLimit, StringFormat={}{0:00}, FallbackValue=40}"/>
+                        </Viewbox>
+                        <TextBlock Grid.Column="0" Grid.Row="1" FontWeight="Bold" FontSize="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource doubleConverter}, ConverterParameter=0.02}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2,0,0,0">d</TextBlock>
                     </Grid>
                 </Button>
-                <Grid Grid.Column="1" Grid.Row="1" Margin="4,4,4,4">
+                <Button Grid.Column="0" Grid.Row="3" Margin="2,0,0,2" Click="ResetResumeShortShotButtonClick" Style="{StaticResource TileButton}" ToolTip="Reset shot clock to short time limit and resume">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="2.5*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*" />
+                            <RowDefinition Height="1*" />
+                        </Grid.RowDefinitions>
+                        <Image Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Margin="2,0,0,0" Source="/Scoreboard;component/images/restart_resume.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        <Viewbox Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left">
+                            <TextBlock FontFamily="./#DINEngschrift" FontSize="80" Foreground="White" Text="{Binding Path=ShortShotClockTimeLimit, StringFormat={}{0:00}, FallbackValue=40}"/>
+                        </Viewbox>
+                        <TextBlock Grid.Column="0" Grid.Row="1" FontWeight="Bold" FontSize="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource doubleConverter}, ConverterParameter=0.02}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="2,0,0,0">f</TextBlock>
+                    </Grid>
+                </Button>
+                <Button Grid.Column="1" Grid.Row="0" Grid.RowSpan="4" Margin="0,2,2,2" Click="PauseResumeShotButtonClick" Style="{StaticResource TileButton}" ToolTip="Pause/Resume shot clock">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                            </Grid.RowDefinitions>
+                            <Viewbox Grid.Column="1" Grid.Row="0" VerticalAlignment="Top">
+                                <Image Source="/Scoreboard;component/images/restart.png" />
+                            </Viewbox>
+                            <TextBlock Grid.Column="1" Grid.Row="1" FontWeight="Bold" FontSize="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource doubleConverter}, ConverterParameter=0.02}" VerticalAlignment="Center" HorizontalAlignment="Center">t</TextBlock>
+                        </Grid>
+                    </Grid>
+                </Button>
+                <Grid Grid.Column="1" Grid.Row="3" Margin="0,2,2,2" x:Name="_shotResetBar">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2*" />
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="7*" />
+                        <ColumnDefinition Width="3*" />
                     </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="4*"/>
-                        <RowDefinition Height="1*"/>
-                    </Grid.RowDefinitions>
-                    <Viewbox Grid.Column="1" Grid.Row="2" Margin="1">
-                        <RepeatButton Background="Transparent" Click="DecrementShotButtonClick" Delay="500" Interval="40" ToolTip="Reduce shot time by 1 second">
-                            <Image Source="/Scoreboard;component/images/remove.png"/>
-                        </RepeatButton>
-                    </Viewbox>
-                    <Viewbox Grid.Column="2" Grid.Row="2" Margin="1">
-                        <RepeatButton Background="Transparent" Click="IncrementShotButtonClick" Delay="500" Interval="40" ToolTip="Increase shot time by 1 second">
-                            <Image Source="/Scoreboard;component/images/add.png"/>
-                        </RepeatButton>
-                    </Viewbox>
+                    <Button Grid.Column="0" HorizontalAlignment="Right" Width="{Binding ActualHeight, ElementName=_shotResetBar}" Margin="0" Click="UndoShotResetClick" Style="{StaticResource TileButton}" Visibility="{Binding Path=LastShotResetVisible, FallbackValue=Collapsed}" ToolTip="Restore previous shot time">
+                        <Viewbox>
+                            <TextBlock FontFamily="./#DINEngschrift" FontSize="80" Foreground="White" Text="{Binding Path=LastShotResetTime, StringFormat={}{0:00}, FallbackValue=00}"/>
+                        </Viewbox>
+                    </Button>
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Viewbox Grid.Row="0" Margin="1">
+                            <RepeatButton Background="Transparent" Click="IncrementShotButtonClick" Delay="500" Interval="40" ToolTip="Increase shot time by 1 second">
+                                <Image Source="/Scoreboard;component/images/add.png"/>
+                            </RepeatButton>
+                        </Viewbox>
+                        <Viewbox Grid.Row="1" Margin="1">
+                            <RepeatButton Background="Transparent" Click="DecrementShotButtonClick" Delay="500" Interval="40" ToolTip="Reduce shot time by 1 second">
+                                <Image Source="/Scoreboard;component/images/remove.png"/>
+                            </RepeatButton>
+                        </Viewbox>
+                    </Grid>
                 </Grid>
-                <Viewbox Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="2">
+                <Viewbox Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="4">
                     <TextBlock FontFamily="./#DINEngschrift" FontSize="80" Margin="10" Foreground="#FF9BF79B" Name="_shotTimeLabel" Text="{Binding Path=ShotDisplayTime, StringFormat={}{0:00}, FallbackValue=00}" IsHitTestVisible="False"/>
                 </Viewbox>
             </Grid>
@@ -508,9 +551,7 @@
                         <ColumnDefinition Width="1*" />
                     </Grid.ColumnDefinitions>
                     <Image VerticalAlignment="Top" Source="/Scoreboard;component/images/add.png"/>
-                    <Viewbox Grid.Column="2" VerticalAlignment="Top">
-                        <TextBlock FontWeight="Bold">(k)</TextBlock>
-                    </Viewbox>
+                    <TextBlock Grid.Column="2" FontWeight="Bold" FontSize="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource doubleConverter}, ConverterParameter=0.02}" VerticalAlignment="Top" HorizontalAlignment="Center">k</TextBlock>
                 </Grid>
             </Button>
             <Button Grid.Column="2" Grid.Row="2" Click="Team2ScoreSubtract_Click"  Style="{StaticResource TileButton}">
@@ -521,9 +562,7 @@
                         <ColumnDefinition Width="1*" />
                     </Grid.ColumnDefinitions>
                     <Image VerticalAlignment="Bottom" Source="/Scoreboard;component/images/remove.png" />
-                    <Viewbox Grid.Column="2" VerticalAlignment="Bottom">
-                        <TextBlock Margin="-3,0,0,0" FontWeight="Bold">(m)</TextBlock>
-                    </Viewbox>
+                    <TextBlock Grid.Column="2" Margin="-3,0,0,0" FontWeight="Bold" FontSize="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource doubleConverter}, ConverterParameter=0.02}" VerticalAlignment="Bottom" HorizontalAlignment="Center">m</TextBlock>
                 </Grid>
             </Button>
             <Viewbox Grid.Column="2" Grid.Row="1" Grid.RowSpan="2">
@@ -536,9 +575,7 @@
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
                     <Image Margin="10" Grid.ColumnSpan="2" Source="/Scoreboard;component/images/cards.png" RenderOptions.BitmapScalingMode="HighQuality"/>
-                    <Viewbox Grid.Column="1" VerticalAlignment="Bottom">
-                        <TextBlock Margin="2,0,0,0" FontWeight="Bold">(j)</TextBlock>
-                    </Viewbox>
+                    <TextBlock Grid.Column="1" Margin="2,0,0,0" FontWeight="Bold" FontSize="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource doubleConverter}, ConverterParameter=0.02}" VerticalAlignment="Bottom" HorizontalAlignment="Center">j</TextBlock>
                 </Grid>
             </Button>
             <!-- Games -->
@@ -766,7 +803,10 @@
                     <CheckBox Grid.Column="0" Foreground="White" IsChecked="{Binding Path=ShowShotClock, FallbackValue=True}" Margin="5">Shot Clock</CheckBox>
                 </Viewbox>
                 <Viewbox  Grid.Row="0" Grid.Column="2" HorizontalAlignment="Right">
-                    <TextBox Grid.Column="1" FontSize="12" Margin="4" Width="20" Text="{Binding Path=ShotClockTimeLimit}"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox FontSize="12" Margin="4" Width="20" Text="{Binding Path=ShotClockTimeLimit}" ToolTip="Shot clock time limit"/>
+                        <TextBox FontSize="12" Margin="4" Width="20" Text="{Binding Path=ShortShotClockTimeLimit}" ToolTip="Short shot clock time limit"/>
+                    </StackPanel>
                 </Viewbox>
                 <Viewbox Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left">
                     <CheckBox Foreground="White" IsChecked="{Binding Path=StartPaused, FallbackValue=False}" Margin="5">Start Paused</CheckBox>

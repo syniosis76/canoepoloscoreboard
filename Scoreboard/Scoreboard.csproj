@@ -352,9 +352,6 @@
     <Resource Include="images\yellow_card.png" />
     <Resource Include="images\red_card.png" />    
     <Resource Include="images\ejection_red_card.png" />
-    <Content Include="sounds\shot_clock_bell.wav">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="sounds\shot_clock_end.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

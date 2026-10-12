@@ -232,6 +232,16 @@ namespace Scoreboard
                 Score.PauseResumeShotTime();
                 e.Handled = true;
             }
+            else if (e.Key == Key.D)
+            {
+                Score.ResetShotTime(Score.ShortShotClockTimeLimit);
+                e.Handled = true;
+            }
+            else if (e.Key == Key.F)
+            {
+                Score.ResetResumeShotTime(Score.ShortShotClockTimeLimit);
+                e.Handled = true;
+            }
             else if (e.Key == Key.U)
             {
                 Score.AddNewGames();
@@ -357,6 +367,21 @@ namespace Scoreboard
         private void ResetResumeShotButtonClick(object sender, RoutedEventArgs e)
         {
             Score.ResetResumeShotTime();
+        }
+
+        private void ResetShortShotButtonClick(object sender, RoutedEventArgs e)
+        {
+            Score.ResetShotTime(Score.ShortShotClockTimeLimit);
+        }
+
+        private void ResetResumeShortShotButtonClick(object sender, RoutedEventArgs e)
+        {
+            Score.ResetResumeShotTime(Score.ShortShotClockTimeLimit);
+        }
+
+        private void UndoShotResetClick(object sender, RoutedEventArgs e)
+        {
+            Score.UndoShotReset();
         }
 
         private void IncrementShotButtonClick(object sender, RoutedEventArgs e)

@@ -250,6 +250,18 @@ namespace Scoreboard.Properties {
                 this["ShotClockTimeLimit"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("40")]
+        public int ShortShotClockTimeLimit {
+            get {
+                return ((int)(this["ShortShotClockTimeLimit"]));
+            }
+            set {
+                this["ShortShotClockTimeLimit"] = value;
+            }
+        }
 
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
