@@ -163,6 +163,7 @@ namespace Scoreboard
                         Properties.Settings.Default.Save();
                     }
                     NotifyPropertyChanged("SwapSecondaryAtHalfTime");
+                    NotifySettingsSummary();
                     UpdateSecondarySwapped();
                 }
             }
@@ -311,6 +312,7 @@ namespace Scoreboard
                         Properties.Settings.Default.Save();
                     }
                     NotifyPropertyChanged("RecordGoalScorers");
+                    NotifySettingsSummary();
                 }
             }
         }
@@ -334,6 +336,7 @@ namespace Scoreboard
                     }
                     NotifyPropertyChanged("ShowShotClock");
                     ShowOrHideShotClock();
+                    NotifySettingsSummary();
                 }
             }
         }
@@ -395,8 +398,203 @@ namespace Scoreboard
                         Properties.Settings.Default.Save();
                     }
                     NotifyPropertyChanged("ShortShotClockTimeLimit");
+                    NotifySettingsSummary();
                 }
             }
+        }
+
+        private bool _showShortShotClock = true;
+        public bool ShowShortShotClock
+        {
+            get
+            {
+                return _showShortShotClock;
+            }
+            set
+            {
+                if (!_showShortShotClock.Equals(value))
+                {
+                    _showShortShotClock = value;
+                    if (Properties.Settings.Default.ShowShortShotClock != _showShortShotClock)
+                    {
+                        Properties.Settings.Default.ShowShortShotClock = _showShortShotClock;
+                        Properties.Settings.Default.Save();
+                    }
+                    NotifyPropertyChanged("ShowShortShotClock");
+                    NotifySettingsSummary();
+                }
+            }
+        }
+
+        private bool _protoEnabled = false;
+        public bool ProtoEnabled
+        {
+            get
+            {
+                return _protoEnabled;
+            }
+            set
+            {
+                if (!_protoEnabled.Equals(value))
+                {
+                    _protoEnabled = value;
+                    if (Properties.Settings.Default.ProtoEnabled != _protoEnabled)
+                    {
+                        Properties.Settings.Default.ProtoEnabled = _protoEnabled;
+                        Properties.Settings.Default.Save();
+                    }
+                    NotifyPropertyChanged("ProtoEnabled");
+                    RestartProtoSlave();
+                    NotifySettingsSummary();
+                }
+            }
+        }
+
+        private string _protoIpAddress = "192.168.0.1";
+        public string ProtoIpAddress
+        {
+            get
+            {
+                return _protoIpAddress;
+            }
+            set
+            {
+                string ipAddress = value ?? String.Empty;
+                if (_protoIpAddress != ipAddress)
+                {
+                    _protoIpAddress = ipAddress;
+                    if (Properties.Settings.Default.ProtoIpAddress != _protoIpAddress)
+                    {
+                        Properties.Settings.Default.ProtoIpAddress = _protoIpAddress;
+                        Properties.Settings.Default.Save();
+                    }
+                    NotifyPropertyChanged("ProtoIpAddress");
+                    RestartProtoSlave();
+                    NotifySettingsSummary();
+                }
+            }
+        }
+
+        private string _startTime = String.Empty;
+        public string StartTime
+        {
+            get { return _startTime; }
+            set
+            {
+                if (_startTime != value)
+                {
+                    _startTime = value;
+                    Properties.Settings.Default.StartTime = _startTime;
+                    Properties.Settings.Default.Save();
+                    NotifyPropertyChanged("StartTime");
+                }
+            }
+        }
+
+        private string _gameDuration = "24";
+        public string GameDuration
+        {
+            get { return _gameDuration; }
+            set
+            {
+                if (_gameDuration != value)
+                {
+                    _gameDuration = value;
+                    Properties.Settings.Default.GameDuration = _gameDuration;
+                    Properties.Settings.Default.Save();
+                    NotifyPropertyChanged("GameDuration");
+                }
+            }
+        }
+
+        private string _numberOfPeriods = "2";
+        public string NumberOfPeriods
+        {
+            get { return _numberOfPeriods; }
+            set
+            {
+                if (_numberOfPeriods != value)
+                {
+                    _numberOfPeriods = value;
+                    Properties.Settings.Default.NumberOfPeriods = _numberOfPeriods;
+                    Properties.Settings.Default.Save();
+                    NotifyPropertyChanged("NumberOfPeriods");
+                }
+            }
+        }
+
+        private string _periodDuration = "10";
+        public string PeriodDuration
+        {
+            get { return _periodDuration; }
+            set
+            {
+                if (_periodDuration != value)
+                {
+                    _periodDuration = value;
+                    Properties.Settings.Default.PeriodDuration = _periodDuration;
+                    Properties.Settings.Default.Save();
+                    NotifyPropertyChanged("PeriodDuration");
+                }
+            }
+        }
+
+        private string _intervalDuration = "1";
+        public string IntervalDuration
+        {
+            get { return _intervalDuration; }
+            set
+            {
+                if (_intervalDuration != value)
+                {
+                    _intervalDuration = value;
+                    Properties.Settings.Default.IntervalDuration = _intervalDuration;
+                    Properties.Settings.Default.Save();
+                    NotifyPropertyChanged("IntervalDuration");
+                }
+            }
+        }
+
+        private string _penaltyDuration = "2:00";
+        public string PenaltyDuration
+        {
+            get { return _penaltyDuration; }
+            set
+            {
+                if (_penaltyDuration != value)
+                {
+                    _penaltyDuration = value;
+                    Properties.Settings.Default.PenaltyDuration = _penaltyDuration;
+                    Properties.Settings.Default.Save();
+                    NotifyPropertyChanged("PenaltyDuration");
+                }
+            }
+        }
+
+        public string SettingsSummary
+        {
+            get
+            {
+                List<string> enabled = new List<string>();
+
+                if (ShowShotClock)
+                {
+                    enabled.Add(ShowShortShotClock ? $"Shot Clock {ShotClockTimeLimit}/{ShortShotClockTimeLimit}" : $"Shot Clock {ShotClockTimeLimit}");
+                }
+                if (RecordGoalScorers) enabled.Add("Goal Scorers");
+                if (StartPaused) enabled.Add("Start Paused");
+                if (LockResults) enabled.Add("Lock Results");
+                if (SwapSecondaryAtHalfTime) enabled.Add("Secondary Swap");
+                if (ServerOptions.Active) enabled.Add("Server");
+                if (ProtoEnabled) enabled.Add("Proto");
+
+                return String.Join(", ", enabled);
+            }
+        }
+
+        public void NotifySettingsSummary()
+        {
+            NotifyPropertyChanged("SettingsSummary");
         }
 
         private bool _lockResults = false;
@@ -419,6 +617,7 @@ namespace Scoreboard
                             Properties.Settings.Default.Save();
                         }
                         NotifyPropertyChanged("LockResults");
+                        NotifySettingsSummary();
                     }
                 }
             }
@@ -442,6 +641,7 @@ namespace Scoreboard
                         Properties.Settings.Default.Save();
                     }
                     NotifyPropertyChanged("StartPaused");
+                    NotifySettingsSummary();
                 }
             }
         }
@@ -748,11 +948,21 @@ namespace Scoreboard
             ShowShotClock = Properties.Settings.Default.ShowShotClock;
             ShotClockTimeLimit = Properties.Settings.Default.ShotClockTimeLimit;
             ShortShotClockTimeLimit = Properties.Settings.Default.ShortShotClockTimeLimit;
+            ShowShortShotClock = Properties.Settings.Default.ShowShortShotClock;
+            _protoEnabled = Properties.Settings.Default.ProtoEnabled;
+            _protoIpAddress = Properties.Settings.Default.ProtoIpAddress;
             _lockResults = Properties.Settings.Default.LockResults;
             StartPaused = Properties.Settings.Default.StartPaused;
+            StartTime = Properties.Settings.Default.StartTime;
+            GameDuration = Properties.Settings.Default.GameDuration;
+            NumberOfPeriods = Properties.Settings.Default.NumberOfPeriods;
+            PeriodDuration = Properties.Settings.Default.PeriodDuration;
+            IntervalDuration = Properties.Settings.Default.IntervalDuration;
+            PenaltyDuration = Properties.Settings.Default.PenaltyDuration;
             ServerOptions.Port = Properties.Settings.Default.ServerPort;
             ServerOptions.Active = Properties.Settings.Default.ServerActive;
             SwapSecondaryAtHalfTime = Properties.Settings.Default.SwapSecondaryAtHalfTime;
+            _serverOptions.PropertyChanged += ServerOptions_PropertyChanged;
             StartStopServer();
             InitialiseProtoSlave();
         }
@@ -770,7 +980,11 @@ namespace Scoreboard
 
         public void InitialiseProtoSlave()
         {
-            _protoSlave = new ProtoSlave();
+            DisposeProtoSlave();
+            if (ProtoEnabled)
+            {
+                _protoSlave = new ProtoSlave(ProtoIpAddress);
+            }
         }
 
         public void DisposeProtoSlave()
@@ -789,7 +1003,7 @@ namespace Scoreboard
             {
                 _protoSlave.ResetUpdates();              
             }
-            else
+            else if (ProtoEnabled)
             {
                 InitialiseProtoSlave();
             }
@@ -797,7 +1011,6 @@ namespace Scoreboard
 
         public void RestartProtoSlave()
         {
-            DisposeProtoSlave();
             InitialiseProtoSlave();  
         }
 
@@ -1404,7 +1617,7 @@ namespace Scoreboard
                             if (oldShotTime == 1 && ShotTime == 0)
                             {
                                 _decrementShotTime = false;                                
-                                _protoSlave.PlaySiren();
+                                _protoSlave?.PlaySiren();
                                 _shotClockEnd.Play();
                                 if (CurrentGame != null)
                                 {
@@ -1460,7 +1673,7 @@ namespace Scoreboard
             {
                 if (longBeep)
                 {                                        
-                    _protoSlave.PlaySiren();
+                    _protoSlave?.PlaySiren();
                     _beepEnd.Play();                    
                 }
                 else
@@ -2087,6 +2300,33 @@ namespace Scoreboard
         public ScoreboardServer Server { get { return _server; } }
 
         private ProtoSlave _protoSlave;
+
+        private void ServerOptions_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Port")
+            {
+                Properties.Settings.Default.ServerPort = ServerOptions.Port;
+                Properties.Settings.Default.Save();
+                if (_server != null)
+                {
+                    StopServer();
+                    StartStopServer();
+                }
+            }
+            else if (e.PropertyName == "Active")
+            {
+                Properties.Settings.Default.ServerActive = ServerOptions.Active;
+                Properties.Settings.Default.Save();
+                StartStopServer();
+            }
+
+            NotifySettingsSummary();
+        }
+
+        public void GrantServerPermission()
+        {
+            WebServer.RegisterUrlAndFirewall(ServerOptions.Port);
+        }
 
         public void StartStopServer()
         {

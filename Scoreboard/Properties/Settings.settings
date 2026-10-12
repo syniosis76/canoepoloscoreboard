@@ -62,6 +62,15 @@
     <Setting Name="ShortShotClockTimeLimit" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">40</Value>
     </Setting>
+    <Setting Name="ShowShortShotClock" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="ProtoEnabled" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ProtoIpAddress" Type="System.String" Scope="User">
+      <Value Profile="(Default)">192.168.0.1</Value>
+    </Setting>
     <Setting Name="GoogleJwt" Type="System.String" Scope="User">
       <Value Profile="(Default)"></Value>
     </Setting>

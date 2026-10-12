@@ -191,9 +191,14 @@ namespace Utilities
 
         public void RegisterUrlAndFirewall()
         {
+            RegisterUrlAndFirewall(_port);
+        }
+
+        public static void RegisterUrlAndFirewall(int port)
+        {
             StringBuilder command = new StringBuilder();
-            command.AppendLine("netsh http add urlacl url = " + _basePath + " user = everyone");
-            command.AppendLine("netsh advfirewall firewall add rule name =\"SimpleWebServer\" dir=in action=allow protocol=TCP localport=" + _port.ToString());
+            command.AppendLine("netsh http add urlacl url = http://+:" + port.ToString() + "/ user = everyone");
+            command.AppendLine("netsh advfirewall firewall add rule name =\"SimpleWebServer\" dir=in action=allow protocol=TCP localport=" + port.ToString());
 
             string commandFileName = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName() + ".cmd");
             File.WriteAllText(commandFileName, command.ToString());

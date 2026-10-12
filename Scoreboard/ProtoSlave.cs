@@ -20,16 +20,11 @@ namespace Scoreboard
         private ConcurrentDictionary<string, string> _valueCache;        
         private int _siren = 0;
 
-        public ProtoSlave()        
+        public ProtoSlave(string address)        
         {
-          #if DEBUG
-              _address = "localhost";
-          #else
-              _address = "192.168.0.1"; 
-          #endif      
-          
+          _address = address;
           _port = "9090";          
-
+          
           _valueCache = new ConcurrentDictionary<string, string>();
 
           _httpClient = new HttpClient();

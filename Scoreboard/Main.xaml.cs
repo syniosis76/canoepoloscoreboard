@@ -234,12 +234,18 @@ namespace Scoreboard
             }
             else if (e.Key == Key.D)
             {
-                Score.ResetShotTime(Score.ShortShotClockTimeLimit);
+                if (Score.ShowShortShotClock)
+                {
+                    Score.ResetShotTime(Score.ShortShotClockTimeLimit);
+                }
                 e.Handled = true;
             }
             else if (e.Key == Key.F)
             {
-                Score.ResetResumeShotTime(Score.ShortShotClockTimeLimit);
+                if (Score.ShowShortShotClock)
+                {
+                    Score.ResetResumeShotTime(Score.ShortShotClockTimeLimit);
+                }
                 e.Handled = true;
             }
             else if (e.Key == Key.U)
@@ -622,17 +628,13 @@ namespace Scoreboard
             ShowTourneyMenu();
         }
 
-        private void ScoreboardServerClick(object sender, RoutedEventArgs e)
+        private void SettingsButtonClick(object sender, RoutedEventArgs e)
         {
-            ScoreboardServerWindow window = new ScoreboardServerWindow(Score)
+            SettingsWindow window = new SettingsWindow(Score)
             {
                 Owner = this
             };
             window.ShowDialog();
-
-            Properties.Settings.Default.ServerPort = Score.ServerOptions.Port;
-            Properties.Settings.Default.ServerActive = Score.ServerOptions.Active;
-            Properties.Settings.Default.Save();
         }
 
         private void ShowScoreboardMenu()

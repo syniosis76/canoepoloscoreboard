@@ -1,0 +1,137 @@
+<Window x:Class="Scoreboard.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Settings" Height="720" Width="500"
+        ResizeMode="NoResize" WindowStartupLocation="CenterOwner" WindowStyle="None">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ScoreboardStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid Background="Black">
+        <Grid Margin="4" Background="{StaticResource DarkBlueGradient}">
+            <Grid Margin="12">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel>
+                        <TextBlock Text="Settings" FontSize="22" FontWeight="Bold" Foreground="White" Margin="0,0,0,4"/>
+
+                        <TextBlock Text="Shot Clock" FontSize="15" FontWeight="Bold" Foreground="#FF9BF79B" Margin="0,8,0,4"/>
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="70"/>
+                            </Grid.ColumnDefinitions>
+                            <CheckBox Grid.Column="0" Foreground="White" Content="Primary shot clock" VerticalAlignment="Center" IsChecked="{Binding Path=ShowShotClock, FallbackValue=True}"/>
+                            <TextBlock Grid.Column="1" Text="Duration" Foreground="White" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                            <TextBox Grid.Column="2" Text="{Binding Path=ShotClockTimeLimit, UpdateSourceTrigger=PropertyChanged}" ToolTip="Primary shot clock duration (seconds)"/>
+                        </Grid>
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="70"/>
+                            </Grid.ColumnDefinitions>
+                            <CheckBox Grid.Column="0" Foreground="White" Content="Second shot clock (short reset)" VerticalAlignment="Center" IsChecked="{Binding Path=ShowShortShotClock, FallbackValue=True}"/>
+                            <TextBlock Grid.Column="1" Text="Duration" Foreground="White" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                            <TextBox Grid.Column="2" Text="{Binding Path=ShortShotClockTimeLimit, UpdateSourceTrigger=PropertyChanged}" ToolTip="Second shot clock duration (seconds)"/>
+                        </Grid>
+
+                        <TextBlock Text="Scoring" FontSize="15" FontWeight="Bold" Foreground="#FF9BF79B" Margin="0,8,0,4"/>
+                        <CheckBox Foreground="White" Content="Record goal scorers" Margin="0,3,0,3" IsChecked="{Binding Path=RecordGoalScorers, FallbackValue=False}"/>
+                        <CheckBox Foreground="White" Content="Start paused" Margin="0,3,0,3" IsChecked="{Binding Path=StartPaused, FallbackValue=False}"/>
+                        <CheckBox Foreground="White" Content="Lock results" Margin="0,3,0,3" IsChecked="{Binding Path=LockResults, FallbackValue=False}"/>
+
+                        <TextBlock Text="Secondary Display" FontSize="15" FontWeight="Bold" Foreground="#FF9BF79B" Margin="0,8,0,4"/>
+                        <CheckBox Foreground="White" Content="Swap secondary at half time" Margin="0,3,0,3" IsChecked="{Binding Path=SwapSecondaryAtHalfTime, FallbackValue=False}"/>
+
+                        <TextBlock Text="Scoreboard Server" FontSize="15" FontWeight="Bold" Foreground="#FF9BF79B" Margin="0,8,0,4"/>
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="70"/>
+                            </Grid.ColumnDefinitions>
+                            <CheckBox Grid.Column="0" Foreground="White" Content="Active" VerticalAlignment="Center" IsChecked="{Binding Path=ServerOptions.Active, FallbackValue=False}"/>
+                            <TextBlock Grid.Column="1" Text="Port" Foreground="White" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                            <TextBox Grid.Column="2" Text="{Binding Path=ServerOptions.Port}" ToolTip="Scoreboard server port"/>
+                        </Grid>
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="URL:" Foreground="White" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                            <TextBlock Grid.Column="1" VerticalAlignment="Center" TextWrapping="Wrap">
+                                <Hyperlink NavigateUri="{Binding Path=ServerOptions.Url}" RequestNavigate="Hyperlink_RequestNavigate">
+                                    <TextBlock Text="{Binding Path=ServerOptions.Url, FallbackValue=http://computer:port/}"/>
+                                </Hyperlink>
+                            </TextBlock>
+                            <Button Grid.Column="2" Margin="8,0,0,0" Padding="8,2" FontSize="12" Click="GrantPermissionClick" ToolTip="Grant the Scoreboard Server permission to run (requires administrator)">Grant Permission</Button>
+                        </Grid>
+
+                        <TextBlock Text="Proto Scoreboard" FontSize="15" FontWeight="Bold" Foreground="#FF9BF79B" Margin="0,8,0,4"/>
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="150"/>
+                            </Grid.ColumnDefinitions>
+                            <CheckBox Grid.Column="0" Foreground="White" Content="Enabled" VerticalAlignment="Center" IsChecked="{Binding Path=ProtoEnabled, FallbackValue=False}"/>
+                            <TextBlock Grid.Column="1" Text="IP Address" Foreground="White" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                            <TextBox Grid.Column="2" Text="{Binding Path=ProtoIpAddress}" ToolTip="Proto scoreboard IP address"/>
+                        </Grid>
+
+                        <TextBlock Text="Game Defaults" FontSize="15" FontWeight="Bold" Foreground="#FF9BF79B" Margin="0,8,0,4"/>
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="12"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Start Time" Foreground="WhiteSmoke" FontWeight="Bold" FontSize="12"/>
+                            <TextBox Grid.Row="1" Grid.Column="0" Margin="0,2,0,6" Text="{Binding Path=StartTime, UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBlock Grid.Row="0" Grid.Column="2" Text="Game Duration" Foreground="WhiteSmoke" FontWeight="Bold" FontSize="12"/>
+                            <TextBox Grid.Row="1" Grid.Column="2" Margin="0,2,0,6" Text="{Binding Path=GameDuration, UpdateSourceTrigger=PropertyChanged}"/>
+
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Number of Periods" Foreground="WhiteSmoke" FontWeight="Bold" FontSize="12"/>
+                            <TextBox Grid.Row="3" Grid.Column="0" Margin="0,2,0,0" Text="{Binding Path=NumberOfPeriods, UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBlock Grid.Row="2" Grid.Column="2" Text="Period Duration" Foreground="WhiteSmoke" FontWeight="Bold" FontSize="12"/>
+                            <TextBox Grid.Row="3" Grid.Column="2" Margin="0,2,0,0" Text="{Binding Path=PeriodDuration, UpdateSourceTrigger=PropertyChanged}"/>
+                        </Grid>
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="12"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Interval Duration" Foreground="WhiteSmoke" FontWeight="Bold" FontSize="12"/>
+                            <TextBox Grid.Row="1" Grid.Column="0" Margin="0,2,0,0" Text="{Binding Path=IntervalDuration, UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBlock Grid.Row="0" Grid.Column="2" Text="Penalty Duration" Foreground="WhiteSmoke" FontWeight="Bold" FontSize="12"/>
+                            <TextBox Grid.Row="1" Grid.Column="2" Margin="0,2,0,0" Text="{Binding Path=PenaltyDuration, UpdateSourceTrigger=PropertyChanged}"/>
+                        </Grid>
+                    </StackPanel>
+                </ScrollViewer>
+                <Button Grid.Row="1" HorizontalAlignment="Right" Width="120" Margin="0,12,0,0"
+                        FontFamily="./#DINEngschrift" FontSize="22" FontWeight="Bold" Click="CloseButtonClick">Close</Button>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

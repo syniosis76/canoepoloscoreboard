@@ -262,6 +262,42 @@ namespace Scoreboard.Properties {
                 this["ShortShotClockTimeLimit"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowShortShotClock {
+            get {
+                return ((bool)(this["ShowShortShotClock"]));
+            }
+            set {
+                this["ShowShortShotClock"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ProtoEnabled {
+            get {
+                return ((bool)(this["ProtoEnabled"]));
+            }
+            set {
+                this["ProtoEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("192.168.0.1")]
+        public string ProtoIpAddress {
+            get {
+                return ((string)(this["ProtoIpAddress"]));
+            }
+            set {
+                this["ProtoIpAddress"] = value;
+            }
+        }
 
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
