@@ -8,6 +8,11 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ScoreboardStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <Style TargetType="TextBox">
+                <Setter Property="FontSize" Value="18"/>
+                <Setter Property="MinHeight" Value="31"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+            </Style>
         </ResourceDictionary>
     </Window.Resources>
     <Grid Background="Black">
@@ -20,6 +25,42 @@
                 <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                     <StackPanel>
                         <TextBlock Text="Settings" FontSize="22" FontWeight="Bold" Foreground="White" Margin="0,0,0,4"/>
+
+                        <TextBlock Text="Game Defaults" FontSize="15" FontWeight="Bold" Foreground="#FF9BF79B" Margin="0,8,0,4"/>
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Game Duration" Foreground="WhiteSmoke" FontWeight="Bold" FontSize="12"/>
+                            <TextBlock Grid.Row="0" Grid.Column="1" Text="Periods" Foreground="WhiteSmoke" FontWeight="Bold" FontSize="12"/>
+                            <TextBlock Grid.Row="0" Grid.Column="2" Text="Period Duration" Foreground="WhiteSmoke" FontWeight="Bold" FontSize="12"/>
+                            <TextBlock Grid.Row="0" Grid.Column="3" Text="Interval Duration" Foreground="WhiteSmoke" FontWeight="Bold" FontSize="12"/>
+                            <TextBox Grid.Row="1" Grid.Column="0" Margin="0,2,6,0" Text="{Binding Path=GameDuration, UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBox Grid.Row="1" Grid.Column="1" Margin="0,2,6,0" Text="{Binding Path=NumberOfPeriods, UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBox Grid.Row="1" Grid.Column="2" Margin="0,2,6,0" Text="{Binding Path=PeriodDuration, UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBox Grid.Row="1" Grid.Column="3" Margin="0,2,0,0" Text="{Binding Path=IntervalDuration, UpdateSourceTrigger=PropertyChanged}"/>
+                        </Grid>
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Penalty Duration" Foreground="WhiteSmoke" FontWeight="Bold" FontSize="12"/>
+                            <TextBox Grid.Row="1" Grid.Column="0" Margin="0,2,6,0" Text="{Binding Path=PenaltyDuration, UpdateSourceTrigger=PropertyChanged}"/>
+                        </Grid>
 
                         <TextBlock Text="Shot Clock" FontSize="15" FontWeight="Bold" Foreground="#FF9BF79B" Margin="0,8,0,4"/>
                         <Grid Margin="0,0,0,6">
@@ -87,45 +128,6 @@
                             <CheckBox Grid.Column="0" Foreground="White" Content="Enabled" VerticalAlignment="Center" IsChecked="{Binding Path=ProtoEnabled, FallbackValue=False}"/>
                             <TextBlock Grid.Column="1" Text="IP Address" Foreground="White" VerticalAlignment="Center" Margin="0,0,8,0"/>
                             <TextBox Grid.Column="2" Text="{Binding Path=ProtoIpAddress}" ToolTip="Proto scoreboard IP address"/>
-                        </Grid>
-
-                        <TextBlock Text="Game Defaults" FontSize="15" FontWeight="Bold" Foreground="#FF9BF79B" Margin="0,8,0,4"/>
-                        <Grid Margin="0,0,0,6">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="12"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Start Time" Foreground="WhiteSmoke" FontWeight="Bold" FontSize="12"/>
-                            <TextBox Grid.Row="1" Grid.Column="0" Margin="0,2,0,6" Text="{Binding Path=StartTime, UpdateSourceTrigger=PropertyChanged}"/>
-                            <TextBlock Grid.Row="0" Grid.Column="2" Text="Game Duration" Foreground="WhiteSmoke" FontWeight="Bold" FontSize="12"/>
-                            <TextBox Grid.Row="1" Grid.Column="2" Margin="0,2,0,6" Text="{Binding Path=GameDuration, UpdateSourceTrigger=PropertyChanged}"/>
-
-                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Number of Periods" Foreground="WhiteSmoke" FontWeight="Bold" FontSize="12"/>
-                            <TextBox Grid.Row="3" Grid.Column="0" Margin="0,2,0,0" Text="{Binding Path=NumberOfPeriods, UpdateSourceTrigger=PropertyChanged}"/>
-                            <TextBlock Grid.Row="2" Grid.Column="2" Text="Period Duration" Foreground="WhiteSmoke" FontWeight="Bold" FontSize="12"/>
-                            <TextBox Grid.Row="3" Grid.Column="2" Margin="0,2,0,0" Text="{Binding Path=PeriodDuration, UpdateSourceTrigger=PropertyChanged}"/>
-                        </Grid>
-                        <Grid Margin="0,0,0,6">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="12"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Interval Duration" Foreground="WhiteSmoke" FontWeight="Bold" FontSize="12"/>
-                            <TextBox Grid.Row="1" Grid.Column="0" Margin="0,2,0,0" Text="{Binding Path=IntervalDuration, UpdateSourceTrigger=PropertyChanged}"/>
-                            <TextBlock Grid.Row="0" Grid.Column="2" Text="Penalty Duration" Foreground="WhiteSmoke" FontWeight="Bold" FontSize="12"/>
-                            <TextBox Grid.Row="1" Grid.Column="2" Margin="0,2,0,0" Text="{Binding Path=PenaltyDuration, UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
                     </StackPanel>
                 </ScrollViewer>

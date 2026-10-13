@@ -393,7 +393,9 @@ namespace Scoreboard
             SelectListWindow selectListWindow = new SelectListWindow
             {
                 Owner = _owner,
-                Title = "Select Pitch"
+                Title = "Select Pitch",
+                Score = _score,
+                ShowGameDefaults = true
             };
 
             foreach (JObject gameDate in _tournament["gameDates"])

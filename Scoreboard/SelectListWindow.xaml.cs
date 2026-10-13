@@ -53,6 +53,28 @@ namespace Scoreboard
             }
         }
 
+        private Score _score;
+        public Score Score
+        {
+            get { return _score; }
+            set
+            {
+                _score = value;
+                NotifyPropertyChanged("Score");
+            }
+        }
+
+        private bool _showGameDefaults = false;
+        public bool ShowGameDefaults
+        {
+            get { return _showGameDefaults; }
+            set
+            {
+                _showGameDefaults = value;
+                NotifyPropertyChanged("ShowGameDefaults");
+            }
+        }
+
         public SelectListWindow()
         {
             InitializeComponent();

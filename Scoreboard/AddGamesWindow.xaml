@@ -58,36 +58,76 @@
                     <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Text="Game Template" FontSize="14" FontWeight="Bold" Foreground="White"/>
                     
                     <TextBlock Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Text="Start Time" FontSize="12" FontWeight="Bold" Foreground="WhiteSmoke"/>
-                    <TextBlock Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" Text="Game Duration" FontSize="12" FontWeight="Bold" Foreground="WhiteSmoke"/>
 
-                    <TextBox Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" FontSize="12" Margin="0,0,4,0" Text="{Binding Path=StartTime}"/>
-                    <TextBox Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="2" FontSize="12" Margin="0,0,4,0" Text="{Binding Path=GameDuration}"/>
+                    <Grid Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="7">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.Column="0" FontSize="18" MinHeight="31" VerticalContentAlignment="Center" Margin="0,0,4,0" Text="{Binding Path=StartTime}"/>
+                    </Grid>
 
-                    <TextBlock Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Text="Number of Periods" FontSize="12" FontWeight="Bold" Foreground="WhiteSmoke"/>
-                    <TextBlock Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="2" Text="Period Duration" FontSize="12" FontWeight="Bold" Foreground="WhiteSmoke"/>
-                    <TextBlock Grid.Column="4" Grid.Row="3" Grid.ColumnSpan="2" Text="Interval Duration" FontSize="12" FontWeight="Bold" Foreground="WhiteSmoke"/>
+                    <Grid Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="7">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Game Duration" FontSize="12" FontWeight="Bold" Foreground="WhiteSmoke"/>
+                        <TextBlock Grid.Column="1" Text="Periods" FontSize="12" FontWeight="Bold" Foreground="WhiteSmoke"/>
+                        <TextBlock Grid.Column="2" Text="Period Duration" FontSize="12" FontWeight="Bold" Foreground="WhiteSmoke"/>
+                        <TextBlock Grid.Column="3" Text="Interval Duration" FontSize="12" FontWeight="Bold" Foreground="WhiteSmoke"/>
+                    </Grid>
 
-                    <TextBox Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" FontSize="12" Margin="0,0,4,0" Text="{Binding Path=NumberOfPeriods}"/>
-                    <TextBox Grid.Column="2" Grid.Row="4" Grid.ColumnSpan="2" FontSize="12" Margin="0,0,4,0" ToolTip="First Period Duration" Text="{Binding Path=PeriodDuration}"/>
-                    <TextBox Grid.Column="4" Grid.Row="4" Grid.ColumnSpan="2" FontSize="12" Margin="0,0,4,0" ToolTip="First Interval Duration" Text="{Binding Path=IntervalDuration}"/>
+                    <Grid Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="7" Margin="0,0,0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.Column="0" FontSize="18" MinHeight="31" VerticalContentAlignment="Center" Margin="0,0,4,0" Text="{Binding Path=GameDuration}"/>
+                        <TextBox Grid.Column="1" FontSize="18" MinHeight="31" VerticalContentAlignment="Center" Margin="0,0,4,0" Text="{Binding Path=NumberOfPeriods}"/>
+                        <TextBox Grid.Column="2" FontSize="18" MinHeight="31" VerticalContentAlignment="Center" Margin="0,0,4,0" ToolTip="First Period Duration" Text="{Binding Path=PeriodDuration}"/>
+                        <TextBox Grid.Column="3" FontSize="18" MinHeight="31" VerticalContentAlignment="Center" ToolTip="First Interval Duration" Text="{Binding Path=IntervalDuration}"/>
+                    </Grid>
  
                     <TextBlock Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2" Text="Add Game" FontSize="14" FontWeight="Bold" Foreground="White"/>
                     
-                    <TextBlock Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2" Text="Team 1" FontSize="12" FontWeight="Bold" Foreground="WhiteSmoke"/>
-                    <TextBlock Grid.Column="2" Grid.Row="6" Grid.ColumnSpan="2" Text="Team 2" FontSize="12" FontWeight="Bold" Foreground="WhiteSmoke"/>
-                    <TextBlock Grid.Column="4" Grid.Row="6" Grid.ColumnSpan="2" Text="Pool" FontSize="12" FontWeight="Bold" Foreground="WhiteSmoke"/>
+                    <Grid Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="7">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Team 1" FontSize="12" FontWeight="Bold" Foreground="WhiteSmoke"/>
+                        <TextBlock Grid.Column="1" Text="Team 2" FontSize="12" FontWeight="Bold" Foreground="WhiteSmoke"/>
+                        <TextBlock Grid.Column="2" Text="Pool" FontSize="12" FontWeight="Bold" Foreground="WhiteSmoke"/>
+                    </Grid>
 
-                    <TextBox Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="2" FontSize="12" Margin="0,0,4,0" Text="{Binding Path=Team1}" Name="_team1TextBox"/>
-                    <TextBox Grid.Column="2" Grid.Row="7" Grid.ColumnSpan="2" FontSize="12" Margin="0,0,4,0" Text="{Binding Path=Team2}" KeyUp="TextBox_KeyUp"/>
-                    <TextBox Grid.Column="4" Grid.Row="7" Grid.ColumnSpan="2" FontSize="12" Margin="0,0,4,0" Text="{Binding Path=Pool}" KeyUp="TextBox_KeyUp"/>
-                    <StackPanel Grid.Column="6" Grid.Row="7" Orientation="Horizontal" Height="22">
-                        <Button ToolTip="Add game" Click="AddGameButtonClick" Margin="0,0,0,0">
-                            <Image Source="/Scoreboard;component/images/add.png" />
-                        </Button>
-                        <Button ToolTip="Paste games" Click="PasteGamesButtonClick" Margin="3,0,0,0">
-                            <Image Source="/Scoreboard;component/images/paste.png" RenderOptions.BitmapScalingMode="HighQuality"/>
-                        </Button>
-                    </StackPanel>                    
+                    <Grid Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="7">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.Column="0" FontSize="18" MinHeight="31" VerticalContentAlignment="Center" Margin="0,0,4,0" Text="{Binding Path=Team1}" Name="_team1TextBox"/>
+                        <TextBox Grid.Column="1" FontSize="18" MinHeight="31" VerticalContentAlignment="Center" Margin="0,0,4,0" Text="{Binding Path=Team2}" KeyUp="TextBox_KeyUp"/>
+                        <TextBox Grid.Column="2" FontSize="18" MinHeight="31" VerticalContentAlignment="Center" Margin="0,0,4,0" Text="{Binding Path=Pool}" KeyUp="TextBox_KeyUp"/>
+                        <StackPanel Grid.Column="3" Orientation="Horizontal" Height="31">
+                            <Button ToolTip="Add game" Click="AddGameButtonClick" Margin="0,0,0,0">
+                                <Image Source="/Scoreboard;component/images/add.png" />
+                            </Button>
+                            <Button ToolTip="Paste games" Click="PasteGamesButtonClick" Margin="3,0,0,0">
+                                <Image Source="/Scoreboard;component/images/paste.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                            </Button>
+                        </StackPanel>
+                    </Grid>                    
                 </Grid>                                                           
             </Grid>
             <ListView Name="_gamesList" ItemsSource="{Binding NewGames}" Grid.Row="1" Grid.ColumnSpan="2" Margin="8,8,8,0" FontSize="12" KeyUp="GamesList_KeyUp">
