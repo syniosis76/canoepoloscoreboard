@@ -204,7 +204,6 @@ public class ScoreIntegrationTests : IDisposable
 
         _score.ResetShotTime(40);
 
-        _score.LastShotResetTime.Should().Be(60);
         _score.LastShotResetVisible.Should().Be(Visibility.Collapsed);
     }
 
@@ -224,7 +223,7 @@ public class ScoreIntegrationTests : IDisposable
     }
 
     [Fact]
-    public void ShotClock_SecondReset_ClearsUndo()
+    public void ShotClock_SecondReset_UpdatesUndo()
     {
         _score.StartGames();
         _time.AdvanceSeconds(1);
@@ -236,7 +235,8 @@ public class ScoreIntegrationTests : IDisposable
         _score.ShotTime = 45;
         _score.ResetShotTime();
 
-        _score.LastShotResetVisible.Should().Be(Visibility.Collapsed);
+        _score.LastShotResetTime.Should().Be(45);
+        _score.LastShotResetVisible.Should().Be(Visibility.Visible);
     }
 
     [Fact]

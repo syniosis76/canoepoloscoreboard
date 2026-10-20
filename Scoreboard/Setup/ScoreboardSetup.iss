@@ -4,8 +4,8 @@
 ; Press Shift + Alt + B to build in VS Code
 
 #define MyAppName "Tourney Scoreboard"
-#define MyAppVersion "1.40.002"
-#define MyAppFileVersion "1_40_002"
+#define MyAppVersion "1.50.001"
+#define MyAppFileVersion "1_50_001"
 #define MyAppPublisher "verner software"
 #define MyAppURL "https://www.verner.co.nz"
 #define MyAppExeName "Scoreboard.exe"
