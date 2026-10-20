@@ -753,8 +753,23 @@ namespace Scoreboard
         {
             ShotTimeVisible = Visibility.Visible;
             int previousShotTime = ShotTime;
-            LastShotResetTime = previousShotTime;
-            LastShotResetVisible = (previousShotTime == 0 || previousShotTime == ShotClockTimeLimit) ? Visibility.Collapsed : Visibility.Visible;
+
+            if (LastShotResetVisible == Visibility.Visible)
+            {
+                // A second reset clears the stored time, unless the clock was left at the
+                // full limit or zero, in which case the previously stored time is kept as-is.
+                if (previousShotTime != 0 && previousShotTime != ShotClockTimeLimit)
+                {
+                    LastShotResetTime = 0;
+                    LastShotResetVisible = Visibility.Collapsed;
+                }
+            }
+            else
+            {
+                LastShotResetTime = previousShotTime;
+                LastShotResetVisible = (previousShotTime == 0 || previousShotTime == ShotClockTimeLimit) ? Visibility.Collapsed : Visibility.Visible;
+            }
+
             _decrementShotTime = false;
             ShotTime = seconds;
             if (CurrentGame != null)

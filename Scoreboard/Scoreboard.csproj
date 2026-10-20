@@ -51,6 +51,7 @@
     </Resource>
     <Resource Include="images\icon18.png" />
     <Resource Include="images\restart_resume.png" />
+    <Resource Include="images\resume.png" />
     <Resource Include="images\settings.png" />
     <Resource Include="images\tourney.png" />
     <Resource Include="images\card.png" />

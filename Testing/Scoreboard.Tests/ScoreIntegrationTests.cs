@@ -224,6 +224,55 @@ public class ScoreIntegrationTests : IDisposable
     }
 
     [Fact]
+    public void ShotClock_SecondReset_ClearsUndo()
+    {
+        _score.StartGames();
+        _time.AdvanceSeconds(1);
+        _score.ShotClockTimeLimit = 60;
+        _score.StopShotTime();
+        _score.ShotTime = 30;
+
+        _score.ResetShotTime();
+        _score.ShotTime = 45;
+        _score.ResetShotTime();
+
+        _score.LastShotResetVisible.Should().Be(Visibility.Collapsed);
+    }
+
+    [Fact]
+    public void ShotClock_SecondResetAtFullTime_KeepsUndo()
+    {
+        _score.StartGames();
+        _time.AdvanceSeconds(1);
+        _score.ShotClockTimeLimit = 60;
+        _score.StopShotTime();
+        _score.ShotTime = 30;
+
+        _score.ResetShotTime();
+        _score.ResetShotTime();
+
+        _score.LastShotResetTime.Should().Be(30);
+        _score.LastShotResetVisible.Should().Be(Visibility.Visible);
+    }
+
+    [Fact]
+    public void ShotClock_SecondResetAtZero_KeepsUndo()
+    {
+        _score.StartGames();
+        _time.AdvanceSeconds(1);
+        _score.ShotClockTimeLimit = 60;
+        _score.StopShotTime();
+        _score.ShotTime = 30;
+
+        _score.ResetShotTime();
+        _score.ShotTime = 0;
+        _score.ResetShotTime();
+
+        _score.LastShotResetTime.Should().Be(30);
+        _score.LastShotResetVisible.Should().Be(Visibility.Visible);
+    }
+
+    [Fact]
     public void ShotClock_ResetResumeToSeconds_SetsTimeAndRuns()
     {
         _score.StartGames();
